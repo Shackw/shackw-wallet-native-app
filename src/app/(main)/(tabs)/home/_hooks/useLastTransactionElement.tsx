@@ -36,11 +36,11 @@ const useLastTransactionElement = (
         )
       };
     if (lastTransaction === undefined || isLoading)
-      return { element: <Spinner size={16} color="$secondary400" />, pl: "$2" };
+      return { element: <Spinner size={16} color="$secondary400" />, pl: "$5" };
     if (lastTransaction === null)
       return {
         element: "ー",
-        pl: "$3"
+        pl: "$5"
       };
     return { element: formatUnixTimestampToJST(lastTransaction.timestamp), pl: "$0" };
   }, [handleRefetch, isError, isLoading, lastTransaction]);

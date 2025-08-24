@@ -7,5 +7,3 @@ if (typeof global.Buffer === "undefined") {
   // @ts-ignore
   global.Buffer = NodeBuffer;
 }
-
-console.log("読まれました");
