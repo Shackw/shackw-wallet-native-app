@@ -9,7 +9,7 @@ const HomeLastTransactionAt = () => {
   const { element, pl, optinalElement } = useLastTransactionElement(lastTransactionResult);
 
   return (
-    <HStack columnGap="$0.5" alignItems="center" pl="$10">
+    <HStack columnGap="$0.5" alignItems="center">
       <Text fontSize="$md" lineHeight="$sm" color="$secondary800">
         最終取引日時：
       </Text>

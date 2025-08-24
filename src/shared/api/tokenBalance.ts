@@ -8,7 +8,6 @@ export const getTokenBalance = async (walletAddress: Address, token: TokenKind) 
   const erc20Contract = TOKEN_TO_CONTRACT_MAP[token];
   try {
     const balance = await erc20Contract.read.balanceOf([walletAddress]);
-    console.log("balance", balance);
     return toDisplayValue(balance, token);
   } catch (error: unknown) {
     if (error instanceof Error) {

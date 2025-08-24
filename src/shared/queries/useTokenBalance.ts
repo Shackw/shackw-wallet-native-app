@@ -11,7 +11,7 @@ export const useTokenBalance = (
 ): UseQueryResult<string> => {
   return useQuery({
     ...options,
-    queryKey: [walletAddress],
+    queryKey: [walletAddress, token],
     queryFn: () => getTokenBalance(walletAddress, token),
     retry: 1
   });

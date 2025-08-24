@@ -13,7 +13,6 @@ const HomeTokenBalance = (props: HomeTokenBalanceProps) => {
   const symbolIconColor = useToken<"colors">("colors", "primary500");
 
   const balance = tokenToBalance[token];
-  console.log(balance);
   if (!balance) return <Spinner size={34.3} color="$primary400" />;
 
   const TokenSymboIcon = TOKEN_TO_SYMBOL_ICON[token];
