@@ -1,11 +1,13 @@
 import { VStack } from "@gluestack-ui/themed";
 import { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { Address } from "viem";
 
 import { ContainButton } from "@/components/Button";
 import { ScreenContainer } from "@/components/Container";
 import { Tab } from "@/components/Tab";
 import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
+import { transferToken } from "@/shared/api/transferToken";
 import { TokenKind, TOKENS } from "@/shared/domain/tokens/registry";
 
 import TransferAddressTo from "./_components/TransferAddressTo";
@@ -14,7 +16,7 @@ import useTransferAddressToForm from "./_hooks/useTransferAddressToForm";
 import useTransferAmountForm from "./_hooks/useTransferAmountForm";
 
 const TransferScreen = () => {
-  const { eoaAccount: account } = useHinomaruWalletContext();
+  const { eoaAccount: account, walletClient } = useHinomaruWalletContext();
   const [selectedToken, setSelectedToken] = useState<TokenKind>("JPYC");
 
   const addressToForm = useTransferAddressToForm();
@@ -23,12 +25,19 @@ const TransferScreen = () => {
   const { addressTo, isAddressToValid } = addressToForm;
   const { amount, isAmountValid } = amountForm;
 
-  const isValid = isAmountValid && isAddressToValid && addressTo && account;
+  const isValid = isAmountValid && isAddressToValid && addressTo && account && walletClient;
 
   const handleSubmit = async () => {
     if (!isValid) return;
 
-    // await transferToken2({ account, token: selectedToken, to: addressTo, amount });
+    const hash = await transferToken({
+      account,
+      token: selectedToken,
+      to: addressTo as Address,
+      amount,
+      walletClient
+    });
+    console.log(hash);
   };
 
   return (

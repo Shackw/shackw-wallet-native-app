@@ -143,7 +143,6 @@ export const searchTransaction = async (
   return results.slice(0, want);
 };
 
-/**  */
 export const getLastTransaction = async (walletAddress: Address): Promise<Erc20Transfer | null> => {
   try {
     const payload: SearchTransactionPayload = {

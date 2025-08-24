@@ -8,7 +8,7 @@ export async function blockNumberByTimestamp(
   const latest = await client.getBlockNumber();
 
   const [earliestBlock, latestBlock] = await Promise.all([
-    client.getBlock({ blockNumber: 0n }), // Baseなら0nでOK
+    client.getBlock({ blockNumber: 0n }),
     client.getBlock({ blockNumber: latest })
   ]);
   const tsEarliest = Number(earliestBlock.timestamp);
