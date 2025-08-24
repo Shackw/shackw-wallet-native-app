@@ -1,0 +1,23 @@
+import { Address, erc20Abi, getContract, GetContractReturnType } from "viem";
+
+import { TokenKind } from "@/shared/domain/tokens/registry";
+
+import { ENV } from "./env";
+import { VIEM_PUBLIC_CLIENT } from "./viem";
+
+// Addresses
+export const { JPYC_TOKEN_ADDRESS, USDC_TOKEN_ADDRESS, EURC_TOKEN_ADDRESS } = ENV;
+
+// Token maps
+export const TOKEN_TO_ADDRESS_MAP = {
+  JPYC: JPYC_TOKEN_ADDRESS as Address,
+  USDC: USDC_TOKEN_ADDRESS as Address,
+  EURC: EURC_TOKEN_ADDRESS as Address
+} as const satisfies Record<TokenKind, Address>;
+
+// Token contracts
+export const TOKEN_TO_CONTRACT_MAP = {
+  JPYC: getContract({ abi: erc20Abi, address: TOKEN_TO_ADDRESS_MAP.JPYC, client: VIEM_PUBLIC_CLIENT }),
+  USDC: getContract({ abi: erc20Abi, address: TOKEN_TO_ADDRESS_MAP.USDC, client: VIEM_PUBLIC_CLIENT }),
+  EURC: getContract({ abi: erc20Abi, address: TOKEN_TO_ADDRESS_MAP.EURC, client: VIEM_PUBLIC_CLIENT })
+} as const satisfies Record<TokenKind, GetContractReturnType>;
