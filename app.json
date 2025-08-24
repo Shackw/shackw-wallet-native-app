@@ -1,42 +1,66 @@
 {
   "expo": {
-    "name": "hinomaru-wallet-app",
-    "slug": "hinomaru-wallet-app",
-    "version": "1.0.0",
+    "name": "Hinomaru Wallet",
+    "slug": "hinomaru-wallet",
+    "version": "0.1.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "hinomaruwalletapp",
-    "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "icon": "./src/assets/images/icon.png",
+    "scheme": "com.ficklewolf.hinomaruwallet",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./src/assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ficklewolf.hinomaruwallet"
     },
     "android": {
+      "edgeToEdgeEnabled": true,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./src/assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "package": "com.ficklewolf.hinomaruwallet"
     },
     "plugins": [
       "expo-router",
       [
-        "expo-splash-screen",
+        "expo-build-properties",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "android": {
+            "minSdkVersion": 26
+          },
+          "ios": {
+            "extraPods": [
+              {
+                "name": "OpenSSL-Universal",
+                "configurations": [
+                  "Release",
+                  "Debug"
+                ],
+                "modular_headers": true,
+                "version": "3.3.2000"
+              }
+            ]
+          }
         }
-      ]
+      ],
+      "expo-font",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "d1d7acaf-b44a-4425-af35-620596448499"
+      }
+    },
+    "owner": "FickleWolf"
   }
 }
