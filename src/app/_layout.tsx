@@ -1,5 +1,3 @@
-import "../polyfills";
-
 import { GluestackUIProvider, StatusBar } from "@gluestack-ui/themed";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
