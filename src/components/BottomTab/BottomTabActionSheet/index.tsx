@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 
-import { BOTTOM_TAB_ACTION_SHEET_ITEMS } from "@/app/_config/bottomTab";
 import Actionsheet from "@/components/ActionSheet";
+import { BOTTOM_TAB_ACTION_SHEET_ITEMS } from "@/registries/bottomTabRegistry";
 
 import BottomTabActionSheetItem from "./BottomTabActionSheetItem";
 

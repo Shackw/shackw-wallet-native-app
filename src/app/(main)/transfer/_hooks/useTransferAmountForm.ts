@@ -1,11 +1,10 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
 import * as v from "valibot";
 
+import { TokenKind } from "@/configs/token";
+import { useBoolean } from "@/hooks/useBoolean";
 import { useTokenBalanceContext } from "@/providers/TokenBalanceProvider";
-import { TokenKind } from "@/shared/domain/tokens/registry";
-import { useBoolean } from "@/shared/hooks/useBoolean";
-import { isConvertibleToNumber } from "@/shared/utils/number";
-import { TransferAmountFormSchema } from "@/shared/validation/schemas/TransferFormSchema";
+import { isConvertibleToNumber } from "@/utils/number";
 
 type UseTransferAmountFormProps = { token: TokenKind };
 
@@ -17,15 +16,22 @@ export type UseTransferAmountFormResult = {
   handleAmountSubmit: (text: string) => void;
 };
 
+const TransferAmountFormSchema = (maxAmount: number) =>
+  v.pipe(
+    v.number("金額を入力してください。"),
+    v.minValue(0.00000000001, "0より大きい金額を指定してください。"),
+    v.maxValue(maxAmount, `送金可能額を超えています。`)
+  );
+
 const useTransferAmountForm = (props: UseTransferAmountFormProps): UseTransferAmountFormResult => {
   const { token } = props;
-  const { tokenToBalance } = useTokenBalanceContext();
+  const tokenBalanceResult = useTokenBalanceContext();
 
   const [amount, setAmount] = useState<number>(0);
   const [isAmountValid, setIsAmountValid] = useBoolean(false);
   const [amountError, setAmountError] = useState<string | undefined>(undefined);
 
-  const transferableAmount = useMemo(() => Number(tokenToBalance[token] ?? 0), [token, tokenToBalance]);
+  const transferableAmount = useMemo(() => Number(tokenBalanceResult[token].balance ?? 0), [tokenBalanceResult, token]);
 
   const amountSchema = useMemo(() => TransferAmountFormSchema(transferableAmount), [transferableAmount]);
 

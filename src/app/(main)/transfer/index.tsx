@@ -6,9 +6,9 @@ import { Address } from "viem";
 import { ContainButton } from "@/components/Button";
 import { ScreenContainer } from "@/components/Container";
 import { Tab } from "@/components/Tab";
+import { TokenKind, TOKENS } from "@/configs/token";
+import { useTransferToken } from "@/hooks/mutations/useTransferToken";
 import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
-import { transferToken } from "@/shared/api/transferToken";
-import { TokenKind, TOKENS } from "@/shared/domain/tokens/registry";
 
 import TransferAddressTo from "./_components/TransferAddressTo";
 import TransferAmount from "./_components/TransferAmount";
@@ -16,8 +16,8 @@ import useTransferAddressToForm from "./_hooks/useTransferAddressToForm";
 import useTransferAmountForm from "./_hooks/useTransferAmountForm";
 
 const TransferScreen = () => {
-  const { eoaAccount: account, walletClient } = useHinomaruWalletContext();
   const [selectedToken, setSelectedToken] = useState<TokenKind>("JPYC");
+  const { account, client } = useHinomaruWalletContext();
 
   const addressToForm = useTransferAddressToForm();
   const amountForm = useTransferAmountForm({ token: selectedToken });
@@ -25,7 +25,9 @@ const TransferScreen = () => {
   const { addressTo, isAddressToValid } = addressToForm;
   const { amount, isAmountValid } = amountForm;
 
-  const isValid = isAmountValid && isAddressToValid && addressTo && account && walletClient;
+  const isValid = isAmountValid && isAddressToValid && addressTo && account && client;
+
+  const { mutateAsync: transferToken } = useTransferToken();
 
   const handleSubmit = async () => {
     if (!isValid) return;
@@ -35,7 +37,7 @@ const TransferScreen = () => {
       token: selectedToken,
       to: addressTo as Address,
       amount,
-      walletClient
+      client
     });
     console.log(hash);
   };

@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { ScreenContainer } from "@/components/Container";
 import { Tab } from "@/components/Tab";
-import { TokenKind, TOKENS } from "@/shared/domain/tokens/registry";
+import { TokenKind, TOKENS } from "@/configs/token";
 
 import HomeAction from "./_components/HomeAction";
 import HomeLastTransactionAt from "./_components/HomeLastTransaction";

@@ -8,15 +8,15 @@ import OnBording from "./_onbording";
 import MainRoutes from "./_routes";
 
 const MainLayout = () => {
-  const { eoaAccount, isStoredPrivateKey, createHinomaruWallet } = useHinomaruWalletContext();
+  const { account, hasPrivateKey, createHinomaruWallet } = useHinomaruWalletContext();
 
   const isLoading = useMemo(() => {
-    return !eoaAccount && isStoredPrivateKey;
-  }, [eoaAccount, isStoredPrivateKey]);
+    return !account && hasPrivateKey;
+  }, [account, hasPrivateKey]);
 
   const hasWallet = useMemo(() => {
-    return eoaAccount && isStoredPrivateKey;
-  }, [eoaAccount, isStoredPrivateKey]);
+    return account && hasPrivateKey;
+  }, [account, hasPrivateKey]);
 
   if (isLoading) return <Loading />;
 
