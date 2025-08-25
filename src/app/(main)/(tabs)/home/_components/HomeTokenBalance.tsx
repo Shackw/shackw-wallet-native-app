@@ -1,7 +1,8 @@
 import { Text, Spinner, HStack, useToken } from "@gluestack-ui/themed";
 
+import { TokenKind } from "@/configs/token";
 import { useTokenBalanceContext } from "@/providers/TokenBalanceProvider";
-import { TokenKind, TOKEN_TO_SYMBOL_ICON } from "@/shared/domain/tokens/registry";
+import { TOKEN_TO_SYMBOL_ICON } from "@/registries/tokenRegistry";
 
 type HomeTokenBalanceProps = {
   token: TokenKind;
@@ -9,10 +10,10 @@ type HomeTokenBalanceProps = {
 
 const HomeTokenBalance = (props: HomeTokenBalanceProps) => {
   const { token } = props;
-  const { tokenToBalance } = useTokenBalanceContext();
+  const tokenBalanceResult = useTokenBalanceContext();
   const symbolIconColor = useToken<"colors">("colors", "primary500");
 
-  const balance = tokenToBalance[token];
+  const balance = tokenBalanceResult[token].balance;
   if (!balance) return <Spinner size={34.3} color="$primary400" />;
 
   const TokenSymboIcon = TOKEN_TO_SYMBOL_ICON[token];

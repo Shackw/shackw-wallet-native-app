@@ -1,8 +1,8 @@
 import { useCallback, useState } from "react";
 import * as v from "valibot";
 
-import { useBoolean } from "@/shared/hooks/useBoolean";
-import { TransferAddressToFormSchema } from "@/shared/validation/schemas/TransferFormSchema";
+import { useBoolean } from "@/hooks/useBoolean";
+import { addressValidator } from "@/validations/rules/addressValidator";
 
 export type useTransferAddressToFormResult = {
   addressTo: string | undefined;
@@ -10,6 +10,11 @@ export type useTransferAddressToFormResult = {
   addressToError: string | undefined;
   handleAddressToSubmit: (text: string) => void;
 };
+
+const TransferAddressToFormSchema = v.pipe(
+  v.string("宛先アドレスを入力してください。"),
+  addressValidator("有効な宛先を指定してください。")
+);
 
 const useTransferAddressToForm = (): useTransferAddressToFormResult => {
   const [addressTo, setAddressTo] = useState<string>("");

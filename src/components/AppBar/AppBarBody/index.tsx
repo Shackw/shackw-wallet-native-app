@@ -1,11 +1,11 @@
 import { AppBarProps } from "..";
 
-import DefaultAppBarBody from "./DefaultAppBarBody";
-import OverlayAppBarBody from "./OverlayAppBarBody";
+import AppBarDefaultBody from "./AppBarDefaultBody";
+import AppBarOverlayBody from "./AppBarOverlayBody";
 
 const AppBarBody = ({ title }: AppBarProps) => {
-  if (title) return <OverlayAppBarBody title={title} />;
-  return <DefaultAppBarBody />;
+  if (title) return <AppBarOverlayBody title={title} />;
+  return <AppBarDefaultBody />;
 };
 
 export default AppBarBody;

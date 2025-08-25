@@ -1,7 +1,8 @@
 import { Input, InputField, Pressable, Text, useToken, VStack } from "@gluestack-ui/themed";
 import { useEffect, useMemo, useState } from "react";
 
-import { TOKEN_TO_SYMBOL_ICON, TokenKind } from "@/shared/domain/tokens/registry";
+import { TokenKind } from "@/configs/token";
+import { TOKEN_TO_SYMBOL_ICON } from "@/registries/tokenRegistry";
 
 import { UseTransferAmountFormResult } from "../../_hooks/useTransferAmountForm";
 

@@ -4,8 +4,8 @@ import { RefreshCcw } from "lucide-react-native";
 import { useCallback, useMemo } from "react";
 import { Pressable } from "react-native";
 
-import { Erc20Transfer } from "@/shared/types/erc20";
-import { formatUnixTimestampToJST } from "@/shared/utils/datetime";
+import { TransactionModel } from "@/models/transaction";
+import { formatUnixTimestampToJST } from "@/utils/datetime";
 
 type LastTransactionElementProps = {
   element: React.ReactNode;
@@ -14,7 +14,7 @@ type LastTransactionElementProps = {
 };
 
 const useLastTransactionElement = (
-  lastTransactionResult: UseQueryResult<Erc20Transfer | null | undefined>
+  lastTransactionResult: UseQueryResult<TransactionModel | null | undefined>
 ): LastTransactionElementProps => {
   const { data: lastTransaction, isLoading, isError, refetch } = lastTransactionResult;
 

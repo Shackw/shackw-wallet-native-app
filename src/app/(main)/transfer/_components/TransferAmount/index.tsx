@@ -1,6 +1,6 @@
 import { VStack, Text } from "@gluestack-ui/themed";
 
-import { TokenKind } from "@/shared/domain/tokens/registry";
+import { TokenKind } from "@/configs/token";
 
 import { UseTransferAmountFormResult } from "../../_hooks/useTransferAmountForm";
 

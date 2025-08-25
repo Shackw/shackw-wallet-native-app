@@ -1,8 +1,8 @@
 import { HStack, Box } from "@gluestack-ui/themed";
 import { usePathname, useRouter } from "expo-router";
 
-import { BOTTOM_TAB_ITEMS } from "@/app/_config/bottomTab";
-import { useBoolean } from "@/shared/hooks/useBoolean";
+import { useBoolean } from "@/hooks/useBoolean";
+import { BOTTOM_TAB_ITEMS } from "@/registries/bottomTabRegistry";
 
 import BottomTabActionSheet from "./BottomTabActionSheet";
 import BottomTabItem from "./BottomTabItem";

@@ -4,8 +4,8 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 
-import useFonts from "@/app/_hooks/useFonts";
 import { RootContainer } from "@/components/Container";
+import { useFonts } from "@/hooks/useFonts";
 import { HinomaruWalletProvider } from "@/providers/HinomaruWalletProvider";
 import { theme } from "@/styles/theme";
 

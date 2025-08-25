@@ -5,7 +5,7 @@ import { IconButton } from "@/components/Button";
 import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
 
 const AppBarCopyAction = () => {
-  const { eoaAccount: account } = useHinomaruWalletContext();
+  const { account } = useHinomaruWalletContext();
 
   if (!account) return null;
 
