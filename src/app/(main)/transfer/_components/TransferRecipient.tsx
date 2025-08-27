@@ -1,13 +1,13 @@
 import { Input, InputField, Text, VStack } from "@gluestack-ui/themed";
 import { useState } from "react";
 
-import { useTransferAddressToFormResult } from "../_hooks/useTransferAddressToForm";
+import { useTransferRecipientFormResult } from "../_hooks/useTransferRecipientForm";
 
-type TransferAddressToProps = { form: useTransferAddressToFormResult };
+type TransferRecipientProps = { form: useTransferRecipientFormResult };
 
-const TransferAddressTo = (props: TransferAddressToProps) => {
-  const [inputAddressTo, setInputAddressTo] = useState<string>();
-  const { addressToError, handleAddressToSubmit } = props.form;
+const TransferRecipient = (props: TransferRecipientProps) => {
+  const [inputRecipient, setInputRecipient] = useState<string>();
+  const { recipientError, handleRecipientSubmit } = props.form;
 
   return (
     <VStack alignItems="center" minHeight={110} rowGap="$3">
@@ -19,22 +19,22 @@ const TransferAddressTo = (props: TransferAddressToProps) => {
           fontSize="$sm"
           keyboardType="numbers-and-punctuation"
           placeholder="パブリックアドレス(0x)"
-          value={inputAddressTo}
+          value={inputRecipient}
           onChangeText={text => {
-            setInputAddressTo(text);
+            setInputRecipient(text);
           }}
           onEndEditing={e => {
-            handleAddressToSubmit(e.nativeEvent.text);
+            handleRecipientSubmit(e.nativeEvent.text);
           }}
         />
       </Input>
-      {addressToError && (
+      {recipientError && (
         <Text color="$primary600" fontSize="$lg" fontWeight="$bold">
-          {addressToError}
+          {recipientError}
         </Text>
       )}
     </VStack>
   );
 };
 
-export default TransferAddressTo;
+export default TransferRecipient;
