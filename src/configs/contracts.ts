@@ -4,7 +4,7 @@ import { ENV } from "./env";
 import { TokenKind } from "./token";
 import { VIEM_PUBLIC_CLIENT } from "./viem";
 
-export const { JPYC_TOKEN_ADDRESS, USDC_TOKEN_ADDRESS, EURC_TOKEN_ADDRESS, DELEGATE_CONTRACT_ADDRESS } = ENV;
+export const { JPYC_TOKEN_ADDRESS, USDC_TOKEN_ADDRESS, EURC_TOKEN_ADDRESS } = ENV;
 
 export const TOKEN_TO_ADDRESS_MAP = {
   JPYC: JPYC_TOKEN_ADDRESS,

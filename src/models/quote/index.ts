@@ -1,0 +1,23 @@
+import { TokenKind } from "@/configs/token";
+
+export type QuoteModel = {
+  quoteId: `tq_${string}`;
+  quoteToken: string;
+  expiresAt: Date;
+  chainId: number;
+  sender: `0x${string}`;
+  recipient: `0x${string}`;
+  token: TokenKind;
+  feeToken: TokenKind;
+  amount: {
+    minUnits: bigint;
+    decimals: number;
+  };
+  fee: {
+    minUnits: bigint;
+    decimals: number;
+  };
+  delegate: `0x${string}`;
+  sponcer: `0x${string}`;
+  policy: { bps: number; cap: bigint };
+};

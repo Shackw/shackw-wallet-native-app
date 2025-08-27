@@ -24,7 +24,7 @@ export const TransactionRepository = {
 
     if (fromBlock > toBlock) return [];
 
-    const tokenAddrs = [...new Set(tokens.map(t => TOKEN_TO_ADDRESS_MAP[t]))];
+    const tokenAddrs = [...new Set(tokens.map(t => TOKEN_TO_ADDRESS_MAP[t.symbol]))];
     if (tokenAddrs.length === 0) return [];
 
     const ranges: { from: bigint; to: bigint }[] = [];

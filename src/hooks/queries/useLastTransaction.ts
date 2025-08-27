@@ -2,7 +2,7 @@ import { UseQueryOptions, UseQueryResult, useQuery } from "@tanstack/react-query
 import { Address } from "viem";
 
 import { TransactionModel } from "@/models/transaction";
-import { TransactionService } from "@/services/transactionService";
+import { TransactionService } from "@/services/TransactionService";
 
 export const useLastTransaction = (
   wallet: Address,
