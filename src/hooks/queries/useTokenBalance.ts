@@ -2,7 +2,7 @@ import { UseQueryOptions, UseQueryResult, useQuery } from "@tanstack/react-query
 import { Address } from "viem";
 
 import { TokenKind } from "@/configs/token";
-import { TokenService } from "@/services/tokenService";
+import { TokenService } from "@/services/TokenService";
 
 export const useTokenBalance = (
   wallet: Address,

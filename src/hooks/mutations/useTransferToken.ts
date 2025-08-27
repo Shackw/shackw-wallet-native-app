@@ -1,7 +1,7 @@
 import { useMutation, type UseMutationOptions, type UseMutationResult } from "@tanstack/react-query";
 
 import { TransferTokenCommand } from "@/models/token";
-import { TokenService } from "@/services/tokenService";
+import { TokenService } from "@/services/TokenService";
 
 import type { Hex } from "viem";
 

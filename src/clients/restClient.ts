@@ -11,17 +11,15 @@ export type RestClientConfig = {
 
 export type RequestOptions = {
   headers?: Record<string, string>;
-  query?: Record<string, string | number | boolean | undefined | null>;
+  query?: Record<string, string | number | boolean | null | undefined>;
   signal?: AbortSignal;
   timeoutMs?: number;
   idempotencyKey?: string;
 };
-
 export class ApiError extends Error {
   readonly status: number;
   readonly method: HttpMethod;
   readonly url: string;
-  readonly headers: Record<string, string>;
   readonly body: unknown;
   readonly requestId?: string;
 
@@ -30,32 +28,51 @@ export class ApiError extends Error {
     status: number;
     method: HttpMethod;
     url: string;
-    headers: Record<string, string>;
     body: unknown;
+    requestId?: string;
   }) {
     super(args.message);
     this.name = "ApiError";
     this.status = args.status;
     this.method = args.method;
     this.url = args.url;
-    this.headers = args.headers;
-    this.body = args.body as any;
-    this.requestId =
-      args.headers["x-request-id"] || args.headers["x-amzn-requestid"] || args.headers["x-amz-request-id"];
+    this.body = args.body;
+    this.requestId = args.requestId;
   }
 }
 
 const bigintReplacer = (_: string, v: unknown) => (typeof v === "bigint" ? v.toString() : v);
 
+function withQuery(url: string, query?: RequestOptions["query"]) {
+  if (!query) return url;
+  const usp = new URLSearchParams();
+  for (const [k, v] of Object.entries(query)) {
+    if (v === undefined || v === null) continue;
+    usp.set(k, String(v));
+  }
+  return url + (url.includes("?") ? "&" : "?") + usp.toString();
+}
+
+function buildSignal(baseSignal?: AbortSignal, timeoutMs?: number): { signal?: AbortSignal; cleanup: () => void } {
+  if (!timeoutMs) return { signal: baseSignal, cleanup: () => {} };
+  const controller = new AbortController();
+  const t = setTimeout(() => controller.abort(), timeoutMs);
+  const onAbort = () => controller.abort();
+  baseSignal?.addEventListener("abort", onAbort, { once: true });
+  return {
+    signal: controller.signal,
+    cleanup: () => {
+      clearTimeout(t);
+      baseSignal?.removeEventListener("abort", onAbort);
+    }
+  };
+}
+
 async function parseResponse(res: Response): Promise<unknown> {
-  const ctype = res.headers.get("content-type")?.toLowerCase() || "";
+  const ct = res.headers.get("content-type")?.toLowerCase() ?? "";
   try {
-    if (ctype.includes("application/json")) {
-      return await res.json();
-    }
-    if (ctype.startsWith("text/")) {
-      return await res.text();
-    }
+    if (ct.includes("application/json")) return await res.json();
+    if (ct.startsWith("text/")) return await res.text();
     return await res.arrayBuffer();
   } catch {
     try {
@@ -66,69 +83,36 @@ async function parseResponse(res: Response): Promise<unknown> {
   }
 }
 
-function withQuery(url: string, query?: RequestOptions["query"]): string {
-  if (!query) return url;
-  const usp = new URLSearchParams();
-  for (const [k, v] of Object.entries(query)) {
-    if (v === undefined || v === null) continue;
-    usp.set(k, String(v));
-  }
-  const hasQuery = url.includes("?");
-  return `${url}${hasQuery ? "&" : "?"}${usp.toString()}`;
-}
+export function createRestClient(cfg: RestClientConfig = {}) {
+  const baseURL = cfg.baseURL;
+  const defaultHeaders = cfg.headers ?? {};
+  const defaultTimeoutMs = cfg.timeoutMs;
+  const f = cfg.fetchImpl ?? fetch;
 
-function buildSignal(baseSignal?: AbortSignal, timeoutMs?: number): { signal?: AbortSignal; cleanup: () => void } {
-  if (!timeoutMs) {
-    return { signal: baseSignal, cleanup: () => {} };
-  }
-
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), timeoutMs);
-
-  const onAbort = () => controller.abort();
-  baseSignal?.addEventListener("abort", onAbort, { once: true });
-
-  return {
-    signal: controller.signal,
-    cleanup: () => {
-      clearTimeout(timeout);
-      baseSignal?.removeEventListener("abort", onAbort);
-    }
+  const resolveURL = (path: string, query?: RequestOptions["query"]) => {
+    const abs = path.startsWith("http://") || path.startsWith("https://") ? path : `${baseURL ?? ""}${path}`;
+    return withQuery(abs, query);
   };
-}
 
-export class RestClient {
-  private readonly baseURL: string | undefined;
-  private readonly fetchImpl: typeof fetch;
-  private readonly defaultHeaders: Record<string, string>;
-  private readonly defaultTimeoutMs?: number;
-
-  constructor(cfg: RestClientConfig = {}) {
-    this.baseURL = cfg.baseURL;
-    this.fetchImpl = cfg.fetchImpl ?? fetch;
-    this.defaultHeaders = cfg.headers ?? {};
-    this.defaultTimeoutMs = cfg.timeoutMs;
-  }
-
-  async request<T>(method: HttpMethod, path: string, body?: unknown, opts: RequestOptions = {}): Promise<T> {
-    const url = this.resolveURL(path, opts.query);
+  async function request(
+    method: HttpMethod,
+    path: string,
+    body?: unknown,
+    opts: RequestOptions = {}
+  ): Promise<unknown> {
+    const url = resolveURL(path, opts.query);
     const headers: Record<string, string> = {
       Accept: "application/json",
       "Content-Type": "application/json",
-      ...this.defaultHeaders,
+      ...defaultHeaders,
       ...opts.headers
     };
-    if (opts.idempotencyKey) {
-      headers["Idempotency-Key"] = opts.idempotencyKey;
-    }
+    if (opts.idempotencyKey) headers["Idempotency-Key"] = opts.idempotencyKey;
 
-    const { signal, cleanup } = buildSignal(opts.signal, opts.timeoutMs ?? this.defaultTimeoutMs) ?? {
-      signal: opts.signal,
-      cleanup: () => {}
-    };
+    const { signal, cleanup } = buildSignal(opts.signal, opts.timeoutMs ?? defaultTimeoutMs);
 
     try {
-      const res = await this.fetchImpl(url, {
+      const res = await f(url, {
         method,
         headers,
         body:
@@ -145,22 +129,23 @@ export class RestClient {
           status: res.status,
           method,
           url,
-          headers: headersToObject(res.headers),
-          body: data
+          body: data,
+          requestId:
+            res.headers.get("x-request-id") ??
+            res.headers.get("x-amzn-requestid") ??
+            res.headers.get("x-amz-request-id") ??
+            undefined
         });
       }
-      return data as T;
+      return data; // ← unknown。Repoでvalidate/parseする想定
     } catch (e: any) {
       if (e instanceof ApiError) throw e;
-
       const isAbort = e?.name === "AbortError" || e?.message?.toLowerCase?.().includes("aborted");
-      const message = isAbort ? "Request aborted/timeout" : "Network error";
       throw new ApiError({
-        message,
+        message: isAbort ? "Request aborted/timeout" : "Network error",
         status: 0,
         method,
         url,
-        headers: {},
         body: { cause: e?.message ?? String(e) }
       });
     } finally {
@@ -168,35 +153,19 @@ export class RestClient {
     }
   }
 
-  get<T>(path: string, opts?: RequestOptions) {
-    return this.request<T>("GET", path, undefined, opts);
-  }
-  post<T>(path: string, body?: unknown, opts?: RequestOptions) {
-    return this.request<T>("POST", path, body, opts);
-  }
-  put<T>(path: string, body?: unknown, opts?: RequestOptions) {
-    return this.request<T>("PUT", path, body, opts);
-  }
-  patch<T>(path: string, body?: unknown, opts?: RequestOptions) {
-    return this.request<T>("PATCH", path, body, opts);
-  }
-  delete<T>(path: string, opts?: RequestOptions) {
-    return this.request<T>("DELETE", path, undefined, opts);
-  }
-
-  private resolveURL(path: string, query?: RequestOptions["query"]): string {
-    const clean = path.startsWith("http://") || path.startsWith("https://") ? path : `${this.baseURL ?? ""}${path}`;
-    return withQuery(clean, query);
-  }
+  return {
+    request,
+    get: (path: string, opts?: RequestOptions) => request("GET", path, undefined, opts),
+    post: (path: string, body?: unknown, opts?: RequestOptions) => request("POST", path, body, opts),
+    put: (path: string, body?: unknown, opts?: RequestOptions) => request("PUT", path, body, opts),
+    patch: (path: string, body?: unknown, opts?: RequestOptions) => request("PATCH", path, body, opts),
+    delete: (path: string, opts?: RequestOptions) => request("DELETE", path, undefined, opts)
+  };
 }
 
-function headersToObject(headers: Headers): Record<string, string> {
-  const obj: Record<string, string> = {};
-  headers.forEach((v, k) => (obj[k.toLowerCase()] = v));
-  return obj;
-}
-
-export const restClient = new RestClient({
+export const hinomaruRestClient = createRestClient({
   baseURL: HINOMARU_API_URL,
   timeoutMs: 15_000
 });
+
+export const restClient = createRestClient();

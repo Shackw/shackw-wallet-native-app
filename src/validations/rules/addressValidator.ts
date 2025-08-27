@@ -1,8 +1,12 @@
 import * as v from "valibot";
-import { isAddress } from "viem";
+import { Address, isAddress } from "viem";
 
-export const addressValidator = (errorMes: string) =>
-  v.custom<string>(
-    (value): value is string => typeof value === "string" && isAddress(value),
-    () => errorMes
+export const addressValidator = (errorMes: string = "Invalid address") =>
+  v.pipe(
+    v.string(),
+    v.custom<string>(
+      (value): value is string => typeof value === "string" && isAddress(value),
+      () => errorMes
+    ),
+    v.transform(s => s as Address)
   );

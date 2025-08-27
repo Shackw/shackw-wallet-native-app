@@ -4,7 +4,7 @@ import { TokenKind } from "@/configs/token";
 
 export type SearchTransactionPayload = {
   wallet: Address;
-  tokens: TokenKind[];
+  tokens: { symbol: TokenKind }[];
   timeFrom?: Date;
   timeTo?: Date;
   limit?: number;

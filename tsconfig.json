@@ -11,6 +11,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
-, "src/index.ts"  ]
+    "expo-env.d.ts",
+    "src/index.ts",
+    "src/repositories/TransactionRepository"
+  ]
 }
