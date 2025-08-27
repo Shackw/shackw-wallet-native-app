@@ -10,22 +10,22 @@ import { TokenKind, TOKENS } from "@/configs/token";
 import { useTransferToken } from "@/hooks/mutations/useTransferToken";
 import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
 
-import TransferAddressTo from "./_components/TransferAddressTo";
 import TransferAmount from "./_components/TransferAmount";
-import useTransferAddressToForm from "./_hooks/useTransferAddressToForm";
+import TransferRecipient from "./_components/TransferRecipient";
 import useTransferAmountForm from "./_hooks/useTransferAmountForm";
+import useTransferRecipientForm from "./_hooks/useTransferRecipientForm";
 
 const TransferScreen = () => {
   const [selectedToken, setSelectedToken] = useState<TokenKind>("JPYC");
   const { account, client } = useHinomaruWalletContext();
 
-  const addressToForm = useTransferAddressToForm();
+  const recipientForm = useTransferRecipientForm();
   const amountForm = useTransferAmountForm({ token: selectedToken });
 
-  const { addressTo, isAddressToValid } = addressToForm;
+  const { recipient, isRecipientValid } = recipientForm;
   const { amount, isAmountValid } = amountForm;
 
-  const isValid = isAmountValid && isAddressToValid && addressTo && account && client;
+  const isValid = isAmountValid && isRecipientValid && recipient && account && client;
 
   const { mutateAsync: transferToken } = useTransferToken();
 
@@ -35,8 +35,8 @@ const TransferScreen = () => {
     const hash = await transferToken({
       account,
       token: selectedToken,
-      to: addressTo as Address,
-      amount,
+      recipient: recipient as Address,
+      amountDecimals: amount,
       client
     });
     console.log(hash);
@@ -53,7 +53,7 @@ const TransferScreen = () => {
           <Tab options={TOKENS} value={selectedToken} handleChange={setSelectedToken} />
           <VStack px="$5" rowGap="$1.5">
             <TransferAmount token={selectedToken} form={amountForm} />
-            <TransferAddressTo form={addressToForm} />
+            <TransferRecipient form={recipientForm} />
           </VStack>
         </VStack>
         <ContainButton text="確認画面へ" size="lg" w="$full" isDisabled={!isValid} mb={5} onPress={handleSubmit} />
