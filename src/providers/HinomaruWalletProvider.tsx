@@ -4,7 +4,7 @@ import { createContext, ReactNode, useCallback, useContext, useEffect, useState 
 import { createWalletClient, Hex, http, WalletClient } from "viem";
 import { Account, generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 
-import { DEFAULT_CHAIN } from "@/configs/chains";
+import { DEFAULT_CHAIN } from "@/configs/chain";
 import { WALLET_PRIVATE_KEY_BASE_NAME } from "@/configs/viem";
 import { useLastTransaction } from "@/hooks/queries/useLastTransaction";
 import { useBoolean } from "@/hooks/useBoolean";

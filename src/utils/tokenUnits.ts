@@ -8,11 +8,11 @@ export const toMinUnits = (amount: string | number, token: TokenKind): bigint =>
   return parseUnits(String(amount), decimals);
 };
 
-export const toDisimals = (wei: bigint, token: TokenKind): number => {
-  return Number(formatUnits(wei, TOKEN_REGISTRY[token].decimals));
+export const toDisimals = (minUnits: bigint, token: TokenKind): number => {
+  return Number(formatUnits(minUnits, TOKEN_REGISTRY[token].decimals));
 };
 
-export const toDisimalsStr = (wei: bigint, token: TokenKind): string => {
+export const toDisimalsStr = (minUnits: bigint, token: TokenKind): string => {
   const { decimals } = TOKEN_REGISTRY[token];
-  return formatUnits(wei, decimals);
+  return formatUnits(minUnits, decimals);
 };

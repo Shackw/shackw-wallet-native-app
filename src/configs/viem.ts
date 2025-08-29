@@ -1,6 +1,6 @@
 import { createPublicClient, http } from "viem";
 
-import { DEFAULT_CHAIN } from "./chains";
+import { DEFAULT_CHAIN } from "./chain";
 import { ENV } from "./env";
 
 export const VIEM_PUBLIC_CLIENT = createPublicClient({
