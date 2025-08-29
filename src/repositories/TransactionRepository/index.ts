@@ -1,6 +1,6 @@
 import { Address, parseAbiItem } from "viem";
 
-import { TOKEN_TO_ADDRESS_MAP } from "@/configs/contracts";
+import { TOKEN_TO_ADDRESS_MAP } from "@/configs/contract";
 import { VIEM_PUBLIC_CLIENT } from "@/configs/viem";
 import { TransactionModel } from "@/models/transaction";
 import { blockNumberByTimestamp } from "@/utils/block";

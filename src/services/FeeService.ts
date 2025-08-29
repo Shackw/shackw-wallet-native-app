@@ -1,4 +1,4 @@
-import { DEFAULT_CHAIN } from "@/configs/chains";
+import { DEFAULT_CHAIN } from "@/configs/chain";
 import { EstimateFeeCommand, FeeModel } from "@/models/fee";
 import { FeeRepository } from "@/repositories/FeeRepository";
 import { EstimateFeePayload } from "@/repositories/FeeRepository/dto";

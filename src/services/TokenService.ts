@@ -1,7 +1,7 @@
 import { Hex } from "viem";
 
-import { DEFAULT_CHAIN } from "@/configs/chains";
-import { TOKEN_TO_CONTRACT_MAP } from "@/configs/contracts";
+import { DEFAULT_CHAIN } from "@/configs/chain";
+import { TOKEN_TO_CONTRACT_MAP } from "@/configs/contract";
 import { VIEM_PUBLIC_CLIENT } from "@/configs/viem";
 import { GetTokenBalanceCommand, TransferTokenCommand } from "@/models/token";
 import { QuotesRepository } from "@/repositories/QuotesRepository";
