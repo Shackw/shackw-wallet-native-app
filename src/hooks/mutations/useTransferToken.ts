@@ -1,7 +1,7 @@
 import { useMutation, type UseMutationOptions, type UseMutationResult } from "@tanstack/react-query";
 
 import { TransferTokenCommand } from "@/models/token";
-import { TokenService } from "@/services/TokenService";
+import { TokensService } from "@/services/TokensService";
 
 import type { Hex } from "viem";
 
@@ -11,6 +11,6 @@ export const useTransferToken = (
   return useMutation<Hex, Error, TransferTokenCommand>({
     ...options,
     mutationKey: ["transferToken"],
-    mutationFn: cmd => TokenService.transferToken(cmd)
+    mutationFn: cmd => TokensService.transferToken(cmd)
   });
 };

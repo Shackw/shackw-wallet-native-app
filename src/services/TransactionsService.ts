@@ -2,10 +2,10 @@ import { subMonths } from "date-fns";
 
 import { TOKENS } from "@/configs/token";
 import { GetLastTransactionCommand, TransactionModel } from "@/models/transaction";
-import { TransactionRepository } from "@/repositories/TransactionRepository";
-import { SearchTransactionPayload } from "@/repositories/TransactionRepository/dto";
+import { TransactionsRepository } from "@/repositories/TransactionsRepository";
+import { SearchTransactionPayload } from "@/repositories/TransactionsRepository/dto";
 
-export const TransactionService = {
+export const TransactionsService = {
   async getLastTransaction(command: GetLastTransactionCommand): Promise<TransactionModel | null> {
     const { wallet } = command;
     const payload: SearchTransactionPayload = {
@@ -15,7 +15,7 @@ export const TransactionService = {
       limit: 1
     };
     try {
-      const searched = await TransactionRepository.search(payload);
+      const searched = await TransactionsRepository.search(payload);
       return searched[0] ?? null;
     } catch (error: unknown) {
       console.log(error);

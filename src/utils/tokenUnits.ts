@@ -1,7 +1,7 @@
 import { formatUnits, parseUnits } from "viem/utils";
 
 import { TokenKind } from "@/configs/token";
-import { TOKEN_REGISTRY } from "@/registries/tokenRegistry";
+import { TOKEN_REGISTRY } from "@/registries/TokenRegistry";
 
 export const toMinUnits = (amount: string | number, token: TokenKind): bigint => {
   const { decimals } = TOKEN_REGISTRY[token];

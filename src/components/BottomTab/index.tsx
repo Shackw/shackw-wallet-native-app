@@ -2,7 +2,7 @@ import { HStack, Box } from "@gluestack-ui/themed";
 import { usePathname, useRouter } from "expo-router";
 
 import { useBoolean } from "@/hooks/useBoolean";
-import { BOTTOM_TAB_ITEMS } from "@/registries/bottomTabRegistry";
+import { BOTTOM_TAB_ITEMS } from "@/registries/BottomTabRegistry";
 
 import BottomTabActionSheet from "./BottomTabActionSheet";
 import BottomTabItem from "./BottomTabItem";

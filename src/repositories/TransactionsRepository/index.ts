@@ -14,7 +14,7 @@ const blockTsCache = new Map<bigint, number>();
 const CONCURRENCY = 6;
 const DEFAULT_CHUNK = 10_000n;
 
-export const TransactionRepository = {
+export const TransactionsRepository = {
   async search(paylaod: SearchTransactionPayload): Promise<TransactionModel[]> {
     const { tokens, wallet, timeFrom, timeTo, limit, chunkSize = DEFAULT_CHUNK, direction = "both" } = paylaod;
 
