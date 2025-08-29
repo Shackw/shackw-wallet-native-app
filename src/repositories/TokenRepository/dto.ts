@@ -5,7 +5,7 @@ import { TransferTokenResponceSchema } from "./parser";
 
 export type TransferTokenPayload = {
   quoteToken: string;
-  authorizationList: SignAuthorizationReturnType;
+  authorization: SignAuthorizationReturnType;
 };
 
 export type TransferTokenResponce = v.InferOutput<typeof TransferTokenResponceSchema>;

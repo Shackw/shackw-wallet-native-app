@@ -43,7 +43,7 @@ export const TokenService = {
         address: account.address,
         blockTag: "pending"
       });
-      const authorizationList = await client.signAuthorization({
+      const authorization = await client.signAuthorization({
         account,
         contractAddress: delegate,
         chainId: DEFAULT_CHAIN.id,
@@ -52,7 +52,7 @@ export const TokenService = {
 
       const transferTokenPayload: TransferTokenPayload = {
         quoteToken,
-        authorizationList
+        authorization
       };
       const { status, txHash } = await TokenRepository.transfer(transferTokenPayload);
 
