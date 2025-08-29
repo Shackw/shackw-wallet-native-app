@@ -6,11 +6,11 @@ import { VIEM_PUBLIC_CLIENT } from "@/configs/viem";
 import { GetTokenBalanceCommand, TransferTokenCommand } from "@/models/token";
 import { QuotesRepository } from "@/repositories/QuotesRepository";
 import { CreateQuotePayload } from "@/repositories/QuotesRepository/dto";
-import { TokenRepository } from "@/repositories/TokenRepository";
-import { TransferTokenPayload } from "@/repositories/TokenRepository/dto";
+import { TokensRepository } from "@/repositories/TokensRepository";
+import { TransferTokenPayload } from "@/repositories/TokensRepository/dto";
 import { toDisimalsStr, toMinUnits } from "@/utils/tokenUnits";
 
-export const TokenService = {
+export const TokensService = {
   async getTokenBalance(command: GetTokenBalanceCommand): Promise<string> {
     const { wallet, token } = command;
     const erc20Contract = TOKEN_TO_CONTRACT_MAP[token];
@@ -54,7 +54,7 @@ export const TokenService = {
         quoteToken,
         authorization
       };
-      const { status, txHash } = await TokenRepository.transfer(transferTokenPayload);
+      const { status, txHash } = await TokensRepository.transfer(transferTokenPayload);
 
       if (status === "alreadyExecuted") {
         throw new Error("transferToken error: alreadyExecuted");

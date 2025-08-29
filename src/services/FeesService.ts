@@ -1,10 +1,10 @@
 import { DEFAULT_CHAIN } from "@/configs/chain";
 import { EstimateFeeCommand, FeeModel } from "@/models/fee";
-import { FeeRepository } from "@/repositories/FeeRepository";
-import { EstimateFeePayload } from "@/repositories/FeeRepository/dto";
+import { FeesRepository } from "@/repositories/FeesRepository";
+import { EstimateFeePayload } from "@/repositories/FeesRepository/dto";
 import { toMinUnits } from "@/utils/tokenUnits";
 
-export const FeeService = {
+export const FeesService = {
   async estimateFee(command: EstimateFeeCommand): Promise<FeeModel> {
     const { token, feeToken, amountDecimals } = command;
     try {
@@ -15,7 +15,7 @@ export const FeeService = {
         amountMinUnits: toMinUnits(amountDecimals, token)
       };
 
-      const fee = await FeeRepository.estimate(payload);
+      const fee = await FeesRepository.estimate(payload);
       return fee;
     } catch (error: unknown) {
       if (error instanceof Error) {

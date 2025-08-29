@@ -2,7 +2,7 @@ import { UseQueryOptions, UseQueryResult, useQuery } from "@tanstack/react-query
 import { Address } from "viem";
 
 import { TokenKind } from "@/configs/token";
-import { TokenService } from "@/services/TokenService";
+import { TokensService } from "@/services/TokensService";
 
 export const useTokenBalance = (
   wallet: Address,
@@ -12,6 +12,6 @@ export const useTokenBalance = (
   return useQuery({
     ...options,
     queryKey: [wallet, token],
-    queryFn: () => TokenService.getTokenBalance({ wallet, token })
+    queryFn: () => TokensService.getTokenBalance({ wallet, token })
   });
 };

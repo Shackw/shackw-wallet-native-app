@@ -1,6 +1,6 @@
 import { Pressable } from "@gluestack-ui/themed";
 
-import { BOTTOM_TAB_ITEMS } from "@/registries/bottomTabRegistry";
+import { BOTTOM_TAB_ITEMS } from "@/registries/BottomTabRegistry";
 
 import BottomTabIcon from "./BottomTabBarIcon";
 
