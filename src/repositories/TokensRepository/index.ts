@@ -4,7 +4,7 @@ import { hinomaruRestClient } from "@/clients/restClient";
 
 import { TransferTokenResponceSchema } from "./parser";
 
-import type { TransferTokenPayload, TransferTokenResponce } from "./dto";
+import type { TransferTokenPayload, TransferTokenResponce } from "./interface";
 
 export const TokensRepository = {
   async transfer(payload: TransferTokenPayload): Promise<TransferTokenResponce> {

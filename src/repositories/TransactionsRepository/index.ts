@@ -6,7 +6,7 @@ import { TransactionModel } from "@/models/transaction";
 import { blockNumberByTimestamp } from "@/utils/block";
 import { toUnixSec } from "@/utils/datetime";
 
-import { SearchTransactionPayload } from "./dto";
+import { SearchTransactionPayload } from "./interface";
 
 const transferEvt = parseAbiItem("event Transfer(address indexed from, address indexed to, uint256 value)");
 const blockTsCache = new Map<bigint, number>();

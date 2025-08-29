@@ -1,6 +1,6 @@
 import { QuoteModel } from "@/models/quote";
 
-import { CreateQuoteResponce } from "./dto";
+import { CreateQuoteResponce } from "./interface";
 
 export const responceToQuoteModel = (res: CreateQuoteResponce): QuoteModel => {
   const { token, feeToken, policy, ...rest } = res;

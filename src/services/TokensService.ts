@@ -5,9 +5,9 @@ import { TOKEN_TO_CONTRACT_MAP } from "@/configs/contract";
 import { VIEM_PUBLIC_CLIENT } from "@/configs/viem";
 import { GetTokenBalanceCommand, TransferTokenCommand } from "@/models/token";
 import { QuotesRepository } from "@/repositories/QuotesRepository";
-import { CreateQuotePayload } from "@/repositories/QuotesRepository/dto";
+import { CreateQuotePayload } from "@/repositories/QuotesRepository/interface";
 import { TokensRepository } from "@/repositories/TokensRepository";
-import { TransferTokenPayload } from "@/repositories/TokensRepository/dto";
+import { TransferTokenPayload } from "@/repositories/TokensRepository/interface";
 import { toDisimalsStr, toMinUnits } from "@/utils/tokenUnits";
 
 export const TokensService = {
