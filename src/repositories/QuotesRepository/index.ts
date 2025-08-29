@@ -3,7 +3,7 @@ import * as v from "valibot";
 import { hinomaruRestClient } from "@/clients/restClient";
 import { QuoteModel } from "@/models/quote";
 
-import { CreateQuotePayload } from "./dto";
+import { CreateQuotePayload } from "./interface";
 import { responceToQuoteModel } from "./mapper";
 import { CreateQuoteResponceSchema } from "./parser";
 

@@ -1,7 +1,7 @@
 import { DEFAULT_CHAIN } from "@/configs/chain";
 import { EstimateFeeCommand, FeeModel } from "@/models/fee";
 import { FeesRepository } from "@/repositories/FeesRepository";
-import { EstimateFeePayload } from "@/repositories/FeesRepository/dto";
+import { EstimateFeePayload } from "@/repositories/FeesRepository/interface";
 import { toMinUnits } from "@/utils/tokenUnits";
 
 export const FeesService = {

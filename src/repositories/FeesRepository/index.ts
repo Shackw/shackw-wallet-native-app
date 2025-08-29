@@ -3,7 +3,7 @@ import * as v from "valibot";
 import { hinomaruRestClient } from "@/clients/restClient";
 import { FeeModel } from "@/models/fee";
 
-import { EstimateFeePayload } from "./dto";
+import { EstimateFeePayload } from "./interface";
 import { responceToFeeModel } from "./mapper";
 import { EstimateFeeResponseSchema } from "./parser";
 

@@ -1,6 +1,6 @@
 import { FeeModel } from "@/models/fee";
 
-import { EstimateFeeResponce } from "./dto";
+import { EstimateFeeResponce } from "./interface";
 
 export const responceToFeeModel = (res: EstimateFeeResponce): FeeModel => {
   const { token, feeToken, feeMinUnits, feeDecimals, policy } = res;

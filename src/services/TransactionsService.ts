@@ -3,7 +3,7 @@ import { subMonths } from "date-fns";
 import { TOKENS } from "@/configs/token";
 import { GetLastTransactionCommand, TransactionModel } from "@/models/transaction";
 import { TransactionsRepository } from "@/repositories/TransactionsRepository";
-import { SearchTransactionPayload } from "@/repositories/TransactionsRepository/dto";
+import { SearchTransactionPayload } from "@/repositories/TransactionsRepository/interface";
 
 export const TransactionsService = {
   async getLastTransaction(command: GetLastTransactionCommand): Promise<TransactionModel | null> {
