@@ -1,7 +1,7 @@
 import * as v from "valibot";
 import { Address } from "viem";
 
-import { TokenKind } from "@/configs/token";
+import { Token } from "@/registries/TokenRegistry";
 
 import { CreateQuoteResponceSchema } from "./parser";
 
@@ -9,7 +9,7 @@ export type CreateQuotePayload = {
   chainId: number;
   sender: Address;
   recipient: Address;
-  token: { symbol: TokenKind };
+  token: { symbol: Token };
   amountMinUnits: bigint;
 };
 

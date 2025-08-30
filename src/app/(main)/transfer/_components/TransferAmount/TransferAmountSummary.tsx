@@ -1,9 +1,9 @@
 import { Text, HStack, VStack } from "@gluestack-ui/themed";
 
-import { TokenKind } from "@/configs/token";
+import { Token } from "@/registries/TokenRegistry";
 
 type TransferAmountSummaryProps = {
-  token: TokenKind;
+  token: Token;
   transferableAmount: number;
 };
 

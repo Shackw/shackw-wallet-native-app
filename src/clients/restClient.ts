@@ -137,7 +137,7 @@ export function createRestClient(cfg: RestClientConfig = {}) {
             undefined
         });
       }
-      return data; // ← unknown。Repoでvalidate/parseする想定
+      return data;
     } catch (e: any) {
       if (e instanceof ApiError) throw e;
       const isAbort = e?.name === "AbortError" || e?.message?.toLowerCase?.().includes("aborted");

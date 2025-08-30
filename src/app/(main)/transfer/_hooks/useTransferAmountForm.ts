@@ -1,12 +1,12 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
 import * as v from "valibot";
 
-import { TokenKind } from "@/configs/token";
 import { useBoolean } from "@/hooks/useBoolean";
 import { useTokenBalanceContext } from "@/providers/TokenBalanceProvider";
+import { Token } from "@/registries/TokenRegistry";
 import { isConvertibleToNumber } from "@/utils/number";
 
-type UseTransferAmountFormProps = { token: TokenKind };
+type UseTransferAmountFormProps = { token: Token };
 
 export type UseTransferAmountFormResult = {
   amount: number;

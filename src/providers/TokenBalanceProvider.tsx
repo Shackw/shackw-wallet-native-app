@@ -1,13 +1,13 @@
 import { RefetchOptions, QueryObserverResult } from "@tanstack/react-query";
 import { createContext, ReactNode, useContext } from "react";
 
-import { TokenKind } from "@/configs/token";
 import { useTokenBalance } from "@/hooks/queries/useTokenBalance";
+import { Token } from "@/registries/TokenRegistry";
 
 import { useHinomaruWalletContext } from "./HinomaruWalletProvider";
 
 type TokenBalanceContextType = Record<
-  TokenKind,
+  Token,
   {
     balance: string | undefined;
     error: Error | null;

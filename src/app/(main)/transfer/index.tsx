@@ -6,9 +6,9 @@ import { Address } from "viem";
 import { ContainButton } from "@/components/Button";
 import { ScreenContainer } from "@/components/Container";
 import { Tab } from "@/components/Tab";
-import { TokenKind, TOKENS } from "@/configs/token";
 import { useTransferToken } from "@/hooks/mutations/useTransferToken";
 import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
+import { Token, TOKENS } from "@/registries/TokenRegistry";
 
 import TransferAmount from "./_components/TransferAmount";
 import TransferRecipient from "./_components/TransferRecipient";
@@ -16,7 +16,7 @@ import useTransferAmountForm from "./_hooks/useTransferAmountForm";
 import useTransferRecipientForm from "./_hooks/useTransferRecipientForm";
 
 const TransferScreen = () => {
-  const [selectedToken, setSelectedToken] = useState<TokenKind>("JPYC");
+  const [selectedToken, setSelectedToken] = useState<Token>("JPYC");
   const { account, client } = useHinomaruWalletContext();
 
   const recipientForm = useTransferRecipientForm();

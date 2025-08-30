@@ -1,4 +1,4 @@
-import { TokenKind } from "@/configs/token";
+import { Token } from "@/registries/TokenRegistry";
 
 export type QuoteModel = {
   quoteId: `tq_${string}`;
@@ -7,8 +7,8 @@ export type QuoteModel = {
   chainId: number;
   sender: `0x${string}`;
   recipient: `0x${string}`;
-  token: TokenKind;
-  feeToken: TokenKind;
+  token: Token;
+  feeToken: Token;
   amount: {
     minUnits: bigint;
     decimals: number;

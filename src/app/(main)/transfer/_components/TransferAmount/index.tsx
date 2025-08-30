@@ -1,13 +1,13 @@
 import { VStack, Text } from "@gluestack-ui/themed";
 
-import { TokenKind } from "@/configs/token";
+import { Token } from "@/registries/TokenRegistry";
 
 import { UseTransferAmountFormResult } from "../../_hooks/useTransferAmountForm";
 
 import TransferAmountInput from "./TransferAmountInput";
 import TransferAmountSummary from "./TransferAmountSummary";
 
-type TransferAmountProps = { token: TokenKind; form: UseTransferAmountFormResult };
+type TransferAmountProps = { token: Token; form: UseTransferAmountFormResult };
 
 const TransferAmount = (props: TransferAmountProps) => {
   const { token } = props;
