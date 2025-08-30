@@ -1,8 +1,8 @@
-import { TokenKind } from "@/configs/token";
+import { Token } from "@/registries/TokenRegistry";
 
 export type FeeModel = {
-  token: TokenKind;
-  feeToken: TokenKind;
+  token: Token;
+  feeToken: Token;
   feeMinUnits: bigint;
   feeDecimals: number;
   policy: { bps: number; cap: bigint };
@@ -10,6 +10,6 @@ export type FeeModel = {
 
 export type EstimateFeeCommand = {
   amountDecimals: number;
-  token: TokenKind;
-  feeToken: TokenKind;
+  token: Token;
+  feeToken: Token;
 };

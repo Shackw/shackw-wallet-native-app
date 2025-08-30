@@ -1,8 +1,7 @@
 import { Input, InputField, Pressable, Text, useToken, VStack } from "@gluestack-ui/themed";
 import { useEffect, useMemo, useState } from "react";
 
-import { TokenKind } from "@/configs/token";
-import { TOKEN_TO_SYMBOL_ICON } from "@/registries/TokenRegistry";
+import { Token, TOKEN_TO_SYMBOL_ICON } from "@/registries/TokenRegistry";
 
 import { UseTransferAmountFormResult } from "../../_hooks/useTransferAmountForm";
 
@@ -10,7 +9,7 @@ const CHAR_WIDTH = 24;
 const PADDING = 53;
 
 type TransferAmountInputProps = {
-  token: TokenKind;
+  token: Token;
   transferableAmount: number;
   handleAmountSubmit: UseTransferAmountFormResult["handleAmountSubmit"];
 };

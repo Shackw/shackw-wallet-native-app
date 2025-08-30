@@ -1,7 +1,7 @@
 import { subMonths } from "date-fns";
 
-import { TOKENS } from "@/configs/token";
 import { GetLastTransactionCommand, TransactionModel } from "@/models/transaction";
+import { TOKENS } from "@/registries/TokenRegistry";
 import { TransactionsRepository } from "@/repositories/TransactionsRepository";
 import { SearchTransactionPayload } from "@/repositories/TransactionsRepository/interface";
 

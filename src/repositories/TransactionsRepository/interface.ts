@@ -1,10 +1,10 @@
 import { Address } from "viem";
 
-import { TokenKind } from "@/configs/token";
+import { Token } from "@/registries/TokenRegistry";
 
 export type SearchTransactionPayload = {
   wallet: Address;
-  tokens: { symbol: TokenKind }[];
+  tokens: { symbol: Token }[];
   timeFrom?: Date;
   timeTo?: Date;
   limit?: number;

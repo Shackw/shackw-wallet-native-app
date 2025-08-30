@@ -1,13 +1,13 @@
 import { Account, WalletClient, Address } from "viem";
 
-import { TokenKind } from "@/configs/token";
+import { Token } from "@/registries/TokenRegistry";
 
-export type GetTokenBalanceCommand = { wallet: Address; token: TokenKind };
+export type GetTokenBalanceCommand = { wallet: Address; token: Token };
 
 export type TransferTokenCommand = {
   account: Account;
   client: WalletClient;
-  token: TokenKind;
+  token: Token;
   recipient: Address;
   amountDecimals: number;
 };

@@ -1,11 +1,10 @@
 import { Text, Spinner, HStack, useToken } from "@gluestack-ui/themed";
 
-import { TokenKind } from "@/configs/token";
 import { useTokenBalanceContext } from "@/providers/TokenBalanceProvider";
-import { TOKEN_TO_SYMBOL_ICON } from "@/registries/TokenRegistry";
+import { Token, TOKEN_TO_SYMBOL_ICON } from "@/registries/TokenRegistry";
 
 type HomeTokenBalanceProps = {
-  token: TokenKind;
+  token: Token;
 };
 
 const HomeTokenBalance = (props: HomeTokenBalanceProps) => {

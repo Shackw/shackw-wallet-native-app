@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { ScreenContainer } from "@/components/Container";
 import { Tab } from "@/components/Tab";
-import { TokenKind, TOKENS } from "@/configs/token";
+import { Token, TOKENS } from "@/registries/TokenRegistry";
 
 import HomeAction from "./_components/HomeAction";
 import HomeLastTransactionAt from "./_components/HomeLastTransaction";
@@ -11,7 +11,7 @@ import HomeMainBody from "./_components/HomeMainBody";
 import HomeTokenBalance from "./_components/HomeTokenBalance";
 
 const HomeScreen = () => {
-  const [currentTab, setCurrentTab] = useState<TokenKind>("JPYC");
+  const [currentTab, setCurrentTab] = useState<Token>("JPYC");
 
   return (
     <ScreenContainer px="$4" alignItems="center">

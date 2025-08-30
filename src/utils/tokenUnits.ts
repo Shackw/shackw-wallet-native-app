@@ -1,18 +1,17 @@
 import { formatUnits, parseUnits } from "viem/utils";
 
-import { TokenKind } from "@/configs/token";
-import { TOKEN_REGISTRY } from "@/registries/TokenRegistry";
+import { Token, TOKEN_REGISTRY } from "@/registries/TokenRegistry";
 
-export const toMinUnits = (amount: string | number, token: TokenKind): bigint => {
+export const toMinUnits = (amount: string | number, token: Token): bigint => {
   const { decimals } = TOKEN_REGISTRY[token];
   return parseUnits(String(amount), decimals);
 };
 
-export const toDisimals = (minUnits: bigint, token: TokenKind): number => {
+export const toDecimals = (minUnits: bigint, token: Token): number => {
   return Number(formatUnits(minUnits, TOKEN_REGISTRY[token].decimals));
 };
 
-export const toDisimalsStr = (minUnits: bigint, token: TokenKind): string => {
+export const toDecimalsStr = (minUnits: bigint, token: Token): string => {
   const { decimals } = TOKEN_REGISTRY[token];
   return formatUnits(minUnits, decimals);
 };

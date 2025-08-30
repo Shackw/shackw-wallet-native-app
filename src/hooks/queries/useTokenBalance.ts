@@ -1,12 +1,12 @@
 import { UseQueryOptions, UseQueryResult, useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
 
-import { TokenKind } from "@/configs/token";
+import { Token } from "@/registries/TokenRegistry";
 import { TokensService } from "@/services/TokensService";
 
 export const useTokenBalance = (
   wallet: Address,
-  token: TokenKind,
+  token: Token,
   options?: Partial<UseQueryOptions<string>>
 ): UseQueryResult<string> => {
   return useQuery({
