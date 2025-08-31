@@ -10,6 +10,7 @@ export type CreateQuotePayload = {
   sender: Address;
   recipient: Address;
   token: { symbol: Token };
+  feeToken: { symbol: Token };
   amountMinUnits: bigint;
 };
 

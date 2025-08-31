@@ -35,6 +35,9 @@ export const TokensService = {
         token: {
           symbol: token
         },
+        feeToken: {
+          symbol: token
+        },
         amountMinUnits: toMinUnits(amountDecimals, token)
       };
       const { delegate, quoteToken } = await QuotesRepository.create(createQuotePayload);

@@ -7,11 +7,6 @@ import { strToBigintValidator } from "@/validations/rules/strToBigintValidator";
 import { tokenMetaValidator } from "@/validations/rules/tokenMetaValidator";
 
 export const CreateQuoteResponceSchema = v.object({
-  quoteId: v.pipe(
-    v.string(),
-    v.startsWith("tq_"),
-    v.transform(s => s as `tq_${string}`)
-  ),
   quoteToken: v.string(),
   expiresAt: isoDateValidator,
   chainId: v.number(),
@@ -28,7 +23,7 @@ export const CreateQuoteResponceSchema = v.object({
     decimals: v.number()
   }),
   delegate: addressValidator("Invalid address: delegate"),
-  sponcer: addressValidator("Invalid address: sponcer"),
+  sponsor: addressValidator("Invalid address: sponsor"),
   callHash: addressValidator("Invalid address"),
   policy: feesPolicyValidator,
   serverTime: isoDateValidator

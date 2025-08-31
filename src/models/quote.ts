@@ -18,6 +18,6 @@ export type QuoteModel = {
     decimals: number;
   };
   delegate: `0x${string}`;
-  sponcer: `0x${string}`;
+  sponsor: `0x${string}`;
   policy: { bps: number; cap: bigint };
 };
