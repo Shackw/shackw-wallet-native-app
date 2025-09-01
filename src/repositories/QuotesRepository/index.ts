@@ -9,7 +9,7 @@ import { CreateQuoteResponceSchema } from "./parser";
 
 export const QuotesRepository = {
   async create(payload: CreateQuotePayload): Promise<QuoteModel> {
-    const created = await hinomaruRestClient.post("/quotes", { json: payload });
+    const created = await hinomaruRestClient.post("/quotes", { ...payload });
     const parsed = v.parse(CreateQuoteResponceSchema, created);
     return responceToQuoteModel(parsed);
   }

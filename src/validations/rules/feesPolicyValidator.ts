@@ -1,7 +1,5 @@
 import * as v from "valibot";
 
-import { TOKENS } from "@/configs/token";
-
 import { strToBigintValidator } from "./strToBigintValidator";
 
 export const feesPolicyValidator = v.object({
@@ -10,6 +8,6 @@ export const feesPolicyValidator = v.object({
   bps: v.number(),
   cap: v.object({
     minUnit: strToBigintValidator,
-    currency: v.pipe(v.string(), v.picklist(TOKENS))
+    currency: v.pipe(v.string(), v.picklist(["JPY", "USD", "EUR"]))
   })
 });

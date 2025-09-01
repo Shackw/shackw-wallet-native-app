@@ -9,9 +9,9 @@ export const TransferTokenResponceSchema = v.object({
     v.startsWith("tq_"),
     v.transform(s => s as `tq_${string}`)
   ),
-  opId: addressValidator(),
-  txHash: addressValidator(),
+  opId: addressValidator("opId"),
+  txHash: addressValidator("txHash"),
   chainId: v.number(),
   status: v.union([v.literal("submitted"), v.literal("alreadyExecuted")]),
-  serverTime: isoDateValidator
+  serverTime: isoDateValidator("serverTime")
 });

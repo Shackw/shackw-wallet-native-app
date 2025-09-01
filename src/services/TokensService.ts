@@ -19,7 +19,7 @@ export const TokensService = {
       return toDecimalsStr(balance, token);
     } catch (error: unknown) {
       if (error instanceof Error) {
-        throw new Error(`getTokenBalance error: ${error.message}`, { cause: error });
+        throw new Error(`getTokenBalance error: ${error.message}`);
       }
       throw new Error(`getTokenBalance unknown error: ${String(error)}`);
     }
@@ -64,8 +64,9 @@ export const TokensService = {
       }
       return txHash;
     } catch (error: unknown) {
+      console.log(error);
       if (error instanceof Error) {
-        throw new Error(`transferToken error: ${error.message}`, { cause: error });
+        throw new Error(`transferToken error: ${error.message}`);
       }
       throw new Error(`transferToken unknown error: ${String(error)}`);
     }
