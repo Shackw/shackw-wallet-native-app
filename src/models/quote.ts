@@ -1,7 +1,6 @@
 import { Token } from "@/registries/TokenRegistry";
 
 export type QuoteModel = {
-  quoteId: `tq_${string}`;
   quoteToken: string;
   expiresAt: Date;
   chainId: number;
