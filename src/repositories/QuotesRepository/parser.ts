@@ -3,7 +3,7 @@ import * as v from "valibot";
 import { addressValidator, hex32Validator } from "@/validations/rules/addressValidator";
 import { feesPolicyValidator } from "@/validations/rules/feesPolicyValidator";
 import { isoDateValidator } from "@/validations/rules/isoDateValidator";
-import { strToBigintValidator } from "@/validations/rules/strToBigintValidator";
+import { unsignedBigintFromStringValidator } from "@/validations/rules/unsignedBigintFromStringValidator";
 import { tokenMetaValidator } from "@/validations/rules/tokenMetaValidator";
 
 export const CreateQuoteResponceSchema = v.object({
@@ -15,11 +15,11 @@ export const CreateQuoteResponceSchema = v.object({
   token: tokenMetaValidator,
   feeToken: tokenMetaValidator,
   amount: v.object({
-    minUnits: strToBigintValidator,
+    minUnits: unsignedBigintFromStringValidator,
     decimals: v.number()
   }),
   fee: v.object({
-    minUnits: strToBigintValidator,
+    minUnits: unsignedBigintFromStringValidator,
     decimals: v.number()
   }),
   delegate: addressValidator("delegate"),

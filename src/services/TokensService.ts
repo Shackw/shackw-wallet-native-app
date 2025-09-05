@@ -1,6 +1,7 @@
 import { Hex } from "viem";
 
 import { DEFAULT_CHAIN } from "@/configs/chain";
+import { HINOMARU_API_URL } from "@/configs/env";
 import { VIEM_PUBLIC_CLIENT } from "@/configs/viem";
 import { GetTokenBalanceCommand, TransferTokenCommand } from "@/models/token";
 import { TOKEN_TO_CONTRACT } from "@/registries/TokenRegistry";
@@ -8,7 +9,7 @@ import { QuotesRepository } from "@/repositories/QuotesRepository";
 import { CreateQuotePayload } from "@/repositories/QuotesRepository/interface";
 import { TokensRepository } from "@/repositories/TokensRepository";
 import { TransferTokenPayload } from "@/repositories/TokensRepository/interface";
-import { toDecimalsStr, toMinUnits } from "@/utils/tokenUnits";
+import { toDecimalsStr, toMinUnits } from "@/helpers/tokenUnits";
 
 export const TokensService = {
   async getTokenBalance(command: GetTokenBalanceCommand): Promise<string> {
@@ -55,7 +56,14 @@ export const TokensService = {
 
       const transferTokenPayload: TransferTokenPayload = {
         quoteToken,
-        authorization
+        authorization,
+        notify: {
+          webhook: {
+            id: "ididididididi",
+            url: `${HINOMARU_API_URL}/tokens/test`,
+            echo: "A9fN2Xq7L3vZ1pR6dH4K0bW8"
+          }
+        }
       };
       const { status, txHash } = await TokensRepository.transfer(transferTokenPayload);
 
