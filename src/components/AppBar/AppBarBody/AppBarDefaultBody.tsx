@@ -1,7 +1,7 @@
 import { HStack, Spinner, Text } from "@gluestack-ui/themed";
 
 import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
-import { shortenAddress } from "@/utils/address";
+import { shortenAddress } from "@/helpers/address";
 
 const AppBarDefaultBody = () => {
   const { account } = useHinomaruWalletContext();

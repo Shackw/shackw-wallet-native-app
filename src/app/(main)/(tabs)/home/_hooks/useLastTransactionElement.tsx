@@ -5,7 +5,7 @@ import { useCallback, useMemo } from "react";
 import { Pressable } from "react-native";
 
 import { TransactionModel } from "@/models/transaction";
-import { formatUnixTimestampToJST } from "@/utils/datetime";
+import { formatUnixTimestampToJST } from "@/helpers/datetime";
 
 type LastTransactionElementProps = {
   element: React.ReactNode;

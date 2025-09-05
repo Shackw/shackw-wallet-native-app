@@ -6,6 +6,13 @@ import { TransferTokenResponceSchema } from "./parser";
 export type TransferTokenPayload = {
   quoteToken: string;
   authorization: SignAuthorizationReturnType;
+  notify?: {
+    webhook: {
+      id: string;
+      url: string;
+      echo: string;
+    };
+  };
 };
 
 export type TransferTokenResponce = v.InferOutput<typeof TransferTokenResponceSchema>;

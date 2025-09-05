@@ -5,17 +5,17 @@ import { addressValidator } from "../rules/addressValidator";
 export const EnvSchema = v.object(
   {
     BUILD_ENV: v.pipe(
-      v.string("BUILD_ENV is required."),
+      v.string("BUILD_ENV must be a string."),
       v.transform(s => s.trim()),
       v.picklist(["dev", "prd"], "BUILD_ENV must be 'dev' or 'prd'.")
     ),
     HINOMARU_API_URL: v.pipe(
-      v.string("HINOMARU_API_URL is required."),
+      v.string("HINOMARU_API_URL must be a string."),
       v.transform(s => s.trim()),
       v.url("HINOMARU_API_URL must be a valid URL.")
     ),
     WALLET_PRIVATE_KEY_BASE_NAME: v.pipe(
-      v.string("WALLET_PRIVATE_KEY_BASE_NAME is required."),
+      v.string("WALLET_PRIVATE_KEY_BASE_NAME must be a string."),
       v.transform(s => s.trim()),
       v.minLength(1, "WALLET_PRIVATE_KEY_BASE_NAME must not be empty.")
     ),

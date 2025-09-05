@@ -4,7 +4,7 @@ import * as v from "valibot";
 import { useBoolean } from "@/hooks/useBoolean";
 import { useTokenBalanceContext } from "@/providers/TokenBalanceProvider";
 import { Token } from "@/registries/TokenRegistry";
-import { isConvertibleToNumber } from "@/utils/number";
+import { isConvertibleToNumber } from "@/helpers/number";
 
 type UseTransferAmountFormProps = { token: Token };
 
