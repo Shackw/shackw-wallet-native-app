@@ -36,10 +36,7 @@
             "extraPods": [
               {
                 "name": "OpenSSL-Universal",
-                "configurations": [
-                  "Release",
-                  "Debug"
-                ],
+                "configurations": ["Release", "Debug"],
                 "modular_headers": true,
                 "version": "3.3.2000"
               }
