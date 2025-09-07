@@ -1,26 +1,29 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
 import * as v from "valibot";
 
+import { isConvertibleToNumber } from "@/helpers/number";
+import { toDecimals } from "@/helpers/tokenUnits";
+import { useTransferFee } from "@/hooks/queries/useTransferFee";
 import { useBoolean } from "@/hooks/useBoolean";
 import { useTokenBalanceContext } from "@/providers/TokenBalanceProvider";
-import { Token } from "@/registries/TokenRegistry";
-import { isConvertibleToNumber } from "@/helpers/number";
+import { Token, TOKEN_REGISTRY } from "@/registries/TokenRegistry";
 
 type UseTransferAmountFormProps = { token: Token };
 
 export type UseTransferAmountFormResult = {
   amount: number;
+  feeAmount: number;
   transferableAmount: number;
   isAmountValid: boolean;
   amountError: string | undefined;
   handleAmountSubmit: (text: string) => void;
 };
 
-const TransferAmountFormSchema = (maxAmount: number) =>
+const TransferAmountFormSchema = (token: Token, min: number, max: number) =>
   v.pipe(
     v.number("金額を入力してください。"),
-    v.minValue(0.00000000001, "0より大きい金額を指定してください。"),
-    v.maxValue(maxAmount, `送金可能額を超えています。`)
+    v.minValue(min, `最低送金額は${min}${token}です。`),
+    v.maxValue(max, `送金可能額を超えています。`)
   );
 
 const useTransferAmountForm = (props: UseTransferAmountFormProps): UseTransferAmountFormResult => {
@@ -31,9 +34,25 @@ const useTransferAmountForm = (props: UseTransferAmountFormProps): UseTransferAm
   const [isAmountValid, setIsAmountValid] = useBoolean(false);
   const [amountError, setAmountError] = useState<string | undefined>(undefined);
 
-  const transferableAmount = useMemo(() => Number(tokenBalanceResult[token].balance ?? 0), [tokenBalanceResult, token]);
+  const tokenBalance = Number(tokenBalanceResult[token].balance ?? 0);
 
-  const amountSchema = useMemo(() => TransferAmountFormSchema(transferableAmount), [transferableAmount]);
+  const { data: maxFee } = useTransferFee(
+    {
+      token,
+      feeToken: token,
+      amountDecimals: tokenBalance
+    },
+    { enabled: tokenBalance !== 0 }
+  );
+  const { data: transferFee } = useTransferFee({
+    token,
+    feeToken: token,
+    amountDecimals: amount
+  });
+
+  const transferableAmount = useMemo(() => {
+    return tokenBalance - (maxFee?.feeDecimals ?? 0);
+  }, [maxFee, tokenBalance]);
 
   const handleAmountSubmit = useCallback((amountText: string) => {
     if (amountText === "" || !isConvertibleToNumber(amountText)) return setAmount(0);
@@ -47,7 +66,12 @@ const useTransferAmountForm = (props: UseTransferAmountFormProps): UseTransferAm
       return;
     }
 
-    const validation = v.safeParse(amountSchema, amount);
+    const schema = TransferAmountFormSchema(
+      token,
+      toDecimals(TOKEN_REGISTRY[token].minTransferAmountUnits, token),
+      transferableAmount
+    );
+    const validation = v.safeParse(schema, amount);
     if (!validation.success) {
       setAmountError(validation.issues[0].message);
       return;
@@ -55,10 +79,11 @@ const useTransferAmountForm = (props: UseTransferAmountFormProps): UseTransferAm
 
     setAmountError(undefined);
     setIsAmountValid.on();
-  }, [amount, amountSchema, setIsAmountValid]);
+  }, [amount, setIsAmountValid, token, transferableAmount]);
 
   return {
     amount,
+    feeAmount: transferFee?.feeDecimals ?? 0,
     transferableAmount,
     isAmountValid,
     amountError,

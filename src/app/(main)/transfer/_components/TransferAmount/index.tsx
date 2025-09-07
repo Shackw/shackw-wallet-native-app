@@ -11,7 +11,7 @@ type TransferAmountProps = { token: Token; form: UseTransferAmountFormResult };
 
 const TransferAmount = (props: TransferAmountProps) => {
   const { token } = props;
-  const { transferableAmount, amountError, handleAmountSubmit } = props.form;
+  const { transferableAmount, feeAmount, amountError, handleAmountSubmit } = props.form;
 
   return (
     <VStack alignItems="center" minHeight={185} py="$3" rowGap={2}>
@@ -23,9 +23,9 @@ const TransferAmount = (props: TransferAmountProps) => {
         transferableAmount={transferableAmount}
         handleAmountSubmit={handleAmountSubmit}
       />
-      <TransferAmountSummary token={token} transferableAmount={transferableAmount} />
+      <TransferAmountSummary token={token} transferableAmount={transferableAmount} feeAmount={feeAmount} />
       {amountError && (
-        <Text color="$primary600" fontSize="$lg" fontWeight="$bold" mt="$2">
+        <Text w="$full" color="$primary600" fontSize="$sm" fontWeight="$bold" mt="$2">
           {amountError}
         </Text>
       )}

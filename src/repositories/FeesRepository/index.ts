@@ -9,7 +9,7 @@ import { EstimateFeeResponseSchema } from "./parser";
 
 export const FeesRepository = {
   async estimate(payload: EstimateFeePayload): Promise<FeeModel> {
-    const estimated = await hinomaruRestClient.post("/fees:estimate", { ...payload });
+    const estimated = await hinomaruRestClient.post("/fees:estimate", payload);
     const parsed = v.parse(EstimateFeeResponseSchema, estimated);
     return responceToFeeModel(parsed);
   }

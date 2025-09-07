@@ -1,17 +1,24 @@
 import * as v from "valibot";
+import { Hex } from "viem";
 
-import { addressValidator } from "@/validations/rules/addressValidator";
-import { isoDateValidator } from "@/validations/rules/isoDateValidator";
-
-export const TransferTokenResponceSchema = v.object({
-  quoteId: v.pipe(
-    v.string(),
-    v.startsWith("tq_"),
-    v.transform(s => s as `tq_${string}`)
-  ),
-  opId: addressValidator("opId"),
-  txHash: addressValidator("txHash"),
-  chainId: v.number(),
-  status: v.union([v.literal("submitted"), v.literal("alreadyExecuted")]),
-  serverTime: isoDateValidator("serverTime")
-});
+export const TransferTokenResponceSchema = v.object(
+  {
+    status: v.pipe(v.string("status must be a string."), v.picklist(["submitted"], "status must be one of: submitted")),
+    txHash: v.pipe(
+      v.string("txHash must be a string."),
+      v.transform(v => v as Hex)
+    ),
+    notify: v.optional(
+      v.object(
+        {
+          webhook: v.object({
+            id: v.string("notify.webhook.id must be a string"),
+            echo: v.string("notify.webhook.echo must be a string")
+          })
+        },
+        issue => `notify.${String(issue.expected)} is required`
+      )
+    )
+  },
+  issue => `${String(issue.expected)} is required`
+);

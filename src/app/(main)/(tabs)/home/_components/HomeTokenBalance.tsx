@@ -1,5 +1,6 @@
 import { Text, Spinner, HStack, useToken } from "@gluestack-ui/themed";
 
+import { formatUpToN } from "@/helpers/number";
 import { useTokenBalanceContext } from "@/providers/TokenBalanceProvider";
 import { Token, TOKEN_TO_SYMBOL_ICON } from "@/registries/TokenRegistry";
 
@@ -21,7 +22,7 @@ const HomeTokenBalance = (props: HomeTokenBalanceProps) => {
     <HStack alignItems="center" columnGap="$2">
       <TokenSymboIcon size={28} color={symbolIconColor} />
       <Text fontSize="$5xl" color="$primary500" fontWeight="$bold" lineHeight="$3xl">
-        {balance}
+        {formatUpToN(Number(balance), 3)}
       </Text>
     </HStack>
   );

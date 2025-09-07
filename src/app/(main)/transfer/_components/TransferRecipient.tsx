@@ -29,7 +29,7 @@ const TransferRecipient = (props: TransferRecipientProps) => {
         />
       </Input>
       {recipientError && (
-        <Text color="$primary600" fontSize="$lg" fontWeight="$bold">
+        <Text w="$full" color="$primary600" fontSize="$sm" fontWeight="$bold">
           {recipientError}
         </Text>
       )}

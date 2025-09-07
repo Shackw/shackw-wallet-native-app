@@ -16,8 +16,9 @@ import useTransferAmountForm from "./_hooks/useTransferAmountForm";
 import useTransferRecipientForm from "./_hooks/useTransferRecipientForm";
 
 const TransferScreen = () => {
-  const [selectedToken, setSelectedToken] = useState<Token>("JPYC");
   const { account, client } = useHinomaruWalletContext();
+  const [selectedToken, setSelectedToken] = useState<Token>("JPYC");
+  const { mutateAsync: transferToken } = useTransferToken();
 
   const recipientForm = useTransferRecipientForm();
   const amountForm = useTransferAmountForm({ token: selectedToken });
@@ -26,8 +27,6 @@ const TransferScreen = () => {
   const { amount, isAmountValid } = amountForm;
 
   const isValid = isAmountValid && isRecipientValid && recipient && account && client;
-
-  const { mutateAsync: transferToken } = useTransferToken();
 
   const handleSubmit = async () => {
     if (!isValid) return;
