@@ -2,7 +2,6 @@ import { useCallback, useState } from "react";
 import * as v from "valibot";
 
 import { useBoolean } from "@/hooks/useBoolean";
-import { addressValidator } from "@/validations/rules/addressValidator";
 
 export type useTransferRecipientFormResult = {
   recipient: string | undefined;
@@ -13,7 +12,7 @@ export type useTransferRecipientFormResult = {
 
 const TransferRecipientFormSchema = v.pipe(
   v.string("宛先アドレスを入力してください。"),
-  addressValidator("有効な宛先を指定してください。")
+  v.regex(/^0x[0-9a-fA-F]{40}$/, "有効な宛先を指定してください。")
 );
 
 const useTransferRecipientForm = (): useTransferRecipientFormResult => {

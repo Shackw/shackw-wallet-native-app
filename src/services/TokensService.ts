@@ -1,15 +1,14 @@
 import { Hex } from "viem";
 
 import { DEFAULT_CHAIN } from "@/configs/chain";
-import { HINOMARU_API_URL } from "@/configs/env";
 import { VIEM_PUBLIC_CLIENT } from "@/configs/viem";
+import { toDecimalsStr, toMinUnits } from "@/helpers/tokenUnits";
 import { GetTokenBalanceCommand, TransferTokenCommand } from "@/models/token";
 import { TOKEN_TO_CONTRACT } from "@/registries/TokenRegistry";
 import { QuotesRepository } from "@/repositories/QuotesRepository";
 import { CreateQuotePayload } from "@/repositories/QuotesRepository/interface";
 import { TokensRepository } from "@/repositories/TokensRepository";
 import { TransferTokenPayload } from "@/repositories/TokensRepository/interface";
-import { toDecimalsStr, toMinUnits } from "@/helpers/tokenUnits";
 
 export const TokensService = {
   async getTokenBalance(command: GetTokenBalanceCommand): Promise<string> {
@@ -28,19 +27,20 @@ export const TokensService = {
 
   async transferToken(command: TransferTokenCommand): Promise<Hex> {
     const { account, client, token, recipient, amountDecimals } = command;
+
+    const createQuotePayload: CreateQuotePayload = {
+      chainId: DEFAULT_CHAIN.id,
+      sender: account.address,
+      recipient,
+      token: {
+        symbol: token
+      },
+      feeToken: {
+        symbol: token
+      },
+      amountMinUnits: toMinUnits(amountDecimals, token)
+    };
     try {
-      const createQuotePayload: CreateQuotePayload = {
-        chainId: DEFAULT_CHAIN.id,
-        sender: account.address,
-        recipient,
-        token: {
-          symbol: token
-        },
-        feeToken: {
-          symbol: token
-        },
-        amountMinUnits: toMinUnits(amountDecimals, token)
-      };
       const { delegate, quoteToken } = await QuotesRepository.create(createQuotePayload);
 
       const nonce = await VIEM_PUBLIC_CLIENT.getTransactionCount({
@@ -56,23 +56,12 @@ export const TokensService = {
 
       const transferTokenPayload: TransferTokenPayload = {
         quoteToken,
-        authorization,
-        notify: {
-          webhook: {
-            id: "ididididididi",
-            url: `${HINOMARU_API_URL}/tokens/test`,
-            echo: "A9fN2Xq7L3vZ1pR6dH4K0bW8"
-          }
-        }
+        authorization
       };
-      const { status, txHash } = await TokensRepository.transfer(transferTokenPayload);
+      const { txHash } = await TokensRepository.transfer(transferTokenPayload);
 
-      if (status === "alreadyExecuted") {
-        throw new Error("transferToken error: alreadyExecuted");
-      }
       return txHash;
     } catch (error: unknown) {
-      console.log(error);
       if (error instanceof Error) {
         throw new Error(`transferToken error: ${error.message}`);
       }

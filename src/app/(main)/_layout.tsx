@@ -1,5 +1,3 @@
-import { useMemo } from "react";
-
 import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
 
 import Loading from "../_loading";
@@ -10,13 +8,9 @@ import MainRoutes from "./_routes";
 const MainLayout = () => {
   const { account, hasPrivateKey, createHinomaruWallet } = useHinomaruWalletContext();
 
-  const isLoading = useMemo(() => {
-    return !account && hasPrivateKey;
-  }, [account, hasPrivateKey]);
+  const isLoading = !account && hasPrivateKey;
 
-  const hasWallet = useMemo(() => {
-    return account && hasPrivateKey;
-  }, [account, hasPrivateKey]);
+  const hasWallet = account && hasPrivateKey;
 
   if (isLoading) return <Loading />;
 
