@@ -4,7 +4,9 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/gluestack/*": ["src/vendor/gluestack-ui/*"],
+      "@/*": ["src/*", "./*"],
+      "tailwind.config": ["./tailwind.config.js"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]

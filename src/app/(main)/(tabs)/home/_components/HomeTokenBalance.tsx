@@ -1,27 +1,29 @@
-import { Text, Spinner, HStack, useToken } from "@gluestack-ui/themed";
+import React from "react";
+import { ActivityIndicator } from "react-native";
 
+import { HStack } from "@/gluestack/hstack";
+import { Text } from "@/gluestack/text";
 import { formatUpToN } from "@/helpers/number";
 import { useTokenBalanceContext } from "@/providers/TokenBalanceProvider";
 import { Token, TOKEN_TO_SYMBOL_ICON } from "@/registries/TokenRegistry";
+import { theme } from "@/styles/theme";
 
-type HomeTokenBalanceProps = {
-  token: Token;
-};
+type HomeTokenBalanceProps = { token: Token };
 
-const HomeTokenBalance = (props: HomeTokenBalanceProps) => {
-  const { token } = props;
+const HomeTokenBalance = ({ token }: HomeTokenBalanceProps) => {
   const tokenBalanceResult = useTokenBalanceContext();
-  const symbolIconColor = useToken<"colors">("colors", "primary500");
 
   const balance = tokenBalanceResult[token].balance;
-  if (!balance) return <Spinner size={34.3} color="$primary400" />;
+  if (!balance) {
+    return <ActivityIndicator color={theme.colors.primary[400]} style={{ transform: [{ scale: 34.3 / 18 }] }} />;
+  }
 
   const TokenSymboIcon = TOKEN_TO_SYMBOL_ICON[token];
 
   return (
-    <HStack alignItems="center" columnGap="$2">
-      <TokenSymboIcon size={28} color={symbolIconColor} />
-      <Text fontSize="$5xl" color="$primary500" fontWeight="$bold" lineHeight="$3xl">
+    <HStack className="flex-row items-center gap-x-2">
+      <TokenSymboIcon size={28} color={theme.colors.primary[500]} />
+      <Text className="font-heading font-bold text-primary-500 text-[32px] leading-[40px]">
         {formatUpToN(Number(balance), 3)}
       </Text>
     </HStack>

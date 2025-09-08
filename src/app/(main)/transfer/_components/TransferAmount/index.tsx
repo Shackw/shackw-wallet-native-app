@@ -1,5 +1,5 @@
-import { VStack, Text } from "@gluestack-ui/themed";
-
+import { Text } from "@/gluestack/text";
+import { VStack } from "@/gluestack/vstack";
 import { Token } from "@/registries/TokenRegistry";
 
 import { UseTransferAmountFormResult } from "../../_hooks/useTransferAmountForm";
@@ -14,21 +14,15 @@ const TransferAmount = (props: TransferAmountProps) => {
   const { transferableAmount, feeAmount, amountError, handleAmountSubmit } = props.form;
 
   return (
-    <VStack alignItems="center" minHeight={185} py="$3" rowGap={2}>
-      <Text w="$full" fontWeight="$bold">
-        金額
-      </Text>
+    <VStack className="items-center min-h-[185px] py-3 gap-y-2">
+      <Text className="w-full font-bold">金額</Text>
       <TransferAmountInput
         token={token}
         transferableAmount={transferableAmount}
         handleAmountSubmit={handleAmountSubmit}
       />
       <TransferAmountSummary token={token} transferableAmount={transferableAmount} feeAmount={feeAmount} />
-      {amountError && (
-        <Text w="$full" color="$primary600" fontSize="$sm" fontWeight="$bold" mt="$2">
-          {amountError}
-        </Text>
-      )}
+      {amountError && <Text className="w-full text-primary-600 text-sm font-bold mt-2">{amountError}</Text>}
     </VStack>
   );
 };

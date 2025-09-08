@@ -1,5 +1,5 @@
-import { Text, HStack } from "@gluestack-ui/themed";
-
+import { HStack } from "@/gluestack/hstack";
+import { Text } from "@/gluestack/text";
 import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
 
 import useLastTransactionElement from "../_hooks/useLastTransactionElement";
@@ -9,11 +9,9 @@ const HomeLastTransactionAt = () => {
   const { element, pl, optinalElement } = useLastTransactionElement(lastTransactionResult);
 
   return (
-    <HStack columnGap="$0.5" alignItems="center">
-      <Text fontSize="$md" lineHeight="$sm" color="$secondary800">
-        最終取引日時：
-      </Text>
-      <Text fontSize="$md" lineHeight="$sm" color="$secondary800" w={103} pl={pl}>
+    <HStack className="flex-row items-center gap-x-0.5">
+      <Text className="text-base leading-5 text-secondary-800">最終取引日時：</Text>
+      <Text className="text-base leading-5 text-secondary-800 w-[103px]" style={{ paddingLeft: pl }}>
         {element}
         {optinalElement}
       </Text>

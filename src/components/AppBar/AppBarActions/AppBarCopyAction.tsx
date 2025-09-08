@@ -13,7 +13,7 @@ const AppBarCopyAction = () => {
     setStringAsync(account.address);
   };
 
-  return <IconButton icon={Copy} iconSize="xl" handlePress={handleCopyAddress} />;
+  return <IconButton icon={Copy} iconSize={24} onPress={handleCopyAddress} />;
 };
 
 export default AppBarCopyAction;

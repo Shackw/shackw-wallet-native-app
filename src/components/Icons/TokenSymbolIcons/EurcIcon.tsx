@@ -1,11 +1,12 @@
-import { Box } from "@gluestack-ui/themed";
 import React from "react";
 import Svg, { G, Path } from "react-native-svg";
+
+import { Box } from "@/gluestack/box";
 
 import { TokenSymbolIconProps } from ".";
 
 export const EurcIcon = ({ size = 32, color = "#FFFFFF" }: TokenSymbolIconProps) => (
-  <Box width={size} height={size}>
+  <Box style={{ width: size, height: size }}>
     <Svg width="100%" height="100%" viewBox="0 0 380.000000 380.000000">
       <G transform="translate(0.000000,380.000000) scale(0.100000,-0.100000)" fill={color} stroke="none">
         <Path d="M1340 3604 c-139 -45 -362 -158 -480 -241 -122 -87 -336 -301 -423 -423 -84 -119 -196 -342 -242 -482 -65 -203 -80 -305 -80 -558 0 -253 15 -355 80 -558 46 -140 158 -363 242 -482 87 -122 301 -336 423 -423 120 -85 342 -196 483 -242 60 -19 110 -35 113 -35 2 0 4 67 4 149 l0 148 -77 28 c-193 68 -396 198 -552 355 -501 504 -579 1301 -187 1889 181 272 447 483 739 586 l77 28 0 148 c0 82 -3 149 -7 149 -5 -1 -55 -17 -113 -36z" />

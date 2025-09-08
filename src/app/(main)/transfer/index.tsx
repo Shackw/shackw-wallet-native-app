@@ -1,4 +1,3 @@
-import { VStack } from "@gluestack-ui/themed";
 import { useState } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Address } from "viem";
@@ -6,6 +5,7 @@ import { Address } from "viem";
 import { ContainButton } from "@/components/Button";
 import { ScreenContainer } from "@/components/Container";
 import { Tab } from "@/components/Tab";
+import { VStack } from "@/gluestack/vstack";
 import { useTransferToken } from "@/hooks/mutations/useTransferToken";
 import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
 import { Token, TOKENS } from "@/registries/TokenRegistry";
@@ -42,20 +42,26 @@ const TransferScreen = () => {
   };
 
   return (
-    <ScreenContainer title="送信" bgColor="$white" borderTopLeftRadius={12} borderTopRightRadius={12}>
+    <ScreenContainer title="送信" className="bg-white rounded-t-[12px]">
       <KeyboardAwareScrollView
         contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 12, paddingVertical: 8 }}
         enableOnAndroid={true}
         extraScrollHeight={20}
       >
-        <VStack rowGap="$5" alignItems="center" flex={1}>
+        <VStack className="gap-y-5 items-center flex-1">
           <Tab options={TOKENS} value={selectedToken} handleChange={setSelectedToken} />
-          <VStack px="$5" rowGap="$1.5">
+          <VStack className="px-5 gap-y-1.5">
             <TransferAmount token={selectedToken} form={amountForm} />
             <TransferRecipient form={recipientForm} />
           </VStack>
         </VStack>
-        <ContainButton text="確認画面へ" size="lg" w="$full" isDisabled={!isValid} mb={5} onPress={handleSubmit} />
+        <ContainButton
+          text="確認画面へ"
+          size="lg"
+          isDisabled={!isValid}
+          onPress={handleSubmit}
+          className="w-full mb-[5px]"
+        />
       </KeyboardAwareScrollView>
     </ScreenContainer>
   );

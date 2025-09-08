@@ -2,9 +2,9 @@ import {
   Actionsheet as GlueStackUiActionsheet,
   ActionsheetBackdrop,
   ActionsheetContent,
-  ActionsheetDragIndicator,
-  ActionsheetDragIndicatorWrapper
-} from "@gluestack-ui/themed";
+  ActionsheetDragIndicatorWrapper,
+  ActionsheetDragIndicator
+} from "@/gluestack/actionsheet";
 
 type ActionsheetProps = { isOpen: boolean; handleClose: () => void; children: React.ReactNode };
 
@@ -14,7 +14,7 @@ const Actionsheet = (props: ActionsheetProps) => {
     <GlueStackUiActionsheet isOpen={isOpen} onClose={handleClose}>
       <ActionsheetBackdrop />
       <ActionsheetContent>
-        <ActionsheetDragIndicatorWrapper paddingBottom="$6">
+        <ActionsheetDragIndicatorWrapper className="pb-6">
           <ActionsheetDragIndicator />
           {children}
         </ActionsheetDragIndicatorWrapper>

@@ -1,4 +1,5 @@
-import { HStack, Text } from "@gluestack-ui/themed";
+import { HStack } from "@/gluestack/hstack";
+import { Text } from "@/gluestack/text";
 
 type AppBarOverlayBodyProps = {
   title: string;
@@ -6,10 +7,8 @@ type AppBarOverlayBodyProps = {
 
 const AppBarOverlayBody = ({ title }: AppBarOverlayBodyProps) => {
   return (
-    <HStack alignItems="center" marginHorizontal="auto">
-      <Text size="lg" color="white" fontWeight="bold">
-        {title}
-      </Text>
+    <HStack className="self-center items-center">
+      <Text className="text-lg font-bold text-white">{title}</Text>
     </HStack>
   );
 };

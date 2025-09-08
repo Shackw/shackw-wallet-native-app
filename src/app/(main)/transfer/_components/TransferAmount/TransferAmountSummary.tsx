@@ -1,5 +1,6 @@
-import { Text, HStack, VStack } from "@gluestack-ui/themed";
-
+import { HStack } from "@/gluestack/hstack";
+import { Text } from "@/gluestack/text";
+import { VStack } from "@/gluestack/vstack";
 import { formatUpToN } from "@/helpers/number";
 import { Token } from "@/registries/TokenRegistry";
 
@@ -9,38 +10,20 @@ type TransferAmountSummaryProps = {
   feeAmount: number;
 };
 
-const TransferAmountSummary = (props: TransferAmountSummaryProps) => {
-  const { token, transferableAmount, feeAmount } = props;
-
+const TransferAmountSummary = ({ token, transferableAmount, feeAmount }: TransferAmountSummaryProps) => {
   return (
-    <VStack w="$full" rowGap="$1">
-      <HStack w="$full">
-        <Text color="$secondary700" fontSize="$md" w="50%" pl="$3" pr="$2.5" textAlign="right" lineHeight="$sm">
-          送金可能額
+    <VStack className="w-full gap-y-1">
+      <HStack className="w-full flex-row">
+        <Text className="text-secondary-700 text-base w-1/2 pl-3 pr-2.5 text-right leading-5">送金可能額</Text>
+        <Text className="text-secondary-700 text-base w-1/2 px-2.5 pr-3 text-left leading-5">
+          {`${formatUpToN(transferableAmount, 3)} ${token}`}
         </Text>
-        <Text
-          color="$secondary700"
-          fontSize="$md"
-          w="50%"
-          px="$2.5"
-          pr="$3"
-          textAlign="left"
-          lineHeight="$sm"
-        >{`${formatUpToN(transferableAmount, 3)} ${token}`}</Text>
       </HStack>
-      <HStack w="$full">
-        <Text color="$secondary700" fontSize="$md" w="50%" pl="$3" pr="$2.5" textAlign="right" lineHeight="$sm">
-          送金手数料
+      <HStack className="w-full flex-row">
+        <Text className="text-secondary-700 text-base w-1/2 pl-3 pr-2.5 text-right leading-5">送金手数料</Text>
+        <Text className="text-secondary-700 text-base w-1/2 px-2.5 pr-3 text-left leading-5">
+          {`${formatUpToN(feeAmount, 3)} ${token}`}
         </Text>
-        <Text
-          color="$secondary700"
-          fontSize="$md"
-          w="50%"
-          px="$2.5"
-          pr="$3"
-          textAlign="left"
-          lineHeight="$sm"
-        >{`${formatUpToN(feeAmount, 3)} ${token}`}</Text>
       </HStack>
     </VStack>
   );
