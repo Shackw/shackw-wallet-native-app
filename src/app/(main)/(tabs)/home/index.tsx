@@ -1,8 +1,9 @@
-import { Divider, Text } from "@gluestack-ui/themed";
 import { useState } from "react";
 
 import { ScreenContainer } from "@/components/Container";
 import { Tab } from "@/components/Tab";
+import { Divider } from "@/gluestack/divider";
+import { Text } from "@/gluestack/text";
 import { Token, TOKENS } from "@/registries/TokenRegistry";
 
 import HomeAction from "./_components/HomeAction";
@@ -14,15 +15,13 @@ const HomeScreen = () => {
   const [currentTab, setCurrentTab] = useState<Token>("JPYC");
 
   return (
-    <ScreenContainer px="$4" alignItems="center">
+    <ScreenContainer className="px-4 items-center">
       <HomeMainBody>
         <Tab options={TOKENS} value={currentTab} handleChange={setCurrentTab} />
-        <Text color="$primary500" fontWeight="$bold">
-          現在高
-        </Text>
+        <Text className="text-primary-500 font-bold">現在高</Text>
         <HomeTokenBalance token={currentTab} />
         <HomeLastTransactionAt />
-        <Divider w="90%" bg="$secondary50" />
+        <Divider className="w-[90%] bg-secondary-50" />
         <HomeAction />
       </HomeMainBody>
     </ScreenContainer>

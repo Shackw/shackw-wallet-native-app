@@ -1,6 +1,5 @@
-import { VStack } from "@gluestack-ui/themed";
-
 import { ContainButton } from "@/components/Button";
+import { VStack } from "@/gluestack/vstack";
 
 type OnBordingProps = {
   createHinomaruWallet: () => Promise<void>;
@@ -9,7 +8,7 @@ type OnBordingProps = {
 const OnBording = (props: OnBordingProps) => {
   const { createHinomaruWallet } = props;
   return (
-    <VStack bg="$white" w="$full" h="$full" alignItems="center" justifyContent="center">
+    <VStack className="bg-white w-full h-full items-center justify-center">
       <ContainButton text="新作成" size="sm" onPress={createHinomaruWallet} />
     </VStack>
   );

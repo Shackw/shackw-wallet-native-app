@@ -9,7 +9,7 @@ const AppBarRouterBackAction = () => {
   const handlePress = () => {
     router.back();
   };
-  return <IconButton icon={X} iconSize="xl" handlePress={handlePress} />;
+  return <IconButton icon={X} iconSize={22} onPress={handlePress} />;
 };
 
 export default AppBarRouterBackAction;

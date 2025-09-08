@@ -1,38 +1,31 @@
-import { Input, InputField, Text, VStack } from "@gluestack-ui/themed";
-import { useState } from "react";
+import React, { useState } from "react";
+
+import { Input, InputField } from "@/gluestack/input";
+import { Text } from "@/gluestack/text";
+import { VStack } from "@/gluestack/vstack";
 
 import { useTransferRecipientFormResult } from "../_hooks/useTransferRecipientForm";
 
 type TransferRecipientProps = { form: useTransferRecipientFormResult };
 
-const TransferRecipient = (props: TransferRecipientProps) => {
-  const [inputRecipient, setInputRecipient] = useState<string>();
-  const { recipientError, handleRecipientSubmit } = props.form;
+const TransferRecipient = ({ form }: TransferRecipientProps) => {
+  const [inputRecipient, setInputRecipient] = useState<string>("");
+  const { recipientError, handleRecipientSubmit } = form;
 
   return (
-    <VStack alignItems="center" minHeight={110} rowGap="$3">
-      <Text w="$full" fontWeight="$bold">
-        宛先
-      </Text>
-      <Input variant="outline" size="lg">
+    <VStack className="items-center min-h-[110px] gap-y-3">
+      <Text className="w-full font-bold">宛先</Text>
+      <Input className="h-13 rounded-lg border border-outline px-3">
         <InputField
-          fontSize="$sm"
+          className="text-sm"
           keyboardType="numbers-and-punctuation"
           placeholder="パブリックアドレス(0x)"
           value={inputRecipient}
-          onChangeText={text => {
-            setInputRecipient(text);
-          }}
-          onEndEditing={e => {
-            handleRecipientSubmit(e.nativeEvent.text);
-          }}
+          onChangeText={text => setInputRecipient(text)}
+          onEndEditing={e => handleRecipientSubmit(e.nativeEvent.text)}
         />
       </Input>
-      {recipientError && (
-        <Text w="$full" color="$primary600" fontSize="$sm" fontWeight="$bold">
-          {recipientError}
-        </Text>
-      )}
+      {recipientError && <Text className="w-full text-primary-600 text-sm font-bold">{recipientError}</Text>}
     </VStack>
   );
 };

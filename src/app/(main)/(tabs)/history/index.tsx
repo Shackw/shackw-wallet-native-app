@@ -1,6 +1,6 @@
-import { HStack, Text } from "@gluestack-ui/themed";
-
 import { ScreenContainer } from "@/components/Container";
+import { HStack } from "@/gluestack/hstack";
+import { Text } from "@/gluestack/text";
 
 const HistoryScreen = () => {
   return (

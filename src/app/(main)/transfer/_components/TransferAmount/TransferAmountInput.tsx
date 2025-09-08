@@ -1,7 +1,11 @@
-import { Input, InputField, Pressable, Text, useToken, VStack } from "@gluestack-ui/themed";
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { Pressable } from "react-native";
 
+import { Input, InputField } from "@/gluestack/input";
+import { Text } from "@/gluestack/text";
+import { VStack } from "@/gluestack/vstack";
 import { Token, TOKEN_TO_SYMBOL_ICON } from "@/registries/TokenRegistry";
+import { theme } from "@/styles/theme";
 
 import { UseTransferAmountFormResult } from "../../_hooks/useTransferAmountForm";
 
@@ -14,12 +18,10 @@ type TransferAmountInputProps = {
   handleAmountSubmit: UseTransferAmountFormResult["handleAmountSubmit"];
 };
 
-const TransferAmountInput = (props: TransferAmountInputProps) => {
-  const { token, transferableAmount, handleAmountSubmit } = props;
+const TransferAmountInput = ({ token, transferableAmount, handleAmountSubmit }: TransferAmountInputProps) => {
   const [inputAmount, setInputAmount] = useState<string>("");
 
   const TokenSymboIcon = TOKEN_TO_SYMBOL_ICON[token];
-  const symbolIconColor = useToken<"colors">("colors", "secondary900");
 
   const inputWidth = useMemo<number>(() => (inputAmount.length + 1) * CHAR_WIDTH + PADDING, [inputAmount]);
 
@@ -34,8 +36,9 @@ const TransferAmountInput = (props: TransferAmountInputProps) => {
   };
 
   const handleSetTransferableAmount = () => {
-    setInputAmount(transferableAmount.toString());
-    handleAmountSubmit(transferableAmount.toString());
+    const v = transferableAmount.toString();
+    setInputAmount(v);
+    handleAmountSubmit(v);
   };
 
   useEffect(() => {
@@ -44,19 +47,18 @@ const TransferAmountInput = (props: TransferAmountInputProps) => {
   }, [token, handleAmountSubmit]);
 
   return (
-    <VStack w="$full" alignItems="center">
-      <Pressable w="$full" onPress={handleSetTransferableAmount}>
-        <Text fontSize="$sm" fontWeight="$bold" color="$primary500" textAlign="right">
-          最大額を使用
-        </Text>
+    <VStack className="w-full items-center">
+      <Pressable onPress={handleSetTransferableAmount} className="w-full">
+        <Text className="text-right text-sm font-bold text-primary-500">最大額を使用</Text>
       </Pressable>
-      <Input h={52} borderWidth={0} alignItems="center" maxWidth="$full" minWidth={80} w={inputWidth}>
-        <TokenSymboIcon size={28} color={symbolIconColor} />
+      <Input
+        className="h-[52px] border-0 items-center max-w-full min-w-[80px] flex-row gap-2"
+        style={{ width: inputWidth }}
+      >
+        <TokenSymboIcon size={28} color={theme.colors.secondary[900]} />
         <InputField
-          fontSize={48}
-          color="$secondary900"
+          className="text-[48px] leading-[52px] text-secondary-900"
           keyboardType="numeric"
-          textAlign="left"
           placeholder="0"
           value={inputAmount}
           onChangeText={handleChangeText}

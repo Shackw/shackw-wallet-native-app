@@ -1,5 +1,5 @@
-import { ActionsheetIcon, ActionsheetItem, ActionsheetItemText, VStack } from "@gluestack-ui/themed";
-
+import { ActionsheetItem, ActionsheetIcon, ActionsheetItemText } from "@/gluestack/actionsheet";
+import { VStack } from "@/gluestack/vstack";
 import { BOTTOM_TAB_ACTION_SHEET_ITEMS } from "@/registries/BottomTabRegistry";
 
 type BottomTabActionSheetItemType = {
@@ -9,18 +9,13 @@ type BottomTabActionSheetItemType = {
   handlePress: () => void;
 };
 
-const BottomTabActionSheetItem = (props: BottomTabActionSheetItemType) => {
-  const { label, description, icon, handlePress } = props;
+const BottomTabActionSheetItem = ({ label, description, icon, handlePress }: BottomTabActionSheetItemType) => {
   return (
-    <ActionsheetItem onPress={handlePress} px="$4" columnGap="$4" height="$20">
-      <ActionsheetIcon as={icon} size="xl" color="$primary500" />
+    <ActionsheetItem onPress={handlePress} className="px-4 gap-4 h-20">
+      <ActionsheetIcon as={icon} size="xl" className="text-primary-500" />
       <VStack>
-        <ActionsheetItemText size="lg" color="$secondary700" fontWeight="$bold">
-          {label}
-        </ActionsheetItemText>
-        <ActionsheetItemText size="xs" color="$secondary1000">
-          {description}
-        </ActionsheetItemText>
+        <ActionsheetItemText className="text-lg font-bold text-secondary-700">{label}</ActionsheetItemText>
+        <ActionsheetItemText className="text-xs text-secondary-900">{description}</ActionsheetItemText>
       </VStack>
     </ActionsheetItem>
   );

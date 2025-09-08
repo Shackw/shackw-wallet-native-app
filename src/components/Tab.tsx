@@ -1,5 +1,9 @@
-import { HStack, VStack, Text, Pressable, Divider } from "@gluestack-ui/themed";
-import { useMemo } from "react";
+import React from "react";
+import { Pressable, View } from "react-native";
+
+import { HStack } from "@/gluestack/hstack";
+import { Text } from "@/gluestack/text";
+import { VStack } from "@/gluestack/vstack";
 
 type TabProps<T extends readonly string[]> = {
   options: T;
@@ -10,50 +14,43 @@ type TabProps<T extends readonly string[]> = {
 type TabElementProps<T extends readonly string[]> = {
   label: T[number];
   isSelected: boolean;
-  /** Width ratio (value between 0 and 1, where 1 represents 100%) */
+  /** Width percent (0–100) */
   widthRatio: number;
   handleChange: React.Dispatch<React.SetStateAction<T[number]>>;
 };
 
-const TabElement = <T extends readonly string[]>(props: TabElementProps<T>) => {
-  const { label, isSelected, widthRatio, handleChange } = props;
-
-  const fontColor = useMemo<React.ComponentProps<typeof Text>["color"]>(() => {
-    if (isSelected) return "$secondary900";
-    return "$secondary600";
-  }, [isSelected]);
-
-  const bottomBorderColor = useMemo<React.ComponentProps<typeof Divider>["bgColor"]>(() => {
-    if (isSelected) return "$primary500";
-    return "$transparent";
-  }, [isSelected]);
-
-  const handlePress = () => {
-    handleChange(label);
-  };
+const TabElement = <T extends readonly string[]>({
+  label,
+  isSelected,
+  widthRatio,
+  handleChange
+}: TabElementProps<T>) => {
+  const textColor = isSelected ? "text-secondary-900" : "text-secondary-600";
+  const barColor = isSelected ? "bg-primary-500" : "bg-transparent";
 
   return (
-    <Pressable w={`${widthRatio}%`} onPress={handlePress}>
-      <VStack alignItems="center" justifyContent="center">
-        <Text color={fontColor} fontWeight="$bold" py="$3.5">
-          {label}
-        </Text>
-        <Divider w="100%" h="$0.5" bgColor={bottomBorderColor} />
+    <Pressable
+      onPress={() => handleChange(label)}
+      className="items-center justify-center"
+      style={{ width: `${widthRatio}%` }}
+      accessibilityRole="button"
+    >
+      <VStack className="items-center justify-center">
+        <Text className={`font-bold py-3.5 ${textColor}`}>{label}</Text>
+        <View className={`w-full ${barColor}`} style={{ height: 2 }} />
       </VStack>
     </Pressable>
   );
 };
 
-export const Tab = <T extends readonly string[]>(props: TabProps<T>) => {
-  const { options, value, handleChange } = props;
-
+export const Tab = <T extends readonly string[]>({ options, value, handleChange }: TabProps<T>) => {
   const widthRatio = 100 / options.length;
 
   return (
-    <HStack w="100%" borderBottomWidth="$1" borderBottomColor="$secondary100">
-      {options.map((option, index) => (
+    <HStack className="w-full flex-row border-b border-secondary-100">
+      {options.map(option => (
         <TabElement
-          key={index}
+          key={String(option)}
           label={option}
           isSelected={option === value}
           widthRatio={widthRatio}
