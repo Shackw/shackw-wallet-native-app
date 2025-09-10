@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Address } from "viem";
+import { Address, Hex } from "viem";
 
 import { formatUnixTimestampToJST } from "@/helpers/datetime";
 import { toDecimals } from "@/helpers/tokenUnits";
@@ -8,6 +8,7 @@ import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
 import { Token } from "@/registries/TokenRegistry";
 
 export type HistoryViewModel = {
+  txHash: Hex;
   token: Token;
   value: number;
   counterparty: Address;
@@ -28,16 +29,17 @@ const useHistoryRows = (props: UseHistoryRowsProps) => {
     { enabled: !!account?.address }
   );
 
-  const historyRows = useMemo(() => {
-    if (!transactions) return undefined;
+  const historyRows = useMemo<HistoryViewModel[] | undefined>(() => {
+    if (!transactions || !account) return undefined;
 
     return transactions.map(v => {
-      const direction = v.to === account?.address ? "IN" : "OUT";
+      const direction = v.to === account.address ? "IN" : "OUT";
       const counterparty = direction === "IN" ? v.from : v.to;
 
       const decimals = toDecimals(v.value, token);
       const value = direction === "OUT" ? decimals * -1 : decimals;
       return {
+        txHash: v.txHash,
         token,
         value,
         counterparty,
