@@ -4,10 +4,12 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 
 import { RootContainer } from "@/components/Container";
-import { GluestackUIProvider } from "@/gluestack/gluestack-ui-provider";
-import { StatusBar } from "@/gluestack/status-bar";
 import { useFonts } from "@/hooks/useFonts";
 import { HinomaruWalletProvider } from "@/providers/HinomaruWalletProvider";
+import { GluestackUIProvider } from "@/vendor/gluestack-ui/gluestack-ui-provider";
+import { StatusBar } from "@/vendor/gluestack-ui/status-bar";
+
+import "@/styles/global.css";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -24,7 +26,7 @@ const RootLayout = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <HinomaruWalletProvider>
-        <GluestackUIProvider mode="light">
+        <GluestackUIProvider>
           <RootContainer>
             <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
             <Stack

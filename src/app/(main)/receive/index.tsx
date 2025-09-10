@@ -1,6 +1,6 @@
 import { ScreenContainer } from "@/components/Container";
-import { HStack } from "@/gluestack/hstack";
-import { Text } from "@/gluestack/text";
+import { HStack } from "@/vendor/gluestack-ui/hstack";
+import { Text } from "@/vendor/gluestack-ui/text";
 
 const ReceiveScreen = () => {
   return (

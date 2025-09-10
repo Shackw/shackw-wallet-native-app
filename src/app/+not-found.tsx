@@ -1,9 +1,9 @@
 import { Stack, Link } from "expo-router";
 
-import { Button } from "@/gluestack/button";
-import { Center } from "@/gluestack/center";
-import { Text } from "@/gluestack/text";
-import { VStack } from "@/gluestack/vstack";
+import { Button } from "@/vendor/gluestack-ui/button";
+import { Center } from "@/vendor/gluestack-ui/center";
+import { Text } from "@/vendor/gluestack-ui/text";
+import { VStack } from "@/vendor/gluestack-ui/vstack";
 
 const NotFoundScreen = () => {
   return (

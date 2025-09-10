@@ -1,12 +1,12 @@
 import React from "react";
-import { ActivityIndicator } from "react-native";
 
-import { HStack } from "@/gluestack/hstack";
-import { Text } from "@/gluestack/text";
 import { formatUpToN } from "@/helpers/number";
 import { useTokenBalanceContext } from "@/providers/TokenBalanceProvider";
 import { Token, TOKEN_TO_SYMBOL_ICON } from "@/registries/TokenRegistry";
 import { theme } from "@/styles/theme";
+import { HStack } from "@/vendor/gluestack-ui/hstack";
+import { Spinner } from "@/vendor/gluestack-ui/spinner";
+import { Text } from "@/vendor/gluestack-ui/text";
 
 type HomeTokenBalanceProps = { token: Token };
 
@@ -14,9 +14,7 @@ const HomeTokenBalance = ({ token }: HomeTokenBalanceProps) => {
   const tokenBalanceResult = useTokenBalanceContext();
 
   const balance = tokenBalanceResult[token].balance;
-  if (!balance) {
-    return <ActivityIndicator color={theme.colors.primary[400]} style={{ transform: [{ scale: 34.3 / 18 }] }} />;
-  }
+  if (!balance) return <Spinner color={theme.colors.primary[400]} size={34.3} />;
 
   const TokenSymboIcon = TOKEN_TO_SYMBOL_ICON[token];
 

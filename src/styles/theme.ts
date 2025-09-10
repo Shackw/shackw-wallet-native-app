@@ -23,27 +23,6 @@ export const theme = {
       700: "#6e6e6e",
       800: "#4e4e4e",
       900: "#2e2e2e"
-    },
-    outline: "#e0e0e0",
-    surface: "#ffffff",
-    error: "#dc2626",
-    success: "#16a34a",
-    warning: "#f59e0b"
-  },
-  fontFamily: {
-    sans: ["NotoSansJP", "System"],
-    heading: ["Inter", "System"],
-    mono: ["Courier", "monospace"]
-  },
-  fontSize: {
-    xs: [12, { lineHeight: 18 }],
-    sm: [14, { lineHeight: 20 }],
-    base: [16, { lineHeight: 24 }],
-    lg: [18, { lineHeight: 28 }],
-    xl: [20, { lineHeight: 28 }],
-    "2xl": [24, { lineHeight: 32 }]
-  },
-  borderRadius: { sm: 8, md: 12, lg: 16, full: 9999 },
-  spacing: { 11: 44, 13: 52, 15: 60 },
-  opacity: { disabled: "0.4" }
+    }
+  }
 } as const;

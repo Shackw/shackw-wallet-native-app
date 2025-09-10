@@ -1,3 +1,5 @@
+import { Token } from "@/registries/TokenRegistry";
+
 import type { Address, Hex } from "viem";
 
 export type TransactionModel = {
@@ -12,3 +14,5 @@ export type TransactionModel = {
 };
 
 export type GetLastTransactionCommand = { wallet: Address };
+
+export type ListTransactionsByTermCommand = { wallet: Address; token: Token; timeFrom: Date; timeTo: Date };

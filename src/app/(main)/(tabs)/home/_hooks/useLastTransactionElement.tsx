@@ -1,11 +1,12 @@
 import { UseQueryResult } from "@tanstack/react-query";
 import { RefreshCcw } from "lucide-react-native";
 import React, { useCallback, useMemo } from "react";
-import { ActivityIndicator, Pressable, View } from "react-native";
+import { Pressable, View } from "react-native";
 
 import { formatUnixTimestampToJST } from "@/helpers/datetime";
 import { TransactionModel } from "@/models/transaction";
 import { theme } from "@/styles/theme";
+import { Spinner } from "@/vendor/gluestack-ui/spinner";
 
 type LastTransactionElementProps = {
   element: React.ReactNode;
@@ -39,7 +40,7 @@ const useLastTransactionElement = (
 
     if (lastTransaction === undefined || isLoading) {
       return {
-        element: <ActivityIndicator color={theme.colors.secondary[400]} style={{ transform: [{ scale: 16 / 18 }] }} />,
+        element: <Spinner size={16} color={theme.colors.secondary[500]} />,
         pl: 20
       };
     }

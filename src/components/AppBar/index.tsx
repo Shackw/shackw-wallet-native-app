@@ -1,5 +1,5 @@
-import { Box } from "@/gluestack/box";
-import { HStack } from "@/gluestack/hstack";
+import { Box } from "@/vendor/gluestack-ui/box";
+import { HStack } from "@/vendor/gluestack-ui/hstack";
 
 import AppBarActions from "./AppBarActions";
 import AppBarBody from "./AppBarBody";

@@ -1,6 +1,6 @@
-import { ActionsheetItem, ActionsheetIcon, ActionsheetItemText } from "@/gluestack/actionsheet";
-import { VStack } from "@/gluestack/vstack";
 import { BOTTOM_TAB_ACTION_SHEET_ITEMS } from "@/registries/BottomTabRegistry";
+import { ActionsheetItem, ActionsheetIcon, ActionsheetItemText } from "@/vendor/gluestack-ui/actionsheet";
+import { VStack } from "@/vendor/gluestack-ui/vstack";
 
 type BottomTabActionSheetItemType = {
   label: (typeof BOTTOM_TAB_ACTION_SHEET_ITEMS)[number]["label"];

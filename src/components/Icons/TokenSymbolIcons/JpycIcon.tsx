@@ -1,7 +1,7 @@
 import React from "react";
 import Svg, { G, Path } from "react-native-svg";
 
-import { Box } from "@/gluestack/box";
+import { Box } from "@/vendor/gluestack-ui/box";
 
 import { TokenSymbolIconProps } from ".";
 

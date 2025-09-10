@@ -1,4 +1,4 @@
-import { HStack } from "@/gluestack/hstack";
+import { HStack } from "@/vendor/gluestack-ui/hstack";
 
 import AppBarCopyAction from "./AppBarCopyAction";
 import AppBarRouterBackAction from "./AppBarRouterBackAction";

@@ -4,7 +4,7 @@ import {
   ActionsheetContent,
   ActionsheetDragIndicatorWrapper,
   ActionsheetDragIndicator
-} from "@/gluestack/actionsheet";
+} from "@/vendor/gluestack-ui/actionsheet";
 
 type ActionsheetProps = { isOpen: boolean; handleClose: () => void; children: React.ReactNode };
 
@@ -14,10 +14,10 @@ const Actionsheet = (props: ActionsheetProps) => {
     <GlueStackUiActionsheet isOpen={isOpen} onClose={handleClose}>
       <ActionsheetBackdrop />
       <ActionsheetContent>
-        <ActionsheetDragIndicatorWrapper className="pb-6">
+        <ActionsheetDragIndicatorWrapper>
           <ActionsheetDragIndicator />
-          {children}
         </ActionsheetDragIndicatorWrapper>
+        {children}
       </ActionsheetContent>
     </GlueStackUiActionsheet>
   );

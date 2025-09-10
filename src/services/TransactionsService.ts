@@ -1,6 +1,6 @@
 import { subMonths } from "date-fns";
 
-import { GetLastTransactionCommand, TransactionModel } from "@/models/transaction";
+import { GetLastTransactionCommand, ListTransactionsByTermCommand, TransactionModel } from "@/models/transaction";
 import { TOKENS } from "@/registries/TokenRegistry";
 import { TransactionsRepository } from "@/repositories/TransactionsRepository";
 import { SearchTransactionPayload } from "@/repositories/TransactionsRepository/interface";
@@ -23,6 +23,26 @@ export const TransactionsService = {
         throw new Error(`getLastTransaction error: ${error.message}`, { cause: error });
       }
       throw new Error(`getLastTransaction unknown error: ${String(error)}`);
+    }
+  },
+
+  async listTransactionsByTerm(command: ListTransactionsByTermCommand): Promise<TransactionModel[]> {
+    const { wallet, token, timeFrom, timeTo } = command;
+    const payload: SearchTransactionPayload = {
+      wallet,
+      tokens: [{ symbol: token }],
+      timeFrom,
+      timeTo
+    };
+    try {
+      const searched = await TransactionsRepository.search(payload);
+      return searched;
+    } catch (error: unknown) {
+      console.log(error);
+      if (error instanceof Error) {
+        throw new Error(`listTransactionsByTerm error: ${error.message}`, { cause: error });
+      }
+      throw new Error(`listTransactionsByTerm unknown error: ${String(error)}`);
     }
   }
 };
