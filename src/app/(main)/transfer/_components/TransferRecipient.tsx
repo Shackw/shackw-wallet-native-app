@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import { Input, InputField } from "@/gluestack/input";
-import { Text } from "@/gluestack/text";
-import { VStack } from "@/gluestack/vstack";
+import { Input, InputField } from "@/vendor/gluestack-ui/input";
+import { Text } from "@/vendor/gluestack-ui/text";
+import { VStack } from "@/vendor/gluestack-ui/vstack";
 
 import { useTransferRecipientFormResult } from "../_hooks/useTransferRecipientForm";
 

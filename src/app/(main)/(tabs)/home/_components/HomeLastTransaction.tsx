@@ -1,6 +1,6 @@
-import { HStack } from "@/gluestack/hstack";
-import { Text } from "@/gluestack/text";
 import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
+import { HStack } from "@/vendor/gluestack-ui/hstack";
+import { Text } from "@/vendor/gluestack-ui/text";
 
 import useLastTransactionElement from "../_hooks/useLastTransactionElement";
 

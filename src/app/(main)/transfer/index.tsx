@@ -5,10 +5,10 @@ import { Address } from "viem";
 import { ContainButton } from "@/components/Button";
 import { ScreenContainer } from "@/components/Container";
 import { Tab } from "@/components/Tab";
-import { VStack } from "@/gluestack/vstack";
 import { useTransferToken } from "@/hooks/mutations/useTransferToken";
 import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
 import { Token, TOKENS } from "@/registries/TokenRegistry";
+import { VStack } from "@/vendor/gluestack-ui/vstack";
 
 import TransferAmount from "./_components/TransferAmount";
 import TransferRecipient from "./_components/TransferRecipient";

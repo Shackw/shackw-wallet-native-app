@@ -1,5 +1,5 @@
-import { Text } from "@/gluestack/text";
 import { theme } from "@/styles/theme";
+import { Text } from "@/vendor/gluestack-ui/text";
 
 import type { LucideIcon } from "lucide-react-native";
 

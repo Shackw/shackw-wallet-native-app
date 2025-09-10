@@ -1,8 +1,8 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { Box } from "@/gluestack/box";
 import { theme } from "@/styles/theme";
+import { Box } from "@/vendor/gluestack-ui/box";
 
 import { AppBar, AppBarProps } from "./AppBar";
 
@@ -22,11 +22,11 @@ export const RootContainer = ({ children }: { children: React.ReactNode }) => {
 type ScreenContainerProps = React.ComponentProps<typeof Box> & AppBarProps;
 
 export const ScreenContainer = (props: ScreenContainerProps) => {
-  const { title, children, ...rest } = props;
+  const { title, children, className, ...rest } = props;
   return (
     <Box className="flex-1">
       <AppBar title={title} />
-      <Box {...rest} className="flex-1">
+      <Box {...rest} className={`flex-1 ${className}`}>
         {children}
       </Box>
     </Box>

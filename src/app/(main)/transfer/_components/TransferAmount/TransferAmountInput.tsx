@@ -1,11 +1,11 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Pressable } from "react-native";
 
-import { Input, InputField } from "@/gluestack/input";
-import { Text } from "@/gluestack/text";
-import { VStack } from "@/gluestack/vstack";
 import { Token, TOKEN_TO_SYMBOL_ICON } from "@/registries/TokenRegistry";
 import { theme } from "@/styles/theme";
+import { Input, InputField } from "@/vendor/gluestack-ui/input";
+import { Text } from "@/vendor/gluestack-ui/text";
+import { VStack } from "@/vendor/gluestack-ui/vstack";
 
 import { UseTransferAmountFormResult } from "../../_hooks/useTransferAmountForm";
 

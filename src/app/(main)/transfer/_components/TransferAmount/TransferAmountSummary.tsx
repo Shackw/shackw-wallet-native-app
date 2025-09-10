@@ -1,8 +1,8 @@
-import { HStack } from "@/gluestack/hstack";
-import { Text } from "@/gluestack/text";
-import { VStack } from "@/gluestack/vstack";
 import { formatUpToN } from "@/helpers/number";
 import { Token } from "@/registries/TokenRegistry";
+import { HStack } from "@/vendor/gluestack-ui/hstack";
+import { Text } from "@/vendor/gluestack-ui/text";
+import { VStack } from "@/vendor/gluestack-ui/vstack";
 
 type TransferAmountSummaryProps = {
   token: Token;

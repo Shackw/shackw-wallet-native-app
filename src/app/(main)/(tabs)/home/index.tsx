@@ -2,9 +2,9 @@ import { useState } from "react";
 
 import { ScreenContainer } from "@/components/Container";
 import { Tab } from "@/components/Tab";
-import { Divider } from "@/gluestack/divider";
-import { Text } from "@/gluestack/text";
 import { Token, TOKENS } from "@/registries/TokenRegistry";
+import { Divider } from "@/vendor/gluestack-ui/divider";
+import { Text } from "@/vendor/gluestack-ui/text";
 
 import HomeAction from "./_components/HomeAction";
 import HomeLastTransactionAt from "./_components/HomeLastTransaction";

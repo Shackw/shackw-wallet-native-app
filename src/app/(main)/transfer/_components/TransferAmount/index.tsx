@@ -1,6 +1,6 @@
-import { Text } from "@/gluestack/text";
-import { VStack } from "@/gluestack/vstack";
 import { Token } from "@/registries/TokenRegistry";
+import { Text } from "@/vendor/gluestack-ui/text";
+import { VStack } from "@/vendor/gluestack-ui/vstack";
 
 import { UseTransferAmountFormResult } from "../../_hooks/useTransferAmountForm";
 

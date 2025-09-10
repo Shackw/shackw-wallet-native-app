@@ -1,5 +1,5 @@
 import { ContainButton } from "@/components/Button";
-import { VStack } from "@/gluestack/vstack";
+import { VStack } from "@/vendor/gluestack-ui/vstack";
 
 type OnBordingProps = {
   createHinomaruWallet: () => Promise<void>;

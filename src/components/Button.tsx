@@ -1,8 +1,9 @@
 import React from "react";
 import { ActivityIndicator } from "react-native";
 
-import { Button, ButtonText } from "@/gluestack/button";
 import { buttonSizeToStyleMap } from "@/styles/button";
+import { theme } from "@/styles/theme";
+import { Button, ButtonText } from "@/vendor/gluestack-ui/button";
 
 import type { LucideIcon } from "lucide-react-native";
 import type { ViewStyle } from "react-native";
@@ -164,10 +165,10 @@ export const SubContainButton = ({
       testID={testID}
     >
       {isLoading ? (
-        <Spinner color="#4e4e4e" sizePx={cfg.spinnerSize} />
+        <Spinner color={theme.colors.secondary[800]} sizePx={cfg.spinnerSize} />
       ) : (
         <>
-          {icon && <IconLeft Icon={icon} color="#4e4e4e" />}
+          {icon && <IconLeft Icon={icon} color={theme.colors.secondary[800]} />}
           <ButtonText className={["font-heading font-bold", fontClass[cfg.fontSize], "text-secondary-800"].join(" ")}>
             {text}
           </ButtonText>
