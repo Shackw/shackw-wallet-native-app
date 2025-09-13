@@ -1,7 +1,7 @@
 {
   "name": "hinomaru-wallet-app",
   "version": "0.1.0",
-  "description": "HinomaruWallet is a non-custodial mobile wallet focused on stablecoin with ERC-4337 support, Paymaster gas abstraction, and simple DeFi features on Base.",
+  "description": "HinomaruWallet is a non-custodial mobile wallet focused on stablecoin with EIP-7702 support.",
   "author": "FickleWolf",
   "main": "./src/index.ts",
   "scripts": {
@@ -24,6 +24,7 @@
     "@react-native-async-storage/async-storage": "2.1.2",
     "@react-native-community/netinfo": "11.4.1",
     "@react-navigation/native": "^7.1.6",
+    "@tanstack/react-form": "^1.19.5",
     "@tanstack/react-query": "^5.83.0",
     "babel-plugin-module-resolver": "^5.0.2",
     "buffer": "^6.0.3",

@@ -8,6 +8,7 @@ import { Tab } from "@/components/Tab";
 import { useTransferToken } from "@/hooks/mutations/useTransferToken";
 import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
 import { Token, TOKENS } from "@/registries/TokenRegistry";
+import { Box } from "@/vendor/gluestack-ui/box";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
 
 import TransferAmount from "./_components/TransferAmount";
@@ -18,10 +19,11 @@ import useTransferRecipientForm from "./_hooks/useTransferRecipientForm";
 const TransferScreen = () => {
   const { account, client } = useHinomaruWalletContext();
   const [selectedToken, setSelectedToken] = useState<Token>("JPYC");
-  const { mutateAsync: transferToken } = useTransferToken();
 
   const recipientForm = useTransferRecipientForm();
   const amountForm = useTransferAmountForm({ token: selectedToken });
+
+  const { mutateAsync: transferToken } = useTransferToken();
 
   const { recipient, isRecipientValid } = recipientForm;
   const { amount, isAmountValid } = amountForm;
@@ -43,25 +45,25 @@ const TransferScreen = () => {
 
   return (
     <ScreenContainer title="送信" className="bg-white rounded-t-[12px]">
-      <KeyboardAwareScrollView
-        contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 12, paddingVertical: 8 }}
-        enableOnAndroid={true}
-        extraScrollHeight={20}
-      >
-        <VStack className="gap-y-5 items-center flex-1">
-          <Tab options={TOKENS} value={selectedToken} handleChange={setSelectedToken} />
-          <VStack className="px-5 gap-y-1.5">
-            <TransferAmount token={selectedToken} form={amountForm} />
-            <TransferRecipient form={recipientForm} />
+      <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }} enableOnAndroid={true} extraScrollHeight={20}>
+        <Box className="py-[8px] flex-1">
+          <Box className="px-[12px]">
+            <Tab options={TOKENS} value={selectedToken} handleChange={setSelectedToken} />
+          </Box>
+          <VStack className="flex-1 justify-between bg-secondary-100">
+            <VStack className="gap-y-1.5">
+              <TransferRecipient form={recipientForm} />
+              <TransferAmount token={selectedToken} form={amountForm} />
+            </VStack>
+            <ContainButton
+              text="確認画面へ"
+              size="lg"
+              isDisabled={!isValid}
+              onPress={handleSubmit}
+              className="w-full mb-[5px]"
+            />
           </VStack>
-        </VStack>
-        <ContainButton
-          text="確認画面へ"
-          size="lg"
-          isDisabled={!isValid}
-          onPress={handleSubmit}
-          className="w-full mb-[5px]"
-        />
+        </Box>
       </KeyboardAwareScrollView>
     </ScreenContainer>
   );
