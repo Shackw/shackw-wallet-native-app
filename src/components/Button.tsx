@@ -1,9 +1,9 @@
 import React from "react";
-import { ActivityIndicator } from "react-native";
 
 import { buttonSizeToStyleMap } from "@/styles/button";
 import { theme } from "@/styles/theme";
 import { Button, ButtonText } from "@/vendor/gluestack-ui/button";
+import { Spinner } from "@/vendor/gluestack-ui/spinner";
 
 import type { LucideIcon } from "lucide-react-native";
 import type { ViewStyle } from "react-native";
@@ -99,11 +99,6 @@ function BaseButton({
 
 const IconLeft = ({ Icon, color }: { Icon: LucideIcon; color: string }) => <Icon size={20} color={color} />;
 
-const Spinner = ({ color, sizePx }: { color: string; sizePx: number }) => {
-  const scale = sizePx / 18;
-  return <ActivityIndicator color={color} style={{ transform: [{ scale }] }} />;
-};
-
 export const ContainButton = ({
   text,
   size,
@@ -128,7 +123,7 @@ export const ContainButton = ({
       testID={testID}
     >
       {isLoading ? (
-        <Spinner color="#ffffff" sizePx={cfg.spinnerSize} />
+        <Spinner color="#ffffff" size={16} />
       ) : (
         <>
           {icon && <IconLeft Icon={icon} color="#ffffff" />}
@@ -165,7 +160,7 @@ export const SubContainButton = ({
       testID={testID}
     >
       {isLoading ? (
-        <Spinner color={theme.colors.secondary[800]} sizePx={cfg.spinnerSize} />
+        <Spinner color={theme.colors.secondary[800]} size={16} />
       ) : (
         <>
           {icon && <IconLeft Icon={icon} color={theme.colors.secondary[800]} />}
@@ -207,7 +202,7 @@ export const OutlineButton = ({
       testID={testID}
     >
       {isLoading ? (
-        <Spinner color="#f94c4c" sizePx={cfg.spinnerSize} />
+        <Spinner color="#f94c4c" size={16} />
       ) : (
         <>
           {icon && <IconLeft Icon={icon} color="#f94c4c" />}
