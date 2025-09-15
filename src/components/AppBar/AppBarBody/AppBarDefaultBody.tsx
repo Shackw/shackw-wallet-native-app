@@ -11,7 +11,7 @@ const AppBarDefaultBody = () => {
   return (
     <HStack className="w-full justify-center">
       {accountAddress ? (
-        <Text className="text-base font-bold text-white">{shortenAddress(accountAddress)}</Text>
+        <Text className="font-bold text-white">{shortenAddress(accountAddress)}</Text>
       ) : (
         <Spinner size="small" color="white" />
       )}

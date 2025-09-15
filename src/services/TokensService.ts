@@ -26,7 +26,7 @@ export const TokensService = {
   },
 
   async transferToken(command: TransferTokenCommand): Promise<Hex> {
-    const { account, client, token, recipient, amountDecimals } = command;
+    const { account, client, token, feeToken, recipient, amountDecimals } = command;
 
     const createQuotePayload: CreateQuotePayload = {
       chainId: DEFAULT_CHAIN.id,
@@ -36,7 +36,7 @@ export const TokensService = {
         symbol: token
       },
       feeToken: {
-        symbol: token
+        symbol: feeToken
       },
       amountMinUnits: toMinUnits(amountDecimals, token)
     };

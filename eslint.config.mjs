@@ -10,6 +10,7 @@ export default [
     },
     rules: {
       "prettier/prettier": "error",
+      "react/no-children-prop": "off",
       "import/order": [
         "warn",
         {
