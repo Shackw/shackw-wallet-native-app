@@ -1,6 +1,7 @@
 import Anchor from "@/components/Anchor";
 import { DEFAULT_CHAIN } from "@/configs/chain";
 import { shortenAddress } from "@/helpers/address";
+import { formatUpToN } from "@/helpers/number";
 import { Box } from "@/vendor/gluestack-ui/box";
 import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { TableRow } from "@/vendor/gluestack-ui/table";
@@ -38,7 +39,7 @@ const HistoryTableRow = (props: HistoryTableRowProps) => {
           <Text className="font-bold" size="lg">
             {shortenAddress(counterparty, 12)}
           </Text>
-          <Text className="font-bold text-right" size="xl">{`${value} ${token}`}</Text>
+          <Text className="font-bold text-right" size="xl">{`${formatUpToN(value, 4)} ${token}`}</Text>
         </VStack>
       </HStack>
     </TableRow>

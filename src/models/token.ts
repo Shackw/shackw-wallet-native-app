@@ -8,6 +8,7 @@ export type TransferTokenCommand = {
   account: Account;
   client: WalletClient;
   token: Token;
+  feeToken: Token;
   recipient: Address;
   amountDecimals: number;
 };

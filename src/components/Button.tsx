@@ -10,6 +10,8 @@ import type { ViewStyle } from "react-native";
 
 type ButtonSize = keyof typeof buttonSizeToStyleMap;
 
+type ButtonProps = React.ComponentProps<typeof Button>;
+
 type CommonProps = {
   text: string;
   size: ButtonSize;
@@ -58,7 +60,7 @@ function BaseButton({
   size,
   disabled,
   className,
-  style,
+  action,
   onPress,
   testID
 }: {
@@ -66,7 +68,7 @@ function BaseButton({
   size: ButtonSize;
   disabled?: boolean;
   className?: string;
-  style?: ViewStyle;
+  action?: ButtonProps["action"];
   onPress?: () => void;
   testID?: string;
 }) {
@@ -77,6 +79,7 @@ function BaseButton({
 
   return (
     <Button
+      action={action}
       onPress={onPress}
       disabled={!!disabled}
       accessibilityRole="button"
@@ -89,7 +92,6 @@ function BaseButton({
         disabled ? "opacity-disabled" : "",
         className ?? ""
       ].join(" ")}
-      style={({ pressed }) => (pressed && !disabled ? [{ opacity: 0.85 } as ViewStyle, style] : style)}
       testID={testID}
     >
       {children}
@@ -107,7 +109,6 @@ export const ContainButton = ({
   isDisabled = false,
   onPress,
   className,
-  style,
   testID
 }: CommonProps) => {
   const cfg = buttonSizeToStyleMap[size];
@@ -116,14 +117,14 @@ export const ContainButton = ({
   return (
     <BaseButton
       size={size}
+      action="primary"
       disabled={disabled}
       onPress={onPress}
       className={[disabled ? "bg-secondary-500" : "bg-primary-500", className ?? ""].join(" ")}
-      style={style}
       testID={testID}
     >
       {isLoading ? (
-        <Spinner color="#ffffff" size={16} />
+        <Spinner color="#ffffff" size={20} />
       ) : (
         <>
           {icon && <IconLeft Icon={icon} color="#ffffff" />}
@@ -144,7 +145,6 @@ export const SubContainButton = ({
   isDisabled = false,
   onPress,
   className,
-  style,
   testID
 }: CommonProps) => {
   const cfg = buttonSizeToStyleMap[size];
@@ -153,14 +153,14 @@ export const SubContainButton = ({
   return (
     <BaseButton
       size={size}
+      action="secondary"
       disabled={disabled}
       onPress={onPress}
       className={[disabled ? "bg-secondary-700" : "bg-secondary-200", className ?? ""].join(" ")}
-      style={style}
       testID={testID}
     >
       {isLoading ? (
-        <Spinner color={theme.colors.secondary[800]} size={16} />
+        <Spinner color={theme.colors.secondary[800]} size={20} />
       ) : (
         <>
           {icon && <IconLeft Icon={icon} color={theme.colors.secondary[800]} />}
@@ -181,7 +181,6 @@ export const OutlineButton = ({
   isDisabled = false,
   onPress,
   className,
-  style,
   testID
 }: CommonProps) => {
   const cfg = buttonSizeToStyleMap[size];
@@ -198,11 +197,10 @@ export const OutlineButton = ({
         "border-[2.3px]",
         className ?? ""
       ].join(" ")}
-      style={style}
       testID={testID}
     >
       {isLoading ? (
-        <Spinner color="#f94c4c" size={16} />
+        <Spinner color="#f94c4c" size={20} />
       ) : (
         <>
           {icon && <IconLeft Icon={icon} color="#f94c4c" />}

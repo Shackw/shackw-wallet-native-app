@@ -1,30 +1,46 @@
+import { useStore } from "@tanstack/react-form";
+import { ViewProps } from "react-native";
+
 import { formatUpToN } from "@/helpers/number";
-import { Token } from "@/registries/TokenRegistry";
 import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { Text } from "@/vendor/gluestack-ui/text";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
 
+import { TransferFormContextType } from "../../_hooks/useTransferForm";
+
 type TransferAmountSummaryProps = {
-  token: Token;
-  transferableAmount: number;
-  feeAmount: number;
+  display: "sendable" | "fee" | "both";
+  transferForm: TransferFormContextType;
+  className?: ViewProps["className"];
 };
 
-const TransferAmountSummary = ({ token, transferableAmount, feeAmount }: TransferAmountSummaryProps) => {
+const TransferAmountSummary = (props: TransferAmountSummaryProps) => {
+  const { display, transferForm, className } = props;
+  const { form, sendToken, maxSendable, fee } = transferForm;
+  const feeToken = useStore(form.baseStore, s => s.values.feeToken);
+
   return (
-    <VStack className="w-full gap-y-1">
-      <HStack className="w-full flex-row">
-        <Text className="text-secondary-700 text-base w-1/2 pl-3 pr-2.5 text-right leading-5">送金可能額</Text>
-        <Text className="text-secondary-700 text-base w-1/2 px-2.5 pr-3 text-left leading-5">
-          {`${formatUpToN(transferableAmount, 3)} ${token}`}
-        </Text>
-      </HStack>
-      <HStack className="w-full flex-row">
-        <Text className="text-secondary-700 text-base w-1/2 pl-3 pr-2.5 text-right leading-5">送金手数料</Text>
-        <Text className="text-secondary-700 text-base w-1/2 px-2.5 pr-3 text-left leading-5">
-          {`${formatUpToN(feeAmount, 3)} ${token}`}
-        </Text>
-      </HStack>
+    <VStack className={`w-full bg-white ${className}`}>
+      {["sendable", "both"].includes(display) && (
+        <HStack className="w-full h-[50px] items-center justify-between gap-x-5">
+          <Text size="md" className="font-bold text-secondary-600 ">
+            送金可能額
+          </Text>
+          <Text size="lg" className="flex-1 font-bold text-right">
+            {`${formatUpToN(maxSendable, 3)} ${sendToken}`}
+          </Text>
+        </HStack>
+      )}
+      {["fee", "both"].includes(display) && (
+        <HStack className="w-full h-[50px] items-center justify-between gap-x-5">
+          <Text size="md" className="font-bold text-secondary-600 ">
+            手数料
+          </Text>
+          <Text size="lg" className="flex-1 font-bold text-right">
+            {fee ? `${formatUpToN(fee.feeDecimals, 3)} ${feeToken}` : "ー"}
+          </Text>
+        </HStack>
+      )}
     </VStack>
   );
 };
