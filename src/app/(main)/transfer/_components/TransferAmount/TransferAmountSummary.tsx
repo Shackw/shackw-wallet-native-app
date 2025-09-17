@@ -1,7 +1,8 @@
 import { useStore } from "@tanstack/react-form";
 import { ViewProps } from "react-native";
 
-import { formatUpToN } from "@/helpers/number";
+import { toAllowedStr } from "@/helpers/tokenUnits";
+import { Token } from "@/registries/TokenRegistry";
 import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { Text } from "@/vendor/gluestack-ui/text";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
@@ -27,7 +28,7 @@ const TransferAmountSummary = (props: TransferAmountSummaryProps) => {
             送金可能額
           </Text>
           <Text size="lg" className="flex-1 font-bold text-right">
-            {`${formatUpToN(maxSendable, 3)} ${sendToken}`}
+            {`${toAllowedStr(maxSendable, sendToken)} ${sendToken}`}
           </Text>
         </HStack>
       )}
@@ -37,7 +38,7 @@ const TransferAmountSummary = (props: TransferAmountSummaryProps) => {
             手数料
           </Text>
           <Text size="lg" className="flex-1 font-bold text-right">
-            {fee ? `${formatUpToN(fee.feeDecimals, 3)} ${feeToken}` : "ー"}
+            {fee ? `${toAllowedStr(fee.feeDecimals, feeToken as Token)} ${feeToken}` : "ー"}
           </Text>
         </HStack>
       )}

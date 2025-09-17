@@ -41,6 +41,12 @@ export class ApiError extends Error {
   }
 }
 
+export type HinomaruApiErrorBody = {
+  statusCode: number;
+  errors: { code: string; message: string }[];
+  timestamp: Date;
+};
+
 const bigintReplacer = (_: string, v: unknown) => (typeof v === "bigint" ? v.toString() : v);
 
 function withQuery(url: string, query?: RequestOptions["query"]) {

@@ -16,7 +16,7 @@ const TransferScreen = () => {
   const [selectedToken, setSelectedToken] = useState<Token>("JPYC");
 
   return (
-    <ScreenContainer title="送信" className="bg-white rounded-t-[12px]">
+    <ScreenContainer title="送信" className="bg-white rounded-t-2xl">
       <Box className="py-[8px] flex-1">
         <Box className="px-[12px]">
           <Tab options={TOKENS} value={selectedToken} handleChange={setSelectedToken} />

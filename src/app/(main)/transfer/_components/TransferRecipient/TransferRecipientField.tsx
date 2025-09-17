@@ -30,8 +30,9 @@ const TransferRecipientField = (props: TransferRecipientFieldProps) => {
   }, [componentProps, form, prevValue]);
 
   const handleClear = useCallback(() => {
+    const isDefaultValue = form.getFieldMeta("recipient")?.isDefaultValue ?? true;
     form.resetField("recipient");
-    componentProps.onClose();
+    if (isDefaultValue) componentProps.onClose();
   }, [componentProps, form]);
 
   const handleSubmit = useCallback(() => {
@@ -66,14 +67,21 @@ const TransferRecipientField = (props: TransferRecipientFieldProps) => {
                   </Input>
                 </VStack>
                 <HStack className="gap-x-4">
-                  <SubContainButton text="クリア" size="lg" className="flex-1" onPress={handleClear} />
+                  <SubContainButton
+                    text={field.state.meta.isDefaultValue ? "閉じる" : "クリア"}
+                    size="lg"
+                    className="flex-1"
+                    onPress={handleClear}
+                  />
                   <ContainButton text="確定" size="lg" className="flex-1" onPress={handleSubmit} />
                 </HStack>
               </VStack>
               <Dialog title="宛先入力不正" isOpen={isShowErrorDialog} onClose={setIsShowErrorDialog.off} size="lg">
                 <VStack className="py-4 gap-y-1">
                   {field.state.meta.errors.map((error, index) => (
-                    <ErrorText key={`recipient-error-${index}`}>{error?.message}</ErrorText>
+                    <ErrorText key={`recipient-error-${index}`} className="flex-1">
+                      {error?.message}
+                    </ErrorText>
                   ))}
                 </VStack>
               </Dialog>

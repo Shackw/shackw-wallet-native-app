@@ -1,5 +1,6 @@
 import { Hex } from "viem";
 
+import { ApiError, HinomaruApiErrorBody } from "@/clients/restClient";
 import { DEFAULT_CHAIN } from "@/configs/chain";
 import { VIEM_PUBLIC_CLIENT } from "@/configs/viem";
 import { toDecimalsStr, toMinUnits } from "@/helpers/tokenUnits";
@@ -62,10 +63,16 @@ export const TokensService = {
 
       return txHash;
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        throw new Error(`transferToken error: ${error.message}`);
+      let mes = "送金処理中に不明なエラーが発生しました。";
+      if (error instanceof ApiError) {
+        const body = error.body as HinomaruApiErrorBody;
+        const code = body.errors[0].code;
+
+        if (code === "BAD_REQUEST") mes = "リクエスト内容が不正です。";
+        if (code.includes("INSUFFICIENT")) mes = "残高が不足しています。";
+        throw new Error(mes);
       }
-      throw new Error(`transferToken unknown error: ${String(error)}`);
+      throw new Error(`${mes}: ${String(error)}`);
     }
   }
 };
