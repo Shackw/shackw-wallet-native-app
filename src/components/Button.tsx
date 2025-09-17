@@ -218,6 +218,7 @@ type IconButtonProps = {
   iconSize?: number;
   iconColor?: string;
   bgClassName?: string;
+  action?: string;
   onPress?: () => void;
   className?: string;
   style?: ViewStyle;
@@ -229,6 +230,7 @@ export const IconButton = ({
   iconSize = 20,
   iconColor = "#ffffff",
   bgClassName = "bg-transparent",
+  action,
   onPress,
   className,
   style,
@@ -236,6 +238,7 @@ export const IconButton = ({
 }: IconButtonProps) => {
   return (
     <Button
+      action={action}
       onPress={onPress}
       className={[
         "w-0 h-0 px-[18px] py-[18px] rounded-[32px] items-center justify-center",

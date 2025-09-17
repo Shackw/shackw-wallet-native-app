@@ -41,8 +41,9 @@ const TransferAmountField = (props: TransferAmountFieldProps) => {
   }, [componentProps, form, prevValue]);
 
   const handleClear = useCallback(() => {
+    const isDefaultValue = form.getFieldMeta("amount")?.isDefaultValue ?? true;
     form.resetField("amount");
-    componentProps.onClose();
+    if (isDefaultValue) componentProps.onClose();
   }, [componentProps, form]);
 
   const handleSubmit = useCallback(() => {
@@ -82,14 +83,21 @@ const TransferAmountField = (props: TransferAmountFieldProps) => {
                   <TransferAmountSummary transferForm={transferForm} display="sendable" />
                 </VStack>
                 <HStack className="gap-x-4">
-                  <SubContainButton text="クリア" size="lg" className="flex-1" onPress={handleClear} />
+                  <SubContainButton
+                    text={field.state.meta.isDefaultValue ? "閉じる" : "クリア"}
+                    size="lg"
+                    className="flex-1"
+                    onPress={handleClear}
+                  />
                   <ContainButton text="確定" size="lg" className="flex-1" onPress={handleSubmit} />
                 </HStack>
               </VStack>
               <Dialog title="送金額入力不正" isOpen={isShowErrorDialog} onClose={setIsShowErrorDialog.off} size="lg">
                 <VStack className="py-4 gap-y-1">
                   {field.state.meta.errors.map((error, index) => (
-                    <ErrorText key={`amount-error-${index}`}>{error?.message}</ErrorText>
+                    <ErrorText key={`amount-error-${index}`} className="flex-1">
+                      {error?.message}
+                    </ErrorText>
                   ))}
                 </VStack>
               </Dialog>

@@ -16,7 +16,7 @@ export const BottomInputDrawer = (props: Omit<DrawerProps, "anchor">) => {
   return (
     <GlueStackUiDrawer {...rest} anchor="bottom">
       <DrawerBackdrop />
-      <DrawerContent>
+      <DrawerContent className="rounded-t-2xl">
         <DrawerHeader className="relative">
           <Text size="lg" className="font-bold text-center w-full">
             {title}

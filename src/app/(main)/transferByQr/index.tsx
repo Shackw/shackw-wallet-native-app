@@ -4,7 +4,7 @@ import { Text } from "@/vendor/gluestack-ui/text";
 
 const TransferByQrScreen = () => {
   return (
-    <ScreenContainer title="スキャンして送信" className="bg-white rounded-t-[12px]">
+    <ScreenContainer title="スキャンして送信" className="bg-white rounded-t-2xl">
       <HStack>
         <Text>TransferByQrScreen</Text>
       </HStack>
