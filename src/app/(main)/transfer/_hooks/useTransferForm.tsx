@@ -4,14 +4,14 @@ import { createContext, PropsWithChildren, useContext, useEffect, useMemo } from
 import * as v from "valibot";
 import { isAddress, zeroAddress } from "viem";
 
-import { toDecimals } from "@/helpers/tokenUnits";
+import { toDecimals, toAllowed } from "@/helpers/tokenUnits";
 import { useTransferFee } from "@/hooks/queries/useTransferFee";
 import { FeeModel } from "@/models/fee";
 import { useTokenBalanceContext } from "@/providers/TokenBalanceProvider";
 import { Token, TOKEN_REGISTRY, TOKENS } from "@/registries/TokenRegistry";
 
 const buildTransferSchema = (sendToken: Token, maxSendable: number) => {
-  const fraction = TOKEN_REGISTRY[sendToken]?.decimals ?? 6;
+  const fraction = TOKEN_REGISTRY[sendToken].supportDecimals;
   const minAmount = toDecimals(TOKEN_REGISTRY[sendToken].minTransferAmountUnits, sendToken);
   const amountPattern = new RegExp(`^\\d+(?:\\.\\d{1,${fraction}})?$`);
 
@@ -72,7 +72,8 @@ const TransferFormContext = createContext<TransferFormContextType | undefined>(u
 export const TransferFormProvider = (props: PropsWithChildren<Pick<TransferFormProviderProps, "sendToken">>) => {
   const { sendToken, children } = props;
   const tokenBalances = useTokenBalanceContext();
-  const maxSendable = Number(tokenBalances[sendToken]?.balance ?? 0);
+  const balance = Number(tokenBalances[sendToken]?.balance ?? 0);
+  const maxSendable = toAllowed(balance, sendToken);
 
   const form = useTransferFormProvider({ sendToken, maxSendable });
 

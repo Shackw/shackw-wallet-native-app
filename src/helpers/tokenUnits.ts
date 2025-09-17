@@ -15,3 +15,24 @@ export const toDecimalsStr = (minUnits: bigint, token: Token): string => {
   const { decimals } = TOKEN_REGISTRY[token];
   return formatUnits(minUnits, decimals);
 };
+
+const _truncateAllowed = (amount: number, token: Token): number => {
+  if (!Number.isFinite(amount)) return amount;
+  const d = Math.max(0, TOKEN_REGISTRY[token].supportDecimals | 0);
+  if (d === 0) return Math.trunc(amount);
+  const f = 10 ** d;
+  return amount >= 0 ? Math.floor(amount * f) / f : Math.ceil(amount * f) / f;
+};
+
+export const toAllowed = (amount: number, token: Token): number => _truncateAllowed(amount, token);
+
+export const toAllowedStr = (amount: number, token: Token, useGrouping = false): string => {
+  if (!Number.isFinite(amount)) return "";
+  const truncated = _truncateAllowed(amount, token);
+  const { locale, supportDecimals } = TOKEN_REGISTRY[token];
+  return new Intl.NumberFormat(locale, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: Math.max(0, supportDecimals),
+    useGrouping
+  }).format(truncated);
+};

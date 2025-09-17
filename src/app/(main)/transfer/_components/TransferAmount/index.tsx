@@ -2,6 +2,7 @@ import { useStore } from "@tanstack/react-form";
 import { useCallback, useEffect, useState } from "react";
 import { Pressable } from "react-native";
 
+import { toAllowedStr } from "@/helpers/tokenUnits";
 import { useBoolean } from "@/hooks/useBoolean";
 import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { Text } from "@/vendor/gluestack-ui/text";
@@ -43,7 +44,7 @@ const TransferAmount = () => {
           <Pressable className="flex-1" onPress={handleEdit}>
             {(isEditing && prevValue) || (!isEditing && amount) ? (
               <Text size="2xl" className="font-bold text-right">
-                {`${amount} ${sendToken}`}
+                {`${toAllowedStr(amount ?? 0, sendToken)} ${sendToken}`}
               </Text>
             ) : (
               <Text size="xl" className="text-primary-600 font-bold text-center">
