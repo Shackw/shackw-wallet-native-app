@@ -3,10 +3,9 @@ import { Address, parseAbiItem } from "viem";
 import { VIEM_PUBLIC_CLIENT } from "@/configs/viem";
 import { blockNumberByTimestamp } from "@/helpers/block";
 import { toUnixSec } from "@/helpers/datetime";
-import { TransactionModel } from "@/models/transaction";
-import { TOKEN_TO_ADDRESS } from "@/registries/TokenRegistry";
+import { TOKEN_REGISTRY } from "@/registries/TokenRegistry";
 
-import { SearchTransactionPayload } from "./interface";
+import { SearchRpcTransactionPayload, RpcTransactionModel } from "./interface";
 
 const transferEvt = parseAbiItem("event Transfer(address indexed from, address indexed to, uint256 value)");
 const blockTsCache = new Map<bigint, number>();
@@ -14,8 +13,8 @@ const blockTsCache = new Map<bigint, number>();
 const CONCURRENCY = 6;
 const DEFAULT_CHUNK = 10_000n;
 
-export const TransactionsRepository = {
-  async search(paylaod: SearchTransactionPayload): Promise<TransactionModel[]> {
+export const RpcTransactionsRepository = {
+  async search(paylaod: SearchRpcTransactionPayload): Promise<RpcTransactionModel[]> {
     const { tokens, wallet, timeFrom, timeTo, limit, chunkSize = DEFAULT_CHUNK, direction = "both" } = paylaod;
 
     const latest = await VIEM_PUBLIC_CLIENT.getBlockNumber();
@@ -24,7 +23,7 @@ export const TransactionsRepository = {
 
     if (fromBlock > toBlock) return [];
 
-    const tokenAddrs = [...new Set(tokens.map(t => TOKEN_TO_ADDRESS[t.symbol]))];
+    const tokenAddrs = [...new Set(tokens.map(t => TOKEN_REGISTRY[t.symbol].address))];
     if (tokenAddrs.length === 0) return [];
 
     const ranges: { from: bigint; to: bigint }[] = [];
@@ -36,7 +35,7 @@ export const TransactionsRepository = {
     }
 
     const want = limit ?? Number.POSITIVE_INFINITY;
-    const results: TransactionModel[] = [];
+    const results: RpcTransactionModel[] = [];
     const seen = new Set<string>();
 
     for (let i = 0; i < ranges.length && results.length < want; i += CONCURRENCY) {
@@ -68,7 +67,7 @@ export const TransactionsRepository = {
             );
           }
           const logs = (await Promise.all(q)).flat();
-          if (logs.length === 0) return [] as TransactionModel[];
+          if (logs.length === 0) return [] as RpcTransactionModel[];
 
           const uniqBns = [...new Set(logs.map(l => l.blockNumber! as bigint))];
           await Promise.all(
@@ -86,7 +85,7 @@ export const TransactionsRepository = {
             return ab === bb ? b.logIndex - a.logIndex : ab < bb ? 1 : -1;
           });
 
-          const items: TransactionModel[] = [];
+          const items: RpcTransactionModel[] = [];
           for (const l of logs) {
             if (!l.blockNumber || !l.transactionHash) continue;
             items.push({
