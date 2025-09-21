@@ -5,7 +5,7 @@ import { DEFAULT_CHAIN } from "@/configs/chain";
 import { VIEM_PUBLIC_CLIENT } from "@/configs/viem";
 import { toDecimalsStr, toMinUnits } from "@/helpers/tokenUnits";
 import { GetTokenBalanceCommand, TransferTokenCommand } from "@/models/token";
-import { TOKEN_TO_CONTRACT } from "@/registries/TokenRegistry";
+import { TOKEN_REGISTRY } from "@/registries/TokenRegistry";
 import { QuotesRepository } from "@/repositories/QuotesRepository";
 import { CreateQuotePayload } from "@/repositories/QuotesRepository/interface";
 import { TokensRepository } from "@/repositories/TokensRepository";
@@ -14,7 +14,7 @@ import { TransferTokenPayload } from "@/repositories/TokensRepository/interface"
 export const TokensService = {
   async getTokenBalance(command: GetTokenBalanceCommand): Promise<string> {
     const { wallet, token } = command;
-    const erc20Contract = TOKEN_TO_CONTRACT[token];
+    const erc20Contract = TOKEN_REGISTRY[token].contract;
     try {
       const balance = await erc20Contract.read.balanceOf([wallet]);
       return toDecimalsStr(balance, token);

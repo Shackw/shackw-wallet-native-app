@@ -63,12 +63,8 @@ export const TOKEN_REGISTRY = {
   }
 } as const satisfies Record<Token, TokenMeta>;
 
-export const TOKEN_TO_ADDRESS = Object.fromEntries(Object.entries(TOKEN_REGISTRY).map(([k, v]) => [k, v.address]));
-
-export const TOKEN_TO_CONTRACT = Object.fromEntries(Object.entries(TOKEN_REGISTRY).map(([k, v]) => [k, v.contract]));
-
-export const TOKEN_DECIMALS = Object.fromEntries(
-  Object.entries(TOKEN_REGISTRY).map(([k, v]) => [k, { decimals: v.decimals, baseUnit: v.baseUnit }])
-);
-
-export const TOKEN_TO_SYMBOL_ICON = Object.fromEntries(Object.entries(TOKEN_REGISTRY).map(([k, v]) => [k, v.Icon]));
+export const ADDRESS_TO_TOKEN = {
+  [ENV.JPYC_TOKEN_ADDRESS.toLowerCase() as Address]: "JPYC",
+  [ENV.USDC_TOKEN_ADDRESS.toLowerCase() as Address]: "USDC",
+  [ENV.EURC_TOKEN_ADDRESS.toLowerCase() as Address]: "EURC"
+} as const satisfies Record<Address, Token>;

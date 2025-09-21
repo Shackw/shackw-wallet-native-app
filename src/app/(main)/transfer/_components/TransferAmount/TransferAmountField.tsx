@@ -7,7 +7,7 @@ import Dialog from "@/components/Dialog";
 import { BottomInputDrawer } from "@/components/Drawer";
 import { ErrorText } from "@/components/Text";
 import { useBoolean } from "@/hooks/useBoolean";
-import { TOKEN_TO_SYMBOL_ICON } from "@/registries/TokenRegistry";
+import { TOKEN_REGISTRY } from "@/registries/TokenRegistry";
 import { theme } from "@/styles/theme";
 import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { Input, InputField, InputSlot } from "@/vendor/gluestack-ui/input";
@@ -29,7 +29,7 @@ const TransferAmountField = (props: TransferAmountFieldProps) => {
   const { form, maxSendable, sendToken, fetchFee } = transferForm;
   const [isShowErrorDialog, setIsShowErrorDialog] = useBoolean(false);
 
-  const TokenSymboIcon = TOKEN_TO_SYMBOL_ICON[sendToken];
+  const TokenSymboIcon = TOKEN_REGISTRY[sendToken].Icon;
 
   const handleSetMaxSendable = useCallback(() => {
     form.setFieldValue("amount", maxSendable.toString());

@@ -1,20 +1,15 @@
 import { useMemo } from "react";
-import { Address, Hex } from "viem";
 
-import { formatUnixTimestampToJST } from "@/helpers/datetime";
-import { toDecimals } from "@/helpers/tokenUnits";
+import { toAllowedStr } from "@/helpers/tokenUnits";
 import { useListTransactionsByTerm } from "@/hooks/queries/useListTransactionsByTerm";
+import { TransactionModel } from "@/models/transaction";
 import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
 import { Token } from "@/registries/TokenRegistry";
 
-export type HistoryViewModel = {
-  txHash: Hex;
-  token: Token;
-  value: number;
-  counterparty: Address;
-  direction: "IN" | "OUT";
-  transactionAt: string;
-};
+export type HistoryViewModel = Pick<
+  TransactionModel,
+  "txHash" | "token" | "direction" | "counterparty" | "transferedAt"
+> & { displayValue: string; anchorColor: string };
 
 export type HistoryTerm = { timeFrom: Date; timeTo: Date };
 
@@ -32,19 +27,26 @@ const useHistoryRows = (props: UseHistoryRowsProps) => {
   const historyRows = useMemo<HistoryViewModel[] | undefined>(() => {
     if (!transactions || !account) return undefined;
 
-    return transactions.map(v => {
-      const direction = v.to === account.address ? "IN" : "OUT";
-      const counterparty = direction === "IN" ? v.from : v.to;
+    return transactions.map(transaction => {
+      const [valueSign, anchorColor] = (() => {
+        switch (transaction.direction) {
+          case "in":
+            return ["+", "#A3D8F6"];
+          case "out":
+            return ["-", "#FFA3B5"];
+          case "self":
+            return ["±", "#D1BDD5"];
+        }
+      })();
 
-      const decimals = toDecimals(v.value, token);
-      const value = direction === "OUT" ? decimals * -1 : decimals;
       return {
-        txHash: v.txHash,
-        token,
-        value,
-        counterparty,
-        direction,
-        transactionAt: formatUnixTimestampToJST(v.timestamp)
+        txHash: transaction.txHash,
+        token: transaction.token,
+        direction: transaction.direction,
+        counterparty: transaction.counterparty,
+        transferedAt: transaction.transferedAt,
+        displayValue: `${valueSign}${toAllowedStr(transaction.value.decimals, token)} ${token}`,
+        anchorColor
       };
     });
   }, [account, token, transactions]);

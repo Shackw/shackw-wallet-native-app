@@ -3,7 +3,7 @@ import { RefreshCcw } from "lucide-react-native";
 import { IconButton } from "@/components/Button";
 import { toAllowedStr } from "@/helpers/tokenUnits";
 import { useTokenBalanceContext } from "@/providers/TokenBalanceProvider";
-import { Token, TOKEN_TO_SYMBOL_ICON } from "@/registries/TokenRegistry";
+import { Token, TOKEN_REGISTRY } from "@/registries/TokenRegistry";
 import { theme } from "@/styles/theme";
 import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { Spinner } from "@/vendor/gluestack-ui/spinner";
@@ -16,7 +16,7 @@ const HomeTokenBalance = ({ token }: HomeTokenBalanceProps) => {
   const tokenBalanceResult = useTokenBalanceContext();
   const { balance, isFetching, refetch } = tokenBalanceResult[token];
 
-  const TokenSymboIcon = TOKEN_TO_SYMBOL_ICON[token];
+  const TokenSymboIcon = TOKEN_REGISTRY[token].Icon;
 
   return (
     <VStack className="gap-y-4 items-center relative w-full">

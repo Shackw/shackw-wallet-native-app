@@ -6,11 +6,14 @@ export type TransactionModel = {
   txHash: Hex;
   blockNumber: bigint;
   logIndex: number;
-  token: Address;
-  from: Address;
-  to: Address;
-  value: bigint;
-  timestamp: number;
+  token: Token;
+  direction: "in" | "out" | "self";
+  value: { minUnits: bigint; decimals: number };
+  counterparty: {
+    address: Address;
+    name?: string;
+  };
+  transferedAt: string;
 };
 
 export type GetLastTransactionCommand = { wallet: Address };

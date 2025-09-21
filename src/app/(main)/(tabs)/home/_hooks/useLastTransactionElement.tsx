@@ -3,7 +3,6 @@ import { RefreshCcw } from "lucide-react-native";
 import React, { useCallback, useMemo } from "react";
 import { Pressable, View } from "react-native";
 
-import { formatUnixTimestampToJST } from "@/helpers/datetime";
 import { TransactionModel } from "@/models/transaction";
 import { theme } from "@/styles/theme";
 import { Spinner } from "@/vendor/gluestack-ui/spinner";
@@ -53,7 +52,7 @@ const useLastTransactionElement = (
     }
 
     return {
-      element: formatUnixTimestampToJST(lastTransaction.timestamp),
+      element: lastTransaction.transferedAt,
       pl: 0
     };
   }, [handleRefetch, isError, isLoading, lastTransaction]);
