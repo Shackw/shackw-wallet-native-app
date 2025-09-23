@@ -1,11 +1,12 @@
 import { UseQueryResult } from "@tanstack/react-query";
 import * as SecureStore from "expo-secure-store";
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from "react";
-import { createWalletClient, Hex, http, WalletClient } from "viem";
+import { Address, createWalletClient, Hex, http, WalletClient } from "viem";
 import { Account, generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 
 import { DEFAULT_CHAIN } from "@/configs/chain";
 import { WALLET_PRIVATE_KEY_BASE_NAME } from "@/configs/viem";
+import { useCreateAddress } from "@/hooks/mutations/useCreateAddress";
 import { useLastTransaction } from "@/hooks/queries/useLastTransaction";
 import { useBoolean } from "@/hooks/useBoolean";
 import { TransactionModel } from "@/models/transaction";
@@ -24,13 +25,14 @@ export const HinomaruWalletProvider = ({ children }: { children: ReactNode }) =>
   const [account, setAccount] = useState<Account | undefined>(undefined);
   const [client, setClient] = useState<WalletClient | undefined>(undefined);
   const [hasPrivateKey, setHasPrivateKey] = useBoolean(true);
+  const { mutateAsync: createAddress } = useCreateAddress();
 
   const lastTransactionResult = useLastTransaction(account?.address ?? "0x", {
     retry: 0,
     enabled: !!account?.address
   });
 
-  const connectWallet = useCallback((pk: Hex) => {
+  const connectWallet = useCallback((pk: Hex): Address => {
     const account = privateKeyToAccount(pk);
     const client = createWalletClient({
       account,
@@ -40,6 +42,7 @@ export const HinomaruWalletProvider = ({ children }: { children: ReactNode }) =>
 
     setAccount(account);
     setClient(client);
+    return account.address;
   }, []);
 
   const getStoredPrivateKey = useCallback(async (): Promise<Hex | null> => {
@@ -61,11 +64,12 @@ export const HinomaruWalletProvider = ({ children }: { children: ReactNode }) =>
     if (storedPk) return;
 
     const privateKey = generatePrivateKey();
-    connectWallet(privateKey);
+    const address = connectWallet(privateKey);
 
     await SecureStore.setItemAsync(WALLET_PRIVATE_KEY_BASE_NAME, privateKey);
+    await createAddress({ address, name: "myself", isMine: true });
     setHasPrivateKey.on();
-  }, [connectWallet, getStoredPrivateKey, setHasPrivateKey]);
+  }, [connectWallet, createAddress, getStoredPrivateKey, setHasPrivateKey]);
 
   useEffect(() => {
     tryConnectWallet();
