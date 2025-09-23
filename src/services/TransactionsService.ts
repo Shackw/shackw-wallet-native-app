@@ -23,9 +23,9 @@ export const TransactionsService = {
       return resultToModel(wallet, searched[0]);
     } catch (error: unknown) {
       if (error instanceof Error) {
-        throw new Error(`getLastTransaction error: ${error.message}`, { cause: error });
+        throw new Error(`最新の取引の取得に失敗しました: ${error.message}`, { cause: error });
       }
-      throw new Error(`getLastTransaction unknown error: ${String(error)}`);
+      throw new Error(`最新の取引の取得に失敗しました（不明なエラー）: ${String(error)}`);
     }
   },
 
@@ -46,9 +46,9 @@ export const TransactionsService = {
       return mapped;
     } catch (error: unknown) {
       if (error instanceof Error) {
-        throw new Error(`listTransactionsByTerm error: ${error.message}`, { cause: error });
+        throw new Error(`期間指定の取引一覧の取得に失敗しました: ${error.message}`, { cause: error });
       }
-      throw new Error(`listTransactionsByTerm unknown error: ${String(error)}`);
+      throw new Error(`期間指定の取引一覧の取得に失敗しました（不明なエラー）: ${String(error)}`);
     }
   }
 };

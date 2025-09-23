@@ -62,5 +62,6 @@ export const up_0001 = async (db: SQLiteDatabase) => {
     CREATE INDEX IF NOT EXISTS idx_tx_from_by_time      ON transactions(from_address, transferred_at);
     CREATE INDEX IF NOT EXISTS idx_tx_to_by_time        ON transactions(to_address, transferred_at);
     CREATE INDEX IF NOT EXISTS idx_tx_token_by_time     ON transactions(token_address, transferred_at);
+    CREATE INDEX IF NOT EXISTS idx_addresses_mine_name  ON addresses(is_mine DESC, name COLLATE NOCASE, address);
   `);
 };
