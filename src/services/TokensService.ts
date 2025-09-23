@@ -7,9 +7,9 @@ import { toDecimalsStr, toMinUnits } from "@/helpers/tokenUnits";
 import { GetTokenBalanceCommand, TransferTokenCommand } from "@/models/token";
 import { TOKEN_REGISTRY } from "@/registries/TokenRegistry";
 import { QuotesRepository } from "@/repositories/QuotesRepository";
-import { CreateQuotePayload } from "@/repositories/QuotesRepository/interface";
+import { CreateQuoteQuery } from "@/repositories/QuotesRepository/interface";
 import { TokensRepository } from "@/repositories/TokensRepository";
-import { TransferTokenPayload } from "@/repositories/TokensRepository/interface";
+import { TransferTokenQuery } from "@/repositories/TokensRepository/interface";
 
 export const TokensService = {
   async getTokenBalance(command: GetTokenBalanceCommand): Promise<string> {
@@ -29,7 +29,7 @@ export const TokensService = {
   async transferToken(command: TransferTokenCommand): Promise<Hex> {
     const { account, client, token, feeToken, recipient, amountDecimals } = command;
 
-    const createQuotePayload: CreateQuotePayload = {
+    const createQuoteQuery: CreateQuoteQuery = {
       chainId: DEFAULT_CHAIN.id,
       sender: account.address,
       recipient,
@@ -42,7 +42,7 @@ export const TokensService = {
       amountMinUnits: toMinUnits(amountDecimals, token)
     };
     try {
-      const { delegate, quoteToken } = await QuotesRepository.create(createQuotePayload);
+      const { delegate, quoteToken } = await QuotesRepository.create(createQuoteQuery);
 
       const nonce = await VIEM_PUBLIC_CLIENT.getTransactionCount({
         address: account.address,
@@ -55,11 +55,11 @@ export const TokensService = {
         nonce
       });
 
-      const transferTokenPayload: TransferTokenPayload = {
+      const transferTokenQuery: TransferTokenQuery = {
         quoteToken,
         authorization
       };
-      const { txHash } = await TokensRepository.transfer(transferTokenPayload);
+      const { txHash } = await TokensRepository.transfer(transferTokenQuery);
 
       return txHash;
     } catch (error: unknown) {

@@ -8,7 +8,7 @@ import { Token } from "@/registries/TokenRegistry";
 
 export type HistoryViewModel = Pick<
   TransactionModel,
-  "txHash" | "token" | "direction" | "counterparty" | "transferedAt"
+  "txHash" | "token" | "direction" | "counterparty" | "transferredAt"
 > & { displayValue: string; anchorColor: string };
 
 export type HistoryTerm = { timeFrom: Date; timeTo: Date };
@@ -44,7 +44,7 @@ const useHistoryRows = (props: UseHistoryRowsProps) => {
         token: transaction.token,
         direction: transaction.direction,
         counterparty: transaction.counterparty,
-        transferedAt: transaction.transferedAt,
+        transferredAt: transaction.transferredAt,
         displayValue: `${valueSign}${toAllowedStr(transaction.value.decimals, token)} ${token}`,
         anchorColor
       };

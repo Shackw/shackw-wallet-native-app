@@ -2,14 +2,14 @@ import * as v from "valibot";
 
 import { hinomaruRestClient } from "@/clients/restClient";
 
-import { TransferTokenResponceSchema } from "./parser";
+import { TransferTokenResultSchema } from "./parser";
 
-import type { TransferTokenPayload, TransferTokenResponce } from "./interface";
+import type { ITokensRepository, TransferTokenQuery, TransferTokenResult } from "./interface";
 
-export const TokensRepository = {
-  async transfer(payload: TransferTokenPayload): Promise<TransferTokenResponce> {
-    const transfered = await hinomaruRestClient.post("/tokens:transfer", payload);
-    const parsed = v.parse(TransferTokenResponceSchema, transfered);
+export const TokensRepository: ITokensRepository = {
+  async transfer(query: TransferTokenQuery): Promise<TransferTokenResult> {
+    const transfered = await hinomaruRestClient.post("/tokens:transfer", query);
+    const parsed = v.parse(TransferTokenResultSchema, transfered);
     return parsed;
   }
 };

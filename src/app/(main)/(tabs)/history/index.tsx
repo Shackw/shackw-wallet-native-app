@@ -1,4 +1,4 @@
-import { endOfMonth, startOfMonth } from "date-fns";
+import { startOfMonth } from "date-fns";
 import { useState } from "react";
 
 import { ScreenContainer } from "@/components/Container";
@@ -16,7 +16,7 @@ const HistoryScreen = () => {
   const [selectedToken, setSelectedToken] = useState<Token>("JPYC");
   const [term, setTerm] = useState<HistoryTerm>({
     timeFrom: startOfMonth(new Date()),
-    timeTo: endOfMonth(new Date())
+    timeTo: new Date()
   });
 
   const handleTermChange = (from: Date, to: Date) => {

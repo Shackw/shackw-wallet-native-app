@@ -6,7 +6,7 @@ import { isoDateValidator } from "@/validations/rules/isoDateValidator";
 import { tokenMetaValidator } from "@/validations/rules/tokenMetaValidator";
 import { unsignedBigintFromStringValidator } from "@/validations/rules/unsignedBigintFromStringValidator";
 
-export const CreateQuoteResponceSchema = v.object(
+export const CreateQuoteResultSchema = v.object(
   {
     quoteToken: v.string("quoteToken must be a string."),
     expiresAt: isoDateValidator("expiresAt"),

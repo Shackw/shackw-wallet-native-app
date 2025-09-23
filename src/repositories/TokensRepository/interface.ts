@@ -1,9 +1,15 @@
 import * as v from "valibot";
 import { SignAuthorizationReturnType } from "viem";
 
-import { TransferTokenResponceSchema } from "./parser";
+import { TransferTokenResultSchema } from "./parser";
 
-export type TransferTokenPayload = {
+export interface ITokensRepository {
+  transfer(query: TransferTokenQuery): Promise<TransferTokenResult>;
+}
+
+export type TransferTokenResult = v.InferOutput<typeof TransferTokenResultSchema>;
+
+export type TransferTokenQuery = {
   quoteToken: string;
   authorization: SignAuthorizationReturnType;
   notify?: {
@@ -14,5 +20,3 @@ export type TransferTokenPayload = {
     };
   };
 };
-
-export type TransferTokenResponce = v.InferOutput<typeof TransferTokenResponceSchema>;

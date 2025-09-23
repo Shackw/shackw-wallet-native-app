@@ -4,7 +4,7 @@ import { feesPolicyValidator } from "@/validations/rules/feesPolicyValidator";
 import { tokenMetaValidator } from "@/validations/rules/tokenMetaValidator";
 import { unsignedBigintFromStringValidator } from "@/validations/rules/unsignedBigintFromStringValidator";
 
-export const EstimateFeeResponseSchema = v.object(
+export const EstimateFeeResultSchema = v.object(
   {
     token: tokenMetaValidator("token"),
     feeToken: tokenMetaValidator("feeToken"),

@@ -2,13 +2,17 @@ import * as v from "valibot";
 
 import { Token } from "@/registries/TokenRegistry";
 
-import { EstimateFeeResponseSchema } from "./parser";
+import { EstimateFeeResultSchema } from "./parser";
 
-export type EstimateFeePayload = {
+export interface IFeesRepository {
+  estimate(query: EstimateFeeQuery): Promise<EstimateFeeResult>;
+}
+
+export type EstimateFeeResult = v.InferOutput<typeof EstimateFeeResultSchema>;
+
+export type EstimateFeeQuery = {
   chainId: number;
   amountMinUnits: bigint;
   token: { symbol: Token };
   feeToken: { symbol: Token };
 };
-
-export type EstimateFeeResponce = v.InferOutput<typeof EstimateFeeResponseSchema>;

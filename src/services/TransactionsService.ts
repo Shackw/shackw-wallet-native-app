@@ -1,28 +1,27 @@
 import { subMonths } from "date-fns";
+import { SQLiteDatabase } from "expo-sqlite";
 import { Address } from "viem";
 
-import { formatUnixTimestampToJST } from "@/helpers/datetime";
 import { toDecimals } from "@/helpers/tokenUnits";
 import { GetLastTransactionCommand, ListTransactionsByTermCommand, TransactionModel } from "@/models/transaction";
 import { ADDRESS_TO_TOKEN, TOKENS } from "@/registries/TokenRegistry";
-import { RpcTransactionsRepository } from "@/repositories/TransactionsRepository";
-import { RpcTransactionModel, SearchRpcTransactionPayload } from "@/repositories/TransactionsRepository/interface";
+import { TransactionsRepository } from "@/repositories/TransactionsRepository";
+import { ResolvedTransactionResult, SearchTransactionQuery } from "@/repositories/TransactionsRepository/interface";
 
 export const TransactionsService = {
-  async getLastTransaction(command: GetLastTransactionCommand): Promise<TransactionModel | null> {
+  async getLastTransaction(db: SQLiteDatabase, command: GetLastTransactionCommand): Promise<TransactionModel | null> {
     const { wallet } = command;
-    const payload: SearchRpcTransactionPayload = {
+    const query: SearchTransactionQuery = {
       wallet,
       timeFrom: subMonths(new Date(), 3),
       tokens: [...TOKENS.map(token => ({ symbol: token }))],
       limit: 1
     };
     try {
-      const searched = await RpcTransactionsRepository.search(payload);
+      const searched = await TransactionsRepository.search(db, query);
       if (searched.length === 0) return null;
-      return rpcModelToAppModel(wallet, searched[0]);
+      return resultToModel(wallet, searched[0]);
     } catch (error: unknown) {
-      console.log(error);
       if (error instanceof Error) {
         throw new Error(`getLastTransaction error: ${error.message}`, { cause: error });
       }
@@ -30,20 +29,22 @@ export const TransactionsService = {
     }
   },
 
-  async listTransactionsByTerm(command: ListTransactionsByTermCommand): Promise<TransactionModel[]> {
+  async listTransactionsByTerm(
+    db: SQLiteDatabase,
+    command: ListTransactionsByTermCommand
+  ): Promise<TransactionModel[]> {
     const { wallet, token, timeFrom, timeTo } = command;
-    const payload: SearchRpcTransactionPayload = {
+    const query: SearchTransactionQuery = {
       wallet,
       tokens: [{ symbol: token }],
       timeFrom,
       timeTo
     };
     try {
-      const searched = await RpcTransactionsRepository.search(payload);
-      const mapped = searched.map(v => rpcModelToAppModel(wallet, v));
+      const searched = await TransactionsRepository.search(db, query);
+      const mapped = searched.map(v => resultToModel(wallet, v));
       return mapped;
     } catch (error: unknown) {
-      console.log(error);
       if (error instanceof Error) {
         throw new Error(`listTransactionsByTerm error: ${error.message}`, { cause: error });
       }
@@ -52,28 +53,38 @@ export const TransactionsService = {
   }
 };
 
-function rpcModelToAppModel(wallet: Address, rpcModel: RpcTransactionModel): TransactionModel {
-  const token = ADDRESS_TO_TOKEN[rpcModel.token.toLowerCase()];
+type TransferFlow = {
+  direction: TransactionModel["direction"];
+  counterparty: { address: Address; name?: string };
+};
+function resultToModel(wallet: Address, result: ResolvedTransactionResult): TransactionModel {
+  const token = ADDRESS_TO_TOKEN[result.tokenAddress.toLowerCase()];
 
-  const [direction, counterpartyAddress]: [TransactionModel["direction"], Address] = (() => {
-    if (rpcModel.from === wallet && rpcModel.to !== wallet) return ["out", rpcModel.to];
-    else if (rpcModel.from !== wallet && rpcModel.to === wallet) return ["in", rpcModel.from];
-    return ["self", wallet];
+  const { direction, counterparty }: TransferFlow = (() => {
+    const me = wallet.toLowerCase();
+    const from = result.fromAddress.toLowerCase();
+    const to = result.toAddress.toLowerCase();
+
+    if (from === me && to !== me)
+      return { direction: "out", counterparty: { address: result.toAddress, name: result.toName } };
+
+    if (from !== me && to === me)
+      return { direction: "in", counterparty: { address: result.fromAddress, name: result.fromName } };
+
+    return { direction: "self", counterparty: { address: wallet, name: result.toName } };
   })();
 
   return {
-    txHash: rpcModel.txHash,
-    blockNumber: rpcModel.blockNumber,
-    logIndex: rpcModel.logIndex,
+    txHash: result.txHash,
+    blockNumber: result.blockNumber,
+    logIndex: result.logIndex,
     token,
     direction,
     value: {
-      minUnits: rpcModel.value,
-      decimals: toDecimals(rpcModel.value, token)
+      minUnits: result.valueMinUnits,
+      decimals: toDecimals(result.valueMinUnits, token)
     },
-    counterparty: {
-      address: counterpartyAddress
-    },
-    transferedAt: formatUnixTimestampToJST(rpcModel.timestamp)
+    counterparty,
+    transferredAt: new Date(result.transferredUnixAt * 1000)
   };
 }

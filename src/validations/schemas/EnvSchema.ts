@@ -9,6 +9,14 @@ export const EnvSchema = v.object(
       v.transform(s => s.trim()),
       v.picklist(["dev", "prd"], "BUILD_ENV must be 'dev' or 'prd'.")
     ),
+    DATABASE_VERSION: v.pipe(
+      v.string("DATABASE_VERSION is required"),
+      v.trim(),
+      v.transform(s => Number(s)),
+      v.check(n => Number.isFinite(n), "DATABASE_VERSION must be a number"),
+      v.integer("DATABASE_VERSION must be an integer"),
+      v.minValue(1, "DATABASE_VERSION must be >= 1")
+    ),
     HINOMARU_API_URL: v.pipe(
       v.string("HINOMARU_API_URL must be a string."),
       v.transform(s => s.trim()),
