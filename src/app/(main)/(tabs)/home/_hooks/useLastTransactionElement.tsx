@@ -3,6 +3,7 @@ import { RefreshCcw } from "lucide-react-native";
 import React, { useCallback, useMemo } from "react";
 import { Pressable, View } from "react-native";
 
+import { formatIsoString } from "@/helpers/datetime";
 import { TransactionModel } from "@/models/transaction";
 import { theme } from "@/styles/theme";
 import { Spinner } from "@/vendor/gluestack-ui/spinner";
@@ -52,7 +53,7 @@ const useLastTransactionElement = (
     }
 
     return {
-      element: lastTransaction.transferedAt,
+      element: formatIsoString(lastTransaction.transferredAt),
       pl: 0
     };
   }, [handleRefetch, isError, isLoading, lastTransaction]);

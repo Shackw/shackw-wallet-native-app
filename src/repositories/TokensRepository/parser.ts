@@ -1,7 +1,7 @@
 import * as v from "valibot";
 import { Hex } from "viem";
 
-export const TransferTokenResponceSchema = v.object(
+export const TransferTokenResultSchema = v.object(
   {
     status: v.pipe(v.string("status must be a string."), v.picklist(["submitted"], "status must be one of: submitted")),
     txHash: v.pipe(

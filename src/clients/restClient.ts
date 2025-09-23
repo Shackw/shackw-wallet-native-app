@@ -1,4 +1,4 @@
-import { HINOMARU_API_URL } from "@/configs/env";
+import { ENV } from "@/configs/env";
 
 export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
@@ -170,7 +170,7 @@ export function createRestClient(cfg: RestClientConfig = {}) {
 }
 
 export const hinomaruRestClient = createRestClient({
-  baseURL: HINOMARU_API_URL,
+  baseURL: ENV.HINOMARU_API_URL,
   timeoutMs: 15_000
 });
 

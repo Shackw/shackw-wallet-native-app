@@ -24,8 +24,9 @@ const YearMonthTermPicker = (props: YearMonthTermPickerProps) => {
 
   const handleNext = useCallback(() => {
     const nextDate = startOfMonth(addMonths(date, 1));
+    const to = isBefore(nextDate, startOfMonth(new Date())) ? endOfMonth(nextDate) : new Date();
     setDate(nextDate);
-    onChange(nextDate, endOfMonth(nextDate));
+    onChange(nextDate, to);
   }, [date, onChange]);
 
   const year = date.getFullYear();

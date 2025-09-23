@@ -1,123 +1,61 @@
-import { Address, parseAbiItem } from "viem";
+import { endOfMonth, isAfter, isEqual } from "date-fns";
 
-import { VIEM_PUBLIC_CLIENT } from "@/configs/viem";
-import { blockNumberByTimestamp } from "@/helpers/block";
-import { toUnixSec } from "@/helpers/datetime";
-import { TOKEN_REGISTRY } from "@/registries/TokenRegistry";
+import { RpcTransactionsRepository } from "./concretes/rpc";
+import { SqlTransactionsRepository } from "./concretes/sql";
 
-import { SearchRpcTransactionPayload, RpcTransactionModel } from "./interface";
+import type {
+  GetTransactionProgressQuery,
+  TransactionProgressResult,
+  ITransactionsRepository,
+  SearchTransactionQuery,
+  ResolvedTransactionResult
+} from "./interface";
+import type { SQLiteDatabase } from "expo-sqlite";
 
-const transferEvt = parseAbiItem("event Transfer(address indexed from, address indexed to, uint256 value)");
-const blockTsCache = new Map<bigint, number>();
+export const TransactionsRepository: ITransactionsRepository = {
+  async search(db: SQLiteDatabase, query: SearchTransactionQuery): Promise<ResolvedTransactionResult[]> {
+    const { timeTo, timeFrom } = query;
 
-const CONCURRENCY = 6;
-const DEFAULT_CHUNK = 10_000n;
+    if (!!timeFrom && isAfter(timeFrom, new Date()))
+      throw new Error("timeFrom は現在時刻以前で指定する必要があります。");
 
-export const RpcTransactionsRepository = {
-  async search(paylaod: SearchRpcTransactionPayload): Promise<RpcTransactionModel[]> {
-    const { tokens, wallet, timeFrom, timeTo, limit, chunkSize = DEFAULT_CHUNK, direction = "both" } = paylaod;
+    const toYear = timeTo && timeTo.getFullYear();
+    const toMonth = timeTo && timeTo.getMonth() + 1;
+    const isSpecifiedTo = !!timeTo && !!toYear && !!toMonth;
 
-    const latest = await VIEM_PUBLIC_CLIENT.getBlockNumber();
-    const fromBlock = timeFrom ? await blockNumberByTimestamp(VIEM_PUBLIC_CLIENT, toUnixSec(timeFrom), "gte") : 0n;
-    const toBlock = timeTo ? await blockNumberByTimestamp(VIEM_PUBLIC_CLIENT, toUnixSec(timeTo), "lte") : latest;
+    const fromYear = timeFrom && timeFrom.getFullYear();
+    const fromMonth = timeFrom && timeFrom.getMonth() + 1;
+    const isSpecifiedFrom = !!timeFrom && !!fromYear && !!fromMonth;
 
-    if (fromBlock > toBlock) return [];
+    const usedLocal = isSpecifiedTo && isSpecifiedFrom && toYear === fromYear && toMonth === fromMonth;
+    if (!usedLocal) return await RpcTransactionsRepository.search(query);
 
-    const tokenAddrs = [...new Set(tokens.map(t => TOKEN_REGISTRY[t.symbol].address))];
-    if (tokenAddrs.length === 0) return [];
+    const progress = await SqlTransactionsRepository.getProgress(db, {
+      year: toYear,
+      month: toMonth
+    });
 
-    const ranges: { from: bigint; to: bigint }[] = [];
-    for (let to = toBlock; to >= fromBlock; ) {
-      const from = to - chunkSize + 1n > fromBlock ? to - chunkSize + 1n : fromBlock;
-      ranges.push({ from, to });
-      if (from === fromBlock) break;
-      to = from - 1n;
+    if (progress?.status !== "completed") {
+      const remoteQuery: SearchTransactionQuery = {
+        ...query,
+        timeFrom: progress ? progress.lastUpdatedAt : timeFrom
+      };
+      const searchedRemote = await RpcTransactionsRepository.search(remoteQuery);
+
+      const newProgress: TransactionProgressResult = {
+        year: toYear,
+        month: toMonth,
+        status: isEqual(timeTo, endOfMonth(timeTo)) ? "completed" : "partial",
+        lastUpdatedAt: timeTo
+      };
+      await SqlTransactionsRepository.batchWrite(db, newProgress, searchedRemote);
+      return await SqlTransactionsRepository.search(db, query);
     }
 
-    const want = limit ?? Number.POSITIVE_INFINITY;
-    const results: RpcTransactionModel[] = [];
-    const seen = new Set<string>();
+    return await SqlTransactionsRepository.search(db, query);
+  },
 
-    for (let i = 0; i < ranges.length && results.length < want; i += CONCURRENCY) {
-      const slice = ranges.slice(i, i + CONCURRENCY);
-
-      const perRange = await Promise.all(
-        slice.map(async r => {
-          const q: Promise<readonly any[]>[] = [];
-          if (direction === "both" || direction === "in") {
-            q.push(
-              VIEM_PUBLIC_CLIENT.getLogs({
-                address: tokenAddrs,
-                event: transferEvt,
-                args: { to: wallet },
-                fromBlock: r.from,
-                toBlock: r.to
-              })
-            );
-          }
-          if (direction === "both" || direction === "out") {
-            q.push(
-              VIEM_PUBLIC_CLIENT.getLogs({
-                address: tokenAddrs,
-                event: transferEvt,
-                args: { from: wallet },
-                fromBlock: r.from,
-                toBlock: r.to
-              })
-            );
-          }
-          const logs = (await Promise.all(q)).flat();
-          if (logs.length === 0) return [] as RpcTransactionModel[];
-
-          const uniqBns = [...new Set(logs.map(l => l.blockNumber! as bigint))];
-          await Promise.all(
-            uniqBns.map(async bn => {
-              if (!blockTsCache.has(bn)) {
-                const b = await VIEM_PUBLIC_CLIENT.getBlock({ blockNumber: bn });
-                blockTsCache.set(bn, Number(b.timestamp));
-              }
-            })
-          );
-
-          logs.sort((a, b) => {
-            const ab = a.blockNumber! as bigint;
-            const bb = b.blockNumber! as bigint;
-            return ab === bb ? b.logIndex - a.logIndex : ab < bb ? 1 : -1;
-          });
-
-          const items: RpcTransactionModel[] = [];
-          for (const l of logs) {
-            if (!l.blockNumber || !l.transactionHash) continue;
-            items.push({
-              txHash: l.transactionHash!,
-              blockNumber: l.blockNumber!,
-              logIndex: l.logIndex ?? 0,
-              token: l.address as Address,
-              from: l.args.from as Address,
-              to: l.args.to as Address,
-              value: l.args.value as bigint,
-              timestamp: blockTsCache.get(l.blockNumber!)!
-            });
-          }
-          return items;
-        })
-      );
-
-      for (const items of perRange) {
-        for (const it of items) {
-          const key = `${it.txHash}:${it.logIndex}`;
-          if (seen.has(key)) continue;
-          seen.add(key);
-          results.push(it);
-          if (results.length >= want) break;
-        }
-        if (results.length >= want) break;
-      }
-    }
-
-    results.sort((a, b) =>
-      a.blockNumber === b.blockNumber ? b.logIndex - a.logIndex : Number(b.blockNumber - a.blockNumber)
-    );
-    return results.slice(0, want);
+  async getProgress(db: SQLiteDatabase, query: GetTransactionProgressQuery): Promise<TransactionProgressResult | null> {
+    return await SqlTransactionsRepository.getProgress(db, query);
   }
 };

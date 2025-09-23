@@ -1,6 +1,7 @@
 import Anchor from "@/components/Anchor";
 import { DEFAULT_CHAIN } from "@/configs/chain";
 import { shortenAddress } from "@/helpers/address";
+import { formatIsoString } from "@/helpers/datetime";
 import { Box } from "@/vendor/gluestack-ui/box";
 import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { TableRow } from "@/vendor/gluestack-ui/table";
@@ -14,7 +15,7 @@ type HistoryTableRowProps = {
 };
 
 const HistoryTableRow = (props: HistoryTableRowProps) => {
-  const { txHash, displayValue, counterparty, anchorColor, transferedAt } = props.row;
+  const { txHash, displayValue, counterparty, anchorColor, transferredAt: transferredStrAt } = props.row;
 
   return (
     <TableRow className="w-full">
@@ -22,7 +23,7 @@ const HistoryTableRow = (props: HistoryTableRowProps) => {
         <Box className="h-full w-1.5 rounded-full" style={{ backgroundColor: anchorColor }} />
         <VStack className="w-full py-1 pl-3 pr-6 gap-y-1">
           <HStack className="justify-between">
-            <Text className="font-bold text-secondary-500">{transferedAt}</Text>
+            <Text className="font-bold text-secondary-500">{formatIsoString(transferredStrAt)}</Text>
             {DEFAULT_CHAIN.blockExplorers?.default ? (
               <Anchor
                 href={`${DEFAULT_CHAIN.blockExplorers.default.url}/tx/${txHash}`}

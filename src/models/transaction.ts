@@ -13,7 +13,7 @@ export type TransactionModel = {
     address: Address;
     name?: string;
   };
-  transferedAt: string;
+  transferredAt: Date;
 };
 
 export type GetLastTransactionCommand = { wallet: Address };

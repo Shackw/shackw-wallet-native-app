@@ -3,9 +3,15 @@ import { Address } from "viem";
 
 import { Token } from "@/registries/TokenRegistry";
 
-import { CreateQuoteResponceSchema } from "./parser";
+import { CreateQuoteResultSchema } from "./parser";
 
-export type CreateQuotePayload = {
+export interface IQuotesRepository {
+  create(query: CreateQuoteQuery): Promise<CreateQuoteResult>;
+}
+
+export type CreateQuoteResult = v.InferOutput<typeof CreateQuoteResultSchema>;
+
+export type CreateQuoteQuery = {
   chainId: number;
   sender: Address;
   recipient: Address;
@@ -13,5 +19,3 @@ export type CreateQuotePayload = {
   feeToken: { symbol: Token };
   amountMinUnits: bigint;
 };
-
-export type CreateQuoteResponce = v.InferOutput<typeof CreateQuoteResponceSchema>;
