@@ -10,7 +10,7 @@ export const useTransferToken = (
 ): UseMutationResult<Hex, Error, TransferTokenCommand, unknown> => {
   return useMutation<Hex, Error, TransferTokenCommand>({
     ...options,
-    mutationKey: ["transferToken"],
-    mutationFn: cmd => TokensService.transferToken(cmd)
+    mutationKey: ["TransferToken"],
+    mutationFn: command => TokensService.transferToken(command)
   });
 };

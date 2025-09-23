@@ -19,9 +19,9 @@ export const FeesService = {
       return responceToModel(fee);
     } catch (error: unknown) {
       if (error instanceof Error) {
-        throw new Error(`estimateFee error: ${error.message}`, { cause: error });
+        throw new Error(`手数料の見積もりに失敗しました: ${error.message}`, { cause: error });
       }
-      throw new Error(`estimateFee unknown error: ${String(error)}`);
+      throw new Error(`手数料の見積もりに失敗しました（不明なエラー）: ${String(error)}`);
     }
   }
 };
