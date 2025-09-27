@@ -4,7 +4,6 @@ import * as SplashScreen from "expo-splash-screen";
 import { SQLiteProvider } from "expo-sqlite";
 import { useEffect, useState } from "react";
 
-import { RootContainer } from "@/components/Container";
 import { migrate } from "@/db";
 import { useFonts } from "@/hooks/useFonts";
 import { HinomaruWalletProvider } from "@/providers/HinomaruWalletProvider";
@@ -30,15 +29,13 @@ const RootLayout = () => {
       <QueryClientProvider client={queryClient}>
         <HinomaruWalletProvider>
           <GluestackUIProvider>
-            <RootContainer>
-              <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-              <Stack
-                screenOptions={{
-                  headerShown: false,
-                  contentStyle: { backgroundColor: "transparent" }
-                }}
-              />
-            </RootContainer>
+            <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
+            <Stack
+              screenOptions={{
+                headerShown: false,
+                contentStyle: { backgroundColor: "transparent" }
+              }}
+            />
           </GluestackUIProvider>
         </HinomaruWalletProvider>
       </QueryClientProvider>

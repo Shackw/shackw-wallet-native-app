@@ -14,25 +14,25 @@ import type { SQLiteDatabase } from "expo-sqlite";
 
 export const TransactionsRepository: ITransactionsRepository = {
   async search(db: SQLiteDatabase, query: SearchTransactionQuery): Promise<ResolvedTransactionResult[]> {
-    const { timeTo, timeFrom } = query;
+    const { timeTo, timeFrom, tokens } = query;
 
-    if (!!timeFrom && isAfter(timeFrom, new Date()))
-      throw new Error("timeFrom は現在時刻以前で指定する必要があります。");
+    if (isAfter(timeFrom, new Date())) throw new Error("timeFrom は現在時刻以前で指定する必要があります。");
+
+    if (tokens.length === 0) throw new Error("tokens を1つ以上指定してください。");
 
     const toYear = timeTo && timeTo.getFullYear();
     const toMonth = timeTo && timeTo.getMonth() + 1;
-    const isSpecifiedTo = !!timeTo && !!toYear && !!toMonth;
 
     const fromYear = timeFrom && timeFrom.getFullYear();
     const fromMonth = timeFrom && timeFrom.getMonth() + 1;
-    const isSpecifiedFrom = !!timeFrom && !!fromYear && !!fromMonth;
 
-    const usedLocal = isSpecifiedTo && isSpecifiedFrom && toYear === fromYear && toMonth === fromMonth;
+    const usedLocal = (toYear === fromYear && toMonth === fromMonth) || tokens.length === 1;
     if (!usedLocal) return await RpcTransactionsRepository.search(query);
 
     const progress = await SqlTransactionsRepository.getProgress(db, {
       year: toYear,
-      month: toMonth
+      month: toMonth,
+      token: tokens[0]
     });
 
     if (progress?.status !== "completed") {
@@ -45,6 +45,7 @@ export const TransactionsRepository: ITransactionsRepository = {
       const newProgress: TransactionProgressResult = {
         year: toYear,
         month: toMonth,
+        token: tokens[0].symbol,
         status: isEqual(timeTo, endOfMonth(timeTo)) ? "completed" : "partial",
         lastUpdatedAt: timeTo
       };

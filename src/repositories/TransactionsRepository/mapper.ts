@@ -1,4 +1,5 @@
 import { TransactionProgressRow, TransactionWithAddressRow } from "@/db/schema";
+import { ADDRESS_TO_TOKEN } from "@/registries/TokenRegistry";
 
 import { TransactionProgressResult, ResolvedTransactionResult } from "./interface";
 
@@ -19,7 +20,10 @@ export const transactionWithAddressRowToResult = (dbModel: TransactionWithAddres
 
 export const transactionProgressRowToResult = (dbModel: TransactionProgressRow): TransactionProgressResult => {
   return {
-    ...dbModel,
+    year: dbModel.year,
+    month: dbModel.month,
+    token: ADDRESS_TO_TOKEN[dbModel.token_address.toLowerCase()],
+    status: dbModel.status,
     lastUpdatedAt: new Date(dbModel.last_updated_at * 1000)
   };
 };

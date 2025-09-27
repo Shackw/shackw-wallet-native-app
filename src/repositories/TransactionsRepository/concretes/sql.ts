@@ -149,16 +149,24 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
   },
 
   async getProgress(db: SQLiteDatabase, query: GetTransactionProgressQuery): Promise<TransactionProgressResult | null> {
-    const { year, month } = query;
+    const { year, month, token } = query;
+    const tokenAddress = TOKEN_REGISTRY[token.symbol].address.toLowerCase();
 
     const stmt = await db.prepareAsync(`
-      SELECT year, month, status, last_updated_at
+      SELECT year, month, status, token_address, last_updated_at
       FROM transaction_progress
-      WHERE year = $year AND month = $month
+      WHERE
+        year = $year
+        AND month = $month
+        AND token_address = $tokenAddress
     `);
 
     try {
-      const result = await stmt.executeAsync<TransactionProgressRow>({ $year: year, $month: month });
+      const result = await stmt.executeAsync<TransactionProgressRow>({
+        $year: year,
+        $month: month,
+        $tokenAddress: tokenAddress
+      });
       const row = await result.getFirstAsync();
       if (!row) return null;
       return transactionProgressRowToResult(row);
