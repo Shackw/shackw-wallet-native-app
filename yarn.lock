@@ -4659,21 +4659,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/devtools-event-client@npm:^0.2.5":
-  version: 0.2.5
-  resolution: "@tanstack/devtools-event-client@npm:0.2.5"
-  checksum: 10c0/3fb7a171d63bc27fb683bbdb274ac9bb00cee01b70fe74d2a8d62f49243468991182d622901dba8b4aa79a26783ba03e55c7498eba78bd52795e926125c1be59
+"@tanstack/devtools-event-client@npm:^0.3.2":
+  version: 0.3.2
+  resolution: "@tanstack/devtools-event-client@npm:0.3.2"
+  checksum: 10c0/0177084ce3adadf851a81e698c7bae7ebade1e7199b11867c069beaa373f9ffac1cbb4a3319ac87071ceab470b58933df781ee31ff1dfc2a49576d796c8d76cc
   languageName: node
   linkType: hard
 
-"@tanstack/form-core@npm:1.23.0":
-  version: 1.23.0
-  resolution: "@tanstack/form-core@npm:1.23.0"
+"@tanstack/form-core@npm:1.24.0":
+  version: 1.24.0
+  resolution: "@tanstack/form-core@npm:1.24.0"
   dependencies:
-    "@tanstack/devtools-event-client": "npm:^0.2.5"
-    "@tanstack/store": "npm:^0.7.5"
-    uuid: "npm:^13.0.0"
-  checksum: 10c0/9b6e99c88827334e4633930caddd926ca44c38e1a9684a13d52313bf89f7a67374cf98b44229859a47271c1b0b02a70fb0a79ff0cc51b8b890fdb8f0e5cd65cf
+    "@tanstack/devtools-event-client": "npm:^0.3.2"
+    "@tanstack/store": "npm:^0.7.7"
+  checksum: 10c0/43d55639b5de55039b5bef92ce43a5549da1ba04c9535a0854189ab9e21a9f276bc7bed6c06d86a867a4af23c9f4c8c81ba52ae1aba3333ba8ec99c6b120e344
   languageName: node
   linkType: hard
 
@@ -4685,11 +4684,11 @@ __metadata:
   linkType: hard
 
 "@tanstack/react-form@npm:^1.19.5":
-  version: 1.23.0
-  resolution: "@tanstack/react-form@npm:1.23.0"
+  version: 1.23.4
+  resolution: "@tanstack/react-form@npm:1.23.4"
   dependencies:
-    "@tanstack/form-core": "npm:1.23.0"
-    "@tanstack/react-store": "npm:^0.7.5"
+    "@tanstack/form-core": "npm:1.24.0"
+    "@tanstack/react-store": "npm:^0.7.7"
     decode-formdata: "npm:^0.9.0"
     devalue: "npm:^5.3.2"
   peerDependencies:
@@ -4698,7 +4697,7 @@ __metadata:
   peerDependenciesMeta:
     "@tanstack/react-start":
       optional: true
-  checksum: 10c0/2f894971ce2d49c587aea059360f09863ce61b023e322b4bb92bc6d37e67778500116d4f3aba95680944031f6b6f7858535a19e0ac751e72c89c9d456406842c
+  checksum: 10c0/d450973a369ee656899ef00090f2d1ddd291d938b90ed6d5b2883530d8a57955562bea5e289efabe9f79884ef9191bf2f4b2400a220ab06c3b1b79c41b28e65b
   languageName: node
   linkType: hard
 
@@ -4713,7 +4712,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-store@npm:^0.7.5":
+"@tanstack/react-store@npm:^0.7.7":
   version: 0.7.7
   resolution: "@tanstack/react-store@npm:0.7.7"
   dependencies:
@@ -4726,7 +4725,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/store@npm:0.7.7, @tanstack/store@npm:^0.7.5":
+"@tanstack/store@npm:0.7.7, @tanstack/store@npm:^0.7.7":
   version: 0.7.7
   resolution: "@tanstack/store@npm:0.7.7"
   checksum: 10c0/bf90fa957bd97336d7dbc0d7b87379b5fe4baea030efef8a93fe4e49ac1c8bc929247d1a9f84b16a1642e386b67fe53be14df8d5415efdf85f83733ccdf8877a
@@ -4901,11 +4900,11 @@ __metadata:
   linkType: hard
 
 "@types/react@npm:*, @types/react@npm:~19.1.10":
-  version: 19.1.13
-  resolution: "@types/react@npm:19.1.13"
+  version: 19.1.14
+  resolution: "@types/react@npm:19.1.14"
   dependencies:
     csstype: "npm:^3.0.2"
-  checksum: 10c0/75e35b54883f5ed07d3b5cb16a4711b6dbb7ec6b74301bcb9bfa697c9d9fff022ec508e1719e7b2c69e2e8b042faac1125be7717b5e5e084f816a2c88e136920
+  checksum: 10c0/0d1629e065413be79c949f011845836e7f515c8f97dbfef057719be2f312b404405d2d064cb28e03363c62c153c100e84268c09dd9aeda488858d45033b520f0
   languageName: node
   linkType: hard
 
@@ -5895,11 +5894,11 @@ __metadata:
   linkType: hard
 
 "baseline-browser-mapping@npm:^2.8.3":
-  version: 2.8.6
-  resolution: "baseline-browser-mapping@npm:2.8.6"
+  version: 2.8.8
+  resolution: "baseline-browser-mapping@npm:2.8.8"
   bin:
     baseline-browser-mapping: dist/cli.js
-  checksum: 10c0/ea628db5048d1e5c0251d4783e0496f5ce8de7a0e20ea29c8876611cb0acf58ffc76bf6561786c6388db22f130646e3ecb91eebc1c03954552a21d38fa38320f
+  checksum: 10c0/98b6a5afc20673351ef02c25ee9b43258853c8d2b125cf04a8763e9a44afd36e2d411ab150f1b6fc621278a3d0f2af9d4699339f77814a80d243d75f9eb681be
   languageName: node
   linkType: hard
 
@@ -6152,9 +6151,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001741":
-  version: 1.0.30001743
-  resolution: "caniuse-lite@npm:1.0.30001743"
-  checksum: 10c0/1bd730ca10d881a1ca9f55ce864d34c3b18501718c03976e0d3419f4694b715159e13fdef6d58ad47b6d2445d315940f3a01266658876828c820a3331aac021d
+  version: 1.0.30001745
+  resolution: "caniuse-lite@npm:1.0.30001745"
+  checksum: 10c0/646ca4b57baaa7a835cf7204c8a257490ee8e36364c04638212e3750c5e8ef45c39f352307e6205114487bcc179d42f5216f6dac146641b16a60b20b29d6f2a6
   languageName: node
   linkType: hard
 
@@ -6855,9 +6854,9 @@ __metadata:
   linkType: hard
 
 "detect-libc@npm:^2.0.3":
-  version: 2.1.0
-  resolution: "detect-libc@npm:2.1.0"
-  checksum: 10c0/4d0d36c77fdcb1d3221779d8dfc7d5808dd52530d49db67193fb3cd8149e2d499a1eeb87bb830ad7c442294929992c12e971f88ae492965549f8f83e5336eba6
+  version: 2.1.1
+  resolution: "detect-libc@npm:2.1.1"
+  checksum: 10c0/97053299c1f68c7c4adf7b78c8d506e1d5f3a3fbc775920aaa0ecf7f8fcc6dfa46338a6ca82fe4500b4a51937def314584265a4ec9d565577485c4496aa7d64e
   languageName: node
   linkType: hard
 
@@ -7046,9 +7045,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.218":
-  version: 1.5.222
-  resolution: "electron-to-chromium@npm:1.5.222"
-  checksum: 10c0/a81eb8d2b171236884faf9b5dd382c66d9250283032cb89a3e555d788bf3956f7f4f6bf7bf30b3daf9e5c945ef837bfcd1be21b3f41cfe186ed2f25da13c9af3
+  version: 1.5.224
+  resolution: "electron-to-chromium@npm:1.5.224"
+  checksum: 10c0/09e00381cfce7660eba265c9aa3afa2e9ff04ecd47d50f9673477c35bc35b2a206b3e75dd767106420b9c8b801f3d044f99b20e064ba4a48f0a989c3c8e13291
   languageName: node
   linkType: hard
 
@@ -14178,15 +14177,15 @@ __metadata:
   linkType: hard
 
 "tar@npm:^7.4.3":
-  version: 7.4.4
-  resolution: "tar@npm:7.4.4"
+  version: 7.5.1
+  resolution: "tar@npm:7.5.1"
   dependencies:
     "@isaacs/fs-minipass": "npm:^4.0.0"
     chownr: "npm:^3.0.0"
     minipass: "npm:^7.1.2"
     minizlib: "npm:^3.1.0"
     yallist: "npm:^5.0.0"
-  checksum: 10c0/2db46a140095488ed3244ac748f8e4f9362223b212bcae7859840dd9fd9891bc713f243d122906ce2f28eb64b49fa8cefc13cbdda24e66e8f2a5936a7c392b06
+  checksum: 10c0/0dad0596a61586180981133b20c32cfd93c5863c5b7140d646714e6ea8ec84583b879e5dc3928a4d683be6e6109ad7ea3de1cf71986d5194f81b3a016c8858c9
   languageName: node
   linkType: hard
 
@@ -14736,15 +14735,6 @@ __metadata:
   version: 1.0.1
   resolution: "utils-merge@npm:1.0.1"
   checksum: 10c0/02ba649de1b7ca8854bfe20a82f1dfbdda3fb57a22ab4a8972a63a34553cf7aa51bc9081cf7e001b035b88186d23689d69e71b510e610a09a4c66f68aa95b672
-  languageName: node
-  linkType: hard
-
-"uuid@npm:^13.0.0":
-  version: 13.0.0
-  resolution: "uuid@npm:13.0.0"
-  bin:
-    uuid: dist-node/bin/uuid
-  checksum: 10c0/950e4c18d57fef6c69675344f5700a08af21e26b9eff2bf2180427564297368c538ea11ac9fb2e6528b17fc3966a9fd2c5049361b0b63c7d654f3c550c9b3d67
   languageName: node
   linkType: hard
 

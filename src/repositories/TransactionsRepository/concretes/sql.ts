@@ -119,7 +119,7 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
           $status,
           $lastUpdatedAt
         )
-        ON CONFLICT(year, month)
+        ON CONFLICT(year, month, token_address)
         DO UPDATE SET
           status = excluded.status,
           last_updated_at = excluded.last_updated_at
