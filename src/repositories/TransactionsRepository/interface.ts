@@ -37,6 +37,7 @@ export type ResolvedTransactionResult = TransactionResult & {
 export type TransactionProgressResult = {
   year: number;
   month: number;
+  token: Token;
   status: "completed" | "partial";
   lastUpdatedAt: Date;
 };
@@ -44,8 +45,8 @@ export type TransactionProgressResult = {
 export type SearchTransactionQuery = {
   wallet: Address;
   tokens: { symbol: Token }[];
-  timeFrom?: Date;
-  timeTo?: Date;
+  timeFrom: Date;
+  timeTo: Date;
   limit?: number;
   direction?: "in" | "out" | "both";
 };
@@ -53,4 +54,5 @@ export type SearchTransactionQuery = {
 export type GetTransactionProgressQuery = {
   year: number;
   month: number;
+  token: { symbol: Token };
 };

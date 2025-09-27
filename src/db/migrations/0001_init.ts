@@ -52,9 +52,13 @@ export const up_0001 = async (db: SQLiteDatabase) => {
     CREATE TABLE IF NOT EXISTS transaction_progress (
       year            INTEGER NOT NULL CHECK(year BETWEEN 2009 AND 9999),
       month           INTEGER NOT NULL CHECK(month BETWEEN 1 AND 12),
+      token_address   TEXT NOT NULL
+                      CHECK(token_address = lower(token_address))
+                      CHECK(length(token_address) = 42)
+                      CHECK(substr(token_address,1,2) = '0x'),
       status          TEXT    NOT NULL CHECK(status IN ('completed','partial')),
       last_updated_at INTEGER NOT NULL DEFAULT (strftime('%s','now')),
-      PRIMARY KEY (year, month)
+      PRIMARY KEY (year, month, token_address)
     );
 
     -- Indexes

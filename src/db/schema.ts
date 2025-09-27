@@ -29,6 +29,7 @@ export type TransactionWithAddressRow = TransactionRow & { from_name: string | n
 export type TransactionProgressRow = {
   year: number;
   month: number;
+  token_address: Address;
   status: "completed" | "partial";
   last_updated_at: number;
 };
