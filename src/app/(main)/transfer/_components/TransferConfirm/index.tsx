@@ -4,7 +4,7 @@ import { Address } from "viem";
 
 import BackDrop from "@/components/BackDrop";
 import { ContainButton, SubContainButton } from "@/components/Button";
-import Dialog from "@/components/Dialog";
+import { AlertDialog } from "@/components/Dialog";
 import { BottomInputDrawer } from "@/components/Drawer";
 import { ErrorText, InfoText } from "@/components/Text";
 import { useTransferToken } from "@/hooks/mutations/useTransferToken";
@@ -86,11 +86,11 @@ const TransferConfirm = (props: TransferConfirmProps) => {
       </BottomInputDrawer>
 
       <BackDrop visible={isTransferring} />
-      <Dialog title="送金完了" isOpen={isSuccess && componentProps.isOpen} onClose={handleCloseSuccess} size="lg">
+      <AlertDialog title="送金完了" isOpen={isSuccess && componentProps.isOpen} onClose={handleCloseSuccess} size="lg">
         <VStack className="py-4 gap-y-1">
           <InfoText className="flex-1">送金が完了しました。</InfoText>
         </VStack>
-      </Dialog>
+      </AlertDialog>
     </>
   );
 };

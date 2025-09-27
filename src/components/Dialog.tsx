@@ -1,5 +1,5 @@
 import {
-  AlertDialog,
+  AlertDialog as GlueStackUiAlertDialog,
   AlertDialogBackdrop,
   AlertDialogContent,
   AlertDialogHeader,
@@ -8,14 +8,14 @@ import {
 } from "@/vendor/gluestack-ui/alert-dialog";
 import { Text } from "@/vendor/gluestack-ui/text";
 
-import { SubContainButton } from "./Button";
+import { ContainButton, SubContainButton } from "./Button";
 
-type DialogProps = { title: string; onClose: () => void } & React.ComponentProps<typeof AlertDialog>;
+type DialogProps = { title: string; onClose: () => void } & React.ComponentProps<typeof GlueStackUiAlertDialog>;
 
-const Dialog = (props: DialogProps) => {
+export const AlertDialog = (props: DialogProps) => {
   const { title, children, onClose, ...rest } = props;
   return (
-    <AlertDialog {...rest} onClose={onClose}>
+    <GlueStackUiAlertDialog {...rest} onClose={onClose}>
       <AlertDialogBackdrop />
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -28,8 +28,27 @@ const Dialog = (props: DialogProps) => {
           <SubContainButton text="閉じる" size="md" onPress={onClose} />
         </AlertDialogFooter>
       </AlertDialogContent>
-    </AlertDialog>
+    </GlueStackUiAlertDialog>
   );
 };
 
-export default Dialog;
+type ActionDialogProps = DialogProps & { buttonProps: Omit<React.ComponentProps<typeof ContainButton>, "size"> };
+export const ActionDialog = (props: ActionDialogProps) => {
+  const { title, children, buttonProps, ...rest } = props;
+  return (
+    <GlueStackUiAlertDialog {...rest}>
+      <AlertDialogBackdrop />
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <Text className="text-secondary-700 font-bold" size="lg">
+            {title}
+          </Text>
+        </AlertDialogHeader>
+        <AlertDialogBody className="mt-3 mb-4">{children}</AlertDialogBody>
+        <AlertDialogFooter className="">
+          <ContainButton {...buttonProps} size="md" />
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </GlueStackUiAlertDialog>
+  );
+};

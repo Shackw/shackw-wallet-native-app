@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { ContainButton, SubContainButton } from "@/components/Button";
-import Dialog from "@/components/Dialog";
+import { AlertDialog } from "@/components/Dialog";
 import { BottomInputDrawer } from "@/components/Drawer";
 import { ErrorText } from "@/components/Text";
 import { useBoolean } from "@/hooks/useBoolean";
@@ -76,7 +76,7 @@ const TransferRecipientField = (props: TransferRecipientFieldProps) => {
                   <ContainButton text="確定" size="lg" className="flex-1" onPress={handleSubmit} />
                 </HStack>
               </VStack>
-              <Dialog title="宛先入力不正" isOpen={isShowErrorDialog} onClose={setIsShowErrorDialog.off} size="lg">
+              <AlertDialog title="宛先入力不正" isOpen={isShowErrorDialog} onClose={setIsShowErrorDialog.off} size="lg">
                 <VStack className="py-4 gap-y-1">
                   {field.state.meta.errors.map((error, index) => (
                     <ErrorText key={`recipient-error-${index}`} className="flex-1">
@@ -84,7 +84,7 @@ const TransferRecipientField = (props: TransferRecipientFieldProps) => {
                     </ErrorText>
                   ))}
                 </VStack>
-              </Dialog>
+              </AlertDialog>
             </>
           )}
         />

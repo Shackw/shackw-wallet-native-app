@@ -1,6 +1,7 @@
 import { UseQueryResult } from "@tanstack/react-query";
 import * as SecureStore from "expo-secure-store";
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from "react";
+import * as v from "valibot";
 import { Address, createWalletClient, Hex, http, WalletClient } from "viem";
 import { Account, generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 
@@ -10,6 +11,7 @@ import { useCreateAddress } from "@/hooks/mutations/useCreateAddress";
 import { useLastTransaction } from "@/hooks/queries/useLastTransaction";
 import { useBoolean } from "@/hooks/useBoolean";
 import { TransactionModel } from "@/models/transaction";
+import { hex32Validator } from "@/validations/rules/addressValidator";
 
 type HinomaruWalletContextType = {
   account: Account | undefined;
@@ -17,6 +19,7 @@ type HinomaruWalletContextType = {
   hasPrivateKey: boolean;
   lastTransactionResult: UseQueryResult<TransactionModel | null | undefined>;
   createHinomaruWallet: () => Promise<void>;
+  restoreWallet: (inputPk: string) => Promise<void>;
 };
 
 export const HinomaruWalletContext = createContext<HinomaruWalletContextType | undefined>(undefined);
@@ -61,7 +64,7 @@ export const HinomaruWalletProvider = ({ children }: { children: ReactNode }) =>
 
   const createHinomaruWallet = useCallback(async () => {
     const storedPk = await getStoredPrivateKey();
-    if (storedPk) return;
+    if (storedPk) throw new Error("すでに登録済みのウォレットがあります。");
 
     const privateKey = generatePrivateKey();
     const address = connectWallet(privateKey);
@@ -70,6 +73,22 @@ export const HinomaruWalletProvider = ({ children }: { children: ReactNode }) =>
     await createAddress({ address, name: "myself", isMine: true });
     setHasPrivateKey.on();
   }, [connectWallet, createAddress, getStoredPrivateKey, setHasPrivateKey]);
+
+  const restoreWallet = useCallback(
+    async (inputPk: string) => {
+      const storedPk = await getStoredPrivateKey();
+      if (storedPk) throw new Error("すでに登録済みのウォレットがあります。");
+
+      const validated = v.safeParse(hex32Validator("PK"), inputPk);
+      if (!validated.success) throw new Error("不正なプライベートキーが入力されました。");
+
+      const address = connectWallet(validated.output);
+      await SecureStore.setItemAsync(WALLET_PRIVATE_KEY_BASE_NAME, validated.output);
+      await createAddress({ address, name: "myself", isMine: true });
+      setHasPrivateKey.on();
+    },
+    [connectWallet, createAddress, getStoredPrivateKey, setHasPrivateKey]
+  );
 
   useEffect(() => {
     tryConnectWallet();
@@ -82,7 +101,8 @@ export const HinomaruWalletProvider = ({ children }: { children: ReactNode }) =>
         client,
         hasPrivateKey,
         lastTransactionResult,
-        createHinomaruWallet
+        createHinomaruWallet,
+        restoreWallet
       }}
     >
       {children}
