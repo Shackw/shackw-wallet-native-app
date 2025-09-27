@@ -11,7 +11,7 @@ export const useListTransactionsByTerm = (
   const db = useSQLiteContext();
   return useQuery({
     ...options,
-    queryKey: [command.timeFrom, command.timeTo, command.token, command.wallet],
+    queryKey: [command.timeTo, command.token, command.wallet],
     queryFn: () => TransactionsService.listTransactionsByTerm(db, command)
   });
 };

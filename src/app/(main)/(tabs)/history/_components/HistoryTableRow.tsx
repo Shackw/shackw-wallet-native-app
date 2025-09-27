@@ -34,7 +34,7 @@ const HistoryTableRow = (props: HistoryTableRowProps) => {
             )}
           </HStack>
           <Text className="font-bold" size="lg">
-            {shortenAddress(counterparty.address, 12)}
+            {counterparty.name ?? shortenAddress(counterparty.address, 12)}
           </Text>
           <Text className="font-bold text-right" size="xl">
             {displayValue}

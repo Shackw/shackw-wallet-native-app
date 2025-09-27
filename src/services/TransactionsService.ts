@@ -13,6 +13,7 @@ export const TransactionsService = {
     const { wallet } = command;
     const query: SearchTransactionQuery = {
       wallet,
+      timeTo: new Date(),
       timeFrom: subMonths(new Date(), 3),
       tokens: [...TOKENS.map(token => ({ symbol: token }))],
       limit: 1
