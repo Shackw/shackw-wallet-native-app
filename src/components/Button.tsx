@@ -156,7 +156,11 @@ export const SubContainButton = ({
       action="secondary"
       disabled={disabled}
       onPress={onPress}
-      className={[disabled ? "bg-secondary-700" : "bg-secondary-200", className ?? ""].join(" ")}
+      className={[
+        disabled ? "bg-secondary-700" : "bg-secondary-200",
+        "data-[active=true]:bg-secondary-300",
+        className ?? ""
+      ].join(" ")}
       testID={testID}
     >
       {isLoading ? (
@@ -189,12 +193,14 @@ export const OutlineButton = ({
   return (
     <BaseButton
       size={size}
+      action="primary"
       disabled={disabled}
       onPress={onPress}
       className={[
         "border border-primary-400",
         disabled ? "bg-primary-200" : "bg-transparent",
         "border-[2.3px]",
+        "data-[active=true]:bg-primary-100",
         className ?? ""
       ].join(" ")}
       testID={testID}
@@ -204,7 +210,14 @@ export const OutlineButton = ({
       ) : (
         <>
           {icon && <IconLeft Icon={icon} color="#f94c4c" />}
-          <ButtonText className={["font-heading font-bold", fontClass[cfg.fontSize], "text-primary-400"].join(" ")}>
+          <ButtonText
+            className={[
+              "font-heading font-bold",
+              fontClass[cfg.fontSize],
+              "data-[active=true]:text-primary-500",
+              "text-primary-400"
+            ].join(" ")}
+          >
             {text}
           </ButtonText>
         </>

@@ -3,7 +3,7 @@ import { Pressable } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { SubContainButton, ContainButton } from "@/components/Button";
-import Dialog from "@/components/Dialog";
+import { AlertDialog } from "@/components/Dialog";
 import { BottomInputDrawer } from "@/components/Drawer";
 import { ErrorText } from "@/components/Text";
 import { useBoolean } from "@/hooks/useBoolean";
@@ -92,7 +92,12 @@ const TransferAmountField = (props: TransferAmountFieldProps) => {
                   <ContainButton text="確定" size="lg" className="flex-1" onPress={handleSubmit} />
                 </HStack>
               </VStack>
-              <Dialog title="送金額入力不正" isOpen={isShowErrorDialog} onClose={setIsShowErrorDialog.off} size="lg">
+              <AlertDialog
+                title="送金額入力不正"
+                isOpen={isShowErrorDialog}
+                onClose={setIsShowErrorDialog.off}
+                size="lg"
+              >
                 <VStack className="py-4 gap-y-1">
                   {field.state.meta.errors.map((error, index) => (
                     <ErrorText key={`amount-error-${index}`} className="flex-1">
@@ -100,7 +105,7 @@ const TransferAmountField = (props: TransferAmountFieldProps) => {
                     </ErrorText>
                   ))}
                 </VStack>
-              </Dialog>
+              </AlertDialog>
             </>
           )}
         />

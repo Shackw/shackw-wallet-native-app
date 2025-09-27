@@ -8,7 +8,6 @@ import { migrate } from "@/db";
 import { useFonts } from "@/hooks/useFonts";
 import { HinomaruWalletProvider } from "@/providers/HinomaruWalletProvider";
 import { GluestackUIProvider } from "@/vendor/gluestack-ui/gluestack-ui-provider";
-import { StatusBar } from "@/vendor/gluestack-ui/status-bar";
 
 import "@/styles/global.css";
 
@@ -29,7 +28,6 @@ const RootLayout = () => {
       <QueryClientProvider client={queryClient}>
         <HinomaruWalletProvider>
           <GluestackUIProvider>
-            <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
             <Stack
               screenOptions={{
                 headerShown: false,

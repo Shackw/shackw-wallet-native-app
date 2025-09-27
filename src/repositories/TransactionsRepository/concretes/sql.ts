@@ -77,7 +77,8 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
   },
 
   async batchWrite(db: SQLiteDatabase, progress: TransactionProgressResult, rows: TransactionResult[]): Promise<void> {
-    const { year, month, status, lastUpdatedAt } = progress;
+    const { year, month, status, token, lastUpdatedAt } = progress;
+    const tokenAddress = TOKEN_REGISTRY[token].address.toLowerCase();
 
     await db.withExclusiveTransactionAsync(async txn => {
       const transactionsStmt = await txn.prepareAsync(`
@@ -107,12 +108,14 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
         INSERT INTO transaction_progress (
           year,
           month,
+          token_address,
           status,
           last_updated_at
         )
         VALUES (
           $year,
           $month,
+          $tokenAddress,
           $status,
           $lastUpdatedAt
         )
@@ -138,6 +141,7 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
         await progressStmt.executeAsync({
           $year: year,
           $month: month,
+          $tokenAddress: tokenAddress,
           $status: status,
           $lastUpdatedAt: Math.floor(lastUpdatedAt.getTime() / 1000)
         });

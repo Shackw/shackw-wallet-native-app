@@ -1,4 +1,5 @@
 import { Stack } from "expo-router";
+import { StatusBar } from "react-native";
 
 import { RootContainer } from "@/components/Container";
 import { TokenBalanceProvider } from "@/providers/TokenBalanceProvider";
@@ -7,6 +8,7 @@ const MainRoutes = () => {
   return (
     <TokenBalanceProvider>
       <RootContainer>
+        <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
         <Stack
           screenOptions={{
             headerShown: false,

@@ -6,7 +6,7 @@ import OnBording from "./_onbording";
 import MainRoutes from "./_routes";
 
 const MainLayout = () => {
-  const { account, hasPrivateKey, createHinomaruWallet } = useHinomaruWalletContext();
+  const { account, hasPrivateKey } = useHinomaruWalletContext();
 
   const isLoading = !account && hasPrivateKey;
 
@@ -14,7 +14,7 @@ const MainLayout = () => {
 
   if (isLoading) return <Loading />;
 
-  if (!hasWallet) return <OnBording createHinomaruWallet={createHinomaruWallet} />;
+  if (!hasWallet) return <OnBording />;
 
   return <MainRoutes />;
 };
