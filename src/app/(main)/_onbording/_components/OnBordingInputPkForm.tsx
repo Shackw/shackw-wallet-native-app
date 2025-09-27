@@ -5,7 +5,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import BackDrop from "@/components/BackDrop";
 import { SubContainButton, ContainButton } from "@/components/Button";
 import { AlertDialog } from "@/components/Dialog";
-import { ErrorText } from "@/components/Text";
+import { ErrorText, InfoText } from "@/components/Text";
 import { useBoolean } from "@/hooks/useBoolean";
 import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { Textarea, TextareaInput } from "@/vendor/gluestack-ui/textarea";
@@ -66,17 +66,20 @@ const OnBordingInputPkForm = (props: OnBordingInputPkFormProps) => {
         keyboardShouldPersistTaps="handled"
       >
         <VStack className="flex-1 items-center justify-between py-4">
-          <VStack className="w-full">
+          <VStack className="w-full gap-y-4">
             <Textarea size="lg" className="px-2">
               <TextareaInput
                 defaultValue=""
                 inputMode="text"
-                placeholder="プライベートキーを入力してください"
+                placeholder="秘密鍵を入力してください"
                 ref={inputRef as any}
                 onChangeText={handleChange}
                 onBlur={handleBlur}
               />
             </Textarea>
+            <InfoText className="flex-1">
+              HINOMARU WALLET以外で作成された秘密鍵を使用して復元することが可能です。
+            </InfoText>
           </VStack>
 
           <HStack className="gap-x-4">
@@ -98,7 +101,7 @@ const OnBordingInputPkForm = (props: OnBordingInputPkFormProps) => {
         </VStack>
       </KeyboardAwareScrollView>
 
-      <AlertDialog title="プライベートキー入力不正" isOpen={!!error} onClose={closeError} size="lg">
+      <AlertDialog title="秘密鍵入力不正" isOpen={!!error} onClose={closeError} size="lg">
         <VStack className="py-4 gap-y-1">
           <ErrorText className="flex-1">{error}</ErrorText>
         </VStack>

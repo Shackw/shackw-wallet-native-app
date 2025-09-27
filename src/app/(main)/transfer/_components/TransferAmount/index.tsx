@@ -47,7 +47,7 @@ const TransferAmount = () => {
                 {`${toAllowedStr(amount ?? 0, sendToken)} ${sendToken}`}
               </Text>
             ) : (
-              <Text size="xl" className="text-primary-600 font-bold text-center">
+              <Text size="lg" className="text-primary-600 font-bold text-center">
                 金額を入力
               </Text>
             )}

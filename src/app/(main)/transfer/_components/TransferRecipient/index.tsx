@@ -38,7 +38,7 @@ const TransferRecipient = () => {
               {shortenAddress((isEditing ? prevValue : recipient) as Address, 14)}
             </Text>
           ) : (
-            <Text size="xl" className="text-primary-600 font-bold text-center">
+            <Text size="lg" className="text-primary-600 font-bold text-center">
               振込先を入力
             </Text>
           )}

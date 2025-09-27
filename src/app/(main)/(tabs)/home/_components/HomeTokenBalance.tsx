@@ -31,7 +31,7 @@ const HomeTokenBalance = ({ token }: HomeTokenBalanceProps) => {
           </HStack>
           <IconButton
             icon={RefreshCcw}
-            iconSize={28}
+            iconSize={20}
             iconColor={theme.colors.secondary[600]}
             className="absolute right-5 top-[-6px]"
             action="none"

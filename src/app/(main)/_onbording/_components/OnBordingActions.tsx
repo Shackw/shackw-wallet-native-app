@@ -17,7 +17,7 @@ const OnBordingActions = () => {
       </VStack>
       <OnBordingCreateWalletDialog isOpen={isCreating} handleClose={setIsCreating.off} />
       <OnBordingRestoreWalletField
-        title="プライベートキーからの復元"
+        title="秘密鍵からの復元"
         size="lg"
         isOpen={isRestoring}
         onClose={setIsRestoring.off}
