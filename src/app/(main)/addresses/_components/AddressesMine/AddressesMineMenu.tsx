@@ -1,4 +1,6 @@
-import { EllipsisVertical, QrCode, SquarePen } from "lucide-react-native";
+import { setStringAsync } from "expo-clipboard";
+import { Copy, EllipsisVertical, QrCode, SquarePen } from "lucide-react-native";
+import { useCallback } from "react";
 import { Address } from "viem";
 
 import { IconButton } from "@/components/Button";
@@ -22,6 +24,10 @@ const AddressesMineMenu = (props: AddressesMineMenuProps) => {
   const [isEditing, setIsEditing] = useBoolean(false);
   const [isDisplayQr, setIsDisplayQr] = useBoolean(false);
 
+  const handleCopy = useCallback(() => {
+    setStringAsync(address);
+  }, [address]);
+
   return (
     <>
       <Menu
@@ -41,7 +47,7 @@ const AddressesMineMenu = (props: AddressesMineMenuProps) => {
           );
         }}
       >
-        <MenuItem key="Edit" textValue="編集" onPress={setIsEditing.on}>
+        <MenuItem key="Edit Profile" textValue="編集" onPress={setIsEditing.on}>
           <Icon as={SquarePen} size="md" className="mr-2" />
           <MenuItemLabel size="md" className="font-bold">
             編集
@@ -51,6 +57,12 @@ const AddressesMineMenu = (props: AddressesMineMenuProps) => {
           <Icon as={QrCode} size="md" className="mr-2" />
           <MenuItemLabel size="md" className="font-bold">
             QRコードを表示
+          </MenuItemLabel>
+        </MenuItem>
+        <MenuItem key="Copy Address" textValue="アドレスをコピー" onPress={handleCopy}>
+          <Icon as={Copy} size="md" className="mr-2" />
+          <MenuItemLabel size="md" className="font-bold">
+            アドレスをコピー
           </MenuItemLabel>
         </MenuItem>
       </Menu>
