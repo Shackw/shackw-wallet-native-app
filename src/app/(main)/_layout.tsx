@@ -16,6 +16,13 @@ const MainLayout = () => {
           }}
         >
           <Stack.Screen
+            name="addresses/index"
+            options={{
+              presentation: "modal",
+              animation: "fade"
+            }}
+          />
+          <Stack.Screen
             name="receive/index"
             options={{
               presentation: "modal",

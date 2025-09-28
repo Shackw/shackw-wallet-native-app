@@ -1,0 +1,72 @@
+import { EllipsisVertical, QrCode, SquarePen } from "lucide-react-native";
+import { Address } from "viem";
+
+import { IconButton } from "@/components/Button";
+import { useBoolean } from "@/hooks/useBoolean";
+import { theme } from "@/styles/theme";
+import { Icon } from "@/vendor/gluestack-ui/icon";
+import { Menu, MenuItem, MenuItemLabel } from "@/vendor/gluestack-ui/menu";
+
+import useAddressesRow from "../../_hooks/useAddressesRow";
+
+import AddressesMineEditField from "./AddressesMineEditField";
+
+type AddressesMineMenuProps = {
+  address: Address;
+  name: string;
+  refetchAddresses: ReturnType<typeof useAddressesRow>["refetch"];
+};
+
+const AddressesMineMenu = (props: AddressesMineMenuProps) => {
+  const { address, name, refetchAddresses } = props;
+  const [isEditing, setIsEditing] = useBoolean(false);
+  const [isDisplayQr, setIsDisplayQr] = useBoolean(false);
+
+  return (
+    <>
+      <Menu
+        placement="bottom left"
+        offset={5}
+        className="bg-secondary-50"
+        trigger={({ ...triggerProps }) => {
+          return (
+            <IconButton
+              defaultProps={triggerProps}
+              action="default"
+              className="ml-auto"
+              iconSize={25}
+              icon={EllipsisVertical}
+              iconColor={theme.colors.secondary[700]}
+            />
+          );
+        }}
+      >
+        <MenuItem key="Edit" textValue="編集" onPress={setIsEditing.on}>
+          <Icon as={SquarePen} size="md" className="mr-2" />
+          <MenuItemLabel size="md" className="font-bold">
+            編集
+          </MenuItemLabel>
+        </MenuItem>
+        <MenuItem key="Disply QR" textValue="QRコードを表示" onPress={setIsDisplayQr.on}>
+          <Icon as={QrCode} size="md" className="mr-2" />
+          <MenuItemLabel size="md" className="font-bold">
+            QRコードを表示
+          </MenuItemLabel>
+        </MenuItem>
+      </Menu>
+      <AddressesMineEditField
+        address={address}
+        name={name}
+        refetchAddresses={refetchAddresses}
+        componentProps={{
+          title: "プロフィールの編集",
+          size: "lg",
+          isOpen: isEditing,
+          onClose: setIsEditing.off
+        }}
+      />
+    </>
+  );
+};
+
+export default AddressesMineMenu;

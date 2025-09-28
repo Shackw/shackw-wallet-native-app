@@ -7045,9 +7045,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.218":
-  version: 1.5.226
-  resolution: "electron-to-chromium@npm:1.5.226"
-  checksum: 10c0/a59a307944b849496b662dcafd9a837c1cb6b6c7e483015f01c5cfee7252cde72dd5bf41f1bbdea21d41c14038bed57ff1d0b63a70301828b82f7ee12b1a1ae1
+  version: 1.5.227
+  resolution: "electron-to-chromium@npm:1.5.227"
+  checksum: 10c0/6b220ea024bcdd1560ffaca6b6b4c220d789b3e9c580c37509e8c176f369c93a4de8497a6e25cbfd9619ab9d129069368e4a4317dec0335d3a0cb61c2353e6f1
   languageName: node
   linkType: hard
 
@@ -14797,8 +14797,8 @@ __metadata:
   linkType: hard
 
 "viem@npm:^2.33.1":
-  version: 2.37.8
-  resolution: "viem@npm:2.37.8"
+  version: 2.37.9
+  resolution: "viem@npm:2.37.9"
   dependencies:
     "@noble/curves": "npm:1.9.1"
     "@noble/hashes": "npm:1.8.0"
@@ -14813,7 +14813,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 10c0/01471fba5de0178fa48e2a9b27edeabb8ec7ba056f1a2048352e344f902a17848765ece0fcb57b6ce321b5ef8e09de9072470e6470d1d85cd25195a4c6d89bef
+  checksum: 10c0/25334d053adf44419629f686e03b6f11da473bfb6798649748e8935b1e57620d07d4fcb6dbe57ed75c3fda3d2d04e57892bbe0a38bbce3ea43a03487fa466529
   languageName: node
   linkType: hard
 
