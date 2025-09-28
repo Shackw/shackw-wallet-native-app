@@ -12,7 +12,7 @@ const BackDrop = (props: BackDropProps) => {
   const { visible } = props;
   return (
     <Modal visible={visible} transparent statusBarTranslucent>
-      <VStack className="flex-1 justify-center items-center bg-black/60">
+      <VStack className="flex-1 justify-center items-center bg-white/70">
         <Spinner size={48} color={theme.colors.primary[500]} />
       </VStack>
     </Modal>

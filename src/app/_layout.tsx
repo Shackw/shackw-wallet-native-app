@@ -4,6 +4,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { SQLiteProvider } from "expo-sqlite";
 import { useEffect, useState } from "react";
 
+import Loading from "@/components/Loading";
 import { migrate } from "@/db";
 import { useFonts } from "@/hooks/useFonts";
 import { HinomaruWalletProvider } from "@/providers/HinomaruWalletProvider";
@@ -21,7 +22,7 @@ const RootLayout = () => {
     if (fontsLoaded) SplashScreen.hideAsync();
   }, [fontsLoaded]);
 
-  if (!fontsLoaded) return null;
+  if (!fontsLoaded) return <Loading />;
 
   return (
     <SQLiteProvider databaseName="hinomaru-wallet.db" onInit={migrate}>
