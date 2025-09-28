@@ -11,55 +11,78 @@ import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { Textarea, TextareaInput } from "@/vendor/gluestack-ui/textarea";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
 
-type OnBordingInputPkFormProps = {
+type AddressesMineEditFormProps = {
+  initName: string;
   onClose: () => void;
-  onRestore: (pk: string) => Promise<void>;
+  onEdit: (name: string) => Promise<void>;
 };
 
-const OnBordingInputPkForm = (props: OnBordingInputPkFormProps) => {
+const SAFE_NAME_12: RegExp = (() => {
+  try {
+    return new RegExp("^[^\\p{C}\\u200B-\\u200D\\u2060\\uFEFF<>[\\]{}\\\\]{1,12}$", "u");
+  } catch {
+    return /^[^\x00-\x1F\x7F-\x9F\u200B-\u200D\u2060\uFEFF<>[\]{}\\]{1,12}$/;
+  }
+})();
+
+const normalizeNameInput = (s: string) =>
+  String(s ?? "")
+    .normalize("NFC")
+    .replace(/[\r\n\t]/g, "")
+    .replace(/[\u0020\u00A0\u1680\u2000-\u200A\u202F\u205F\u3000]+/g, " ")
+    .trim();
+
+const AddressesMineEditForm = (props: AddressesMineEditFormProps) => {
+  const { initName, onClose, onEdit } = props;
   const [error, setError] = useState<string>();
   const [hasValue, setHasValue] = useState(false);
-  const [isRestoring, setIsRestoring] = useBoolean(false);
+  const [isEditing, setIsEditing] = useBoolean(false);
 
-  const pkRef = useRef("");
+  const nameRef = useRef(initName);
   const inputRef = useRef<RNTextInput | null>(null);
 
   const handleChange = useCallback((t: string) => {
-    pkRef.current = t;
+    nameRef.current = t;
     setHasValue(t.length > 0);
   }, []);
 
   const handleBlur = useCallback(() => {
-    const trimmed = pkRef.current.replace(/\s/g, "");
-    pkRef.current = trimmed;
-    inputRef.current?.setNativeProps({ text: trimmed });
+    const normalized = normalizeNameInput(nameRef.current);
+    nameRef.current = normalized;
+    inputRef.current?.setNativeProps({ text: normalized });
+    setHasValue(normalized.length > 0);
   }, []);
 
   const handleClear = useCallback(() => {
-    if (!pkRef.current) {
-      props.onClose();
+    if (!nameRef.current) {
+      onClose();
       return;
     }
-    pkRef.current = "";
+    nameRef.current = "";
     setHasValue(false);
     inputRef.current?.setNativeProps({ text: "" });
-  }, [props]);
+  }, [onClose]);
 
-  const handleRestore = useCallback(async () => {
+  const handleEdit = useCallback(async () => {
+    setIsEditing.on();
     try {
-      setIsRestoring.on();
-      await props.onRestore(pkRef.current);
-    } catch (e) {
-      setIsRestoring.off();
-      setError(e instanceof Error ? e.message : "ウォレットの復元中に不明なエラーが発生しました。");
+      const value = normalizeNameInput(nameRef.current);
+      if (!SAFE_NAME_12.test(value)) {
+        setError("名前は12文字以内、危険記号・制御以外で入力してください。");
+        return;
+      }
+      await onEdit(value);
+      onClose();
+    } finally {
+      setIsEditing.off();
     }
-  }, [props, setIsRestoring]);
+  }, [onClose, onEdit, setIsEditing]);
 
   const closeError = useCallback(() => setError(undefined), []);
 
   return (
     <>
-      <BackDrop visible={isRestoring} />
+      <BackDrop visible={isEditing} />
       <KeyboardAwareScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         enableOnAndroid
@@ -69,16 +92,16 @@ const OnBordingInputPkForm = (props: OnBordingInputPkFormProps) => {
           <VStack className="w-full gap-y-6">
             <Textarea size="lg" className="px-2 rounded-xl h-20">
               <TextareaInput
-                defaultValue=""
+                defaultValue={initName}
                 inputMode="text"
-                placeholder="秘密鍵を入力してください"
+                placeholder="名前を入力してください"
                 ref={inputRef as any}
                 onChangeText={handleChange}
                 onBlur={handleBlur}
               />
             </Textarea>
             <InfoText className="flex-1">
-              HINOMARU WALLET以外で作成された秘密鍵を使用して復元することが可能です。
+              QRコードでアドレスを共有した際に、登録されている名前が相手のアドレス帳に反映されます。
             </InfoText>
           </VStack>
 
@@ -90,12 +113,12 @@ const OnBordingInputPkForm = (props: OnBordingInputPkFormProps) => {
               onPress={handleClear}
             />
             <ContainButton
-              text="復元"
+              text="編集"
               size="lg"
               className="flex-1"
               isDisabled={!hasValue}
-              isLoading={isRestoring}
-              onPress={handleRestore}
+              isLoading={isEditing}
+              onPress={handleEdit}
             />
           </HStack>
         </VStack>
@@ -110,4 +133,4 @@ const OnBordingInputPkForm = (props: OnBordingInputPkFormProps) => {
   );
 };
 
-export default memo(OnBordingInputPkForm);
+export default memo(AddressesMineEditForm);

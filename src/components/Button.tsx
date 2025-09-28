@@ -236,6 +236,7 @@ type IconButtonProps = {
   className?: string;
   style?: ViewStyle;
   testID?: string;
+  defaultProps?: Omit<React.ComponentProps<typeof Button>, "children">;
 };
 
 export const IconButton = ({
@@ -247,7 +248,8 @@ export const IconButton = ({
   onPress,
   className,
   style,
-  testID
+  testID,
+  defaultProps
 }: IconButtonProps) => {
   return (
     <Button
@@ -261,6 +263,7 @@ export const IconButton = ({
       style={({ pressed }) => (pressed ? [{ opacity: 0.85 } as ViewStyle, style] : style)}
       testID={testID}
       accessibilityRole="button"
+      {...defaultProps}
     >
       <Icon size={iconSize} color={iconColor} />
     </Button>

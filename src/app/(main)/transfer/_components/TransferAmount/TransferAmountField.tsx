@@ -76,7 +76,7 @@ const TransferAmountField = (props: TransferAmountFieldProps) => {
                       placeholder="金額を入力してください"
                       textAlign="right"
                       value={field.state.value}
-                      onChange={e => field.handleChange(e.nativeEvent.text)}
+                      onChangeText={e => field.handleChange(e)}
                       onBlur={field.handleBlur}
                     />
                   </Input>

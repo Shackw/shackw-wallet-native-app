@@ -61,7 +61,7 @@ const TransferRecipientField = (props: TransferRecipientFieldProps) => {
                       placeholder="宛先を入力してください"
                       textAlign="right"
                       value={field.state.value}
-                      onChange={e => field.handleChange(e.nativeEvent.text)}
+                      onChangeText={e => field.handleChange(e)}
                       onBlur={field.handleBlur}
                     />
                   </Input>

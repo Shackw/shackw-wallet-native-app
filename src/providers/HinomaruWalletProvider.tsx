@@ -27,7 +27,7 @@ export const HinomaruWalletContext = createContext<HinomaruWalletContextType | u
 export const HinomaruWalletProvider = ({ children }: { children: ReactNode }) => {
   const [account, setAccount] = useState<Account | undefined>(undefined);
   const [client, setClient] = useState<WalletClient | undefined>(undefined);
-  const [hasPrivateKey, setHasPrivateKey] = useBoolean(false);
+  const [hasPrivateKey, setHasPrivateKey] = useBoolean(true);
   const { mutateAsync: createAddress } = useCreateAddress();
 
   const lastTransactionResult = useLastTransaction(account?.address ?? "0x", {
@@ -59,9 +59,8 @@ export const HinomaruWalletProvider = ({ children }: { children: ReactNode }) =>
 
     if (!storedPk) return;
 
-    setHasPrivateKey.on();
     connectWallet(storedPk);
-  }, [connectWallet, getStoredPrivateKey, setHasPrivateKey]);
+  }, [connectWallet, getStoredPrivateKey]);
 
   const createHinomaruWallet = useCallback(async () => {
     const storedPk = await getStoredPrivateKey();
@@ -72,7 +71,7 @@ export const HinomaruWalletProvider = ({ children }: { children: ReactNode }) =>
 
     const address = connectWallet(privateKey);
     await SecureStore.setItemAsync(WALLET_PRIVATE_KEY_BASE_NAME, privateKey);
-    await createAddress({ address, name: "myself", isMine: true });
+    await createAddress({ address, name: "Mine", isMine: true });
   }, [connectWallet, createAddress, getStoredPrivateKey, setHasPrivateKey]);
 
   const restoreWallet = useCallback(
@@ -86,7 +85,7 @@ export const HinomaruWalletProvider = ({ children }: { children: ReactNode }) =>
 
       const address = connectWallet(validated.output);
       await SecureStore.setItemAsync(WALLET_PRIVATE_KEY_BASE_NAME, validated.output);
-      await createAddress({ address, name: "myself", isMine: true });
+      await createAddress({ address, name: "Mine", isMine: true });
     },
     [connectWallet, createAddress, getStoredPrivateKey, setHasPrivateKey]
   );

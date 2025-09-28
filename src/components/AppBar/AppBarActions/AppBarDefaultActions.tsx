@@ -12,7 +12,7 @@ const AppBarDefaultActions = () => {
   const { account } = useHinomaruWalletContext();
 
   const handleForwardAddresses = useCallback(() => {
-    router.push("/account");
+    router.push("/addresses");
   }, [router]);
 
   return (
