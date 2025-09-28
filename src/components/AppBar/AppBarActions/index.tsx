@@ -1,7 +1,7 @@
 import { HStack } from "@/vendor/gluestack-ui/hstack";
 
-import AppBarCopyAction from "./AppBarCopyAction";
-import AppBarRouterBackAction from "./AppBarRouterBackAction";
+import AppBarDefaultActions from "./AppBarDefaultActions";
+import AppBarOverlayActions from "./AppBarOverlayActions";
 
 type AppBarActionsProps = {
   isDefault: boolean;
@@ -9,7 +9,9 @@ type AppBarActionsProps = {
 
 const AppBarActions = (props: AppBarActionsProps) => {
   const { isDefault } = props;
-  return <HStack className="absolute right-0">{isDefault ? <AppBarCopyAction /> : <AppBarRouterBackAction />}</HStack>;
+  return (
+    <HStack className="absolute right-0">{isDefault ? <AppBarDefaultActions /> : <AppBarOverlayActions />}</HStack>
+  );
 };
 
 export default AppBarActions;

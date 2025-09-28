@@ -1,22 +1,45 @@
-import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
+import { Stack } from "expo-router";
+import { StatusBar } from "react-native";
 
-import Loading from "../_loading";
-
-import OnBording from "./_onbording";
-import MainRoutes from "./_routes";
+import { RootContainer } from "@/components/Container";
+import { TokenBalanceProvider } from "@/providers/TokenBalanceProvider";
 
 const MainLayout = () => {
-  const { account, hasPrivateKey } = useHinomaruWalletContext();
-
-  const isLoading = !account && hasPrivateKey;
-
-  const hasWallet = account && hasPrivateKey;
-
-  if (isLoading) return <Loading />;
-
-  if (!hasWallet) return <OnBording />;
-
-  return <MainRoutes />;
+  return (
+    <TokenBalanceProvider>
+      <RootContainer>
+        <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: "transparent" }
+          }}
+        >
+          <Stack.Screen
+            name="receive/index"
+            options={{
+              presentation: "modal",
+              animation: "fade"
+            }}
+          />
+          <Stack.Screen
+            name="transfer/index"
+            options={{
+              presentation: "modal",
+              animation: "fade"
+            }}
+          />
+          <Stack.Screen
+            name="transferByQr/index"
+            options={{
+              presentation: "modal",
+              animation: "fade"
+            }}
+          />
+        </Stack>
+      </RootContainer>
+    </TokenBalanceProvider>
+  );
 };
 
 export default MainLayout;

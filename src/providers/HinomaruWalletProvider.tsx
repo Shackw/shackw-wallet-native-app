@@ -27,7 +27,7 @@ export const HinomaruWalletContext = createContext<HinomaruWalletContextType | u
 export const HinomaruWalletProvider = ({ children }: { children: ReactNode }) => {
   const [account, setAccount] = useState<Account | undefined>(undefined);
   const [client, setClient] = useState<WalletClient | undefined>(undefined);
-  const [hasPrivateKey, setHasPrivateKey] = useBoolean(true);
+  const [hasPrivateKey, setHasPrivateKey] = useBoolean(false);
   const { mutateAsync: createAddress } = useCreateAddress();
 
   const lastTransactionResult = useLastTransaction(account?.address ?? "0x", {
@@ -59,19 +59,20 @@ export const HinomaruWalletProvider = ({ children }: { children: ReactNode }) =>
 
     if (!storedPk) return;
 
+    setHasPrivateKey.on();
     connectWallet(storedPk);
-  }, [connectWallet, getStoredPrivateKey]);
+  }, [connectWallet, getStoredPrivateKey, setHasPrivateKey]);
 
   const createHinomaruWallet = useCallback(async () => {
     const storedPk = await getStoredPrivateKey();
     if (storedPk) throw new Error("すでに登録済みのウォレットがあります。");
 
     const privateKey = generatePrivateKey();
-    const address = connectWallet(privateKey);
+    setHasPrivateKey.on();
 
+    const address = connectWallet(privateKey);
     await SecureStore.setItemAsync(WALLET_PRIVATE_KEY_BASE_NAME, privateKey);
     await createAddress({ address, name: "myself", isMine: true });
-    setHasPrivateKey.on();
   }, [connectWallet, createAddress, getStoredPrivateKey, setHasPrivateKey]);
 
   const restoreWallet = useCallback(
@@ -81,11 +82,11 @@ export const HinomaruWalletProvider = ({ children }: { children: ReactNode }) =>
 
       const validated = v.safeParse(hex32Validator("PK"), inputPk);
       if (!validated.success) throw new Error("不正なプライベートキーが入力されました。");
+      setHasPrivateKey.on();
 
       const address = connectWallet(validated.output);
       await SecureStore.setItemAsync(WALLET_PRIVATE_KEY_BASE_NAME, validated.output);
       await createAddress({ address, name: "myself", isMine: true });
-      setHasPrivateKey.on();
     },
     [connectWallet, createAddress, getStoredPrivateKey, setHasPrivateKey]
   );

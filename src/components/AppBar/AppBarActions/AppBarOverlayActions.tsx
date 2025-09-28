@@ -3,7 +3,7 @@ import { X } from "lucide-react-native";
 
 import { IconButton } from "@/components/Button";
 
-const AppBarRouterBackAction = () => {
+const AppBarOverlayActions = () => {
   const router = useRouter();
 
   const handlePress = () => {
@@ -12,4 +12,4 @@ const AppBarRouterBackAction = () => {
   return <IconButton icon={X} iconSize={22} onPress={handlePress} />;
 };
 
-export default AppBarRouterBackAction;
+export default AppBarOverlayActions;
