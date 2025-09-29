@@ -1,15 +1,15 @@
-import { memo, useCallback, useRef, useState } from "react";
-import { TextInput as RNTextInput } from "react-native";
+import { memo } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import BackDrop from "@/components/BackDrop";
 import { SubContainButton, ContainButton } from "@/components/Button";
 import { AlertDialog } from "@/components/Dialog";
 import { ErrorText, InfoText } from "@/components/Text";
-import { useBoolean } from "@/hooks/useBoolean";
 import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { Textarea, TextareaInput } from "@/vendor/gluestack-ui/textarea";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
+
+import useRestoreWalletByPkForm from "../_hooks/useRestoreWalletByPkForm";
 
 type OnBordingInputPkFormProps = {
   onClose: () => void;
@@ -17,46 +17,8 @@ type OnBordingInputPkFormProps = {
 };
 
 const OnBordingInputPkForm = (props: OnBordingInputPkFormProps) => {
-  const [error, setError] = useState<string>();
-  const [hasValue, setHasValue] = useState(false);
-  const [isRestoring, setIsRestoring] = useBoolean(false);
-
-  const pkRef = useRef("");
-  const inputRef = useRef<RNTextInput | null>(null);
-
-  const handleChange = useCallback((t: string) => {
-    pkRef.current = t;
-    setHasValue(t.length > 0);
-  }, []);
-
-  const handleBlur = useCallback(() => {
-    const trimmed = pkRef.current.replace(/\s/g, "");
-    pkRef.current = trimmed;
-    inputRef.current?.setNativeProps({ text: trimmed });
-  }, []);
-
-  const handleClear = useCallback(() => {
-    if (!pkRef.current) {
-      props.onClose();
-      return;
-    }
-    pkRef.current = "";
-    setHasValue(false);
-    inputRef.current?.setNativeProps({ text: "" });
-  }, [props]);
-
-  const handleRestore = useCallback(async () => {
-    try {
-      setIsRestoring.on();
-      await props.onRestore(pkRef.current);
-    } catch (e) {
-      setIsRestoring.off();
-      setError(e instanceof Error ? e.message : "ウォレットの復元中に不明なエラーが発生しました。");
-    }
-  }, [props, setIsRestoring]);
-
-  const closeError = useCallback(() => setError(undefined), []);
-
+  const { inputRef, hasValue, isRestoring, error, handleRestore, handleChange, handleBlur, handleClear, closeError } =
+    useRestoreWalletByPkForm(props);
   return (
     <>
       <BackDrop visible={isRestoring} />

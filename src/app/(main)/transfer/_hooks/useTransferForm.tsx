@@ -2,13 +2,14 @@ import { useForm, useStore } from "@tanstack/react-form";
 import { RefetchOptions, QueryObserverResult } from "@tanstack/react-query";
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo } from "react";
 import * as v from "valibot";
-import { isAddress, zeroAddress } from "viem";
 
 import { toDecimals, toAllowed } from "@/helpers/tokenUnits";
 import { useTransferFee } from "@/hooks/queries/useTransferFee";
 import { FeeModel } from "@/models/fee";
 import { useTokenBalanceContext } from "@/providers/TokenBalanceProvider";
-import { Token, TOKEN_REGISTRY, TOKENS } from "@/registries/TokenRegistry";
+import { Token, TOKEN_REGISTRY } from "@/registries/TokenRegistry";
+import { addressFormValidator } from "@/validations/forms/addressFormValidator";
+import { tokenFormValidator } from "@/validations/forms/tokenFormValidator";
 
 const buildTransferSchema = (sendToken: Token, maxSendable: number) => {
   const fraction = TOKEN_REGISTRY[sendToken].supportDecimals;
@@ -16,22 +17,8 @@ const buildTransferSchema = (sendToken: Token, maxSendable: number) => {
   const amountPattern = new RegExp(`^\\d+(?:\\.\\d{1,${fraction}})?$`);
 
   return v.object({
-    feeToken: v.pipe(
-      v.string("手数料に使う通貨を選んでください。"),
-      v.picklist(TOKENS, `手数料に使う通貨は ${TOKENS.join(" / ")} から選んでください。`)
-    ),
-    recipient: v.pipe(
-      v.string("宛先は文字列で入力してください。"),
-      v.regex(/^0x[0-9a-fA-F]{40}$/, "宛先は0xで始まる40桁の16進数で入力してください。"),
-      v.custom(
-        (s): s is string => typeof s === "string" && s.toLowerCase() !== zeroAddress,
-        () => "宛先にゼロアドレスは指定できません。"
-      ),
-      v.custom(
-        (s): s is string => typeof s === "string" && isAddress(s),
-        () => "宛先は有効なEVMアドレスを入力してください。"
-      )
-    ),
+    feeToken: tokenFormValidator,
+    recipient: addressFormValidator,
     amount: v.pipe(
       v.string("金額を入力してください。"),
       v.transform(s => s.trim()),

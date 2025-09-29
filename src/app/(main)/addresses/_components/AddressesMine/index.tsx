@@ -1,9 +1,8 @@
 import React from "react";
 
-import AddressCircle from "@/components/AddressCircle";
 import { shortenAddress } from "@/helpers/address";
 import { AddressModel } from "@/models/address";
-import { theme } from "@/styles/theme";
+import { Avatar, AvatarFallbackText } from "@/vendor/gluestack-ui/avatar";
 import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { Text } from "@/vendor/gluestack-ui/text";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
@@ -20,8 +19,10 @@ const AddressesMine = (props: AddressesMineProps) => {
   const { address, name, refetchAddresses } = props;
 
   return (
-    <HStack className="w-full py-3 gap-x-4 items-center">
-      <AddressCircle text={name} size="md" color={theme.colors.primary[700]} />
+    <HStack className="w-full gap-x-4 items-center">
+      <Avatar size="lg">
+        <AvatarFallbackText>{name}</AvatarFallbackText>
+      </Avatar>
       <VStack className="gap-y-1">
         <Text size="2xl" className="font-bold">
           {name}
