@@ -23,7 +23,7 @@ const HistoryTable = (props: HistoryTableProps) => {
   if (!historyRows && isError)
     return (
       <VStack className="flex-1 justify-center items-center pb-32">
-        <Text>エラーが発生しました。</Text>
+        <Text className="font-bold text-secondary-500">エラーが発生しました</Text>
       </VStack>
     );
 
@@ -37,7 +37,7 @@ const HistoryTable = (props: HistoryTableProps) => {
   if (historyRows.length === 0)
     return (
       <VStack className="flex-1 justify-center items-center pb-32">
-        <Text>データがありません。</Text>
+        <Text className="font-bold text-secondary-500">データがありません</Text>
       </VStack>
     );
 

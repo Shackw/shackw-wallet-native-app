@@ -19,20 +19,23 @@ const AddressesMine = (props: AddressesMineProps) => {
   const { address, name, refetchAddresses } = props;
 
   return (
-    <HStack className="w-full gap-x-4 items-center">
-      <Avatar size="lg">
-        <AvatarFallbackText>{name}</AvatarFallbackText>
-      </Avatar>
-      <VStack className="gap-y-1">
-        <Text size="2xl" className="font-bold">
-          {name}
-        </Text>
-        <Text size="xl" className="font-bold text-secondary-500">
-          {shortenAddress(address, 12)}
-        </Text>
-      </VStack>
-      <AddressesMineMenu address={address} name={name} refetchAddresses={refetchAddresses} />
-    </HStack>
+    <VStack>
+      <Text className="font-bold text-secondary-500">プロフィール</Text>
+      <HStack className="w-full py-3 gap-x-4 items-center">
+        <Avatar size="lg">
+          <AvatarFallbackText>{name}</AvatarFallbackText>
+        </Avatar>
+        <VStack className="gap-y-1">
+          <Text size="2xl" className="font-bold">
+            {name}
+          </Text>
+          <Text size="xl" className="font-bold text-secondary-500">
+            {shortenAddress(address, 12)}
+          </Text>
+        </VStack>
+        <AddressesMineMenu address={address} name={name} refetchAddresses={refetchAddresses} />
+      </HStack>
+    </VStack>
   );
 };
 

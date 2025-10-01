@@ -38,6 +38,7 @@ const OnBordingCreateWalletDialog = (props: OnBordingCreateWalletDialogProps) =>
       <BackDrop visible={isCreating} />
       <ActionDialog
         title="ウォレットの新規作成"
+        action="primary"
         isOpen={isOpen}
         onClose={handleClose}
         size="lg"

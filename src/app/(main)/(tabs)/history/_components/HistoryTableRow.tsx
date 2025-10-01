@@ -15,7 +15,7 @@ type HistoryTableRowProps = {
 };
 
 const HistoryTableRow = (props: HistoryTableRowProps) => {
-  const { txHash, displayValue, counterparty, anchorColor, transferredAt: transferredStrAt } = props.row;
+  const { txHash, displayValue, counterparty, anchorColor, transferredAt } = props.row;
 
   return (
     <TableRow className="w-full">
@@ -23,7 +23,7 @@ const HistoryTableRow = (props: HistoryTableRowProps) => {
         <Box className="h-full w-1.5 rounded-full" style={{ backgroundColor: anchorColor }} />
         <VStack className="w-full py-1 pl-3 pr-6 gap-y-1">
           <HStack className="justify-between">
-            <Text className="font-bold text-secondary-500">{formatIsoString(transferredStrAt)}</Text>
+            <Text className="font-bold text-secondary-500">{formatIsoString(transferredAt)}</Text>
             {DEFAULT_CHAIN.blockExplorers?.default ? (
               <Anchor
                 href={`${DEFAULT_CHAIN.blockExplorers.default.url}/tx/${txHash}`}

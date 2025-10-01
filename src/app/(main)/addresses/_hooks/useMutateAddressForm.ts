@@ -24,21 +24,25 @@ const useMutateAddressForm = (props: UseMutateAddressFormProps) => {
     return { name: props.initName, address: props.initAddress };
   })();
 
-  const handleSubmit = async ({ value: { name, address } }: { value: MutateAddressFormValues }) => {
-    if (props.mode === "create") {
-      try {
-        await createAddress({ name, address: address as Address, isMine: false });
-      } catch {}
-    }
-    try {
-      await updateAddress({ name, address: address as Address });
-    } catch {}
-  };
-
   return useForm({
     defaultValues,
-    validators: { onChange: mutateAddressFormSchema },
-    onSubmit: handleSubmit
+    validators: {
+      onChange: mutateAddressFormSchema,
+      onSubmitAsync: async ({ value }) => {
+        const { name, address } = value;
+        try {
+          if (props.mode === "create") await createAddress({ name, address: address as Address, isMine: false });
+          await updateAddress({ name, address: address as Address });
+        } catch (error) {
+          const modeStr = props.mode === "create" ? "作成" : "更新";
+          let errMes: string = `不明なエラーにより${modeStr}に失敗しました。`;
+
+          if (error instanceof Error) errMes = error.message;
+
+          return { afterSubmited: [{ message: errMes }] };
+        }
+      }
+    }
   });
 };
 

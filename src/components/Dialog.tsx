@@ -24,7 +24,7 @@ export const AlertDialog = (props: DialogProps) => {
           </Text>
         </AlertDialogHeader>
         <AlertDialogBody className="mt-3 mb-4">{children}</AlertDialogBody>
-        <AlertDialogFooter className="">
+        <AlertDialogFooter>
           <SubContainButton text="閉じる" size="md" onPress={onClose} />
         </AlertDialogFooter>
       </AlertDialogContent>
@@ -32,9 +32,12 @@ export const AlertDialog = (props: DialogProps) => {
   );
 };
 
-type ActionDialogProps = DialogProps & { buttonProps: Omit<React.ComponentProps<typeof ContainButton>, "size"> };
+type ActionDialogProps = DialogProps & {
+  action: "primary" | "secondary";
+  buttonProps: Omit<React.ComponentProps<typeof ContainButton>, "size">;
+};
 export const ActionDialog = (props: ActionDialogProps) => {
-  const { title, children, buttonProps, ...rest } = props;
+  const { title, children, action, buttonProps, ...rest } = props;
   return (
     <GlueStackUiAlertDialog {...rest}>
       <AlertDialogBackdrop />
@@ -45,8 +48,12 @@ export const ActionDialog = (props: ActionDialogProps) => {
           </Text>
         </AlertDialogHeader>
         <AlertDialogBody className="mt-3 mb-4">{children}</AlertDialogBody>
-        <AlertDialogFooter className="">
-          <ContainButton {...buttonProps} size="md" />
+        <AlertDialogFooter>
+          {action === "primary" ? (
+            <ContainButton {...buttonProps} size="md" />
+          ) : (
+            <SubContainButton {...buttonProps} size="md" />
+          )}
         </AlertDialogFooter>
       </AlertDialogContent>
     </GlueStackUiAlertDialog>

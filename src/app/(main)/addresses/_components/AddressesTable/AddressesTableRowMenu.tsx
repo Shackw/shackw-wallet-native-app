@@ -10,16 +10,15 @@ import { Icon } from "@/vendor/gluestack-ui/icon";
 import { Menu, MenuItem, MenuItemLabel } from "@/vendor/gluestack-ui/menu";
 
 import useAddressesRow from "../../_hooks/useAddressesRow";
+import AddressMutateField from "../AddressMutateField";
 
-import AddressesMineEditField from "./AddressesMineEditField";
-
-type AddressesMineMenuProps = {
+type AddressesTableRowMenuProps = {
   address: Address;
   name: string;
   refetchAddresses: ReturnType<typeof useAddressesRow>["refetch"];
 };
 
-const AddressesMineMenu = (props: AddressesMineMenuProps) => {
+const AddressesTableRowMenu = (props: AddressesTableRowMenuProps) => {
   const { address, name, refetchAddresses } = props;
   const [isEditing, setIsEditing] = useBoolean(false);
   const [isDisplayQr, setIsDisplayQr] = useBoolean(false);
@@ -31,7 +30,7 @@ const AddressesMineMenu = (props: AddressesMineMenuProps) => {
   return (
     <>
       <Menu
-        placement="left top"
+        placement="left bottom"
         offset={5}
         className="bg-secondary-50"
         trigger={({ ...triggerProps }) => {
@@ -40,7 +39,7 @@ const AddressesMineMenu = (props: AddressesMineMenuProps) => {
               defaultProps={triggerProps}
               action="default"
               className="ml-auto"
-              iconSize={25}
+              iconSize={22}
               icon={EllipsisVertical}
               iconColor={theme.colors.secondary[700]}
             />
@@ -66,19 +65,15 @@ const AddressesMineMenu = (props: AddressesMineMenuProps) => {
           </MenuItemLabel>
         </MenuItem>
       </Menu>
-      <AddressesMineEditField
-        address={address}
-        name={name}
+      <AddressMutateField
+        mode="edit"
+        initName={name}
+        initAddress={address}
         refetchAddresses={refetchAddresses}
-        componentProps={{
-          title: "プロフィールの編集",
-          size: "lg",
-          isOpen: isEditing,
-          onClose: setIsEditing.off
-        }}
+        componentProps={{ title: "アドレス更新", size: "lg", isOpen: isEditing, onClose: setIsEditing.off }}
       />
     </>
   );
 };
 
-export default AddressesMineMenu;
+export default AddressesTableRowMenu;

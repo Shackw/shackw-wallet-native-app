@@ -8,7 +8,7 @@ type AddressesSearcherProps = { searchText: string; setSearchText: React.Dispatc
 const AddressesSearcher = (props: AddressesSearcherProps) => {
   const { searchText, setSearchText } = props;
   return (
-    <Box className="w-full py-3">
+    <Box className="w-full mt-3">
       <Input size="lg" className="px-3 rounded-xl h-12">
         <InputSlot>
           <InputIcon as={SearchIcon} />
