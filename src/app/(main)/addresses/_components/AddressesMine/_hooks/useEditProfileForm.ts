@@ -15,7 +15,7 @@ type UseEditProfileFormProps = {
 const useEditProfileForm = (props: UseEditProfileFormProps) => {
   const { initName, onClose, onEdit } = props;
   const [error, setError] = useState<string>();
-  const [hasValue, setHasValue] = useState(false);
+  const [hasValue, setHasValue] = useState(true);
   const [isEditing, setIsEditing] = useBoolean(false);
 
   const nameRef = useRef(initName);

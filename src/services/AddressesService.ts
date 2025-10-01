@@ -10,11 +10,8 @@ export const AddressesService = {
     try {
       const addresses = await SqlAddressesRepository.list(db);
       return addresses;
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        throw new Error(`アドレス一覧の取得に失敗しました: ${error.message}`, { cause: error });
-      }
-      throw new Error(`アドレス一覧の取得に失敗しました（不明なエラー）: ${String(error)}`);
+    } catch {
+      throw new Error("アドレス一覧の取得に失敗しました");
     }
   },
 
@@ -27,9 +24,9 @@ export const AddressesService = {
       await SqlAddressesRepository.create(db, command);
     } catch (error: unknown) {
       if (error instanceof Error) {
-        throw new Error(`アドレスの作成に失敗しました: ${error.message}`, { cause: error });
+        throw new Error(error.message);
       }
-      throw new Error(`アドレスの作成に失敗しました（不明なエラー）: ${String(error)}`);
+      throw new Error(`不明なエラーによりアドレスの作成に失敗しました。`);
     }
   },
 
@@ -42,9 +39,9 @@ export const AddressesService = {
       await SqlAddressesRepository.update(db, command);
     } catch (error: unknown) {
       if (error instanceof Error) {
-        throw new Error(`アドレスの更新に失敗しました: ${error.message}`, { cause: error });
+        throw new Error(error.message);
       }
-      throw new Error(`アドレスの更新に失敗しました（不明なエラー）: ${String(error)}`);
+      throw new Error("不明なエラーによりアドレスの更新に失敗しました。");
     }
   },
 
@@ -56,9 +53,9 @@ export const AddressesService = {
       await SqlAddressesRepository.delete(db, address);
     } catch (error: unknown) {
       if (error instanceof Error) {
-        throw new Error(`アドレスの削除に失敗しました: ${error.message}`, { cause: error });
+        throw new Error(error.message);
       }
-      throw new Error(`アドレスの削除に失敗しました（不明なエラー）: ${String(error)}`);
+      throw new Error("不明なエラーによりアドレスの削除に失敗しました");
     }
   }
 };
