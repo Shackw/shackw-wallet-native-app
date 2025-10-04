@@ -4,12 +4,11 @@ import { useCallback } from "react";
 import { Address } from "viem";
 
 import { IconButton } from "@/components/Button";
+import useAddressesRow from "@/hooks/useAddressesRow";
 import { useBoolean } from "@/hooks/useBoolean";
 import { theme } from "@/styles/theme";
 import { Icon } from "@/vendor/gluestack-ui/icon";
 import { Menu, MenuItem, MenuItemLabel } from "@/vendor/gluestack-ui/menu";
-
-import useAddressesRow from "../../_hooks/useAddressesRow";
 
 import AddressesMineEditField from "./AddressesMineEditField";
 

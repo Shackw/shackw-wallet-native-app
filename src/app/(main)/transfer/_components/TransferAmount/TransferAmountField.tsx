@@ -67,14 +67,15 @@ const TransferAmountField = (props: TransferAmountFieldProps) => {
                   <Pressable onPress={handleSetMaxSendable} className="w-full">
                     <Text className="text-right text-lg font-bold text-primary-500">最大額を使用</Text>
                   </Pressable>
-                  <Input size="xl" variant="underlined" className="px-2">
+                  <Input size="lg" className="px-2 rounded-xl h-14">
                     <InputSlot>
-                      <TokenSymboIcon size={22} color={theme.colors.secondary[700]} />
+                      <TokenSymboIcon size={20} color={theme.colors.secondary[700]} />
                     </InputSlot>
                     <InputField
                       keyboardType="numeric"
+                      autoCapitalize="none"
+                      autoCorrect={false}
                       placeholder="金額を入力してください"
-                      textAlign="right"
                       value={field.state.value}
                       onChangeText={e => field.handleChange(e)}
                       onBlur={field.handleBlur}

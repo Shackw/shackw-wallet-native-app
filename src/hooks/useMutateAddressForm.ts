@@ -7,7 +7,9 @@ import { useUpdateAddress } from "@/hooks/mutations/useUpdateAddress";
 import { addressFormValidator } from "@/validations/forms/addressFormValidator";
 import { nameFormValidator } from "@/validations/forms/nameFormValidator";
 
-export type UseMutateAddressFormProps = { mode: "create" } | { mode: "edit"; initName: string; initAddress: Address };
+export type UseMutateAddressFormProps =
+  | { mode: "create"; initName?: string; initAddress?: Address }
+  | { mode: "edit"; initName: string; initAddress: Address };
 
 const mutateAddressFormSchema = v.object({ name: nameFormValidator, address: addressFormValidator }, issue => {
   const expected = String(issue.expected) === "name" ? "名前" : "アドレス";
@@ -20,11 +22,11 @@ const useMutateAddressForm = (props: UseMutateAddressFormProps) => {
   const { mutateAsync: updateAddress } = useUpdateAddress();
 
   const defaultValues: MutateAddressFormValues = (() => {
-    if (props.mode === "create") return { name: "", address: "" };
+    if (props.mode === "create") return { name: props.initName ?? "", address: props.initAddress ?? "" };
     return { name: props.initName, address: props.initAddress };
   })();
 
-  return useForm({
+  const form = useForm({
     defaultValues,
     validators: {
       onChange: mutateAddressFormSchema,
@@ -44,6 +46,8 @@ const useMutateAddressForm = (props: UseMutateAddressFormProps) => {
       }
     }
   });
+
+  return { form, defaultValues };
 };
 
 export default useMutateAddressForm;

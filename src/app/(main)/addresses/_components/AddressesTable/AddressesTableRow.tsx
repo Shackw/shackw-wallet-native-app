@@ -1,11 +1,10 @@
 import { shortenAddress } from "@/helpers/address";
+import useAddressesRow, { type AddressRow } from "@/hooks/useAddressesRow";
 import { Avatar, AvatarFallbackText } from "@/vendor/gluestack-ui/avatar";
 import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { TableRow } from "@/vendor/gluestack-ui/table";
 import { Text } from "@/vendor/gluestack-ui/text";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
-
-import useAddressesRow, { AddressRow } from "../../_hooks/useAddressesRow";
 
 import AddressesTableRowMenu from "./AddressesTableRowMenu";
 

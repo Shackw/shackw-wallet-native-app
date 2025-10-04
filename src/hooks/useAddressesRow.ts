@@ -37,7 +37,15 @@ const useAddressesRow = () => {
     return searched;
   }, [addresses, searchText]);
 
-  return { mineRow, addressRows, searchText, setSearchText, ...rest };
+  const addressToName: Partial<Record<string, string>> = useMemo(() => {
+    if (!addresses) return {};
+
+    let result: Record<string, string> = {};
+    for (const { address, name } of addresses) result[address] = name;
+    return result;
+  }, [addresses]);
+
+  return { mineRow, addressRows, searchText, addressToName, setSearchText, ...rest };
 };
 
 export default useAddressesRow;

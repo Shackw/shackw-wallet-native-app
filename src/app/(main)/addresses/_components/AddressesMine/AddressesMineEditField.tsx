@@ -3,8 +3,7 @@ import { Address } from "viem";
 
 import { BottomInputDrawer } from "@/components/Drawer";
 import { useUpdateAddress } from "@/hooks/mutations/useUpdateAddress";
-
-import useAddressesRow from "../../_hooks/useAddressesRow";
+import useAddressesRow from "@/hooks/useAddressesRow";
 
 import AddressesMineEditForm from "./AddressesMineEditForm";
 

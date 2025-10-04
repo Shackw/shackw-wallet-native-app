@@ -1,4 +1,4 @@
-import React from "react";
+import { ReactNode } from "react";
 
 import { buttonSizeToStyleMap } from "@/styles/button";
 import { theme } from "@/styles/theme";
@@ -266,6 +266,22 @@ export const IconButton = ({
       {...defaultProps}
     >
       <Icon size={iconSize} color={iconColor} />
+    </Button>
+  );
+};
+
+type TextButtonProps = Pick<React.ComponentProps<typeof Button>, "onPress"> & {
+  children: ReactNode;
+  textProps: Omit<React.ComponentProps<typeof ButtonText>, "children">;
+};
+export const TextButton = (props: TextButtonProps) => {
+  const { textProps, children, onPress } = props;
+  const { className, ...rest } = textProps;
+  return (
+    <Button variant="link" action="secondary" className="justify-start p-0 h-auto" onPress={onPress}>
+      <ButtonText {...rest} className={`${className} underline`}>
+        {children}
+      </ButtonText>
     </Button>
   );
 };

@@ -1,4 +1,5 @@
 import { useStore } from "@tanstack/react-form";
+import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
@@ -7,22 +8,21 @@ import { AlertDialog } from "@/components/Dialog";
 import { BottomInputDrawer } from "@/components/Drawer";
 import { ErrorText } from "@/components/Text";
 import { useBoolean } from "@/hooks/useBoolean";
+import useMutateAddressForm, { type UseMutateAddressFormProps } from "@/hooks/useMutateAddressForm";
 import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
-
-import useAddressesRow from "../../_hooks/useAddressesRow";
-import useMutateAddressForm, { type UseMutateAddressFormProps } from "../../_hooks/useMutateAddressForm";
 
 import AddressMutateFieldForm from "./AddressMutateFieldForm";
 
 type AddressMutateFieldProps = UseMutateAddressFormProps & {
-  refetchAddresses: ReturnType<typeof useAddressesRow>["refetch"];
   componentProps: Omit<React.ComponentProps<typeof BottomInputDrawer>, "children">;
+  disableFields?: ("name" | "address")[];
+  refetch?: (options?: RefetchOptions | undefined) => Promise<QueryObserverResult<any, Error>>;
 };
 
 const AddressMutateField = (props: AddressMutateFieldProps) => {
-  const { componentProps, refetchAddresses, ...rest } = props;
-  const form = useMutateAddressForm(rest);
+  const { componentProps, disableFields, refetch: refetchAddresses, ...rest } = props;
+  const { form, defaultValues } = useMutateAddressForm(rest);
 
   const errors = useStore(form.store, s =>
     s.errors
@@ -33,7 +33,11 @@ const AddressMutateField = (props: AddressMutateFieldProps) => {
   );
   const isSubmitting = useStore(form.store, s => s.isSubmitting);
   const isDefault = useStore(form.store, s => {
-    if (rest.mode === "create") return Object.values(s.fieldMeta).some(v => v.isDefaultValue);
+    if (rest.mode === "create")
+      return Object.entries(s.fieldMeta).some(([key, value]) => {
+        if (defaultValues[key as "address" | "name"]) return false;
+        return value.isDefaultValue;
+      });
     return s.isDefaultValue;
   });
 
@@ -55,7 +59,9 @@ const AddressMutateField = (props: AddressMutateFieldProps) => {
         setIsShowErrorDialog.on();
         return;
       }
-      refetchAddresses();
+
+      if (refetchAddresses) refetchAddresses();
+
       componentProps.onClose();
     });
   }, [componentProps, errors.length, form, refetchAddresses, setIsShowErrorDialog]);
@@ -68,7 +74,7 @@ const AddressMutateField = (props: AddressMutateFieldProps) => {
           enableOnAndroid
           keyboardShouldPersistTaps="handled"
         >
-          <AddressMutateFieldForm form={form} />
+          <AddressMutateFieldForm form={form} disableFields={disableFields} />
           <HStack className="gap-x-4 mt-auto">
             <ContainButton
               text="確定"

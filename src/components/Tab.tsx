@@ -6,21 +6,25 @@ import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { Text } from "@/vendor/gluestack-ui/text";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
 
-type TabProps<T extends readonly string[]> = {
+type TabOption = { [key: string]: string };
+
+type TabProps<T extends TabOption> = {
   options: T;
-  value: T[number];
-  handleChange: React.Dispatch<React.SetStateAction<T[number]>>;
+  value: keyof T;
+  handleChange: React.Dispatch<React.SetStateAction<keyof T>>;
 };
 
-type TabElementProps<T extends readonly string[]> = {
-  label: T[number];
+type TabElementProps<T extends TabOption> = {
+  option: keyof T;
+  label: T[keyof T];
   isSelected: boolean;
   /** Width percent (0–100) */
   widthRatio: number;
-  handleChange: React.Dispatch<React.SetStateAction<T[number]>>;
+  handleChange: React.Dispatch<React.SetStateAction<keyof T>>;
 };
 
-const TabElement = <T extends readonly string[]>({
+const TabElement = <T extends TabOption>({
+  option,
   label,
   isSelected,
   widthRatio,
@@ -31,7 +35,7 @@ const TabElement = <T extends readonly string[]>({
 
   return (
     <Pressable
-      onPress={() => handleChange(label)}
+      onPress={() => handleChange(option)}
       className="items-center justify-center"
       style={{ width: `${widthRatio}%` }}
       accessibilityRole="button"
@@ -44,16 +48,18 @@ const TabElement = <T extends readonly string[]>({
   );
 };
 
-export const Tab = <T extends readonly string[]>({ options, value, handleChange }: TabProps<T>) => {
-  const widthRatio = 100 / options.length;
+export const Tab = <T extends TabOption>({ options, value, handleChange }: TabProps<T>) => {
+  const optionKeys = Object.keys(options);
+  const widthRatio = 100 / optionKeys.length;
 
   return (
     <HStack className="w-full border-b border-secondary-100">
-      {options.map(option => (
+      {optionKeys.map(key => (
         <TabElement
-          key={String(option)}
-          label={option}
-          isSelected={option === value}
+          key={String(key)}
+          option={key}
+          label={options[key as keyof T]}
+          isSelected={key === value}
           widthRatio={widthRatio}
           handleChange={handleChange}
         />
