@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { ScreenContainer } from "@/components/Container";
 import { Tab } from "@/components/Tab";
-import { Token, TOKENS } from "@/registries/TokenRegistry";
+import { Token, TOKENS_MAP } from "@/registries/TokenRegistry";
 import { Box } from "@/vendor/gluestack-ui/box";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
 
@@ -19,7 +19,7 @@ const TransferScreen = () => {
     <ScreenContainer title="送信" className="bg-white rounded-t-2xl">
       <Box className="py-[8px] flex-1">
         <Box className="px-[12px]">
-          <Tab options={TOKENS} value={selectedToken} handleChange={setSelectedToken} />
+          <Tab options={TOKENS_MAP} value={selectedToken} handleChange={setSelectedToken} />
         </Box>
         <TransferFormProvider sendToken={selectedToken}>
           <VStack className="flex-1 bg-secondary-100">

@@ -18,8 +18,9 @@ type TokenMeta = {
   Icon: ComponentType<TokenSymbolIconProps>;
 };
 
-export const TOKENS = ["JPYC", "USDC", "EURC"] as const;
-export type Token = (typeof TOKENS)[number];
+export const TOKENS_MAP = { JPYC: "JPYC", USDC: "USDC", EURC: "EURC" } as const;
+export type Token = keyof typeof TOKENS_MAP;
+export const TOKENS = Object.keys(TOKENS_MAP) as Token[];
 
 export const CURRENCIES = ["JPY", "USD", "EUR"] as const;
 export type Currency = (typeof CURRENCIES)[number];

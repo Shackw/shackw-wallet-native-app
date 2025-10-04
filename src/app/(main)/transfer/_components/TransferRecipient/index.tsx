@@ -4,9 +4,11 @@ import { Pressable } from "react-native";
 import { Address } from "viem";
 
 import { shortenAddress } from "@/helpers/address";
+import useAddressesRow from "@/hooks/useAddressesRow";
 import { useBoolean } from "@/hooks/useBoolean";
 import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { Text } from "@/vendor/gluestack-ui/text";
+import { VStack } from "@/vendor/gluestack-ui/vstack";
 
 import { useTransferForm } from "../../_hooks/useTransferForm";
 
@@ -18,6 +20,9 @@ const TransferRecipient = () => {
   const { form } = transferForm;
   const [isEditing, setIsEditing] = useBoolean(false);
   const [prevValue, setPrevValue] = useState<string>("");
+
+  const useAddressesRowResult = useAddressesRow();
+  const { addressToName } = useAddressesRowResult;
 
   const recipient = useStore(form.baseStore, s => s.values.recipient);
 
@@ -34,9 +39,16 @@ const TransferRecipient = () => {
         </Text>
         <Pressable className="flex-1" onPress={handleEdit}>
           {(isEditing && prevValue) || (!isEditing && recipient) ? (
-            <Text size="xl" className="font-bold text-right">
-              {shortenAddress((isEditing ? prevValue : recipient) as Address, 14)}
-            </Text>
+            <VStack className="gap-y-2">
+              {addressToName[isEditing ? prevValue : recipient] && (
+                <Text size="xl" className="font-bold text-right">
+                  {addressToName[isEditing ? prevValue : recipient]}
+                </Text>
+              )}
+              <Text size="lg" className="font-bold text-right text-secondary-600">
+                {shortenAddress((isEditing ? prevValue : recipient) as Address, 14)}
+              </Text>
+            </VStack>
           ) : (
             <Text size="lg" className="text-primary-600 font-bold text-center">
               振込先を入力
@@ -47,6 +59,7 @@ const TransferRecipient = () => {
       <TransferRecipientField
         prevValue={prevValue}
         transferForm={transferForm}
+        useAddressesRowResult={useAddressesRowResult}
         componentProps={{
           title: "宛先を入力",
           size: "lg",

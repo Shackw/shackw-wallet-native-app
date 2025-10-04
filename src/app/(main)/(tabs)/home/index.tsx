@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { ScreenContainer } from "@/components/Container";
 import { Tab } from "@/components/Tab";
-import { Token, TOKENS } from "@/registries/TokenRegistry";
+import { Token, TOKENS_MAP } from "@/registries/TokenRegistry";
 import { Divider } from "@/vendor/gluestack-ui/divider";
 
 import HomeAction from "./_components/HomeAction";
@@ -16,7 +16,7 @@ const HomeScreen = () => {
   return (
     <ScreenContainer className="px-4 items-center">
       <HomeMainBody>
-        <Tab options={TOKENS} value={currentTab} handleChange={setCurrentTab} />
+        <Tab options={TOKENS_MAP} value={currentTab} handleChange={setCurrentTab} />
         <HomeTokenBalance token={currentTab} />
         <HomeLastTransactionAt />
         <Divider className="w-[90%] bg-secondary-50" />

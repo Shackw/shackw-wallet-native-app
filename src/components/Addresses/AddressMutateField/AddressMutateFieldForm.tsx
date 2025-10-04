@@ -1,16 +1,18 @@
 import { Address } from "viem";
 
 import { normalizeNameInput, normalizeAddressInput } from "@/helpers/normalize";
+import useMutateAddressForm from "@/hooks/useMutateAddressForm";
 import { FormControl, FormControlLabel, FormControlLabelText } from "@/vendor/gluestack-ui/form-control";
 import { Input, InputField } from "@/vendor/gluestack-ui/input";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
 
-import useMutateAddressForm from "../../_hooks/useMutateAddressForm";
-
-type AddressMutateFieldFormProps = { form: ReturnType<typeof useMutateAddressForm> };
+type AddressMutateFieldFormProps = {
+  form: ReturnType<typeof useMutateAddressForm>["form"];
+  disableFields?: ("name" | "address")[];
+};
 
 const AddressMutateFieldForm = (props: AddressMutateFieldFormProps) => {
-  const { form } = props;
+  const { form, disableFields = [] } = props;
   return (
     <VStack className="gap-y-5">
       <form.Field
@@ -21,7 +23,7 @@ const AddressMutateFieldForm = (props: AddressMutateFieldFormProps) => {
               <FormControlLabel>
                 <FormControlLabelText>名前</FormControlLabelText>
               </FormControlLabel>
-              <Input size="lg" className="px-2 rounded-xl h-14">
+              <Input size="lg" className="px-2 rounded-xl h-14" isDisabled={disableFields.includes("name")}>
                 <InputField
                   inputMode="text"
                   autoCapitalize="none"
@@ -51,7 +53,7 @@ const AddressMutateFieldForm = (props: AddressMutateFieldFormProps) => {
               <FormControlLabel>
                 <FormControlLabelText>アドレス</FormControlLabelText>
               </FormControlLabel>
-              <Input size="lg" className="px-2 rounded-xl h-14">
+              <Input size="lg" className="px-2 rounded-xl h-14" isDisabled={disableFields.includes("address")}>
                 <InputField
                   inputMode="text"
                   autoCapitalize="none"

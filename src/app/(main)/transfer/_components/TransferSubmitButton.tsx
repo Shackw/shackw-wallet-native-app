@@ -4,6 +4,7 @@ import { Address } from "viem";
 
 import { ContainButton } from "@/components/Button";
 import { ErrorText, InfoText } from "@/components/Text";
+import useAddressesRow from "@/hooks/useAddressesRow";
 import { useBoolean } from "@/hooks/useBoolean";
 import { useTokenBalanceContext } from "@/providers/TokenBalanceProvider";
 import { Token } from "@/registries/TokenRegistry";
@@ -17,6 +18,7 @@ const TransferSubmitButton = () => {
   const transferForm = useTransferForm();
   const { form, sendToken, fee } = transferForm;
 
+  const { addressToName } = useAddressesRow();
   const tokenBalanceResult = useTokenBalanceContext();
   const [isConfirming, setIsConfirming] = useBoolean(false);
 
@@ -107,6 +109,7 @@ const TransferSubmitButton = () => {
         />
       </VStack>
       <TransferConfirm
+        name={addressToName[recipient]}
         recipient={recipient}
         amount={amount}
         sendToken={sendToken}

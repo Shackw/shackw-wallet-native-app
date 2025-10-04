@@ -3,14 +3,15 @@ import { Copy, EllipsisVertical, QrCode, SquarePen } from "lucide-react-native";
 import { useCallback } from "react";
 import { Address } from "viem";
 
+import AddressMutateField from "@/components/Addresses/AddressMutateField";
 import { IconButton } from "@/components/Button";
+import useAddressesRow from "@/hooks/useAddressesRow";
 import { useBoolean } from "@/hooks/useBoolean";
 import { theme } from "@/styles/theme";
 import { Icon } from "@/vendor/gluestack-ui/icon";
 import { Menu, MenuItem, MenuItemLabel } from "@/vendor/gluestack-ui/menu";
 
-import useAddressesRow from "../../_hooks/useAddressesRow";
-import AddressMutateField from "../AddressMutateField";
+import AddressesTableDeleteDialog from "./AddressesTableDeleteDialog";
 
 type AddressesTableRowMenuProps = {
   address: Address;
@@ -21,6 +22,7 @@ type AddressesTableRowMenuProps = {
 const AddressesTableRowMenu = (props: AddressesTableRowMenuProps) => {
   const { address, name, refetchAddresses } = props;
   const [isEditing, setIsEditing] = useBoolean(false);
+  const [isDeleting, setIsDeleting] = useBoolean(false);
   const [isDisplayQr, setIsDisplayQr] = useBoolean(false);
 
   const handleCopy = useCallback(() => {
@@ -64,13 +66,28 @@ const AddressesTableRowMenu = (props: AddressesTableRowMenuProps) => {
             アドレスをコピー
           </MenuItemLabel>
         </MenuItem>
+        <MenuItem key="Delete Address" textValue="削除" onPress={setIsDeleting.on}>
+          <Icon as={Copy} size="md" className="mr-2" />
+          <MenuItemLabel size="md" className="font-bold">
+            削除
+          </MenuItemLabel>
+        </MenuItem>
       </Menu>
+
       <AddressMutateField
         mode="edit"
         initName={name}
         initAddress={address}
+        disableFields={["address"]}
+        refetch={refetchAddresses}
+        componentProps={{ title: "アドレス編集", size: "lg", isOpen: isEditing, onClose: setIsEditing.off }}
+      />
+
+      <AddressesTableDeleteDialog
+        address={address}
+        isOpen={isDeleting}
+        handleClose={setIsDeleting.off}
         refetchAddresses={refetchAddresses}
-        componentProps={{ title: "アドレス更新", size: "lg", isOpen: isEditing, onClose: setIsEditing.off }}
       />
     </>
   );

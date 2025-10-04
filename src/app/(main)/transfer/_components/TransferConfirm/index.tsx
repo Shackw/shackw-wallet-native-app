@@ -19,6 +19,7 @@ import TransferConfirmAmount from "./TransferConfirmAmount";
 import TransferConfirmRecipient from "./TransferConfirmRecipient";
 
 type TransferConfirmProps = {
+  name: string | undefined;
   recipient: Address;
   amount: number;
   sendToken: Token;
@@ -28,7 +29,7 @@ type TransferConfirmProps = {
 };
 
 const TransferConfirm = (props: TransferConfirmProps) => {
-  const { recipient, amount, sendToken, feeToken, feeDecimals, componentProps } = props;
+  const { name, recipient, amount, sendToken, feeToken, feeDecimals, componentProps } = props;
 
   const router = useRouter();
   const { account, client } = useHinomaruWalletContext();
@@ -63,7 +64,7 @@ const TransferConfirm = (props: TransferConfirmProps) => {
             <Text size="md" className="text-center font-bold text-secondary-700">
               {"以下の内容で送金します。\n問題なければ送金ボタンを押してください。"}
             </Text>
-            <TransferConfirmRecipient recipient={recipient} />
+            <TransferConfirmRecipient name={name} recipient={recipient} />
             <TransferConfirmAmount
               amount={amount}
               sendToken={sendToken}

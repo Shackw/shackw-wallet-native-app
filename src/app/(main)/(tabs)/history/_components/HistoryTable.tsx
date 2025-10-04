@@ -15,7 +15,7 @@ type HistoryTableProps = { token: Token; term: HistoryTerm };
 
 const HistoryTable = (props: HistoryTableProps) => {
   const { token, term } = props;
-  const { historyRows, isError } = useHistoryRows({
+  const { historyRows, isError, refetch } = useHistoryRows({
     token,
     ...term
   });
@@ -46,7 +46,7 @@ const HistoryTable = (props: HistoryTableProps) => {
       <Table className="w-full overflow-y-auto">
         <TableBody className="w-full">
           {historyRows.map((row, index) => (
-            <HistoryTableRow row={row} key={`${token}-history-${index}`} />
+            <HistoryTableRow row={row} key={`${token}-history-${index}`} refetchHistory={refetch} />
           ))}
         </TableBody>
       </Table>
