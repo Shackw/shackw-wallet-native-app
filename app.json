@@ -13,16 +13,31 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.ficklewolf.hinomaruwallet"
+      "bundleIdentifier": "com.ficklewolf.hinomaruwallet",
+      "associatedDomains": ["applinks:ficklewolf.com"],
+      "entitlements": {
+        "com.apple.developer.associated-domains": ["applinks:ficklewolf.com"]
+      },
+      "supportsTablet": true
     },
     "android": {
+      "package": "com.ficklewolf.hinomaruwallet",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            { "scheme": "https", "host": "ficklewolf.com", "pathPrefix": "/wallet/addresses" },
+            { "scheme": "https", "host": "ficklewolf.com", "pathPrefix": "/wallet/transfer" }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ],
       "edgeToEdgeEnabled": true,
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "package": "com.ficklewolf.hinomaruwallet"
+      }
     },
     "plugins": [
       "expo-router",

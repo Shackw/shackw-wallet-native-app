@@ -7,7 +7,11 @@ const AppBarOverlayActions = () => {
   const router = useRouter();
 
   const handlePress = () => {
-    router.back();
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.replace("/");
+    }
   };
   return <IconButton icon={X} iconSize={22} onPress={handlePress} />;
 };

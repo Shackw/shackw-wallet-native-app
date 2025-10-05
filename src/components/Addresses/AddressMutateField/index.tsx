@@ -9,7 +9,6 @@ import { BottomInputDrawer } from "@/components/Drawer";
 import { ErrorText } from "@/components/Text";
 import { useBoolean } from "@/hooks/useBoolean";
 import useMutateAddressForm, { type UseMutateAddressFormProps } from "@/hooks/useMutateAddressForm";
-import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
 
 import AddressMutateFieldForm from "./AddressMutateFieldForm";
@@ -74,17 +73,16 @@ const AddressMutateField = (props: AddressMutateFieldProps) => {
           enableOnAndroid
           keyboardShouldPersistTaps="handled"
         >
-          <AddressMutateFieldForm form={form} disableFields={disableFields} />
-          <HStack className="gap-x-4 mt-auto">
+          <VStack className="flex-1 w-full justify-between py-4">
+            <AddressMutateFieldForm form={form} disableFields={disableFields} />
             <ContainButton
               text="確定"
               size="lg"
-              className="flex-1"
               onPress={handleSubmit}
               isDisabled={isDefault}
               isLoading={isSubmitting}
             />
-          </HStack>
+          </VStack>
         </KeyboardAwareScrollView>
       </BottomInputDrawer>
 
