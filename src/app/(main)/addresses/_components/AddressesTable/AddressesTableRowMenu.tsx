@@ -3,6 +3,7 @@ import { Copy, EllipsisVertical, QrCode, SquarePen } from "lucide-react-native";
 import { useCallback } from "react";
 import { Address } from "viem";
 
+import AddressesDisplayQR from "@/components/Addresses/AddressesDisplayQR";
 import AddressMutateField from "@/components/Addresses/AddressMutateField";
 import { IconButton } from "@/components/Button";
 import useAddressesRow from "@/hooks/useAddressesRow";
@@ -88,6 +89,17 @@ const AddressesTableRowMenu = (props: AddressesTableRowMenuProps) => {
         isOpen={isDeleting}
         handleClose={setIsDeleting.off}
         refetchAddresses={refetchAddresses}
+      />
+
+      <AddressesDisplayQR
+        address={address}
+        name={name}
+        componentProps={{
+          title: "プロフィールの共有",
+          size: "lg",
+          isOpen: isDisplayQr,
+          onClose: setIsDisplayQr.off
+        }}
       />
     </>
   );

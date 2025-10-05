@@ -16,36 +16,6 @@ const AddressMutateFieldForm = (props: AddressMutateFieldFormProps) => {
   return (
     <VStack className="gap-y-5">
       <form.Field
-        name="name"
-        children={field => (
-          <VStack className="w-full">
-            <FormControl>
-              <FormControlLabel>
-                <FormControlLabelText>名前</FormControlLabelText>
-              </FormControlLabel>
-              <Input size="lg" className="px-2 rounded-xl h-14" isDisabled={disableFields.includes("name")}>
-                <InputField
-                  inputMode="text"
-                  autoCapitalize="none"
-                  placeholder="名前を入力してください"
-                  value={field.state.value}
-                  onChangeText={v => field.handleChange(v)}
-                  onBlur={() => {
-                    field.handleBlur();
-                    const nv = normalizeNameInput(field.state.value ?? "");
-                    if (nv !== field.state.value) {
-                      form.setFieldValue(field.name, nv);
-                    }
-                  }}
-                  returnKeyType="next"
-                />
-              </Input>
-            </FormControl>
-          </VStack>
-        )}
-      />
-
-      <form.Field
         name="address"
         children={field => (
           <VStack className="w-full">
@@ -69,6 +39,36 @@ const AddressMutateFieldForm = (props: AddressMutateFieldFormProps) => {
                     }
                   }}
                   returnKeyType="done"
+                />
+              </Input>
+            </FormControl>
+          </VStack>
+        )}
+      />
+
+      <form.Field
+        name="name"
+        children={field => (
+          <VStack className="w-full">
+            <FormControl>
+              <FormControlLabel>
+                <FormControlLabelText>名前</FormControlLabelText>
+              </FormControlLabel>
+              <Input size="lg" className="px-2 rounded-xl h-14" isDisabled={disableFields.includes("name")}>
+                <InputField
+                  inputMode="text"
+                  autoCapitalize="none"
+                  placeholder="名前を入力してください"
+                  value={field.state.value}
+                  onChangeText={v => field.handleChange(v)}
+                  onBlur={() => {
+                    field.handleBlur();
+                    const nv = normalizeNameInput(field.state.value ?? "");
+                    if (nv !== field.state.value) {
+                      form.setFieldValue(field.name, nv);
+                    }
+                  }}
+                  returnKeyType="next"
                 />
               </Input>
             </FormControl>

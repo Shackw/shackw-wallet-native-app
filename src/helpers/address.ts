@@ -1,7 +1,7 @@
 import { Address } from "viem";
 
 export const shortenAddress = (addr: Address, visible = 4): string => {
-  const s = String(addr);
+  const s = String(addr).trim();
   const prefix = s.startsWith("0x") ? 2 : 0;
 
   let v = Math.floor(visible);

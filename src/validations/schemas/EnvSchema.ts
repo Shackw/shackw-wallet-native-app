@@ -22,6 +22,11 @@ export const EnvSchema = v.object(
       v.transform(s => s.trim()),
       v.url("HINOMARU_API_URL must be a valid URL.")
     ),
+    HINOMARU_UNIVERSAL_LINK: v.pipe(
+      v.string("HINOMARU_UNIVERSAL_LINK must be a string."),
+      v.transform(s => s.trim()),
+      v.url("HINOMARU_UNIVERSAL_LINK must be a valid URL.")
+    ),
     WALLET_PRIVATE_KEY_BASE_NAME: v.pipe(
       v.string("WALLET_PRIVATE_KEY_BASE_NAME must be a string."),
       v.transform(s => s.trim()),

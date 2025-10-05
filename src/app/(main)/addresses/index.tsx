@@ -1,4 +1,7 @@
+import { useLocalSearchParams } from "expo-router";
 import { Plus, Scan } from "lucide-react-native";
+import { useEffect } from "react";
+import { Address } from "viem";
 
 import AddressesSearcher from "@/components/Addresses/AddressesSearcher";
 import AddressMutateField from "@/components/Addresses/AddressMutateField";
@@ -16,10 +19,15 @@ import AddressesMine from "./_components/AddressesMine";
 import AddressesTable from "./_components/AddressesTable";
 
 const AddressesScreen = () => {
-  const { addressRows, mineRow, searchText, isError, setSearchText, refetch } = useAddressesRow();
-
   const [isScaning, setIsScaning] = useBoolean(false);
   const [isCreating, setIsCreating] = useBoolean(false);
+  const params = useLocalSearchParams<{ address?: Address; name?: string }>();
+
+  const { addressRows, mineRow, searchText, isError, setSearchText, refetch } = useAddressesRow();
+
+  useEffect(() => {
+    if (!!params.address && !!params.name) setIsCreating.on();
+  }, [params.address, params.name, setIsCreating]);
 
   return (
     <ScreenContainer title="アドレス帳" className="bg-white rounded-t-2xl">
@@ -51,6 +59,8 @@ const AddressesScreen = () => {
 
       <AddressMutateField
         mode="create"
+        initName={params.name}
+        initAddress={params.address}
         refetch={refetch}
         componentProps={{ title: "新規アドレス作成", size: "lg", isOpen: isCreating, onClose: setIsCreating.off }}
       />

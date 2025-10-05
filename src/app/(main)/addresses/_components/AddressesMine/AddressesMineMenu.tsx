@@ -3,6 +3,7 @@ import { Copy, EllipsisVertical, QrCode, SquarePen } from "lucide-react-native";
 import { useCallback } from "react";
 import { Address } from "viem";
 
+import AddressesDisplayQR from "@/components/Addresses/AddressesDisplayQR";
 import { IconButton } from "@/components/Button";
 import useAddressesRow from "@/hooks/useAddressesRow";
 import { useBoolean } from "@/hooks/useBoolean";
@@ -65,6 +66,7 @@ const AddressesMineMenu = (props: AddressesMineMenuProps) => {
           </MenuItemLabel>
         </MenuItem>
       </Menu>
+
       <AddressesMineEditField
         address={address}
         name={name}
@@ -74,6 +76,17 @@ const AddressesMineMenu = (props: AddressesMineMenuProps) => {
           size: "lg",
           isOpen: isEditing,
           onClose: setIsEditing.off
+        }}
+      />
+
+      <AddressesDisplayQR
+        address={address}
+        name={name}
+        componentProps={{
+          title: "プロフィールの共有",
+          size: "lg",
+          isOpen: isDisplayQr,
+          onClose: setIsDisplayQr.off
         }}
       />
     </>
