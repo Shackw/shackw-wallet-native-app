@@ -94,8 +94,10 @@ export const TransferFormProvider = (props: PropsWithChildren<Pick<TransferFormP
   );
 };
 
-export const useTransferForm = () => {
+const useTransferForm = () => {
   const ctx = useContext(TransferFormContext);
   if (!ctx) throw new Error("TransferFormProvider is not mounted. Wrap your component with <TransferFormProvider>.");
   return ctx;
 };
+
+export default useTransferForm;

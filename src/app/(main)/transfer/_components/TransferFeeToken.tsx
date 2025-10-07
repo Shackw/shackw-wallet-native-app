@@ -16,7 +16,7 @@ import {
 } from "@/vendor/gluestack-ui/select";
 import { Text } from "@/vendor/gluestack-ui/text";
 
-import { useTransferForm } from "../_hooks/useTransferForm";
+import useTransferForm from "../_hooks/useTransferForm";
 
 const TransferFeeToken = () => {
   const { form } = useTransferForm();
