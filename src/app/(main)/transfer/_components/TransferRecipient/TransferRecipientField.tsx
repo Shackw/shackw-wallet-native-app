@@ -27,29 +27,36 @@ const TransferRecipientField = (props: TransferRecipientFieldProps) => {
   const { prevValue, transferForm, useAddressesRowResult, componentProps } = props;
 
   const { form } = transferForm;
-  const { addressRows, searchText, isError, setSearchText } = useAddressesRowResult;
+  const { addressRows, searchText, searchTextRef, isError, handleChangeSearchText } = useAddressesRowResult;
 
   const [currentTab, setCurrentTab] = useState<InputMethods>("DIRECT");
 
   const handleClose = useCallback(() => {
-    form.setFieldValue("recipient", prevValue);
+    setCurrentTab("DIRECT");
+    handleChangeSearchText("");
     componentProps.onClose();
-  }, [componentProps, form, prevValue]);
+  }, [componentProps, handleChangeSearchText]);
+
+  const handleReset = useCallback(() => {
+    form.setFieldValue("recipient", prevValue);
+    handleClose();
+  }, [form, handleClose, prevValue]);
 
   return (
-    <BottomInputDrawer {...componentProps} onClose={handleClose}>
+    <BottomInputDrawer {...componentProps} onClose={handleReset}>
       <Tab options={INPUT_METHODS} value={currentTab} handleChange={setCurrentTab} />
       <Box className="w-full flex-1 py-4">
         {currentTab === "DIRECT" ? (
-          <TransferRecipientDirectForm form={form} handleClose={componentProps.onClose} />
+          <TransferRecipientDirectForm form={form} handleClose={handleClose} />
         ) : (
           <TransferRecipientSelector
             form={form}
-            addressRows={addressRows}
             searchText={searchText}
+            addressRows={addressRows}
+            searchTextRef={searchTextRef}
             isError={isError}
-            handleClose={componentProps.onClose}
-            setSearchText={setSearchText}
+            handleClose={handleClose}
+            handleChangeSearchText={handleChangeSearchText}
           />
         )}
       </Box>

@@ -2,8 +2,8 @@ import { useCallback } from "react";
 import { Pressable, ScrollView } from "react-native";
 import { Address } from "viem";
 
-import AddressesSearcher from "@/components/Addresses/AddressesSearcher";
 import AddressesTableSuspension from "@/components/Addresses/AddressesTableSuspension";
+import Searcher from "@/components/Searcher";
 import useAddressesRow from "@/hooks/useAddressesRow";
 import { Avatar, AvatarFallbackText } from "@/vendor/gluestack-ui/avatar";
 import { HStack } from "@/vendor/gluestack-ui/hstack";
@@ -15,11 +15,11 @@ import { TransferFormContextType } from "../../_hooks/useTransferForm";
 
 type TransferRecipientSelectorProps = Pick<
   ReturnType<typeof useAddressesRow>,
-  "addressRows" | "searchText" | "isError" | "setSearchText"
+  "addressRows" | "searchText" | "searchTextRef" | "isError" | "handleChangeSearchText"
 > & { form: TransferFormContextType["form"]; handleClose: () => void };
 
 const TransferRecipientSelector = (props: TransferRecipientSelectorProps) => {
-  const { form, addressRows: rows, searchText, isError, handleClose, setSearchText } = props;
+  const { form, addressRows, searchText, searchTextRef, isError, handleClose, handleChangeSearchText } = props;
 
   const handleSelect = useCallback(
     (address: Address) => {
@@ -31,12 +31,13 @@ const TransferRecipientSelector = (props: TransferRecipientSelectorProps) => {
 
   return (
     <VStack className="w-full flex-1 gap-y-2">
-      <AddressesSearcher
-        searchText={searchText}
-        setSearchText={setSearchText}
+      <Searcher
+        defaultValue={searchText}
+        inputRef={searchTextRef}
+        handleChange={handleChangeSearchText}
         componetProps={{ className: "w-full" }}
       />
-      <AddressesTableSuspension rows={rows} isError={isError}>
+      <AddressesTableSuspension rows={addressRows} isError={isError}>
         {rows => (
           <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator>
             <Table className="w-full overflow-y-auto">
