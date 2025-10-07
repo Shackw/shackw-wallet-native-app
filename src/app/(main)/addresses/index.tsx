@@ -3,10 +3,10 @@ import { Plus, Scan } from "lucide-react-native";
 import { useEffect } from "react";
 import { Address } from "viem";
 
-import AddressesSearcher from "@/components/Addresses/AddressesSearcher";
 import AddressMutateField from "@/components/Addresses/AddressMutateField";
 import { IconButton } from "@/components/Button";
 import { ScreenContainer } from "@/components/Container";
+import Searcher from "@/components/Searcher";
 import useAddressesRow from "@/hooks/useAddressesRow";
 import { useBoolean } from "@/hooks/useBoolean";
 import { theme } from "@/styles/theme";
@@ -23,7 +23,7 @@ const AddressesScreen = () => {
   const [isCreating, setIsCreating] = useBoolean(false);
   const params = useLocalSearchParams<{ address?: Address; name?: string }>();
 
-  const { addressRows, mineRow, searchText, isError, setSearchText, refetch } = useAddressesRow();
+  const { addressRows, mineRow, searchTextRef, isError, handleChangeSearchText, refetch } = useAddressesRow();
 
   useEffect(() => {
     if (!!params.address && !!params.name) setIsCreating.on();
@@ -32,9 +32,9 @@ const AddressesScreen = () => {
   return (
     <ScreenContainer title="アドレス帳" className="bg-white rounded-t-2xl">
       <VStack className="p-3 gap-y-4 flex-1">
-        <AddressesSearcher
-          searchText={searchText}
-          setSearchText={setSearchText}
+        <Searcher
+          inputRef={searchTextRef}
+          handleChange={handleChangeSearchText}
           componetProps={{ className: "w-full mt-3" }}
         />
         <AddressesMine address={mineRow.address} name={mineRow.name} refetchAddresses={refetch} />

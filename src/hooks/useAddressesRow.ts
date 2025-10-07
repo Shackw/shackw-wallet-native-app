@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import { TextInput as RNTextInput } from "react-native";
 
 import { useListAddresses } from "@/hooks/queries/useListAddresses";
 import { AddressModel } from "@/models/address";
@@ -10,6 +11,8 @@ export type AddressRows = AddressRow[] | undefined;
 const useAddressesRow = () => {
   const { account } = useHinomaruWalletContext();
   const { data: addresses, ...rest } = useListAddresses();
+
+  const searchTextRef = useRef<RNTextInput | null>(null);
   const [searchText, setSearchText] = useState<string>("");
 
   const mineRow: AddressRow = useMemo(() => {
@@ -45,7 +48,12 @@ const useAddressesRow = () => {
     return result;
   }, [addresses]);
 
-  return { mineRow, addressRows, searchText, addressToName, setSearchText, ...rest };
+  const handleChangeSearchText = useCallback((t: string) => {
+    searchTextRef?.current?.setNativeProps({ text: t });
+    setSearchText(t);
+  }, []);
+
+  return { mineRow, addressRows, addressToName, searchText, searchTextRef, handleChangeSearchText, ...rest };
 };
 
 export default useAddressesRow;
