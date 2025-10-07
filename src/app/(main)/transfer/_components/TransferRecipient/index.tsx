@@ -10,7 +10,7 @@ import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { Text } from "@/vendor/gluestack-ui/text";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
 
-import { useTransferForm } from "../../_hooks/useTransferForm";
+import useTransferForm from "../../_hooks/useTransferForm";
 
 import TransferRecipientField from "./TransferRecipientField";
 

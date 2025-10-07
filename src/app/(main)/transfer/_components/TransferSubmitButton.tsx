@@ -10,7 +10,7 @@ import { useTokenBalanceContext } from "@/providers/TokenBalanceProvider";
 import { Token } from "@/registries/TokenRegistry";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
 
-import { useTransferForm } from "../_hooks/useTransferForm";
+import useTransferForm from "../_hooks/useTransferForm";
 
 import TransferConfirm from "./TransferConfirm";
 
