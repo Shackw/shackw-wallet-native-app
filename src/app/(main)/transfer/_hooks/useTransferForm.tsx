@@ -2,6 +2,7 @@ import { useForm, useStore } from "@tanstack/react-form";
 import { RefetchOptions, QueryObserverResult } from "@tanstack/react-query";
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo } from "react";
 import * as v from "valibot";
+import { Address } from "viem";
 
 import { toDecimals, toAllowed } from "@/helpers/tokenUnits";
 import { useTransferFee } from "@/hooks/queries/useTransferFee";
@@ -11,6 +12,7 @@ import { Token, TOKEN_REGISTRY } from "@/registries/TokenRegistry";
 import { addressFormValidator } from "@/validations/forms/addressFormValidator";
 import { tokenFormValidator } from "@/validations/forms/tokenFormValidator";
 
+type TransferFormValues = v.InferInput<ReturnType<typeof buildTransferSchema>>;
 const buildTransferSchema = (sendToken: Token, maxSendable: number) => {
   const fraction = TOKEN_REGISTRY[sendToken].supportDecimals;
   const minAmount = toDecimals(TOKEN_REGISTRY[sendToken].minTransferAmountUnits, sendToken);
@@ -31,14 +33,11 @@ const buildTransferSchema = (sendToken: Token, maxSendable: number) => {
     )
   });
 };
-type TransferFormValues = v.InferInput<ReturnType<typeof buildTransferSchema>>;
 
-type TransferFormProviderProps = { sendToken: Token; maxSendable: number };
-const useTransferFormProvider = (props: TransferFormProviderProps) => {
-  const { sendToken, maxSendable } = props;
+type useTransferFormProviderProps = { sendToken: Token; maxSendable: number; defaultValues: TransferFormValues };
+const useTransferFormProvider = (props: useTransferFormProviderProps) => {
+  const { sendToken, maxSendable, defaultValues } = props;
   const schema = useMemo(() => buildTransferSchema(sendToken, maxSendable), [sendToken, maxSendable]);
-
-  const defaultValues: TransferFormValues = { feeToken: sendToken, recipient: "", amount: "" };
 
   return useForm({
     defaultValues,
@@ -46,23 +45,34 @@ const useTransferFormProvider = (props: TransferFormProviderProps) => {
   });
 };
 
+type TransferFormProviderProps = {
+  sendToken: Token;
+  initFeeToken: string | undefined;
+  initAmount: string | undefined;
+  initRecipient: Address | undefined;
+};
 export type TransferFormContextType = {
   form: ReturnType<typeof useTransferFormProvider>;
   maxSendable: number;
   fee?: FeeModel;
   sendToken: Token;
+  defaultValues: TransferFormValues;
   fetchFee: (options?: RefetchOptions | undefined) => Promise<QueryObserverResult<FeeModel | null, Error>>;
 };
-
 const TransferFormContext = createContext<TransferFormContextType | undefined>(undefined);
 
-export const TransferFormProvider = (props: PropsWithChildren<Pick<TransferFormProviderProps, "sendToken">>) => {
-  const { sendToken, children } = props;
+export const TransferFormProvider = (props: PropsWithChildren<TransferFormProviderProps>) => {
+  const { sendToken, children, ...rest } = props;
   const tokenBalances = useTokenBalanceContext();
   const balance = Number(tokenBalances[sendToken]?.balance ?? 0);
   const maxSendable = toAllowed(balance, sendToken);
 
-  const form = useTransferFormProvider({ sendToken, maxSendable });
+  const defaultValues: TransferFormValues = {
+    feeToken: rest.initFeeToken ?? sendToken,
+    recipient: rest.initRecipient ?? "",
+    amount: rest.initAmount ?? ""
+  };
+  const form = useTransferFormProvider({ sendToken, maxSendable, defaultValues });
 
   const feeToken = useStore(form.baseStore, s => s.values.feeToken as Token);
   const amountDecimals = useStore(form.store, s => {
@@ -86,6 +96,7 @@ export const TransferFormProvider = (props: PropsWithChildren<Pick<TransferFormP
         maxSendable,
         fee: fee ?? undefined,
         sendToken,
+        defaultValues,
         fetchFee
       }}
     >

@@ -1,5 +1,5 @@
 import { useStore } from "@tanstack/react-form";
-import { useMemo } from "react";
+import { forwardRef, useCallback, useImperativeHandle, useMemo } from "react";
 import { Address } from "viem";
 
 import { ContainButton } from "@/components/Button";
@@ -14,12 +14,21 @@ import useTransferForm from "../_hooks/useTransferForm";
 
 import TransferConfirm from "./TransferConfirm";
 
-const TransferSubmitButton = () => {
+type TransferSubmitButtonProps = { isTrying: boolean };
+
+export type TransferSubmitButtonHandle = {
+  handleTrySubmit: (retried: boolean) => Promise<{
+    success: boolean;
+  }>;
+};
+
+const TransferSubmitButton = forwardRef<TransferSubmitButtonHandle, TransferSubmitButtonProps>(({ isTrying }, ref) => {
   const transferForm = useTransferForm();
-  const { form, sendToken, fee } = transferForm;
+  const { form, sendToken, fee, defaultValues, fetchFee } = transferForm;
 
   const { addressToName } = useAddressesRow();
   const tokenBalanceResult = useTokenBalanceContext();
+
   const [isConfirming, setIsConfirming] = useBoolean(false);
 
   const amount = useStore(form.baseStore, s => {
@@ -35,12 +44,15 @@ const TransferSubmitButton = () => {
     const recipientMeta = fieldMeta.recipient;
     const feeTokenMeta = fieldMeta.feeToken;
 
+    const hasInitValue = Object.values(defaultValues).every(v => v !== "");
+    if (hasInitValue) return true;
+
     const isAmountValid = !!amountMeta?.isTouched && !!amountMeta?.isValid;
     const isRecipientValid = !!recipientMeta?.isTouched && !!recipientMeta?.isValid;
     const isFeeTokenValid = !!feeTokenMeta?.isValid;
 
     return isAmountValid && isRecipientValid && isFeeTokenValid;
-  }, [fieldMeta]);
+  }, [defaultValues, fieldMeta.amount, fieldMeta.feeToken, fieldMeta.recipient]);
 
   const insuff = useMemo(() => {
     if (!isValid) return { insufficient: true };
@@ -87,10 +99,23 @@ const TransferSubmitButton = () => {
     return { insufficient: false, message: undefined };
   }, [amount, fee, feeToken, isValid, sendToken, tokenBalanceResult]);
 
+  const handleTrySubmit = useCallback(async (): Promise<{ success: boolean }> => {
+    await fetchFee();
+
+    if (fee && isValid && !insuff.insufficient) {
+      setIsConfirming.on();
+      return { success: true };
+    }
+
+    return { success: false };
+  }, [fee, fetchFee, insuff.insufficient, isValid, setIsConfirming]);
+
+  useImperativeHandle(ref, () => ({ handleTrySubmit }), [handleTrySubmit]);
+
   return (
     <>
       <VStack className="px-4 pt-5 gap-y-5">
-        {insuff.insufficient && insuff.message ? (
+        {insuff.insufficient && insuff.message && !isTrying ? (
           <ErrorText size="md" className="flex-1">
             {insuff.message}
           </ErrorText>
@@ -109,7 +134,7 @@ const TransferSubmitButton = () => {
         />
       </VStack>
       <TransferConfirm
-        name={addressToName[recipient]}
+        name={addressToName[recipient.toLowerCase()]}
         recipient={recipient}
         amount={amount}
         sendToken={sendToken}
@@ -119,6 +144,8 @@ const TransferSubmitButton = () => {
       />
     </>
   );
-};
+});
+
+TransferSubmitButton.displayName = "TransferSubmitButton";
 
 export default TransferSubmitButton;
