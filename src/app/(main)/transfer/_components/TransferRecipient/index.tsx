@@ -40,9 +40,9 @@ const TransferRecipient = () => {
         <Pressable className="flex-1" onPress={handleEdit}>
           {(isEditing && prevValue) || (!isEditing && recipient) ? (
             <VStack className="gap-y-2">
-              {addressToName[isEditing ? prevValue : recipient] && (
+              {addressToName[isEditing ? prevValue.toLowerCase() : recipient.toLowerCase()] && (
                 <Text size="xl" className="font-bold text-right">
-                  {addressToName[isEditing ? prevValue : recipient]}
+                  {addressToName[isEditing ? prevValue.toLowerCase() : recipient.toLowerCase()]}
                 </Text>
               )}
               <Text size="lg" className="font-bold text-right text-secondary-600">

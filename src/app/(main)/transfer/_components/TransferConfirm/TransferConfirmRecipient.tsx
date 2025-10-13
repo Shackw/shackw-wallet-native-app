@@ -14,7 +14,7 @@ const TransferConfirmRecipient = (props: TransferConfirmRecipientProps) => {
   const { name, recipient } = props;
 
   return (
-    <VStack className="w-full gap-y-3">
+    <VStack className="w-full gap-y-2">
       <HStack className="gap-x-2">
         <Box className="w-1.5 bg-primary-500" />
         <Text className="font-bold">振込先情報</Text>

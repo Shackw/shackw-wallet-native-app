@@ -15,7 +15,7 @@ type TransferConfirmAmountProps = {
 const TransferConfirmAmount = (props: TransferConfirmAmountProps) => {
   const { amount, sendToken, feeToken, feeDecimals } = props;
   return (
-    <VStack className="w-full gap-y-3">
+    <VStack className="w-full gap-y-2">
       <HStack className="gap-x-2">
         <Box className="w-1.5 bg-primary-500" />
         <Text className="font-bold">送金額・手数料</Text>
