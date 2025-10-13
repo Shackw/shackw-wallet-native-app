@@ -8045,6 +8045,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-sharing@npm:~14.0.7":
+  version: 14.0.7
+  resolution: "expo-sharing@npm:14.0.7"
+  peerDependencies:
+    expo: "*"
+  checksum: 10c0/ef0bb6f5fa3e80767e10d685d075118171b81319c7ced425374a021810449d54195ce053e2daf73ec0b86472ef0d06d15693eaa0ab03c9446bbc17e741f495ef
+  languageName: node
+  linkType: hard
+
 "expo-splash-screen@npm:~31.0.10":
   version: 31.0.10
   resolution: "expo-splash-screen@npm:31.0.10"
@@ -8830,11 +8839,13 @@ __metadata:
     expo-clipboard: "npm:~8.0.7"
     expo-constants: "npm:~18.0.9"
     expo-dev-client: "npm:~6.0.15"
+    expo-file-system: "npm:~19.0.17"
     expo-font: "npm:~14.0.9"
     expo-linear-gradient: "npm:~15.0.7"
     expo-linking: "npm:~8.0.8"
     expo-router: "npm:~6.0.12"
     expo-secure-store: "npm:~15.0.7"
+    expo-sharing: "npm:~14.0.7"
     expo-splash-screen: "npm:~31.0.10"
     expo-sqlite: "npm:~16.0.8"
     expo-status-bar: "npm:~3.0.8"
