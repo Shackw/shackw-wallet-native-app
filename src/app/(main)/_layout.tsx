@@ -36,13 +36,6 @@ const MainLayout = () => {
               animation: "fade"
             }}
           />
-          <Stack.Screen
-            name="transferByQr/index"
-            options={{
-              presentation: "modal",
-              animation: "fade"
-            }}
-          />
         </Stack>
       </RootContainer>
     </TokenBalanceProvider>

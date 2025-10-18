@@ -4,6 +4,8 @@ import { Address } from "viem";
 
 import BackDrop from "@/components/BackDrop";
 import { ContainButton, SubContainButton } from "@/components/Button";
+import ConfirmAmount from "@/components/Confirm/ConfirmAmount";
+import ConfirmRecipient from "@/components/Confirm/ConfirmRecipient";
 import { AlertDialog } from "@/components/Dialog";
 import { BottomInputDrawer } from "@/components/Drawer";
 import { ErrorText, InfoText } from "@/components/Text";
@@ -15,9 +17,6 @@ import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { Text } from "@/vendor/gluestack-ui/text";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
 
-import TransferConfirmAmount from "./TransferConfirmAmount";
-import TransferConfirmRecipient from "./TransferConfirmRecipient";
-
 type TransferConfirmProps = {
   name: string | undefined;
   recipient: Address;
@@ -25,11 +24,12 @@ type TransferConfirmProps = {
   sendToken: Token;
   feeToken: Token;
   feeDecimals: number;
+  webhookUrl?: string;
   componentProps: Omit<React.ComponentProps<typeof BottomInputDrawer>, "children">;
 };
 
 const TransferConfirm = (props: TransferConfirmProps) => {
-  const { name, recipient, amount, sendToken, feeToken, feeDecimals, componentProps } = props;
+  const { name, recipient, amount, sendToken, feeToken, feeDecimals, webhookUrl, componentProps } = props;
 
   const router = useRouter();
   const { account, client } = useHinomaruWalletContext();
@@ -46,9 +46,10 @@ const TransferConfirm = (props: TransferConfirmProps) => {
       token: sendToken,
       feeToken: feeToken as Token,
       amountDecimals: Number(amount),
-      recipient: recipient as Address
+      recipient: recipient as Address,
+      webhookUrl
     });
-  }, [account, amount, client, feeToken, mutate, recipient, sendToken, setIsTransferring]);
+  }, [account, amount, client, feeToken, mutate, recipient, sendToken, setIsTransferring, webhookUrl]);
 
   const handleCloseSuccess = useCallback(() => {
     componentProps.onClose();
@@ -64,8 +65,9 @@ const TransferConfirm = (props: TransferConfirmProps) => {
             <Text size="md" className="text-center font-bold text-secondary-700">
               {"以下の内容で送金します。\n問題なければ送金ボタンを押してください。"}
             </Text>
-            <TransferConfirmRecipient name={name} recipient={recipient} />
-            <TransferConfirmAmount
+            <ConfirmRecipient title="振込先情報" name={name} address={recipient} />
+            <ConfirmAmount
+              title="送金額・手数料"
               amount={amount}
               sendToken={sendToken}
               feeToken={feeToken}

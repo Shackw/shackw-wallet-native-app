@@ -1,12 +1,10 @@
 import { useStore } from "@tanstack/react-form";
-import { forwardRef, useCallback, useImperativeHandle, useMemo } from "react";
 import { Address } from "viem";
 
 import { ContainButton } from "@/components/Button";
 import { ErrorText, InfoText } from "@/components/Text";
 import useAddressesRow from "@/hooks/useAddressesRow";
 import { useBoolean } from "@/hooks/useBoolean";
-import { useTokenBalanceContext } from "@/providers/TokenBalanceProvider";
 import { Token } from "@/registries/TokenRegistry";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
 
@@ -14,20 +12,11 @@ import useTransferForm from "../_hooks/useTransferForm";
 
 import TransferConfirm from "./TransferConfirm";
 
-type TransferSubmitButtonProps = { isTrying: boolean };
-
-export type TransferSubmitButtonHandle = {
-  handleTrySubmit: (retried: boolean) => Promise<{
-    success: boolean;
-  }>;
-};
-
-const TransferSubmitButton = forwardRef<TransferSubmitButtonHandle, TransferSubmitButtonProps>(({ isTrying }, ref) => {
+const TransferSubmitButton = () => {
   const transferForm = useTransferForm();
-  const { form, sendToken, fee, defaultValues, fetchFee } = transferForm;
+  const { form, sendToken, fee, isValid, insuff } = transferForm;
 
   const { addressToName } = useAddressesRow();
-  const tokenBalanceResult = useTokenBalanceContext();
 
   const [isConfirming, setIsConfirming] = useBoolean(false);
 
@@ -37,85 +26,12 @@ const TransferSubmitButton = forwardRef<TransferSubmitButtonHandle, TransferSubm
   });
   const feeToken = useStore(form.baseStore, s => s.values.feeToken as Token);
   const recipient = useStore(form.baseStore, s => s.values.recipient as Address);
-  const fieldMeta = useStore(form.store, s => s.fieldMeta);
-
-  const isValid = useMemo(() => {
-    const amountMeta = fieldMeta.amount;
-    const recipientMeta = fieldMeta.recipient;
-    const feeTokenMeta = fieldMeta.feeToken;
-
-    const hasInitValue = Object.values(defaultValues).every(v => v !== "");
-    if (hasInitValue) return true;
-
-    const isAmountValid = !!amountMeta?.isTouched && !!amountMeta?.isValid;
-    const isRecipientValid = !!recipientMeta?.isTouched && !!recipientMeta?.isValid;
-    const isFeeTokenValid = !!feeTokenMeta?.isValid;
-
-    return isAmountValid && isRecipientValid && isFeeTokenValid;
-  }, [defaultValues, fieldMeta.amount, fieldMeta.feeToken, fieldMeta.recipient]);
-
-  const insuff = useMemo(() => {
-    if (!isValid) return { insufficient: true };
-
-    if (!fee) return { insufficient: true };
-
-    const balToken = Number(tokenBalanceResult[sendToken]?.balance ?? NaN);
-    if (!Number.isFinite(balToken))
-      return {
-        insufficient: true,
-        message: "残高を取得できませんでした。しばらくしてからお試しください。"
-      };
-
-    if (sendToken === feeToken) {
-      const required = amount + fee.feeDecimals;
-      if (balToken < required)
-        return {
-          insufficient: true,
-          message: "残高が不足しています。（送金額＋手数料）"
-        };
-
-      return { insufficient: false, message: undefined };
-    }
-
-    const balFee = Number(tokenBalanceResult[feeToken]?.balance ?? NaN);
-    if (!Number.isFinite(balFee))
-      return {
-        insufficient: true,
-        message: "手数料通貨の残高を取得できませんでした。"
-      };
-
-    if (balToken < amount)
-      return {
-        insufficient: true,
-        message: "送金残高が不足しています。"
-      };
-
-    if (balFee < fee.feeDecimals)
-      return {
-        insufficient: true,
-        message: "手数料通貨の残高が不足しています。"
-      };
-
-    return { insufficient: false, message: undefined };
-  }, [amount, fee, feeToken, isValid, sendToken, tokenBalanceResult]);
-
-  const handleTrySubmit = useCallback(async (): Promise<{ success: boolean }> => {
-    await fetchFee();
-
-    if (fee && isValid && !insuff.insufficient) {
-      setIsConfirming.on();
-      return { success: true };
-    }
-
-    return { success: false };
-  }, [fee, fetchFee, insuff.insufficient, isValid, setIsConfirming]);
-
-  useImperativeHandle(ref, () => ({ handleTrySubmit }), [handleTrySubmit]);
+  const webhookUrl = useStore(form.baseStore, s => s.values.webhookUrl);
 
   return (
     <>
       <VStack className="px-4 pt-5 gap-y-5">
-        {insuff.insufficient && insuff.message && !isTrying ? (
+        {insuff.insufficient && insuff.message ? (
           <ErrorText size="md" className="flex-1">
             {insuff.message}
           </ErrorText>
@@ -140,12 +56,11 @@ const TransferSubmitButton = forwardRef<TransferSubmitButtonHandle, TransferSubm
         sendToken={sendToken}
         feeToken={feeToken}
         feeDecimals={fee?.feeDecimals ?? 0}
+        webhookUrl={webhookUrl}
         componentProps={{ title: "内容確認", size: "lg", isOpen: isConfirming, onClose: setIsConfirming.off }}
       />
     </>
   );
-});
-
-TransferSubmitButton.displayName = "TransferSubmitButton";
+};
 
 export default TransferSubmitButton;

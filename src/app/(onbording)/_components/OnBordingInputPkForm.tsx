@@ -29,7 +29,7 @@ const OnBordingInputPkForm = (props: OnBordingInputPkFormProps) => {
       >
         <VStack className="flex-1 items-center justify-between py-4">
           <VStack className="w-full gap-y-6">
-            <Textarea size="lg" className="px-2 rounded-xl h-20">
+            <Textarea size="lg" className="p-2 rounded-xl h-20">
               <TextareaInput
                 defaultValue=""
                 inputMode="text"

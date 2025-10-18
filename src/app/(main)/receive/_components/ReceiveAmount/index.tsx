@@ -8,15 +8,15 @@ import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { Text } from "@/vendor/gluestack-ui/text";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
 
-import useTransferForm from "../../_hooks/useTransferForm";
+import useReceiveForm from "../../_hooks/useReceiveForm";
 
-import TransferAmountField from "./TransferAmountField";
-import TransferAmountSummary from "./TransferAmountSummary";
+import ReceiveAmountField from "./ReceiveAmountField";
+import ReceiveAmountSummary from "./ReceiveAmountSummary";
 
-const TransferAmount = () => {
-  const transferForm = useTransferForm();
+const ReceiveAmount = () => {
+  const receiveForm = useReceiveForm();
 
-  const { form, sendToken } = transferForm;
+  const { form, sendToken } = receiveForm;
   const [isEditing, setIsEditing] = useBoolean(false);
   const [prevValue, setPrevValue] = useState<number | undefined>(undefined);
 
@@ -39,7 +39,7 @@ const TransferAmount = () => {
       <VStack className="w-full">
         <HStack className="w-full px-4 py-3 h-[90px] bg-white items-center justify-between gap-x-5">
           <Text size="xl" className="font-bold text-secondary-700 ">
-            送金額
+            請求額
           </Text>
           <Pressable className="flex-1" onPress={handleEdit}>
             {(isEditing && prevValue) || (!isEditing && amount) ? (
@@ -53,11 +53,11 @@ const TransferAmount = () => {
             )}
           </Pressable>
         </HStack>
-        <TransferAmountSummary transferForm={transferForm} display="both" className="px-4" />
+        <ReceiveAmountSummary transferForm={receiveForm} display="both" className="px-4" />
       </VStack>
-      <TransferAmountField
+      <ReceiveAmountField
         prevValue={prevValue}
-        transferForm={transferForm}
+        transferForm={receiveForm}
         componentProps={{
           title: "金額を入力",
           size: "lg",
@@ -69,4 +69,4 @@ const TransferAmount = () => {
   );
 };
 
-export default TransferAmount;
+export default ReceiveAmount;

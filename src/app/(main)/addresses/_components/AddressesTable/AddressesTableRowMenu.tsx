@@ -95,7 +95,7 @@ const AddressesTableRowMenu = (props: AddressesTableRowMenuProps) => {
         address={address}
         name={name}
         componentProps={{
-          title: "プロフィールの共有",
+          title: "アドレスの共有",
           size: "lg",
           isOpen: isDisplayQr,
           onClose: setIsDisplayQr.off

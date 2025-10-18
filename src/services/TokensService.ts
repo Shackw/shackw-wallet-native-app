@@ -27,7 +27,7 @@ export const TokensService = {
   },
 
   async transferToken(command: TransferTokenCommand): Promise<Hex> {
-    const { account, client, token, feeToken, recipient, amountDecimals } = command;
+    const { account, client, token, feeToken, recipient, amountDecimals, webhookUrl } = command;
 
     const createQuoteQuery: CreateQuoteQuery = {
       chainId: DEFAULT_CHAIN.id,
@@ -57,7 +57,16 @@ export const TokensService = {
 
       const transferTokenQuery: TransferTokenQuery = {
         quoteToken,
-        authorization
+        authorization,
+        notify: webhookUrl
+          ? {
+              webhook: {
+                id: "wallet:transfer",
+                url: webhookUrl,
+                echo: "mySecretVerificationToken"
+              }
+            }
+          : undefined
       };
       const { txHash } = await TokensRepository.transfer(transferTokenQuery);
 
