@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from "expo-router";
-import { Plus, Scan } from "lucide-react-native";
+import { Plus } from "lucide-react-native";
 import { useEffect } from "react";
 import { Address } from "viem";
 
@@ -10,7 +10,6 @@ import Searcher from "@/components/Searcher";
 import useAddressesRow from "@/hooks/useAddressesRow";
 import { useBoolean } from "@/hooks/useBoolean";
 import { theme } from "@/styles/theme";
-import { Fab, FabIcon } from "@/vendor/gluestack-ui/fab";
 import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { Text } from "@/vendor/gluestack-ui/text";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
@@ -19,7 +18,6 @@ import AddressesMine from "./_components/AddressesMine";
 import AddressesTable from "./_components/AddressesTable";
 
 const AddressesScreen = () => {
-  const [isScaning, setIsScaning] = useBoolean(false);
   const [isCreating, setIsCreating] = useBoolean(false);
   const params = useLocalSearchParams<{ address?: Address; name?: string }>();
 
@@ -52,10 +50,6 @@ const AddressesScreen = () => {
           <AddressesTable rows={addressRows} isError={isError} refetchAddresses={refetch} />
         </VStack>
       </VStack>
-
-      <Fab size="xl" placement="bottom right" className="bg-primary-400 rounded-3xl" onPress={setIsScaning.on}>
-        <FabIcon as={Scan} className="p-5" />
-      </Fab>
 
       <AddressMutateField
         mode="create"

@@ -1,14 +1,4 @@
-import {
-  Home,
-  Wallet,
-  UserRoundCog,
-  History,
-  ArrowUpDown,
-  LucideIcon,
-  Send,
-  ScanQrCode,
-  HandCoins
-} from "lucide-react-native";
+import { Home, Wallet, UserRoundCog, History, ArrowUpDown, LucideIcon, Send, HandCoins } from "lucide-react-native";
 
 type BottomTabItemType = {
   name: string;
@@ -39,14 +29,7 @@ export const BOTTOM_TAB_ACTION_SHEET_ITEMS = [
     name: "receive",
     icon: HandCoins,
     label: "受取",
-    description: "QRコードをスキャンしてステーブルコインを受け取ります。",
+    description: "金額を入力して支払い用のQRコードを作成します。",
     path: "/receive"
-  },
-  {
-    name: "transferByQr",
-    icon: ScanQrCode,
-    label: "スキャンして送信",
-    description: "QRコードをスキャンしてステーブルコインを送信します。",
-    path: "/transferByQr"
   }
 ] as const satisfies BottomTabActionSheetItemType[];

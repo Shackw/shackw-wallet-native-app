@@ -1,0 +1,74 @@
+import { useRef, useCallback } from "react";
+import { Address } from "viem";
+
+import { ContainButton, SubContainButton } from "@/components/Button";
+import ConfirmAmount from "@/components/Confirm/ConfirmAmount";
+import { AlertDialog } from "@/components/Dialog";
+import { BottomInputDrawer } from "@/components/Drawer";
+import QRCode, { QRCodeHandle } from "@/components/QRCode";
+import { ErrorText } from "@/components/Text";
+import { useBoolean } from "@/hooks/useBoolean";
+import { Token } from "@/registries/TokenRegistry";
+import { HStack } from "@/vendor/gluestack-ui/hstack";
+import { VStack } from "@/vendor/gluestack-ui/vstack";
+
+type ReceiveConfirmProps = {
+  recipient: Address;
+  amount: number;
+  sendToken: Token;
+  feeToken: Token;
+  feeDecimals: number;
+  webhookUrl: string | undefined;
+  componentProps: Omit<React.ComponentProps<typeof BottomInputDrawer>, "children">;
+};
+
+const ReceiveConfirm = (props: ReceiveConfirmProps) => {
+  const { recipient, amount, sendToken, feeToken, feeDecimals, webhookUrl, componentProps } = props;
+  const [isShowErrorDialog, setIsShowErrorDialog] = useBoolean(false);
+
+  const qrCodeRef = useRef<QRCodeHandle | null>(null);
+
+  const handleShareInvoice = useCallback(async () => {
+    try {
+      await qrCodeRef.current?.handleShare();
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
+
+  return (
+    <>
+      <BottomInputDrawer {...componentProps}>
+        <VStack className="w-full justify-between flex-1">
+          <VStack className="w-full items-center gap-y-7">
+            <ConfirmAmount
+              title="請求額・手数料"
+              amount={amount}
+              sendToken={sendToken}
+              feeToken={feeToken}
+              feeDecimals={feeDecimals}
+            />
+            <QRCode
+              ref={qrCodeRef}
+              path="transfer"
+              query={{ sendToken, feeToken, recipient, amount, webhookUrl }}
+              size={275}
+            />
+          </VStack>
+          <HStack className="gap-x-4">
+            <SubContainButton text="戻る" size="lg" className="flex-1" onPress={componentProps.onClose} />
+            <ContainButton text="共有" size="lg" className="flex-1" onPress={handleShareInvoice} />
+          </HStack>
+        </VStack>
+      </BottomInputDrawer>
+
+      <AlertDialog title="QRコード共有の失敗" isOpen={isShowErrorDialog} onClose={setIsShowErrorDialog.off} size="lg">
+        <VStack className="py-4 gap-y-2">
+          <ErrorText className="flex-1">不明なエラーによりQRコードの共有に失敗しました。</ErrorText>
+        </VStack>
+      </AlertDialog>
+    </>
+  );
+};
+
+export default ReceiveConfirm;

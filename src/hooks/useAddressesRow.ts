@@ -23,7 +23,7 @@ const useAddressesRow = () => {
     }
 
     return { address: mine.address, name: mine.name };
-  }, [account, addresses]);
+  }, [account?.address, addresses]);
 
   const addressRows: AddressRows = useMemo(() => {
     if (!addresses) return undefined;
