@@ -19,13 +19,13 @@ export const RootContainer = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-type ScreenContainerProps = React.ComponentProps<typeof Box> & AppBarProps;
+type ScreenContainerProps = React.ComponentProps<typeof Box> & { appBarProps?: AppBarProps };
 
 export const ScreenContainer = (props: ScreenContainerProps) => {
-  const { title, children, className, ...rest } = props;
+  const { appBarProps, children, className, ...rest } = props;
   return (
     <Box className="flex-1">
-      <AppBar title={title} />
+      <AppBar {...appBarProps} />
       <Box {...rest} className={`flex-1 ${className}`}>
         {children}
       </Box>

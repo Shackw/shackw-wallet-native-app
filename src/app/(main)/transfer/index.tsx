@@ -21,7 +21,7 @@ const TransferScreen = () => {
   if (!isBalanceFetched) return <Loading />;
 
   return (
-    <ScreenContainer title="送信" className="bg-white rounded-t-2xl">
+    <ScreenContainer appBarProps={{ title: "送信" }} className="bg-white rounded-t-2xl">
       <Box className="py-[8px] flex-1">
         <TransferFormProvider>
           <TransferSearchParam />

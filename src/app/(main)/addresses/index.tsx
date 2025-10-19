@@ -28,7 +28,7 @@ const AddressesScreen = () => {
   }, [params.address, params.name, setIsCreating]);
 
   return (
-    <ScreenContainer title="アドレス帳" className="bg-white rounded-t-2xl">
+    <ScreenContainer appBarProps={{ title: "アドレス帳" }} className="bg-white rounded-t-2xl">
       <VStack className="p-3 gap-y-4 flex-1">
         <Searcher
           inputRef={searchTextRef}
