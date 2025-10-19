@@ -17,7 +17,7 @@ const ReceiveScreen = () => {
   if (!account) return <BackDrop visible />;
 
   return (
-    <ScreenContainer title="受け取り" className="bg-white rounded-t-2xl">
+    <ScreenContainer appBarProps={{ title: "受け取り" }} className="bg-white rounded-t-2xl">
       <Box className="py-[8px] flex-1">
         <ReceiveFormProvider>
           <ReceiveSendToken />

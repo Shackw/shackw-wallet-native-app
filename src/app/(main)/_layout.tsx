@@ -30,6 +30,13 @@ const MainLayout = () => {
             }}
           />
           <Stack.Screen
+            name="scan-qr/index"
+            options={{
+              presentation: "fullScreenModal",
+              animation: "fade"
+            }}
+          />
+          <Stack.Screen
             name="transfer/index"
             options={{
               presentation: "modal",

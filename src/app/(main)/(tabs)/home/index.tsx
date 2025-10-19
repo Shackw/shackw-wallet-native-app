@@ -1,9 +1,9 @@
+import { useRouter } from "expo-router";
 import { Scan } from "lucide-react-native";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { ScreenContainer } from "@/components/Container";
 import { Tab } from "@/components/Tab";
-import { useBoolean } from "@/hooks/useBoolean";
 import { Token, TOKENS_MAP } from "@/registries/TokenRegistry";
 import { Divider } from "@/vendor/gluestack-ui/divider";
 import { Fab, FabIcon } from "@/vendor/gluestack-ui/fab";
@@ -14,8 +14,12 @@ import HomeMainBody from "./_components/HomeMainBody";
 import HomeTokenBalance from "./_components/HomeTokenBalance";
 
 const HomeScreen = () => {
+  const router = useRouter();
   const [currentTab, setCurrentTab] = useState<Token>("JPYC");
-  const [isScaning, setIsScaning] = useBoolean(false);
+
+  const handlePressScan = useCallback(() => {
+    router.replace("/scan-qr");
+  }, [router]);
 
   return (
     <ScreenContainer className="px-4 items-center">
@@ -26,7 +30,7 @@ const HomeScreen = () => {
         <Divider className="w-[90%] bg-secondary-50" />
         <HomeAction />
       </HomeMainBody>
-      <Fab size="lg" placement="bottom right" className="bg-primary-400 rounded-3xl bottom-7" onPress={setIsScaning.on}>
+      <Fab size="lg" placement="bottom right" className="bg-primary-400 rounded-3xl bottom-7" onPress={handlePressScan}>
         <FabIcon as={Scan} className="p-5" />
       </Fab>
     </ScreenContainer>
