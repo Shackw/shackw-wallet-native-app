@@ -1,6 +1,6 @@
 import { ScrollView } from "react-native";
 
-import AddressesTableSuspension from "@/components/Addresses/AddressesTableSuspension";
+import TableSuspence from "@/components/TableSuspence";
 import useAddressesRow, { type AddressRows } from "@/hooks/useAddressesRow";
 import { Table, TableBody } from "@/vendor/gluestack-ui/table";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
@@ -17,7 +17,7 @@ const AddressesTable = (props: AddressesTableProps) => {
   const { rows, isError, refetchAddresses } = props;
 
   return (
-    <AddressesTableSuspension rows={rows} isError={isError}>
+    <TableSuspence title="アドレス" rows={rows} isError={isError}>
       {rows => (
         <VStack className="flex-1">
           <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator>
@@ -31,7 +31,7 @@ const AddressesTable = (props: AddressesTableProps) => {
           </ScrollView>
         </VStack>
       )}
-    </AddressesTableSuspension>
+    </TableSuspence>
   );
 };
 

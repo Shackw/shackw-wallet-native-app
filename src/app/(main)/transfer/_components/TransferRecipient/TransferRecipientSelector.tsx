@@ -2,8 +2,8 @@ import { useCallback } from "react";
 import { Pressable, ScrollView } from "react-native";
 import { Address } from "viem";
 
-import AddressesTableSuspension from "@/components/Addresses/AddressesTableSuspension";
 import Searcher from "@/components/Searcher";
+import TableSuspence from "@/components/TableSuspence";
 import useAddressesRow from "@/hooks/useAddressesRow";
 import { Avatar, AvatarFallbackText } from "@/vendor/gluestack-ui/avatar";
 import { HStack } from "@/vendor/gluestack-ui/hstack";
@@ -37,7 +37,7 @@ const TransferRecipientSelector = (props: TransferRecipientSelectorProps) => {
         handleChange={handleChangeSearchText}
         componetProps={{ className: "w-full" }}
       />
-      <AddressesTableSuspension rows={addressRows} isError={isError}>
+      <TableSuspence title="アドレス" rows={addressRows} isError={isError}>
         {rows => (
           <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator>
             <Table className="w-full overflow-y-auto">
@@ -65,7 +65,7 @@ const TransferRecipientSelector = (props: TransferRecipientSelectorProps) => {
             </Table>
           </ScrollView>
         )}
-      </AddressesTableSuspension>
+      </TableSuspence>
     </VStack>
   );
 };

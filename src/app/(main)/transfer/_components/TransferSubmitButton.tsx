@@ -17,7 +17,6 @@ const TransferSubmitButton = () => {
   const { form, sendToken, fee, isValid, insuff } = transferForm;
 
   const { addressToName } = useAddressesRow();
-
   const [isConfirming, setIsConfirming] = useBoolean(false);
 
   const amount = useStore(form.baseStore, s => {
