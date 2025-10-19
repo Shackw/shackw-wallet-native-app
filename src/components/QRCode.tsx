@@ -13,7 +13,7 @@ type QRCodeProps = (
   | { path: "addresses"; query: { name: string; address: Address } }
   | {
       path: "transfer";
-      query: { sendToken: Token; feeToken: Token; recipient: Address; amount: number; webhookUrl?: string };
+      query: { sendToken: Token; feeToken: Token; recipient: Address; amount: number; webhookUrl: string | undefined };
     }
 ) & { size: number };
 
@@ -27,7 +27,8 @@ const QRCode = forwardRef<QRCodeHandle, QRCodeProps>((props, ref) => {
 
   const value = useMemo(() => {
     const url = new URL(path, `${ENV.HINOMARU_UNIVERSAL_LINK}/wallet`);
-    for (const [key, v] of Object.entries(query)) url.searchParams.set(key, String(v));
+    for (const [key, v] of Object.entries(query)) if (!!v) url.searchParams.set(key, String(v));
+
     return url.toString();
   }, [path, query]);
 

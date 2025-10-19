@@ -1,6 +1,6 @@
 import { useForm, useStore } from "@tanstack/react-form";
 import { RefetchOptions, QueryObserverResult } from "@tanstack/react-query";
-import { createContext, PropsWithChildren, useContext, useEffect, useMemo } from "react";
+import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from "react";
 
 import { useTransferFee } from "@/hooks/queries/useTransferFee";
 import { FeeModel } from "@/models/fee";
@@ -8,10 +8,16 @@ import { Token } from "@/registries/TokenRegistry";
 
 import buildReceiveSchema, { type ReceiveFormValues } from "../_validators/buildReceiveSchema";
 
-type useReceiveFormProviderProps = { sendToken: Token; defaultValues: ReceiveFormValues };
+type useReceiveFormProviderProps = { sendToken: Token };
 const useReceiveFormProvider = (props: useReceiveFormProviderProps) => {
-  const { sendToken, defaultValues } = props;
+  const { sendToken } = props;
   const schema = useMemo(() => buildReceiveSchema(sendToken), [sendToken]);
+
+  const defaultValues: ReceiveFormValues = {
+    feeToken: "JPYC",
+    amount: "",
+    webhookUrl: ""
+  };
 
   return useForm({
     defaultValues,
@@ -19,29 +25,22 @@ const useReceiveFormProvider = (props: useReceiveFormProviderProps) => {
   });
 };
 
-type ReceiveFormProviderProps = {
-  sendToken: Token;
-};
 export type ReceiveFormContextType = {
   form: ReturnType<typeof useReceiveFormProvider>;
   fee?: FeeModel;
   sendToken: Token;
   isValid: boolean;
+  setSendToken: React.Dispatch<React.SetStateAction<Token>>;
   fetchFee: (options?: RefetchOptions | undefined) => Promise<QueryObserverResult<FeeModel | null, Error>>;
 };
 const ReceiveFormContext = createContext<ReceiveFormContextType | undefined>(undefined);
 
-export const ReceiveFormProvider = (props: PropsWithChildren<ReceiveFormProviderProps>) => {
-  const { sendToken, children } = props;
+export const ReceiveFormProvider = ({ children }: PropsWithChildren) => {
+  const [sendToken, setSendToken] = useState<Token>("JPYC");
 
-  const defaultValues: ReceiveFormValues = {
-    feeToken: sendToken,
-    amount: "",
-    webhookUrl: ""
-  };
-  const form = useReceiveFormProvider({ sendToken, defaultValues });
+  const form = useReceiveFormProvider({ sendToken });
 
-  const amountDecimals = useStore(form.store, s => {
+  const amount = useStore(form.store, s => {
     const v = s.values.amount;
     return v === "" ? 0 : Number(v);
   });
@@ -50,7 +49,7 @@ export const ReceiveFormProvider = (props: PropsWithChildren<ReceiveFormProvider
   const fieldMeta = useStore(form.store, s => s.fieldMeta);
 
   const { data: fee, refetch: fetchFee } = useTransferFee(
-    { token: sendToken, feeToken, amountDecimals },
+    { token: sendToken, feeToken, amountDecimals: amount },
     { enabled: false }
   );
 
@@ -78,6 +77,7 @@ export const ReceiveFormProvider = (props: PropsWithChildren<ReceiveFormProvider
         fee: fee ?? undefined,
         sendToken,
         isValid,
+        setSendToken,
         fetchFee
       }}
     >
