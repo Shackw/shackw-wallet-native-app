@@ -32,7 +32,7 @@ const TransferAmount = () => {
 
   useEffect(() => {
     form.resetField("amount");
-  }, [form]);
+  }, [form, sendToken]);
 
   return (
     <>

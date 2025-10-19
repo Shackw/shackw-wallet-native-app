@@ -1,6 +1,6 @@
 import { useForm, useStore } from "@tanstack/react-form";
 import { RefetchOptions, QueryObserverResult } from "@tanstack/react-query";
-import { createContext, PropsWithChildren, useContext, useEffect, useMemo } from "react";
+import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from "react";
 
 import { toAllowed } from "@/helpers/tokenUnits";
 import { useTransferFee } from "@/hooks/queries/useTransferFee";
@@ -13,11 +13,16 @@ import buildTransferSchema, { type TransferFormValues } from "../_validators/bui
 type useTransferFormProviderProps = {
   sendToken: Token;
   maxSendable: number;
-  defaultValues: TransferFormValues;
 };
 const useTransferFormProvider = (props: useTransferFormProviderProps) => {
-  const { sendToken, maxSendable, defaultValues } = props;
+  const { sendToken, maxSendable } = props;
   const schema = useMemo(() => buildTransferSchema(sendToken, maxSendable ?? 0), [maxSendable, sendToken]);
+
+  const defaultValues: TransferFormValues = {
+    feeToken: "JPYC",
+    recipient: "",
+    amount: ""
+  };
 
   return useForm({
     defaultValues,
@@ -25,9 +30,6 @@ const useTransferFormProvider = (props: useTransferFormProviderProps) => {
   });
 };
 
-type TransferFormProviderProps = {
-  sendToken: Token;
-};
 export type TransferFormContextType = {
   form: ReturnType<typeof useTransferFormProvider>;
   maxSendable: number;
@@ -35,25 +37,21 @@ export type TransferFormContextType = {
   sendToken: Token;
   isValid: boolean;
   insuff: { insufficient: boolean; message?: string };
+  setSendToken: React.Dispatch<React.SetStateAction<Token>>;
   fetchFee: (options?: RefetchOptions | undefined) => Promise<QueryObserverResult<FeeModel | null, Error>>;
 };
 const TransferFormContext = createContext<TransferFormContextType | undefined>(undefined);
 
-export const TransferFormProvider = (props: PropsWithChildren<TransferFormProviderProps>) => {
-  const { sendToken, children } = props;
-  const tokenBalances = useTokenBalanceContext();
-  const balance = Number(tokenBalances[sendToken]?.balance ?? 0);
-  const maxSendable = toAllowed(balance, sendToken);
+export const TransferFormProvider = ({ children }: PropsWithChildren) => {
+  const [sendToken, setSendToken] = useState<Token>("JPYC");
 
-  const defaultValues: TransferFormValues = useMemo(
-    () => ({
-      feeToken: sendToken,
-      recipient: "",
-      amount: ""
-    }),
-    [sendToken]
+  const tokenBalances = useTokenBalanceContext();
+  const maxSendable = useMemo(
+    () => toAllowed(Number(tokenBalances[sendToken]?.balance ?? 0), sendToken),
+    [sendToken, tokenBalances]
   );
-  const form = useTransferFormProvider({ sendToken, maxSendable, defaultValues });
+
+  const form = useTransferFormProvider({ sendToken, maxSendable });
 
   const amount = useStore(form.baseStore, s => {
     const v = s.values.amount;
@@ -77,15 +75,12 @@ export const TransferFormProvider = (props: PropsWithChildren<TransferFormProvid
     const isAmountValid = !!amountMeta?.isValid && !!amountMeta?.isDirty;
     const isRecipientValid = !!recipientMeta?.isValid && !!recipientMeta?.isDirty;
     const isFeeTokenValid = !!feeTokenMeta?.isValid;
-
     const isWebhookUrlValid = !webhookUrl?.trim() || !!webhookUrlMeta?.isValid;
 
     return isAmountValid && isRecipientValid && isFeeTokenValid && isWebhookUrlValid;
-  }, [fieldMeta.amount, fieldMeta.recipient, fieldMeta.feeToken, fieldMeta.webhookUrl, webhookUrl]);
+  }, [fieldMeta.amount, fieldMeta.feeToken, fieldMeta.recipient, fieldMeta.webhookUrl, webhookUrl]);
 
   const insuff = useMemo(() => {
-    if (!isValid) return { insufficient: true };
-
     if (!fee) return { insufficient: true };
 
     const balToken = Number(tokenBalances[sendToken]?.balance ?? NaN);
@@ -126,12 +121,13 @@ export const TransferFormProvider = (props: PropsWithChildren<TransferFormProvid
       };
 
     return { insufficient: false };
-  }, [amount, fee, feeToken, isValid, sendToken, tokenBalances]);
+  }, [amount, fee, feeToken, sendToken, tokenBalances]);
 
   useEffect(() => {
-    const isAmountValid = form.state.fieldMeta.amount.isTouched && form.state.fieldMeta.amount.isValid;
+    const amountMeta = fieldMeta.amount;
+    const isAmountValid = !!amountMeta?.isValid && !!amountMeta?.isDirty;
     if (isAmountValid) fetchFee();
-  }, [feeToken, fetchFee, form, sendToken]);
+  }, [fetchFee, fieldMeta.amount]);
 
   return (
     <TransferFormContext.Provider
@@ -142,6 +138,7 @@ export const TransferFormProvider = (props: PropsWithChildren<TransferFormProvid
         sendToken,
         isValid,
         insuff,
+        setSendToken,
         fetchFee
       }}
     >

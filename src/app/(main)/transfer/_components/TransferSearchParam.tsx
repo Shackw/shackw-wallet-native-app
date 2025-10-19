@@ -1,12 +1,11 @@
 import { useLocalSearchParams } from "expo-router";
-import { Dispatch, SetStateAction, useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import * as v from "valibot";
 
 import BackDrop from "@/components/BackDrop";
 import { AlertDialog } from "@/components/Dialog";
 import { ErrorText } from "@/components/Text";
 import { useBoolean } from "@/hooks/useBoolean";
-import { Token } from "@/registries/TokenRegistry";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
 
 import useTransferForm from "../_hooks/useTransferForm";
@@ -15,14 +14,11 @@ import TransferSearchParamsSchema, {
   ParsedTransferSearchParams
 } from "../_validators/TransferSearchParamsSchema";
 
-type TransferSearchParamProps = { setSelectedToken: Dispatch<SetStateAction<Token>> };
-
-const TransferSearchParam = ({ setSelectedToken }: TransferSearchParamProps) => {
-  const { form, maxSendable, fetchFee } = useTransferForm();
+const TransferSearchParam = () => {
+  const { form, setSendToken } = useTransferForm();
   const rawParams = useLocalSearchParams<TransferSearchParams>();
 
   const appliedRef = useRef(false);
-
   const [isError, setIsError] = useBoolean(false);
   const [isParsing, setIsParsing] = useBoolean(false);
 
@@ -36,11 +32,10 @@ const TransferSearchParam = ({ setSelectedToken }: TransferSearchParamProps) => 
       form.setFieldValue("webhookUrl", webhookUrl);
 
       await form.validateAllFields("change");
-      await fetchFee();
 
       setIsParsing.off();
     },
-    [fetchFee, form, setIsParsing]
+    [form, setIsParsing]
   );
 
   useEffect(() => {
@@ -52,13 +47,14 @@ const TransferSearchParam = ({ setSelectedToken }: TransferSearchParamProps) => 
     if (!parsed.success) {
       setIsParsing.off();
       setIsError.on();
+      appliedRef.current = true;
       return;
     }
 
     const { amount, feeToken, recipient, sendToken, webhookUrl } = parsed.output;
 
     if (amount && feeToken && recipient && sendToken) {
-      setSelectedToken(sendToken);
+      setSendToken(sendToken);
 
       const id = requestAnimationFrame(async () => {
         await trySubmit({ amount, feeToken, recipient, webhookUrl });
@@ -70,7 +66,7 @@ const TransferSearchParam = ({ setSelectedToken }: TransferSearchParamProps) => 
     } else {
       setIsParsing.off();
     }
-  }, [rawParams, setIsError, setIsParsing, maxSendable, setSelectedToken, trySubmit]);
+  }, [rawParams, setIsError, setIsParsing, setSendToken, trySubmit]);
 
   return (
     <>
