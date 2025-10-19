@@ -36,7 +36,7 @@ const AddressesScreen = () => {
           componetProps={{ className: "w-full mt-3" }}
         />
         <AddressesMine address={mineRow.address} name={mineRow.name} refetchAddresses={refetch} />
-        <VStack className="flex-1 pb-12">
+        <VStack className="flex-1 pb-8">
           <HStack className="items-center justify-between">
             <Text className="font-bold text-secondary-500">すべてのアドレス</Text>
             <IconButton

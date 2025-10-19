@@ -12,18 +12,21 @@ export const TokenBalanceContext = createContext<TokenBalanceContextType | undef
 
 export const TokenBalanceProvider = ({ children }: { children: ReactNode }) => {
   const { account } = useHinomaruWalletContext();
-  const { data: jpycBalance, ...restJpycResult } = useTokenBalance(account?.address ?? "0x", "JPYC", {
+  const { data: jpycData, ...restJpycResult } = useTokenBalance(account?.address ?? "0x", "JPYC", {
     retry: 1,
     enabled: !!account?.address
   });
-  const { data: usdcBalance, ...restUsdcResult } = useTokenBalance(account?.address ?? "0x", "USDC", {
+  const jpycBalance = restJpycResult.isFetched && !jpycData ? "0" : jpycData;
+  const { data: usdcData, ...restUsdcResult } = useTokenBalance(account?.address ?? "0x", "USDC", {
     retry: 1,
     enabled: !!account?.address
   });
-  const { data: eurcBalance, ...restEurcResult } = useTokenBalance(account?.address ?? "0x", "EURC", {
+  const usdcBalance = restUsdcResult.isFetched && !usdcData ? "0" : usdcData;
+  const { data: eurcData, ...restEurcResult } = useTokenBalance(account?.address ?? "0x", "EURC", {
     retry: 1,
     enabled: !!account?.address
   });
+  const eurcBalance = restEurcResult.isFetched && !eurcData ? "0" : eurcData;
 
   return (
     <TokenBalanceContext.Provider

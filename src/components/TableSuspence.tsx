@@ -1,19 +1,19 @@
 import { ReactNode } from "react";
 
-import { AddressRow, AddressRows } from "@/hooks/useAddressesRow";
 import { theme } from "@/styles/theme";
 import { Spinner } from "@/vendor/gluestack-ui/spinner";
 import { Text } from "@/vendor/gluestack-ui/text";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
 
-type AddressesTableSuspensionProps = {
-  rows: AddressRows;
+type TableSuspenceProps<T> = {
+  title: string;
+  rows: T[] | undefined;
   isError: boolean;
-  children: (rows: AddressRow[]) => ReactNode;
+  children: (rows: T[]) => ReactNode;
 };
 
-const AddressesTableSuspension = (props: AddressesTableSuspensionProps) => {
-  const { rows, isError, children } = props;
+const TableSuspence = <T extends object>(props: TableSuspenceProps<T>) => {
+  const { title, rows, isError, children } = props;
 
   if (!rows && isError)
     return (
@@ -32,11 +32,11 @@ const AddressesTableSuspension = (props: AddressesTableSuspensionProps) => {
   if (rows.length === 0)
     return (
       <VStack className="flex-1 justify-center items-center pb-32">
-        <Text className="font-bold text-secondary-500">アドレスがありません</Text>
+        <Text className="font-bold text-secondary-500">{`${title}がありません`}</Text>
       </VStack>
     );
 
   return children(rows);
 };
 
-export default AddressesTableSuspension;
+export default TableSuspence;
