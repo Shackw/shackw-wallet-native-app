@@ -3,6 +3,7 @@ import { SQLiteDatabase } from "expo-sqlite";
 import { Address } from "viem";
 
 import { SupportChain } from "@/configs/chain";
+import { CustomError } from "@/exceptions";
 import { toDecimals } from "@/helpers/tokenUnits";
 import { GetLastTransactionCommand, ListTransactionsByTermCommand, TransactionModel } from "@/models/transaction";
 import { ADDRESS_TO_TOKEN, TOKENS } from "@/registries/TokenRegistry";
@@ -29,9 +30,11 @@ export const TransactionsService = {
       if (searched.length === 0) return null;
       return resultToModel(wallet, searched[0]);
     } catch (error: unknown) {
-      if (error instanceof Error) {
+      console.error(error);
+
+      if (error instanceof CustomError)
         throw new Error(`最新の取引の取得に失敗しました: ${error.message}`, { cause: error });
-      }
+
       throw new Error(`最新の取引の取得に失敗しました（不明なエラー）: ${String(error)}`);
     }
   },
@@ -54,9 +57,11 @@ export const TransactionsService = {
       const mapped = searched.map(v => resultToModel(wallet, v));
       return mapped;
     } catch (error: unknown) {
-      if (error instanceof Error) {
+      console.error(error);
+
+      if (error instanceof CustomError)
         throw new Error(`期間指定の取引一覧の取得に失敗しました: ${error.message}`, { cause: error });
-      }
+
       throw new Error(`期間指定の取引一覧の取得に失敗しました（不明なエラー）: ${String(error)}`);
     }
   }

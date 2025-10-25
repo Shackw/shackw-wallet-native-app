@@ -2,6 +2,7 @@ import * as SecureStore from "expo-secure-store";
 import { Address, Hex } from "viem";
 
 import { ENV } from "@/configs/env";
+import { CustomError } from "@/exceptions";
 
 import type { IPrivateKeysRepository, BatchGetPrivateKeyResult } from "./interface";
 
@@ -10,7 +11,7 @@ export const SecureStorePrivateKeysRepository: IPrivateKeysRepository = {
     const keyName = `${ENV.WALLET_PRIVATE_KEY_BASE_NAME}:${wallet}`;
 
     const storedPk = await SecureStore.getItemAsync(keyName);
-    if (!storedPk) throw new Error("対象のウォレットが見つかりませんでした。");
+    if (!storedPk) throw new CustomError("対象のウォレットが見つかりませんでした。");
 
     return storedPk as Hex;
   },
@@ -33,7 +34,7 @@ export const SecureStorePrivateKeysRepository: IPrivateKeysRepository = {
     const keyName = `${ENV.WALLET_PRIVATE_KEY_BASE_NAME}:${wallet}`;
 
     const storedPk = await SecureStore.getItemAsync(keyName);
-    if (!!storedPk) throw new Error("すでにこのウォレットは作成されています。");
+    if (!!storedPk) throw new CustomError("すでにこのウォレットは作成されています。");
 
     await SecureStore.setItemAsync(keyName, pk);
   },
@@ -42,7 +43,7 @@ export const SecureStorePrivateKeysRepository: IPrivateKeysRepository = {
     const keyName = `${ENV.WALLET_PRIVATE_KEY_BASE_NAME}:${wallet}`;
 
     const storedPk = await SecureStore.getItemAsync(keyName);
-    if (!storedPk) throw new Error("対象のウォレットが見つかりませんでした。");
+    if (!storedPk) throw new CustomError("対象のウォレットが見つかりませんでした。");
 
     await SecureStore.deleteItemAsync(keyName);
   }

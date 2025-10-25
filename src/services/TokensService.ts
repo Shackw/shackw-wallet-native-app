@@ -1,7 +1,8 @@
 import { Hex } from "viem";
 
-import { ApiError, HinomaruApiErrorBody } from "@/clients/restClient";
+import { HinomaruApiErrorBody } from "@/clients/restClient";
 import { SUPPORT_CHAINS, SupportChain } from "@/configs/chain";
+import { ApiError, CustomError } from "@/exceptions";
 import { toDecimalsStr, toMinUnits } from "@/helpers/tokenUnits";
 import { GetTokenBalanceCommand, TransferTokenCommand } from "@/models/token";
 import { TOKEN_REGISTRY } from "@/registries/TokenRegistry";
@@ -19,10 +20,11 @@ export const TokensService = {
       const balance = await erc20Contract.read.balanceOf([wallet]);
       return toDecimalsStr(balance, token);
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        throw new Error(`getTokenBalance error: ${error.message}`);
-      }
-      throw new Error(`getTokenBalance unknown error: ${String(error)}`);
+      console.error(error);
+
+      if (error instanceof CustomError) throw new Error(error.message);
+
+      throw new Error(`不明なエラーにより ${token} の残高取得に失敗しました。`);
     }
   },
 
@@ -74,6 +76,8 @@ export const TokensService = {
 
       return txHash;
     } catch (error: unknown) {
+      console.error(error);
+
       let mes = "送金処理中に不明なエラーが発生しました。";
       if (error instanceof ApiError) {
         const body = error.body as HinomaruApiErrorBody;
