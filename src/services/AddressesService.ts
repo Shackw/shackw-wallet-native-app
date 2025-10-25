@@ -1,6 +1,6 @@
 import { Address } from "viem";
 
-import type { AddressModel, CreateAddressCommand, UpdateAddressCommand } from "@/models/address";
+import type { AddressModel, MutateAddressCommand } from "@/models/address";
 import { SqlAddressesRepository } from "@/repositories/AddressesRepository";
 
 import type { SQLiteDatabase } from "expo-sqlite";
@@ -11,17 +11,26 @@ export const AddressesService = {
       const addresses = await SqlAddressesRepository.list(db);
       return addresses;
     } catch {
-      throw new Error("アドレス一覧の取得に失敗しました");
+      throw new Error("アドレス一覧の取得に失敗しました。");
     }
   },
 
-  async createAddress(db: SQLiteDatabase, command: CreateAddressCommand): Promise<void> {
+  async listMyAddress(db: SQLiteDatabase): Promise<AddressModel[]> {
+    try {
+      const addresses = await SqlAddressesRepository.listMine(db);
+      return addresses;
+    } catch {
+      throw new Error("自分のアドレス一覧の取得に失敗しました。");
+    }
+  },
+
+  async createAddress(db: SQLiteDatabase, command: MutateAddressCommand): Promise<void> {
     const { address } = command;
     try {
       const found = await SqlAddressesRepository.get(db, address);
       if (!!found) throw new Error("このアドレスは既に登録されています。");
 
-      await SqlAddressesRepository.create(db, command);
+      await SqlAddressesRepository.create(db, { ...command, isMine: false });
     } catch (error: unknown) {
       if (error instanceof Error) {
         throw new Error(error.message);
@@ -30,11 +39,13 @@ export const AddressesService = {
     }
   },
 
-  async updateAddress(db: SQLiteDatabase, command: UpdateAddressCommand): Promise<void> {
+  async updateAddress(db: SQLiteDatabase, command: MutateAddressCommand): Promise<void> {
     const { address } = command;
     try {
       const found = await SqlAddressesRepository.get(db, address);
       if (!found) throw new Error("指定のアドレスは登録されていません。");
+
+      if (found.isMine && found.address !== address) throw new Error("自分のアドレスを変更することはできません。");
 
       await SqlAddressesRepository.update(db, command);
     } catch (error: unknown) {
@@ -49,6 +60,8 @@ export const AddressesService = {
     try {
       const found = await SqlAddressesRepository.get(db, address);
       if (!found) throw new Error("指定のアドレスは登録されていません。");
+
+      if (found.isMine) throw new Error("自分のアドレスを削除することはできません。");
 
       await SqlAddressesRepository.delete(db, address);
     } catch (error: unknown) {

@@ -1,12 +1,12 @@
-import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
+import { useLastTransactionContext } from "@/providers/LastTransactionProvider";
 import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { Text } from "@/vendor/gluestack-ui/text";
 
 import useLastTransactionElement from "../_hooks/useLastTransactionElement";
 
 const HomeLastTransactionAt = () => {
-  const { lastTransactionResult } = useHinomaruWalletContext();
-  const { element, pl, optinalElement } = useLastTransactionElement(lastTransactionResult);
+  const queryResult = useLastTransactionContext();
+  const { element, pl, optinalElement } = useLastTransactionElement(queryResult);
 
   return (
     <HStack className="flex-row items-center gap-x-0.5">

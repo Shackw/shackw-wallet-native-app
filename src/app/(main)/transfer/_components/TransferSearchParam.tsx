@@ -106,7 +106,7 @@ const TransferSearchParam = () => {
 
       <AlertDialog title="読み取りエラー" isOpen={isError} onClose={setIsError.off} size="lg">
         <VStack className="py-4 gap-y-1">
-          <ErrorText className="flex-1">読み込まれた情報が正しくない可能性があります。</ErrorText>
+          <ErrorText>読み込まれた情報が正しくない可能性があります。</ErrorText>
         </VStack>
       </AlertDialog>
     </>

@@ -2,6 +2,7 @@ import { subMonths } from "date-fns";
 import { SQLiteDatabase } from "expo-sqlite";
 import { Address } from "viem";
 
+import { SupportChain } from "@/configs/chain";
 import { toDecimals } from "@/helpers/tokenUnits";
 import { GetLastTransactionCommand, ListTransactionsByTermCommand, TransactionModel } from "@/models/transaction";
 import { ADDRESS_TO_TOKEN, TOKENS } from "@/registries/TokenRegistry";
@@ -9,9 +10,14 @@ import { TransactionsRepository } from "@/repositories/TransactionsRepository";
 import { ResolvedTransactionResult, SearchTransactionQuery } from "@/repositories/TransactionsRepository/interface";
 
 export const TransactionsService = {
-  async getLastTransaction(db: SQLiteDatabase, command: GetLastTransactionCommand): Promise<TransactionModel | null> {
+  async getLastTransaction(
+    db: SQLiteDatabase,
+    chain: SupportChain,
+    command: GetLastTransactionCommand
+  ): Promise<TransactionModel | null> {
     const { wallet } = command;
     const query: SearchTransactionQuery = {
+      chain,
       wallet,
       timeTo: new Date(),
       timeFrom: subMonths(new Date(), 3),
@@ -32,10 +38,12 @@ export const TransactionsService = {
 
   async listTransactionsByTerm(
     db: SQLiteDatabase,
+    chain: SupportChain,
     command: ListTransactionsByTermCommand
   ): Promise<TransactionModel[]> {
     const { wallet, token, timeFrom, timeTo } = command;
     const query: SearchTransactionQuery = {
+      chain,
       wallet,
       tokens: [{ symbol: token }],
       timeFrom,

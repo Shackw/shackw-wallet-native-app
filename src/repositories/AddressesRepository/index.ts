@@ -42,6 +42,24 @@ export const SqlAddressesRepository: IAddressesRepository = {
     }
   },
 
+  async listMine(db: SQLiteDatabase): Promise<AddressesResult[]> {
+    const stmt = await db.prepareAsync(`
+      SELECT *
+      FROM addresses
+      WHERE is_mine = 1
+      ORDER BY
+        name COLLATE NOCASE,
+        address
+    `);
+    try {
+      const result = await stmt.executeAsync<AddressRow>();
+      const rows = await result.getAllAsync();
+      return rows.map(addressRowToResult);
+    } finally {
+      await stmt.finalizeAsync();
+    }
+  },
+
   async create(db: SQLiteDatabase, query: CreateAddressQuery): Promise<void> {
     const { address, name, isMine } = query;
     const stmt = await db.prepareAsync(`
@@ -71,7 +89,7 @@ export const SqlAddressesRepository: IAddressesRepository = {
 
   async delete(db: SQLiteDatabase, address: Address): Promise<void> {
     const stmt = await db.prepareAsync(`
-      DELETE FROM addresses 
+      DELETE FROM addresses
       WHERE address = $address
     `);
     try {

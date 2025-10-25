@@ -3,6 +3,7 @@ import { useSQLiteContext } from "expo-sqlite";
 import { Address } from "viem";
 
 import { TransactionModel } from "@/models/transaction";
+import { useUserSettingContext } from "@/providers/UserSettingProvider";
 import { TransactionsService } from "@/services/TransactionsService";
 
 export const useLastTransaction = (
@@ -10,9 +11,10 @@ export const useLastTransaction = (
   options?: Partial<UseQueryOptions<TransactionModel | null>>
 ): UseQueryResult<TransactionModel | null> => {
   const db = useSQLiteContext();
+  const { selectedChain } = useUserSettingContext();
   return useQuery({
     ...options,
     queryKey: [wallet],
-    queryFn: () => TransactionsService.getLastTransaction(db, { wallet })
+    queryFn: () => TransactionsService.getLastTransaction(db, selectedChain, { wallet })
   });
 };

@@ -15,7 +15,7 @@ import type { SQLiteDatabase } from "expo-sqlite";
 
 export const SqlTransactionsRepository: ILocalTransactionsRepository = {
   async search(db: SQLiteDatabase, query: SearchTransactionQuery): Promise<ResolvedTransactionResult[]> {
-    const { wallet, tokens, timeFrom, timeTo, limit, direction } = query;
+    const { chain, wallet, tokens, timeFrom, timeTo, limit, direction } = query;
 
     const tokenAddrs = tokens.map(t => TOKEN_REGISTRY[t.symbol].address.toLowerCase());
     const inPlaceholders = tokenAddrs.map((_, i) => `$t${i}`).join(",");
@@ -23,6 +23,9 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
     const cond: string[] = [`t.token_address IN (${inPlaceholders})`];
     const bind: Record<string, string | number> = {};
     tokenAddrs.forEach((a, i) => (bind[`$t${i}`] = a));
+
+    cond.push(`t.chain = $chain`);
+    bind.$chain = chain;
 
     if (timeFrom) {
       cond.push(`t.transferred_at >= $from`);
@@ -34,16 +37,14 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
     }
 
     const me = wallet.toLowerCase();
-    if (direction === "in") {
-      cond.push(`t.to_address = $me`);
-    }
-    if (direction === "out") {
-      cond.push(`t.from_address = $me`);
-    }
-    if (direction === "both") {
-      cond.push(`(t.from_address = $me OR t.to_address = $me)`);
-    }
+    if (direction === "in") cond.push(`t.to_address = $me`);
+
+    if (direction === "out") cond.push(`t.from_address = $me`);
+
+    if (direction === "both") cond.push(`(t.from_address = $me OR t.to_address = $me)`);
+
     if (direction && direction !== "both") bind.$me = me;
+
     if (direction === "both") bind.$me = me;
 
     const limitSql = limit ? `LIMIT $limit` : "";
@@ -77,12 +78,13 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
   },
 
   async batchWrite(db: SQLiteDatabase, progress: TransactionProgressResult, rows: TransactionResult[]): Promise<void> {
-    const { year, month, status, token, lastUpdatedAt } = progress;
+    const { chain, year, month, status, token, createdBy, lastUpdatedAt } = progress;
     const tokenAddress = TOKEN_REGISTRY[token].address.toLowerCase();
 
     await db.withExclusiveTransactionAsync(async txn => {
       const transactionsStmt = await txn.prepareAsync(`
         INSERT OR IGNORE INTO transactions (
+          chain,
           tx_hash,
           log_index,
           block_number,
@@ -93,6 +95,7 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
           transferred_at
         )
         VALUES (
+          $chain,
           $txHash,
           $logIndex,
           $blockNumber,
@@ -106,16 +109,20 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
 
       const progressStmt = await txn.prepareAsync(`
         INSERT INTO transaction_progress (
+          chain,
           year,
           month,
           token_address,
+          created_by_address,
           status,
           last_updated_at
         )
         VALUES (
+          $chain,
           $year,
           $month,
           $tokenAddress,
+          $createdBy,
           $status,
           $lastUpdatedAt
         )
@@ -128,6 +135,7 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
       try {
         for (const r of rows) {
           await transactionsStmt.executeAsync({
+            $chain: chain,
             $txHash: r.txHash.toLowerCase(),
             $logIndex: r.logIndex,
             $blockNumber: r.blockNumber.toString(),
@@ -139,9 +147,11 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
           });
         }
         await progressStmt.executeAsync({
+          $chain: chain,
           $year: year,
           $month: month,
           $tokenAddress: tokenAddress,
+          $createdBy: createdBy,
           $status: status,
           $lastUpdatedAt: Math.floor(lastUpdatedAt.getTime() / 1000)
         });
@@ -153,23 +163,34 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
   },
 
   async getProgress(db: SQLiteDatabase, query: GetTransactionProgressQuery): Promise<TransactionProgressResult | null> {
-    const { year, month, token } = query;
+    const { chain, wallet, year, month, token } = query;
     const tokenAddress = TOKEN_REGISTRY[token.symbol].address.toLowerCase();
 
     const stmt = await db.prepareAsync(`
-      SELECT year, month, status, token_address, last_updated_at
+      SELECT
+        chain,
+        year,
+        month,
+        token_address,
+        created_by_address,
+        status,
+        last_updated_at
       FROM transaction_progress
       WHERE
-        year = $year
+        chain = $chain
+        AND year = $year
         AND month = $month
         AND token_address = $tokenAddress
+        AND created_by_address = $createdBy
     `);
 
     try {
       const result = await stmt.executeAsync<TransactionProgressRow>({
+        $chain: chain,
         $year: year,
         $month: month,
-        $tokenAddress: tokenAddress
+        $tokenAddress: tokenAddress,
+        $createdBy: wallet
       });
       const row = await result.getFirstAsync();
       if (!row) return null;

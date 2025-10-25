@@ -1,6 +1,7 @@
 import * as v from "valibot";
 import { Address } from "viem";
 
+import { SupportChain } from "@/configs/chain";
 import { Token } from "@/registries/TokenRegistry";
 
 import { CreateQuoteResultSchema } from "./parser";
@@ -12,7 +13,7 @@ export interface IQuotesRepository {
 export type CreateQuoteResult = v.InferOutput<typeof CreateQuoteResultSchema>;
 
 export type CreateQuoteQuery = {
-  chainId: number;
+  chain: SupportChain;
   sender: Address;
   recipient: Address;
   token: { symbol: Token };

@@ -1,17 +1,17 @@
-import { DEFAULT_CHAIN } from "@/configs/chain";
+import { SupportChain } from "@/configs/chain";
 import { toMinUnits } from "@/helpers/tokenUnits";
 import { EstimateFeeCommand, FeeModel } from "@/models/fee";
 import { FeesRepository } from "@/repositories/FeesRepository";
 import { EstimateFeeQuery, EstimateFeeResult } from "@/repositories/FeesRepository/interface";
 
 export const FeesService = {
-  async estimateFee(command: EstimateFeeCommand): Promise<FeeModel> {
+  async estimateFee(chain: SupportChain, command: EstimateFeeCommand): Promise<FeeModel> {
     const { token, feeToken, amountDecimals } = command;
     try {
       const query: EstimateFeeQuery = {
+        chain,
         token: { symbol: token },
         feeToken: { symbol: feeToken },
-        chainId: DEFAULT_CHAIN.id,
         amountMinUnits: toMinUnits(amountDecimals, token)
       };
 
