@@ -1,4 +1,5 @@
 import { SupportChain } from "@/configs/chain";
+import { CustomError } from "@/exceptions";
 import { toMinUnits } from "@/helpers/tokenUnits";
 import { EstimateFeeCommand, FeeModel } from "@/models/fee";
 import { FeesRepository } from "@/repositories/FeesRepository";
@@ -18,9 +19,11 @@ export const FeesService = {
       const fee = await FeesRepository.estimate(query);
       return responceToModel(fee);
     } catch (error: unknown) {
-      if (error instanceof Error) {
+      console.error(error);
+
+      if (error instanceof CustomError)
         throw new Error(`手数料の見積もりに失敗しました: ${error.message}`, { cause: error });
-      }
+
       throw new Error(`手数料の見積もりに失敗しました（不明なエラー）: ${String(error)}`);
     }
   }
