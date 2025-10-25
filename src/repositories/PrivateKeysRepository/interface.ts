@@ -1,12 +1,12 @@
 import { Address, Hex } from "viem";
 
-export interface IPrivateKeyRepository {
+export interface IPrivateKeysRepository {
   get(wallet: Address): Promise<Hex>;
-  batchGet(wallets: Address[]): Promise<PrivateKeyResult>;
+  batchGet(wallets: Address[]): Promise<BatchGetPrivateKeyResult>;
   store(wallet: Address, pk: Hex): Promise<void>;
   delete(wallet: Address): Promise<void>;
 }
 
-export type PrivateKeyResult = {
+export type BatchGetPrivateKeyResult = {
   [wallet: Address]: Hex;
 };

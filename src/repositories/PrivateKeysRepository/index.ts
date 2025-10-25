@@ -3,9 +3,9 @@ import { Address, Hex } from "viem";
 
 import { ENV } from "@/configs/env";
 
-import type { IPrivateKeyRepository, PrivateKeyResult } from "./interface";
+import type { IPrivateKeysRepository, BatchGetPrivateKeyResult } from "./interface";
 
-export const SecureStorePrivateKeyRepository: IPrivateKeyRepository = {
+export const SecureStorePrivateKeysRepository: IPrivateKeysRepository = {
   async get(wallet: Address): Promise<Hex> {
     const keyName = `${ENV.WALLET_PRIVATE_KEY_BASE_NAME}:${wallet}`;
 
@@ -15,8 +15,8 @@ export const SecureStorePrivateKeyRepository: IPrivateKeyRepository = {
     return storedPk as Hex;
   },
 
-  async batchGet(wallets: Address[]): Promise<PrivateKeyResult> {
-    let result: PrivateKeyResult = {};
+  async batchGet(wallets: Address[]): Promise<BatchGetPrivateKeyResult> {
+    let result: BatchGetPrivateKeyResult = {};
 
     for (const wallet in wallets) {
       const keyName = `${ENV.WALLET_PRIVATE_KEY_BASE_NAME}:${wallet}`;

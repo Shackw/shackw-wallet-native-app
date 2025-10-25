@@ -2,7 +2,7 @@ import { UseMutationOptions, UseMutationResult, useMutation } from "@tanstack/re
 import { useSQLiteContext } from "expo-sqlite";
 import { Hex } from "viem";
 
-import { PrivateKeyService } from "@/services/PrivateKeyService";
+import { PrivateKeysService } from "@/services/PrivateKeysService";
 
 export const useGetDefaultPrivateKey = (
   options?: UseMutationOptions<Hex, Error, void, unknown>
@@ -11,6 +11,6 @@ export const useGetDefaultPrivateKey = (
   return useMutation<Hex, Error, void>({
     ...options,
     mutationKey: ["GetDefaultPrivateKey"],
-    mutationFn: () => PrivateKeyService.getDefaultPrivateKey(db)
+    mutationFn: () => PrivateKeysService.getDefaultPrivateKey(db)
   });
 };
