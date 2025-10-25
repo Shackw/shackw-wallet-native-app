@@ -2,7 +2,7 @@ import { UseMutationOptions, UseMutationResult, useMutation } from "@tanstack/re
 import { useSQLiteContext } from "expo-sqlite";
 
 import type { StorePrivateKeyCommand } from "@/models/privateKey";
-import { PrivateKeyService } from "@/services/PrivateKeyService";
+import { PrivateKeysService } from "@/services/PrivateKeysService";
 
 export const useStorePrivateKey = (
   options?: UseMutationOptions<void, Error, StorePrivateKeyCommand, unknown>
@@ -11,6 +11,6 @@ export const useStorePrivateKey = (
   return useMutation<void, Error, StorePrivateKeyCommand>({
     ...options,
     mutationKey: ["StorePrivateKey"],
-    mutationFn: address => PrivateKeyService.storePrivateKey(db, address)
+    mutationFn: address => PrivateKeysService.storePrivateKey(db, address)
   });
 };

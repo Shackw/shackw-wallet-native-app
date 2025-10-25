@@ -10,9 +10,9 @@ export const up_0001 = async (db: SQLiteDatabase) => {
                       DEFAULT 'base',
 
       default_wallet  TEXT
-                      CHECK(address = lower(address))
-                      CHECK(length(address) = 42)
-                      CHECK(substr(address,1,2) = '0x'),
+                      CHECK(default_wallet = lower(default_wallet))
+                      CHECK(length(default_wallet) = 42)
+                      CHECK(substr(default_wallet,1,2) = '0x'),
 
       updated_at      INTEGER NOT NULL DEFAULT (strftime('%s','now')),
       created_at      INTEGER NOT NULL DEFAULT (strftime('%s','now')),

@@ -3,10 +3,10 @@ import { Hex } from "viem";
 
 import { StorePrivateKeyCommand } from "@/models/privateKey";
 import { SqlAddressesRepository } from "@/repositories/AddressesRepository";
-import { SecureStorePrivateKeyRepository } from "@/repositories/PrivateKeyRepository";
+import { SecureStorePrivateKeysRepository } from "@/repositories/PrivateKeysRepository";
 import { SqlUserSettingRepository } from "@/repositories/UserSettingRepository";
 
-export const PrivateKeyService = {
+export const PrivateKeysService = {
   async getDefaultPrivateKey(db: SQLiteDatabase): Promise<Hex> {
     try {
       const userSetting = await SqlUserSettingRepository.get(db);
@@ -21,7 +21,7 @@ export const PrivateKeyService = {
         return myAddresses[0].address;
       })();
 
-      const pk = await SecureStorePrivateKeyRepository.get(defaultWallet);
+      const pk = await SecureStorePrivateKeysRepository.get(defaultWallet);
       return pk;
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -34,10 +34,10 @@ export const PrivateKeyService = {
   async storePrivateKey(db: SQLiteDatabase, command: StorePrivateKeyCommand): Promise<void> {
     const { name, wallet, privateKey } = command;
     try {
-      const stored = await SecureStorePrivateKeyRepository.get(wallet);
+      const stored = await SecureStorePrivateKeysRepository.get(wallet);
       if (!!stored) throw new Error("このプライベートキーは既に登録されています。");
 
-      await SecureStorePrivateKeyRepository.store(wallet, privateKey);
+      await SecureStorePrivateKeysRepository.store(wallet, privateKey);
 
       const found = await SqlAddressesRepository.get(db, wallet);
       if (!!found) return;
