@@ -31,13 +31,9 @@ const TransferSubmitButton = () => {
     <>
       <VStack className="px-4 pt-5 gap-y-5">
         {insuff.insufficient && insuff.message ? (
-          <ErrorText size="md" className="flex-1">
-            {insuff.message}
-          </ErrorText>
+          <ErrorText>{insuff.message}</ErrorText>
         ) : (
-          <InfoText size="md" className="flex-1">
-            必要項目を入力すると手数料を自動計算します。
-          </InfoText>
+          <InfoText>必要項目を入力すると手数料を自動計算します。</InfoText>
         )}
         <ContainButton
           text="確認画面へ"

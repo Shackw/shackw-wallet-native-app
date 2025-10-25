@@ -39,9 +39,7 @@ const OnBordingInputPkForm = (props: OnBordingInputPkFormProps) => {
                 onBlur={handleBlur}
               />
             </Textarea>
-            <InfoText className="flex-1">
-              HINOMARU WALLET以外で作成された秘密鍵を使用して復元することが可能です。
-            </InfoText>
+            <InfoText>HINOMARU WALLET以外で作成された秘密鍵を使用して復元することが可能です。</InfoText>
           </VStack>
 
           <HStack className="gap-x-4">
@@ -65,7 +63,7 @@ const OnBordingInputPkForm = (props: OnBordingInputPkFormProps) => {
 
       <AlertDialog title="秘密鍵入力不正" isOpen={!!error} onClose={closeError} size="lg">
         <VStack className="py-4 gap-y-1">
-          <ErrorText className="flex-1">{error}</ErrorText>
+          <ErrorText>{error}</ErrorText>
         </VStack>
       </AlertDialog>
     </>

@@ -48,9 +48,7 @@ const AddressesMineEditForm = (props: AddressesMineEditFormProps) => {
                 />
               </Input>
             </FormControl>
-            <InfoText className="flex-1">
-              QRコードでアドレスを共有した際に、登録されている名前が相手のアドレス帳に反映されます。
-            </InfoText>
+            <InfoText>QRコードでアドレスを共有した際に、登録されている名前が相手のアドレス帳に反映されます。</InfoText>
           </VStack>
 
           <HStack className="gap-x-4">
@@ -74,7 +72,7 @@ const AddressesMineEditForm = (props: AddressesMineEditFormProps) => {
 
       <AlertDialog title="秘密鍵入力不正" isOpen={!!error} onClose={closeError} size="lg">
         <VStack className="py-4 gap-y-1">
-          <ErrorText className="flex-1">{error}</ErrorText>
+          <ErrorText>{error}</ErrorText>
         </VStack>
       </AlertDialog>
     </>

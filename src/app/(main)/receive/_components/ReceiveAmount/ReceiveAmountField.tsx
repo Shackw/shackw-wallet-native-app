@@ -92,9 +92,7 @@ const ReceiveAmountField = (props: ReceiveAmountFieldProps) => {
               >
                 <VStack className="py-4 gap-y-1">
                   {field.state.meta.errors.map((error, index) => (
-                    <ErrorText key={`amount-error-${index}`} className="flex-1">
-                      {error?.message}
-                    </ErrorText>
+                    <ErrorText key={`amount-error-${index}`}>{error?.message}</ErrorText>
                   ))}
                 </VStack>
               </AlertDialog>

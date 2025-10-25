@@ -33,7 +33,7 @@ const useMutateAddressForm = (props: UseMutateAddressFormProps) => {
       onSubmitAsync: async ({ value }) => {
         const { name, address } = value;
         try {
-          if (props.mode === "create") await createAddress({ name, address: address as Address, isMine: false });
+          if (props.mode === "create") await createAddress({ name, address: address as Address });
           await updateAddress({ name, address: address as Address });
         } catch (error) {
           const modeStr = props.mode === "create" ? "作成" : "更新";

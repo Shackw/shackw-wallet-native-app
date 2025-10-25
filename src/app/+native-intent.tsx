@@ -1,10 +1,13 @@
-import * as SecureStore from "expo-secure-store";
+import * as SQLite from "expo-sqlite";
 
 import { ENV } from "@/configs/env";
-import { WALLET_PRIVATE_KEY_BASE_NAME } from "@/configs/viem";
+import { PrivateKeyService } from "@/services/PrivateKeyService";
 
 export async function redirectSystemPath({ path }: { path: string }): Promise<string> {
-  const storedPk = await SecureStore.getItemAsync(WALLET_PRIVATE_KEY_BASE_NAME);
+  const db = await SQLite.openDatabaseAsync("hinomaru-wallet.db");
+  const storedPk = await PrivateKeyService.getDefaultPrivateKey(db)
+    .catch(() => null)
+    .finally(() => db.closeAsync());
 
   if (path.includes(ENV.HINOMARU_UNIVERSAL_LINK) && !!storedPk) {
     try {

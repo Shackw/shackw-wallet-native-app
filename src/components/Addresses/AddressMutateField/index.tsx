@@ -89,9 +89,7 @@ const AddressMutateField = (props: AddressMutateFieldProps) => {
       <AlertDialog title="入力不正" isOpen={isShowErrorDialog} onClose={setIsShowErrorDialog.off} size="lg">
         <VStack className="py-4 gap-y-2">
           {errors.map((error, index) => (
-            <ErrorText key={`recipient-error-${index}`} className="flex-1">
-              {error}
-            </ErrorText>
+            <ErrorText key={`recipient-error-${index}`}>{error}</ErrorText>
           ))}
         </VStack>
       </AlertDialog>

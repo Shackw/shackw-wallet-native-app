@@ -45,7 +45,7 @@ const YearMonthTermPicker = (props: YearMonthTermPickerProps) => {
       </Pressable>
 
       <HStack className="items-center gap-x-1">
-        <Icon as={CalendarDays} size="2xl" className="color-primary-500" />
+        <Icon as={CalendarDays} size="xl" className="color-primary-500" />
         <Text size="xl" className="text-primary-500 font-bold">{`${year}年`}</Text>
         <Text size="xl" className="text-primary-500 font-bold">{`${month}月`}</Text>
       </HStack>

@@ -1,0 +1,53 @@
+import { SQLiteDatabase } from "expo-sqlite";
+import { Hex } from "viem";
+
+import { StorePrivateKeyCommand } from "@/models/privateKey";
+import { SqlAddressesRepository } from "@/repositories/AddressesRepository";
+import { SecureStorePrivateKeyRepository } from "@/repositories/PrivateKeyRepository";
+import { SqlUserSettingRepository } from "@/repositories/UserSettingRepository";
+
+export const PrivateKeyService = {
+  async getDefaultPrivateKey(db: SQLiteDatabase): Promise<Hex> {
+    try {
+      const userSetting = await SqlUserSettingRepository.get(db);
+      if (!userSetting) throw new Error("ユーザの設定情報の取得に失敗しました。");
+
+      const defaultWallet = await (async () => {
+        const defaultWalletBySetting = userSetting.defaultWallet;
+        if (!!defaultWalletBySetting) return defaultWalletBySetting;
+
+        const myAddresses = await SqlAddressesRepository.listMine(db);
+        if (myAddresses.length === 0) throw new Error("ウォレットが未作成です。");
+        return myAddresses[0].address;
+      })();
+
+      const pk = await SecureStorePrivateKeyRepository.get(defaultWallet);
+      return pk;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      }
+      throw new Error(`不明なエラーによりデフォルトウォレットの取得に失敗しました。`);
+    }
+  },
+
+  async storePrivateKey(db: SQLiteDatabase, command: StorePrivateKeyCommand): Promise<void> {
+    const { name, wallet, privateKey } = command;
+    try {
+      const stored = await SecureStorePrivateKeyRepository.get(wallet);
+      if (!!stored) throw new Error("このプライベートキーは既に登録されています。");
+
+      await SecureStorePrivateKeyRepository.store(wallet, privateKey);
+
+      const found = await SqlAddressesRepository.get(db, wallet);
+      if (!!found) return;
+
+      await SqlAddressesRepository.create(db, { name, address: wallet, isMine: true });
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      }
+      throw new Error(`不明なエラーによりプライベートキーの作成に失敗しました。`);
+    }
+  }
+};

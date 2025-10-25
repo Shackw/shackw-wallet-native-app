@@ -1,6 +1,7 @@
 import * as v from "valibot";
 
-import { addressValidator } from "../rules/addressValidator";
+import { addressValidator, hex32Validator } from "../rules/addressValidator";
+import { urlValidator } from "../rules/urlValidator";
 
 export const EnvSchema = v.object(
   {
@@ -9,6 +10,7 @@ export const EnvSchema = v.object(
       v.transform(s => s.trim()),
       v.picklist(["dev", "prd"], "BUILD_ENV must be 'dev' or 'prd'.")
     ),
+
     DATABASE_VERSION: v.pipe(
       v.string("DATABASE_VERSION is required"),
       v.trim(),
@@ -17,21 +19,17 @@ export const EnvSchema = v.object(
       v.integer("DATABASE_VERSION must be an integer"),
       v.minValue(1, "DATABASE_VERSION must be >= 1")
     ),
-    HINOMARU_API_URL: v.pipe(
-      v.string("HINOMARU_API_URL must be a string."),
-      v.transform(s => s.trim()),
-      v.url("HINOMARU_API_URL must be a valid URL.")
-    ),
-    HINOMARU_UNIVERSAL_LINK: v.pipe(
-      v.string("HINOMARU_UNIVERSAL_LINK must be a string."),
-      v.transform(s => s.trim()),
-      v.url("HINOMARU_UNIVERSAL_LINK must be a valid URL.")
-    ),
     WALLET_PRIVATE_KEY_BASE_NAME: v.pipe(
       v.string("WALLET_PRIVATE_KEY_BASE_NAME must be a string."),
       v.transform(s => s.trim()),
       v.minLength(1, "WALLET_PRIVATE_KEY_BASE_NAME must not be empty.")
     ),
+
+    RPC_INFURA_ID: hex32Validator("RPC_INFURA_ID"),
+
+    HINOMARU_API_URL: urlValidator("HINOMARU_API_URL"),
+    HINOMARU_UNIVERSAL_LINK: urlValidator("HINOMARU_UNIVERSAL_LINK"),
+
     JPYC_TOKEN_ADDRESS: addressValidator("JPYC_TOKEN_ADDRESS"),
     USDC_TOKEN_ADDRESS: addressValidator("USDC_TOKEN_ADDRESS"),
     EURC_TOKEN_ADDRESS: addressValidator("EURC_TOKEN_ADDRESS")

@@ -63,9 +63,7 @@ const ReceiveWebhookUrlField = (props: ReceiveWebhookUrlFieldProps) => {
                       onBlur={field.handleBlur}
                     />
                   </Textarea>
-                  <InfoText className="flex-1">
-                    通知用URLを設定することで支払い完了通知を受け取ることができます。
-                  </InfoText>
+                  <InfoText>通知用URLを設定することで支払い完了通知を受け取ることができます。</InfoText>
                 </VStack>
                 <HStack className="gap-x-4">
                   <SubContainButton
@@ -86,9 +84,7 @@ const ReceiveWebhookUrlField = (props: ReceiveWebhookUrlFieldProps) => {
               >
                 <VStack className="py-4 gap-y-1">
                   {field.state.meta.errors.map((error, index) => (
-                    <ErrorText key={`amount-error-${index}`} className="flex-1">
-                      {error?.message}
-                    </ErrorText>
+                    <ErrorText key={`amount-error-${index}`}>{error?.message}</ErrorText>
                   ))}
                 </VStack>
               </AlertDialog>

@@ -1,9 +1,9 @@
 import { Address, parseAbiItem } from "viem";
 
-import { VIEM_PUBLIC_CLIENT } from "@/configs/viem";
 import { blockNumberByTimestamp } from "@/helpers/block";
 import { toUnixSec } from "@/helpers/datetime";
 import { TOKEN_REGISTRY } from "@/registries/TokenRegistry";
+import { VIEM_PUBLIC_CLIENTS } from "@/registries/ViemClientRegistory";
 
 import type { SearchTransactionQuery, ResolvedTransactionResult, IRemoteTransactionsRepository } from "../interface";
 
@@ -15,11 +15,13 @@ const CHUNK_SIZE = 10_000n;
 
 export const RpcTransactionsRepository: IRemoteTransactionsRepository = {
   async search(paylaod: SearchTransactionQuery): Promise<ResolvedTransactionResult[]> {
-    const { tokens, wallet, timeFrom, timeTo, limit, direction = "both" } = paylaod;
+    const { chain, tokens, wallet, timeFrom, timeTo, limit, direction = "both" } = paylaod;
 
-    const latest = await VIEM_PUBLIC_CLIENT.getBlockNumber();
-    const fromBlock = timeFrom ? await blockNumberByTimestamp(VIEM_PUBLIC_CLIENT, toUnixSec(timeFrom), "gte") : 0n;
-    const toBlock = timeTo ? await blockNumberByTimestamp(VIEM_PUBLIC_CLIENT, toUnixSec(timeTo), "lte") : latest;
+    const publicClient = VIEM_PUBLIC_CLIENTS[chain];
+
+    const latest = await publicClient.getBlockNumber();
+    const fromBlock = timeFrom ? await blockNumberByTimestamp(publicClient, toUnixSec(timeFrom), "gte") : 0n;
+    const toBlock = timeTo ? await blockNumberByTimestamp(publicClient, toUnixSec(timeTo), "lte") : latest;
 
     if (fromBlock > toBlock) return [];
 
@@ -46,7 +48,7 @@ export const RpcTransactionsRepository: IRemoteTransactionsRepository = {
           const q: Promise<readonly any[]>[] = [];
           if (direction === "both" || direction === "in") {
             q.push(
-              VIEM_PUBLIC_CLIENT.getLogs({
+              publicClient.getLogs({
                 address: tokenAddrs,
                 event: transferEvt,
                 args: { to: wallet },
@@ -57,7 +59,7 @@ export const RpcTransactionsRepository: IRemoteTransactionsRepository = {
           }
           if (direction === "both" || direction === "out") {
             q.push(
-              VIEM_PUBLIC_CLIENT.getLogs({
+              publicClient.getLogs({
                 address: tokenAddrs,
                 event: transferEvt,
                 args: { from: wallet },
@@ -73,7 +75,7 @@ export const RpcTransactionsRepository: IRemoteTransactionsRepository = {
           await Promise.all(
             uniqBns.map(async bn => {
               if (!blockTsCache.has(bn)) {
-                const b = await VIEM_PUBLIC_CLIENT.getBlock({ blockNumber: bn });
+                const b = await publicClient.getBlock({ blockNumber: bn });
                 blockTsCache.set(bn, Number(b.timestamp));
               }
             })

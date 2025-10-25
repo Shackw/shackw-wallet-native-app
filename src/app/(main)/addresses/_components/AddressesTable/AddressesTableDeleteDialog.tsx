@@ -53,11 +53,7 @@ const AddressesTableDeleteDialog = (props: AddressesTableDeleteDialogProps) => {
         buttonProps={{ text: "削除", isLoading: isDeleting, onPress: handleDelete }}
       >
         <VStack className="py-4 gap-y-1">
-          {!error ? (
-            <InfoText className="flex-1">削除したアドレスを復元することはできません。</InfoText>
-          ) : (
-            <ErrorText className="flex-1">{error}</ErrorText>
-          )}
+          {!error ? <InfoText>削除したアドレスを復元することはできません。</InfoText> : <ErrorText>{error}</ErrorText>}
         </VStack>
       </ActionDialog>
     </>

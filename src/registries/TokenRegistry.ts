@@ -2,8 +2,9 @@ import { ComponentType } from "react";
 import { Address, erc20Abi, getContract, GetContractReturnType } from "viem";
 
 import { TokenSymbolIconProps, JpycIcon, UsdcIcon, EurcIcon } from "@/components/Icons/TokenSymbolIcons";
+import { SupportChain } from "@/configs/chain";
 import { ENV } from "@/configs/env";
-import { VIEM_PUBLIC_CLIENT } from "@/configs/viem";
+import { VIEM_PUBLIC_CLIENTS } from "@/registries/ViemClientRegistory";
 
 type TokenMeta = {
   symbol: string;
@@ -14,7 +15,7 @@ type TokenMeta = {
   supportDecimals: number;
   baseUnit: bigint;
   minTransferAmountUnits: bigint;
-  contract: GetContractReturnType;
+  contract: Record<SupportChain, GetContractReturnType>;
   Icon: ComponentType<TokenSymbolIconProps>;
 };
 
@@ -35,7 +36,10 @@ export const TOKEN_REGISTRY = {
     supportDecimals: 2,
     baseUnit: 10n ** 18n,
     minTransferAmountUnits: 100n * 10n ** 18n,
-    contract: getContract({ abi: erc20Abi, address: ENV.JPYC_TOKEN_ADDRESS, client: VIEM_PUBLIC_CLIENT }),
+    contract: {
+      main: getContract({ abi: erc20Abi, address: ENV.JPYC_TOKEN_ADDRESS, client: VIEM_PUBLIC_CLIENTS.main }),
+      base: getContract({ abi: erc20Abi, address: ENV.JPYC_TOKEN_ADDRESS, client: VIEM_PUBLIC_CLIENTS.base })
+    },
     Icon: JpycIcon
   },
   USDC: {
@@ -47,7 +51,10 @@ export const TOKEN_REGISTRY = {
     supportDecimals: 4,
     baseUnit: 10n ** 6n,
     minTransferAmountUnits: 10n ** 6n,
-    contract: getContract({ abi: erc20Abi, address: ENV.USDC_TOKEN_ADDRESS, client: VIEM_PUBLIC_CLIENT }),
+    contract: {
+      main: getContract({ abi: erc20Abi, address: ENV.USDC_TOKEN_ADDRESS, client: VIEM_PUBLIC_CLIENTS.main }),
+      base: getContract({ abi: erc20Abi, address: ENV.USDC_TOKEN_ADDRESS, client: VIEM_PUBLIC_CLIENTS.base })
+    },
     Icon: UsdcIcon
   },
   EURC: {
@@ -59,7 +66,10 @@ export const TOKEN_REGISTRY = {
     supportDecimals: 4,
     baseUnit: 10n ** 6n,
     minTransferAmountUnits: 10n ** 6n,
-    contract: getContract({ abi: erc20Abi, address: ENV.EURC_TOKEN_ADDRESS, client: VIEM_PUBLIC_CLIENT }),
+    contract: {
+      main: getContract({ abi: erc20Abi, address: ENV.EURC_TOKEN_ADDRESS, client: VIEM_PUBLIC_CLIENTS.main }),
+      base: getContract({ abi: erc20Abi, address: ENV.EURC_TOKEN_ADDRESS, client: VIEM_PUBLIC_CLIENTS.base })
+    },
     Icon: EurcIcon
   }
 } as const satisfies Record<Token, TokenMeta>;

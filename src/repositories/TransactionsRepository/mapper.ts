@@ -20,9 +20,11 @@ export const transactionWithAddressRowToResult = (dbModel: TransactionWithAddres
 
 export const transactionProgressRowToResult = (dbModel: TransactionProgressRow): TransactionProgressResult => {
   return {
+    chain: dbModel.chain,
     year: dbModel.year,
     month: dbModel.month,
     token: ADDRESS_TO_TOKEN[dbModel.token_address.toLowerCase()],
+    createdBy: dbModel.created_by_address,
     status: dbModel.status,
     lastUpdatedAt: new Date(dbModel.last_updated_at * 1000)
   };

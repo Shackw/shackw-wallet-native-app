@@ -16,6 +16,13 @@ export type TransactionModel = {
   transferredAt: Date;
 };
 
-export type GetLastTransactionCommand = { wallet: Address };
+export type GetLastTransactionCommand = {
+  wallet: Address;
+};
 
-export type ListTransactionsByTermCommand = { wallet: Address; token: Token; timeFrom: Date; timeTo: Date };
+export type ListTransactionsByTermCommand = {
+  wallet: Address;
+  token: Token;
+  timeFrom: Date;
+  timeTo: Date;
+};

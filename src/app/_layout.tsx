@@ -8,6 +8,7 @@ import Loading from "@/components/Loading";
 import { migrate } from "@/db";
 import { useFonts } from "@/hooks/useFonts";
 import { HinomaruWalletProvider } from "@/providers/HinomaruWalletProvider";
+import { UserSettingProvider } from "@/providers/UserSettingProvider";
 import { GluestackUIProvider } from "@/vendor/gluestack-ui/gluestack-ui-provider";
 
 import "@/styles/global.css";
@@ -27,16 +28,18 @@ const RootLayout = () => {
   return (
     <SQLiteProvider databaseName="hinomaru-wallet.db" onInit={migrate}>
       <QueryClientProvider client={queryClient}>
-        <HinomaruWalletProvider>
-          <GluestackUIProvider>
-            <Stack
-              screenOptions={{
-                headerShown: false,
-                contentStyle: { backgroundColor: "transparent" }
-              }}
-            />
-          </GluestackUIProvider>
-        </HinomaruWalletProvider>
+        <UserSettingProvider>
+          <HinomaruWalletProvider>
+            <GluestackUIProvider>
+              <Stack
+                screenOptions={{
+                  headerShown: false,
+                  contentStyle: { backgroundColor: "transparent" }
+                }}
+              />
+            </GluestackUIProvider>
+          </HinomaruWalletProvider>
+        </UserSettingProvider>
       </QueryClientProvider>
     </SQLiteProvider>
   );

@@ -1,6 +1,6 @@
 import * as v from "valibot";
 
-import { addressValidator, hex32Validator } from "@/validations/rules/addressValidator";
+import { addressValidator, hex64Validator } from "@/validations/rules/addressValidator";
 import { feesPolicyValidator } from "@/validations/rules/feesPolicyValidator";
 import { isoDateValidator } from "@/validations/rules/isoDateValidator";
 import { tokenMetaValidator } from "@/validations/rules/tokenMetaValidator";
@@ -25,7 +25,7 @@ export const CreateQuoteResultSchema = v.object(
     }),
     delegate: addressValidator("delegate"),
     sponsor: addressValidator("sponsor"),
-    callHash: hex32Validator("callHash"),
+    callHash: hex64Validator("callHash"),
     policy: feesPolicyValidator,
     serverTime: isoDateValidator("serverTime")
   },

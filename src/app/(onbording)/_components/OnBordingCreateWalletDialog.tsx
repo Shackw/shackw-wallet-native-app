@@ -14,7 +14,7 @@ type OnBordingCreateWalletDialogProps = {
 
 const OnBordingCreateWalletDialog = (props: OnBordingCreateWalletDialogProps) => {
   const { isOpen, handleClose } = props;
-  const { createHinomaruWallet } = useHinomaruWalletContext();
+  const { createWallet } = useHinomaruWalletContext();
 
   const [isCreating, setIsCreating] = useBoolean(false);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -22,7 +22,7 @@ const OnBordingCreateWalletDialog = (props: OnBordingCreateWalletDialogProps) =>
   const handleCreate = useCallback(async () => {
     try {
       setIsCreating.on();
-      await createHinomaruWallet();
+      await createWallet("Mine");
     } catch (error) {
       setIsCreating.off();
       if (error instanceof Error) {
@@ -31,7 +31,7 @@ const OnBordingCreateWalletDialog = (props: OnBordingCreateWalletDialogProps) =>
       }
       setError("ウォレットの新規作成中に不明なエラーが発生しました。");
     }
-  }, [createHinomaruWallet, setIsCreating]);
+  }, [createWallet, setIsCreating]);
 
   return (
     <>
@@ -46,9 +46,9 @@ const OnBordingCreateWalletDialog = (props: OnBordingCreateWalletDialogProps) =>
       >
         <VStack className="py-4 gap-y-1">
           {!error ? (
-            <InfoText className="flex-1">すでにウォレットをお持ちの方は「復元」をご利用ください</InfoText>
+            <InfoText>すでにウォレットをお持ちの方は「復元」をご利用ください</InfoText>
           ) : (
-            <ErrorText className="flex-1">{error}</ErrorText>
+            <ErrorText>{error}</ErrorText>
           )}
         </VStack>
       </ActionDialog>
