@@ -1,5 +1,3 @@
-import { Button } from "@gluestack-ui/themed";
-
 type ButtonStyleConfig = {
   minWidth: number;
   height: number;
@@ -44,4 +42,4 @@ export const buttonSizeToStyleMap = {
     fontSize: 18,
     spinnerSize: 24
   }
-} as const satisfies Record<Exclude<React.ComponentProps<typeof Button>["size"], undefined>, ButtonStyleConfig>;
+} as const satisfies Record<string, ButtonStyleConfig>;

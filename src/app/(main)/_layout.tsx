@@ -1,28 +1,52 @@
-import { useMemo } from "react";
+import { Stack } from "expo-router";
+import { StatusBar } from "react-native";
 
-import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
-
-import Loading from "../_loading";
-
-import OnBording from "./_onbording";
-import MainRoutes from "./_routes";
+import { RootContainer } from "@/components/Container";
+import { TokenBalanceProvider } from "@/providers/TokenBalanceProvider";
 
 const MainLayout = () => {
-  const { eoaAccount, isStoredPrivateKey, createHinomaruWallet } = useHinomaruWalletContext();
-
-  const isLoading = useMemo(() => {
-    return !eoaAccount && isStoredPrivateKey;
-  }, [eoaAccount, isStoredPrivateKey]);
-
-  const hasWallet = useMemo(() => {
-    return eoaAccount && isStoredPrivateKey;
-  }, [eoaAccount, isStoredPrivateKey]);
-
-  if (isLoading) return <Loading />;
-
-  if (!hasWallet) return <OnBording createHinomaruWallet={createHinomaruWallet} />;
-
-  return <MainRoutes />;
+  return (
+    <TokenBalanceProvider>
+      <RootContainer>
+        <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: "transparent" }
+          }}
+        >
+          <Stack.Screen
+            name="addresses/index"
+            options={{
+              presentation: "modal",
+              animation: "fade"
+            }}
+          />
+          <Stack.Screen
+            name="receive/index"
+            options={{
+              presentation: "modal",
+              animation: "fade"
+            }}
+          />
+          <Stack.Screen
+            name="scan-qr/index"
+            options={{
+              presentation: "fullScreenModal",
+              animation: "fade"
+            }}
+          />
+          <Stack.Screen
+            name="transfer/index"
+            options={{
+              presentation: "modal",
+              animation: "fade"
+            }}
+          />
+        </Stack>
+      </RootContainer>
+    </TokenBalanceProvider>
+  );
 };
 
 export default MainLayout;

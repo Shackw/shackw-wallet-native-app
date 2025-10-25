@@ -1,35 +1,71 @@
-import { VStack, Text } from "@gluestack-ui/themed";
+import { useStore } from "@tanstack/react-form";
+import { useCallback, useEffect, useState } from "react";
+import { Pressable } from "react-native";
 
-import { TokenKind } from "@/shared/domain/tokens/registry";
+import { toAllowedStr } from "@/helpers/tokenUnits";
+import { useBoolean } from "@/hooks/useBoolean";
+import { HStack } from "@/vendor/gluestack-ui/hstack";
+import { Text } from "@/vendor/gluestack-ui/text";
+import { VStack } from "@/vendor/gluestack-ui/vstack";
 
-import { UseTransferAmountFormResult } from "../../_hooks/useTransferAmountForm";
+import useTransferForm from "../../_hooks/useTransferForm";
 
-import TransferAmountInput from "./TransferAmountInput";
+import TransferAmountField from "./TransferAmountField";
 import TransferAmountSummary from "./TransferAmountSummary";
 
-type TransferAmountProps = { token: TokenKind; form: UseTransferAmountFormResult };
+const TransferAmount = () => {
+  const transferForm = useTransferForm();
 
-const TransferAmount = (props: TransferAmountProps) => {
-  const { token } = props;
-  const { transferableAmount, amountError, handleAmountSubmit } = props.form;
+  const { form, sendToken } = transferForm;
+  const [isEditing, setIsEditing] = useBoolean(false);
+  const [prevValue, setPrevValue] = useState<number | undefined>(undefined);
+
+  const amount = useStore(form.baseStore, s => {
+    const v = s.values.amount;
+    return v === "" ? undefined : Number(v);
+  });
+
+  const handleEdit = useCallback(() => {
+    setPrevValue(amount);
+    setIsEditing.on();
+  }, [amount, setIsEditing]);
+
+  useEffect(() => {
+    form.resetField("amount");
+  }, [form, sendToken]);
 
   return (
-    <VStack alignItems="center" minHeight={185} py="$3" rowGap={2}>
-      <Text w="$full" fontWeight="$bold">
-        金額
-      </Text>
-      <TransferAmountInput
-        token={token}
-        transferableAmount={transferableAmount}
-        handleAmountSubmit={handleAmountSubmit}
+    <>
+      <VStack className="w-full">
+        <HStack className="w-full px-4 py-3 h-[90px] bg-white items-center justify-between gap-x-5">
+          <Text size="xl" className="font-bold text-secondary-700 ">
+            送金額
+          </Text>
+          <Pressable className="flex-1" onPress={handleEdit}>
+            {(isEditing && prevValue) || (!isEditing && amount) ? (
+              <Text size="2xl" className="font-bold text-right">
+                {`${toAllowedStr(amount ?? 0, sendToken)} ${sendToken}`}
+              </Text>
+            ) : (
+              <Text size="lg" className="text-primary-600 font-bold text-center">
+                金額を入力
+              </Text>
+            )}
+          </Pressable>
+        </HStack>
+        <TransferAmountSummary transferForm={transferForm} display="both" className="px-4" />
+      </VStack>
+      <TransferAmountField
+        prevValue={prevValue}
+        transferForm={transferForm}
+        componentProps={{
+          title: "金額を入力",
+          size: "lg",
+          isOpen: isEditing,
+          onClose: setIsEditing.off
+        }}
       />
-      <TransferAmountSummary token={token} transferableAmount={transferableAmount} />
-      {amountError && (
-        <Text color="$primary600" fontSize="$lg" fontWeight="$bold" mt="$2">
-          {amountError}
-        </Text>
-      )}
-    </VStack>
+    </>
   );
 };
 

@@ -1,20 +1,21 @@
-import { Spinner, Icon, Box, Text } from "@gluestack-ui/themed";
 import { UseQueryResult } from "@tanstack/react-query";
 import { RefreshCcw } from "lucide-react-native";
-import { useCallback, useMemo } from "react";
-import { Pressable } from "react-native";
+import React, { useCallback, useMemo } from "react";
+import { Pressable, View } from "react-native";
 
-import { Erc20Transfer } from "@/shared/types/erc20";
-import { formatUnixTimestampToJST } from "@/shared/utils/datetime";
+import { formatIsoString } from "@/helpers/datetime";
+import { TransactionModel } from "@/models/transaction";
+import { theme } from "@/styles/theme";
+import { Spinner } from "@/vendor/gluestack-ui/spinner";
 
 type LastTransactionElementProps = {
   element: React.ReactNode;
-  pl: React.ComponentProps<typeof Text>["pl"];
+  pl: number;
   optinalElement?: React.ReactNode;
 };
 
 const useLastTransactionElement = (
-  lastTransactionResult: UseQueryResult<Erc20Transfer | null | undefined>
+  lastTransactionResult: UseQueryResult<TransactionModel | null | undefined>
 ): LastTransactionElementProps => {
   const { data: lastTransaction, isLoading, isError, refetch } = lastTransactionResult;
 
@@ -23,26 +24,38 @@ const useLastTransactionElement = (
   }, [refetch]);
 
   const lastTransactionElement = useMemo<LastTransactionElementProps>(() => {
-    if (isError)
+    if (isError) {
       return {
         element: "取得失敗",
-        pl: "$0",
+        pl: 0,
         optinalElement: (
-          <Box pl="$2">
-            <Pressable onPress={handleRefetch}>
-              <Icon as={RefreshCcw} color="$secondary400" size="md" />
+          <View style={{ paddingLeft: 8 }}>
+            <Pressable onPress={handleRefetch} accessibilityRole="button">
+              <RefreshCcw size={20} color={theme.colors.secondary[400]} />
             </Pressable>
-          </Box>
+          </View>
         )
       };
-    if (lastTransaction === undefined || isLoading)
-      return { element: <Spinner size={16} color="$secondary400" />, pl: "$2" };
-    if (lastTransaction === null)
+    }
+
+    if (lastTransaction === undefined || isLoading) {
+      return {
+        element: <Spinner size={16} color={theme.colors.secondary[500]} />,
+        pl: 20
+      };
+    }
+
+    if (lastTransaction === null) {
       return {
         element: "ー",
-        pl: "$3"
+        pl: 20
       };
-    return { element: formatUnixTimestampToJST(lastTransaction.timestamp), pl: "$0" };
+    }
+
+    return {
+      element: formatIsoString(lastTransaction.transferredAt),
+      pl: 0
+    };
   }, [handleRefetch, isError, isLoading, lastTransaction]);
 
   return lastTransactionElement;

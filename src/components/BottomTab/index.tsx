@@ -1,8 +1,9 @@
-import { HStack, Box } from "@gluestack-ui/themed";
 import { usePathname, useRouter } from "expo-router";
 
-import { BOTTOM_TAB_ITEMS } from "@/app/_config/bottomTab";
-import { useBoolean } from "@/shared/hooks/useBoolean";
+import { useBoolean } from "@/hooks/useBoolean";
+import { BOTTOM_TAB_ITEMS } from "@/registries/BottomTabRegistry";
+import { Box } from "@/vendor/gluestack-ui/box";
+import { HStack } from "@/vendor/gluestack-ui/hstack";
 
 import BottomTabActionSheet from "./BottomTabActionSheet";
 import BottomTabItem from "./BottomTabItem";
@@ -13,8 +14,8 @@ const BottomTab = () => {
   const [isOpenActionSheet, setIsOpenActionSheet] = useBoolean(false);
 
   return (
-    <Box bg="$white" py="$1">
-      <HStack alignItems="center">
+    <Box className="bg-white py-1">
+      <HStack className="items-center">
         {BOTTOM_TAB_ITEMS.map(({ name, path, icon, label }) => {
           const handlePress = name === "transfer" ? setIsOpenActionSheet.toggle : () => router.push(path);
           const itemWidth = 100 / BOTTOM_TAB_ITEMS.length;

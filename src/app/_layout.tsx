@@ -1,15 +1,16 @@
-import "../polyfills";
-
-import { GluestackUIProvider, StatusBar } from "@gluestack-ui/themed";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
+import { SQLiteProvider } from "expo-sqlite";
 import { useEffect, useState } from "react";
 
-import useFonts from "@/app/_hooks/useFonts";
-import { RootContainer } from "@/components/Container";
+import Loading from "@/components/Loading";
+import { migrate } from "@/db";
+import { useFonts } from "@/hooks/useFonts";
 import { HinomaruWalletProvider } from "@/providers/HinomaruWalletProvider";
-import { theme } from "@/styles/theme";
+import { GluestackUIProvider } from "@/vendor/gluestack-ui/gluestack-ui-provider";
+
+import "@/styles/global.css";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -21,24 +22,23 @@ const RootLayout = () => {
     if (fontsLoaded) SplashScreen.hideAsync();
   }, [fontsLoaded]);
 
-  if (!fontsLoaded) return null;
+  if (!fontsLoaded) return <Loading />;
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <HinomaruWalletProvider>
-        <GluestackUIProvider config={theme}>
-          <RootContainer>
-            <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
+    <SQLiteProvider databaseName="hinomaru-wallet.db" onInit={migrate}>
+      <QueryClientProvider client={queryClient}>
+        <HinomaruWalletProvider>
+          <GluestackUIProvider>
             <Stack
               screenOptions={{
                 headerShown: false,
                 contentStyle: { backgroundColor: "transparent" }
               }}
             />
-          </RootContainer>
-        </GluestackUIProvider>
-      </HinomaruWalletProvider>
-    </QueryClientProvider>
+          </GluestackUIProvider>
+        </HinomaruWalletProvider>
+      </QueryClientProvider>
+    </SQLiteProvider>
   );
 };
 

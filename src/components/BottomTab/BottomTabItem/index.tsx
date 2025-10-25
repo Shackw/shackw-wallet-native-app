@@ -1,6 +1,7 @@
-import { Pressable } from "@gluestack-ui/themed";
+import React from "react";
+import { Pressable } from "react-native";
 
-import { BOTTOM_TAB_ITEMS } from "@/app/_config/bottomTab";
+import { BOTTOM_TAB_ITEMS } from "@/registries/BottomTabRegistry";
 
 import BottomTabIcon from "./BottomTabBarIcon";
 
@@ -12,10 +13,16 @@ type BottomTabItemProps = {
   handlePress: () => void;
 };
 
-const BottomTabItem = (props: BottomTabItemProps) => {
-  const { label, icon, isFocused, width, handlePress } = props;
+const BottomTabItem = ({ label, icon, isFocused, width, handlePress }: BottomTabItemProps) => {
   return (
-    <Pressable w={`${width}%`} alignItems="center" onPress={handlePress}>
+    <Pressable
+      onPress={handlePress}
+      className="items-center"
+      style={{ width: `${width}%` }}
+      android_ripple={{ color: "rgba(0,0,0,0.06)", borderless: true }}
+      accessibilityRole="button"
+      hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
+    >
       <BottomTabIcon label={label} icon={icon} isFocused={isFocused} />
     </Pressable>
   );

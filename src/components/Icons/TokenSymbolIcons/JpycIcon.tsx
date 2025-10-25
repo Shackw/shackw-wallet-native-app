@@ -1,11 +1,12 @@
-import { Box } from "@gluestack-ui/themed";
 import React from "react";
 import Svg, { G, Path } from "react-native-svg";
+
+import { Box } from "@/vendor/gluestack-ui/box";
 
 import { TokenSymbolIconProps } from ".";
 
 export const JpycIcon = ({ size = 32, color = "#FFFFFF" }: TokenSymbolIconProps) => (
-  <Box width={size} height={size}>
+  <Box style={{ width: size, height: size }}>
     <Svg width="100%" height="100%" viewBox="0 0 512 512">
       <G id="surface1">
         <Path

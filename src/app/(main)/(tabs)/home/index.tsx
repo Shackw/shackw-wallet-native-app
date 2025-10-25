@@ -1,9 +1,12 @@
-import { Divider, Text } from "@gluestack-ui/themed";
-import { useState } from "react";
+import { useRouter } from "expo-router";
+import { Scan } from "lucide-react-native";
+import { useCallback, useState } from "react";
 
 import { ScreenContainer } from "@/components/Container";
 import { Tab } from "@/components/Tab";
-import { TokenKind, TOKENS } from "@/shared/domain/tokens/registry";
+import { Token, TOKENS_MAP } from "@/registries/TokenRegistry";
+import { Divider } from "@/vendor/gluestack-ui/divider";
+import { Fab, FabIcon } from "@/vendor/gluestack-ui/fab";
 
 import HomeAction from "./_components/HomeAction";
 import HomeLastTransactionAt from "./_components/HomeLastTransaction";
@@ -11,20 +14,25 @@ import HomeMainBody from "./_components/HomeMainBody";
 import HomeTokenBalance from "./_components/HomeTokenBalance";
 
 const HomeScreen = () => {
-  const [currentTab, setCurrentTab] = useState<TokenKind>("JPYC");
+  const router = useRouter();
+  const [currentTab, setCurrentTab] = useState<Token>("JPYC");
+
+  const handlePressScan = useCallback(() => {
+    router.replace("/scan-qr");
+  }, [router]);
 
   return (
-    <ScreenContainer px="$4" alignItems="center">
+    <ScreenContainer className="px-4 items-center">
       <HomeMainBody>
-        <Tab options={TOKENS} value={currentTab} handleChange={setCurrentTab} />
-        <Text color="$primary500" fontWeight="$bold">
-          現在高
-        </Text>
+        <Tab options={TOKENS_MAP} value={currentTab} handleChange={setCurrentTab} />
         <HomeTokenBalance token={currentTab} />
         <HomeLastTransactionAt />
-        <Divider w="90%" bg="$secondary50" />
+        <Divider className="w-[90%] bg-secondary-50" />
         <HomeAction />
       </HomeMainBody>
+      <Fab size="lg" placement="bottom right" className="bg-primary-400 rounded-3xl bottom-7" onPress={handlePressScan}>
+        <FabIcon as={Scan} className="p-5" />
+      </Fab>
     </ScreenContainer>
   );
 };

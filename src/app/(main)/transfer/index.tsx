@@ -1,52 +1,42 @@
-import { VStack } from "@gluestack-ui/themed";
-import { useState } from "react";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useMemo } from "react";
 
-import { ContainButton } from "@/components/Button";
 import { ScreenContainer } from "@/components/Container";
-import { Tab } from "@/components/Tab";
-import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
-import { TokenKind, TOKENS } from "@/shared/domain/tokens/registry";
+import Loading from "@/components/Loading";
+import { useTokenBalanceContext } from "@/providers/TokenBalanceProvider";
+import { Box } from "@/vendor/gluestack-ui/box";
+import { VStack } from "@/vendor/gluestack-ui/vstack";
 
-import TransferAddressTo from "./_components/TransferAddressTo";
 import TransferAmount from "./_components/TransferAmount";
-import useTransferAddressToForm from "./_hooks/useTransferAddressToForm";
-import useTransferAmountForm from "./_hooks/useTransferAmountForm";
+import TransferFeeToken from "./_components/TransferFeeToken";
+import TransferRecipient from "./_components/TransferRecipient";
+import TransferSearchParam from "./_components/TransferSearchParam";
+import TransferSendToken from "./_components/TransferSendToken";
+import TransferSubmitButton from "./_components/TransferSubmitButton";
+import { TransferFormProvider } from "./_hooks/useTransferForm";
 
 const TransferScreen = () => {
-  const { eoaAccount: account } = useHinomaruWalletContext();
-  const [selectedToken, setSelectedToken] = useState<TokenKind>("JPYC");
+  const tokenBalances = useTokenBalanceContext();
+  const isBalanceFetched = useMemo(() => Object.values(tokenBalances).every(v => v.isFetched), [tokenBalances]);
 
-  const addressToForm = useTransferAddressToForm();
-  const amountForm = useTransferAmountForm({ token: selectedToken });
-
-  const { addressTo, isAddressToValid } = addressToForm;
-  const { amount, isAmountValid } = amountForm;
-
-  const isValid = isAmountValid && isAddressToValid && addressTo && account;
-
-  const handleSubmit = async () => {
-    if (!isValid) return;
-
-    // await transferToken2({ account, token: selectedToken, to: addressTo, amount });
-  };
+  if (!isBalanceFetched) return <Loading />;
 
   return (
-    <ScreenContainer title="送信" bgColor="$white" borderTopLeftRadius={12} borderTopRightRadius={12}>
-      <KeyboardAwareScrollView
-        contentContainerStyle={{ flexGrow: 1, paddingHorizontal: 12, paddingVertical: 8 }}
-        enableOnAndroid={true}
-        extraScrollHeight={20}
-      >
-        <VStack rowGap="$5" alignItems="center" flex={1}>
-          <Tab options={TOKENS} value={selectedToken} handleChange={setSelectedToken} />
-          <VStack px="$5" rowGap="$1.5">
-            <TransferAmount token={selectedToken} form={amountForm} />
-            <TransferAddressTo form={addressToForm} />
+    <ScreenContainer appBarProps={{ title: "送信" }} className="bg-white rounded-t-2xl">
+      <Box className="py-[8px] flex-1">
+        <TransferFormProvider>
+          <TransferSearchParam />
+
+          <TransferSendToken />
+          <VStack className="flex-1 bg-secondary-100">
+            <VStack className="gap-y-8">
+              <TransferRecipient />
+              <TransferFeeToken />
+              <TransferAmount />
+            </VStack>
+            <TransferSubmitButton />
           </VStack>
-        </VStack>
-        <ContainButton text="確認画面へ" size="lg" w="$full" isDisabled={!isValid} mb={5} onPress={handleSubmit} />
-      </KeyboardAwareScrollView>
+        </TransferFormProvider>
+      </Box>
     </ScreenContainer>
   );
 };

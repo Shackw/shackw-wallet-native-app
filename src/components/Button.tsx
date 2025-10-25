@@ -1,125 +1,287 @@
-import { Button, ButtonIcon, ButtonSpinner, ButtonText } from "@gluestack-ui/themed";
-import { LucideIcon } from "lucide-react-native";
+import { ReactNode } from "react";
 
 import { buttonSizeToStyleMap } from "@/styles/button";
+import { theme } from "@/styles/theme";
+import { Button, ButtonText } from "@/vendor/gluestack-ui/button";
+import { Spinner } from "@/vendor/gluestack-ui/spinner";
 
-type ButtonProps = {
+import type { LucideIcon } from "lucide-react-native";
+import type { ViewStyle } from "react-native";
+
+type ButtonSize = keyof typeof buttonSizeToStyleMap;
+
+type ButtonProps = React.ComponentProps<typeof Button>;
+
+type CommonProps = {
   text: string;
-  size: Exclude<React.ComponentProps<typeof Button>["size"], undefined>;
+  size: ButtonSize;
   icon?: LucideIcon;
   isLoading?: boolean;
   isDisabled?: boolean;
-} & Pick<React.ComponentProps<typeof Button>, "w" | "mt" | "mb" | "minWidth" | "maxWidth" | "onPress">;
+  onPress?: () => void;
+  className?: string;
+  style?: ViewStyle;
+  testID?: string;
+};
 
-export const ContainButton = ({ text, size, icon, isLoading = false, isDisabled = false, ...rest }: ButtonProps) => {
-  const mainColor = "white";
-  const isUnPressable = isLoading || isDisabled;
-  const bgColor = isUnPressable ? { bg: "$secondary500" } : {};
-  const { fontSize, spinnerSize, ...buttonStyleConfig } = buttonSizeToStyleMap[size];
+const heightClass: Record<number, string> = {
+  32: "h-8",
+  36: "h-9",
+  44: "h-11",
+  52: "h-[52px]",
+  60: "h-[60px]"
+};
+
+const minWClass: Record<number, string> = {
+  64: "min-w-16",
+  80: "min-w-20",
+  96: "min-w-24",
+  112: "min-w-28",
+  128: "min-w-32"
+};
+
+const radiusClass: Record<number, string> = {
+  6: "rounded-[6px]",
+  8: "rounded-[8px]",
+  10: "rounded-[10px]",
+  12: "rounded-[12px]"
+};
+
+const fontClass: Record<number, string> = {
+  10: "text-[10px]",
+  12: "text-sm",
+  14: "text-base",
+  16: "text-lg",
+  18: "text-xl"
+};
+
+function BaseButton({
+  children,
+  size,
+  disabled,
+  className,
+  action,
+  onPress,
+  testID
+}: {
+  children: React.ReactNode;
+  size: ButtonSize;
+  disabled?: boolean;
+  className?: string;
+  action?: ButtonProps["action"];
+  onPress?: () => void;
+  testID?: string;
+}) {
+  const cfg = buttonSizeToStyleMap[size];
+  const h = heightClass[cfg.height];
+  const minW = minWClass[cfg.minWidth];
+  const rounded = radiusClass[cfg.rounded];
 
   return (
     <Button
-      {...rest}
-      {...buttonStyleConfig}
-      {...bgColor}
+      action={action}
+      onPress={onPress}
+      disabled={!!disabled}
+      accessibilityRole="button"
+      accessibilityState={{ disabled: !!disabled }}
+      className={[
+        minW,
+        h,
+        rounded,
+        "px-2 flex-row items-center justify-center gap-1",
+        disabled ? "opacity-disabled" : "",
+        className ?? ""
+      ].join(" ")}
+      testID={testID}
+    >
+      {children}
+    </Button>
+  );
+}
+
+const IconLeft = ({ Icon, color }: { Icon: LucideIcon; color: string }) => <Icon size={20} color={color} />;
+
+export const ContainButton = ({
+  text,
+  size,
+  icon,
+  isLoading = false,
+  isDisabled = false,
+  onPress,
+  className,
+  testID
+}: CommonProps) => {
+  const cfg = buttonSizeToStyleMap[size];
+  const disabled = isLoading || isDisabled;
+
+  return (
+    <BaseButton
+      size={size}
       action="primary"
-      variant="solid"
-      disabled={isUnPressable}
-      columnGap="$1"
-      px="$2"
+      disabled={disabled}
+      onPress={onPress}
+      className={[disabled ? "bg-secondary-500" : "bg-primary-500", className ?? ""].join(" ")}
+      testID={testID}
     >
       {isLoading ? (
-        <ButtonSpinner size={spinnerSize} color={mainColor} />
+        <Spinner color="#ffffff" size={20} />
       ) : (
         <>
-          {icon && <ButtonIcon as={icon} size="lg" color={mainColor} />}
-          <ButtonText fontSize={fontSize} fontWeight="$bold" color={mainColor}>
+          {icon && <IconLeft Icon={icon} color="#ffffff" />}
+          <ButtonText className={["font-heading font-bold", fontClass[cfg.fontSize], "text-white"].join(" ")}>
             {text}
           </ButtonText>
         </>
       )}
-    </Button>
+    </BaseButton>
   );
 };
 
-export const SubContainButton = ({ text, size, icon, isLoading = false, isDisabled = false, ...rest }: ButtonProps) => {
-  const mainColor = "$secondary800";
-  const isUnPressable = isLoading || isDisabled;
-  const bgColor = isUnPressable ? { bg: "$secondary700" } : {};
-  const { fontSize, spinnerSize, ...buttonStyleConfig } = buttonSizeToStyleMap[size];
+export const SubContainButton = ({
+  text,
+  size,
+  icon,
+  isLoading = false,
+  isDisabled = false,
+  onPress,
+  className,
+  testID
+}: CommonProps) => {
+  const cfg = buttonSizeToStyleMap[size];
+  const disabled = isLoading || isDisabled;
 
   return (
-    <Button
-      {...rest}
-      {...buttonStyleConfig}
-      {...bgColor}
+    <BaseButton
+      size={size}
       action="secondary"
-      variant="solid"
-      disabled={isUnPressable}
-      columnGap="$1"
-      px="$2"
-      py="$2"
+      disabled={disabled}
+      onPress={onPress}
+      className={[
+        disabled ? "bg-secondary-700" : "bg-secondary-200",
+        "data-[active=true]:bg-secondary-300",
+        className ?? ""
+      ].join(" ")}
+      testID={testID}
     >
       {isLoading ? (
-        <ButtonSpinner size={spinnerSize} color={mainColor} />
+        <Spinner color={theme.colors.secondary[800]} size={20} />
       ) : (
         <>
-          {icon && <ButtonIcon as={icon} size="lg" color={mainColor} />}
-          <ButtonText color={mainColor} fontWeight="$bold" fontSize={fontSize}>
+          {icon && <IconLeft Icon={icon} color={theme.colors.secondary[800]} />}
+          <ButtonText className={["font-heading font-bold", fontClass[cfg.fontSize], "text-secondary-800"].join(" ")}>
             {text}
           </ButtonText>
         </>
       )}
-    </Button>
+    </BaseButton>
   );
 };
 
-export const OutlineButton = ({ text, size, icon, isLoading = false, isDisabled = false, ...rest }: ButtonProps) => {
-  const mainColor = "$primary400";
-  const isUnPressable = isLoading || isDisabled;
-  const bgColor = isUnPressable ? { bg: "$primary200" } : {};
-  const { fontSize, spinnerSize, ...buttonStyleConfig } = buttonSizeToStyleMap[size];
+export const OutlineButton = ({
+  text,
+  size,
+  icon,
+  isLoading = false,
+  isDisabled = false,
+  onPress,
+  className,
+  testID
+}: CommonProps) => {
+  const cfg = buttonSizeToStyleMap[size];
+  const disabled = isLoading || isDisabled;
 
   return (
-    <Button
-      {...rest}
-      {...buttonStyleConfig}
-      {...bgColor}
+    <BaseButton
+      size={size}
       action="primary"
-      variant="outline"
-      disabled={isUnPressable}
-      columnGap="$1"
-      px="$2"
-      py="$2"
-      borderWidth={2.3}
+      disabled={disabled}
+      onPress={onPress}
+      className={[
+        "border border-primary-400",
+        disabled ? "bg-primary-200" : "bg-transparent",
+        "border-[2.3px]",
+        "data-[active=true]:bg-primary-100",
+        className ?? ""
+      ].join(" ")}
+      testID={testID}
     >
       {isLoading ? (
-        <ButtonSpinner size={spinnerSize} color={mainColor} />
+        <Spinner color="#f94c4c" size={20} />
       ) : (
         <>
-          {icon && <ButtonIcon as={icon} size="lg" color={mainColor} />}
-          <ButtonText fontSize={fontSize} fontWeight="$bold" color={mainColor} $active-color="$primary700">
+          {icon && <IconLeft Icon={icon} color="#f94c4c" />}
+          <ButtonText
+            className={[
+              "font-heading font-bold",
+              fontClass[cfg.fontSize],
+              "data-[active=true]:text-primary-500",
+              "text-primary-400"
+            ].join(" ")}
+          >
             {text}
           </ButtonText>
         </>
       )}
-    </Button>
+    </BaseButton>
   );
 };
 
 type IconButtonProps = {
   icon: LucideIcon;
-  iconSize?: React.ComponentProps<typeof ButtonIcon>["size"];
-  iconColor?: React.ComponentProps<typeof ButtonIcon>["color"];
-  bgColor?: React.ComponentProps<typeof Button>["bgColor"];
-  handlePress: () => void;
+  iconSize?: number;
+  iconColor?: string;
+  bgClassName?: string;
+  action?: string;
+  onPress?: () => void;
+  className?: string;
+  style?: ViewStyle;
+  testID?: string;
+  defaultProps?: Omit<React.ComponentProps<typeof Button>, "children">;
 };
 
-export const IconButton = (props: IconButtonProps) => {
-  const { icon, iconSize = "md", iconColor = "$white", bgColor = "$transparent", handlePress } = props;
+export const IconButton = ({
+  icon: Icon,
+  iconSize = 20,
+  iconColor = "#ffffff",
+  bgClassName = "bg-transparent",
+  action,
+  onPress,
+  className,
+  style,
+  testID,
+  defaultProps
+}: IconButtonProps) => {
   return (
-    <Button w="$0" h="$0" px="$4.5" py="$4.5" rounded={32} bgColor={bgColor} onPress={handlePress}>
-      <ButtonIcon as={icon} size={iconSize} color={iconColor} />
+    <Button
+      action={action}
+      onPress={onPress}
+      className={[
+        "w-0 h-0 px-[18px] py-[18px] rounded-[32px] items-center justify-center",
+        bgClassName,
+        className ?? ""
+      ].join(" ")}
+      style={({ pressed }) => (pressed ? [{ opacity: 0.85 } as ViewStyle, style] : style)}
+      testID={testID}
+      accessibilityRole="button"
+      {...defaultProps}
+    >
+      <Icon size={iconSize} color={iconColor} />
+    </Button>
+  );
+};
+
+type TextButtonProps = Pick<React.ComponentProps<typeof Button>, "onPress"> & {
+  children: ReactNode;
+  textProps: Omit<React.ComponentProps<typeof ButtonText>, "children">;
+};
+export const TextButton = (props: TextButtonProps) => {
+  const { textProps, children, onPress } = props;
+  const { className, ...rest } = textProps;
+  return (
+    <Button variant="link" action="secondary" className="justify-start p-0 h-auto" onPress={onPress}>
+      <ButtonText {...rest} className={`${className} underline`}>
+        {children}
+      </ButtonText>
     </Button>
   );
 };

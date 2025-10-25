@@ -1,21 +1,20 @@
-import { Box, VStack, useToken } from "@gluestack-ui/themed";
 import { LinearGradient } from "expo-linear-gradient";
+import React from "react";
+
+import { theme } from "@/styles/theme";
+import { Box } from "@/vendor/gluestack-ui/box";
+import { VStack } from "@/vendor/gluestack-ui/vstack";
 
 const HomeMainBody = ({ children }: { children: React.ReactNode }) => {
-  const colorStart = useToken<"colors">("colors", "primary50");
-  const colorEnd = useToken<"colors">("colors", "white");
-
   return (
-    <Box top="35%" w="100%" position="absolute" bg="white" rounded={8}>
+    <Box className="absolute w-full bg-white rounded-[8px]" style={{ top: "35%" }}>
       <LinearGradient
-        colors={[colorStart, colorEnd]}
+        colors={[theme.colors.primary[50], "#ffffff"]}
         start={{ x: 0, y: 0 }}
         end={{ x: 0, y: 1 }}
-        style={{ borderRadius: 8, paddingHorizontal: 8, paddingTop: 8, paddingBottom: 16 }}
+        style={{ borderRadius: 8 }}
       >
-        <VStack alignItems="center" rowGap="$4">
-          {children}
-        </VStack>
+        <VStack className="items-center gap-y-4 px-2 pt-2 pb-4">{children}</VStack>
       </LinearGradient>
     </Box>
   );
