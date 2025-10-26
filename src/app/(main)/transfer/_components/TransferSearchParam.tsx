@@ -1,6 +1,6 @@
 import { useStore } from "@tanstack/react-form";
 import { useLocalSearchParams } from "expo-router";
-import { useCallback, useEffect, useRef } from "react";
+import { memo, useCallback, useEffect, useRef } from "react";
 import * as v from "valibot";
 import { Address } from "viem";
 
@@ -25,6 +25,7 @@ const TransferSearchParam = () => {
   const rawParams = useLocalSearchParams<TransferSearchParams>();
 
   const { addressToName } = useAddressesRow();
+  const [isConfirmed, setIsConfirmed] = useBoolean(false);
   const [isConfirming, setIsConfirming] = useBoolean(false);
 
   const appliedRef = useRef(false);
@@ -56,12 +57,13 @@ const TransferSearchParam = () => {
   );
 
   useEffect(() => {
-    if (appliedRef.current) return;
+    if (appliedRef.current || isConfirmed) return;
 
     setIsParsing.on();
 
     const parsed = v.safeParse(TransferSearchParamsSchema, rawParams);
     if (!parsed.success) {
+      setIsConfirmed.on();
       setIsParsing.off();
       setIsError.on();
       appliedRef.current = true;
@@ -81,13 +83,17 @@ const TransferSearchParam = () => {
 
       return () => cancelAnimationFrame(id);
     } else {
+      setIsConfirmed.on();
       setIsParsing.off();
     }
-  }, [rawParams, setIsError, setIsParsing, setSendToken, trySubmit]);
+  }, [isConfirmed, rawParams, setIsConfirmed, setIsError, setIsParsing, setSendToken, trySubmit]);
 
   useEffect(() => {
-    if (isValid && !insuff.insufficient && !!fee) setIsConfirming.on();
-  }, [fee, insuff.insufficient, isValid, setIsConfirming]);
+    if (isValid && !insuff.insufficient && !!fee && !isConfirmed) {
+      setIsConfirming.on();
+      setIsConfirmed.on();
+    }
+  }, [fee, insuff.insufficient, isConfirmed, isValid, setIsConfirmed, setIsConfirming]);
 
   return (
     <>
@@ -113,4 +119,4 @@ const TransferSearchParam = () => {
   );
 };
 
-export default TransferSearchParam;
+export default memo(TransferSearchParam);

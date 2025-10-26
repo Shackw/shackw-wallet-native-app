@@ -3,7 +3,7 @@ import { SQLiteDatabase } from "expo-sqlite";
 import { CustomError } from "@/exceptions";
 import type { UpdateDefaultWalletCommand, UpdateSelectedChainCommand } from "@/models/userSetting";
 import { SqlUserSettingRepository } from "@/repositories/UserSettingRepository";
-import type { UpdateUserSettingQuery, UserSettingResult } from "@/repositories/UserSettingRepository/interface";
+import type { UserSettingResult } from "@/repositories/UserSettingRepository/interface";
 
 export const UserSettingService = {
   async getUserSetting(db: SQLiteDatabase): Promise<UserSettingResult> {
@@ -28,9 +28,7 @@ export const UserSettingService = {
       const userSetting = await SqlUserSettingRepository.get(db);
       if (!userSetting) throw new CustomError("ユーザの設定情報の取得に失敗しました。");
 
-      const query: UpdateUserSettingQuery = { ...userSetting, selectedChain };
-
-      await SqlUserSettingRepository.update(db, query);
+      await SqlUserSettingRepository.patch(db, { selectedChain });
     } catch (error: unknown) {
       console.error(error);
 
@@ -47,8 +45,7 @@ export const UserSettingService = {
       const userSetting = await SqlUserSettingRepository.get(db);
       if (!userSetting) throw new CustomError("ユーザの設定情報の取得に失敗しました。");
 
-      const query: UpdateUserSettingQuery = { ...userSetting, defaultWallet };
-      await SqlUserSettingRepository.update(db, query);
+      await SqlUserSettingRepository.patch(db, { defaultWallet });
     } catch (error: unknown) {
       console.error(error);
 

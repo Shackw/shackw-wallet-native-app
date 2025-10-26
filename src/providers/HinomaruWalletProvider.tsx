@@ -30,7 +30,7 @@ export const HinomaruWalletProvider = ({ children }: { children: ReactNode }) =>
 
   const { selectedChain } = useUserSettingContext();
   const { mutateAsync: storePrivateKey } = useStorePrivateKey();
-  const { mutateAsync: getDefaultPrivateKey } = useGetDefaultPrivateKey();
+  const { mutateAsync: getDefaultPrivateKey } = useGetDefaultPrivateKey({ retry: 0 });
 
   const connectWallet = useCallback(
     (pk: Hex): Address => {

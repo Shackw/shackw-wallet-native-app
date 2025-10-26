@@ -126,7 +126,7 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
           $status,
           $lastUpdatedAt
         )
-        ON CONFLICT(year, month, token_address)
+        ON CONFLICT(chain, year, month, token_address, created_by_address)
         DO UPDATE SET
           status = excluded.status,
           last_updated_at = excluded.last_updated_at
@@ -150,8 +150,8 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
           $chain: chain,
           $year: year,
           $month: month,
-          $tokenAddress: tokenAddress,
-          $createdBy: createdBy,
+          $tokenAddress: tokenAddress.toLowerCase(),
+          $createdBy: createdBy.toLowerCase(),
           $status: status,
           $lastUpdatedAt: Math.floor(lastUpdatedAt.getTime() / 1000)
         });
@@ -189,8 +189,8 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
         $chain: chain,
         $year: year,
         $month: month,
-        $tokenAddress: tokenAddress,
-        $createdBy: wallet
+        $tokenAddress: tokenAddress.toLowerCase(),
+        $createdBy: wallet.toLowerCase()
       });
       const row = await result.getFirstAsync();
       if (!row) return null;

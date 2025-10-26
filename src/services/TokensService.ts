@@ -20,7 +20,7 @@ export const TokensService = {
       const balance = await erc20Contract.read.balanceOf([wallet]);
       return toDecimalsStr(balance, token);
     } catch (error: unknown) {
-      console.error(error);
+      console.warn(error);
 
       if (error instanceof CustomError) throw new Error(error.message);
 

@@ -5,10 +5,10 @@ import { Hex } from "viem";
 import { PrivateKeysService } from "@/services/PrivateKeysService";
 
 export const useGetDefaultPrivateKey = (
-  options?: UseMutationOptions<Hex, Error, void, unknown>
-): UseMutationResult<Hex, Error, void, unknown> => {
+  options?: UseMutationOptions<Hex | null, Error, void, unknown>
+): UseMutationResult<Hex | null, Error, void, unknown> => {
   const db = useSQLiteContext();
-  return useMutation<Hex, Error, void>({
+  return useMutation<Hex | null, Error, void>({
     ...options,
     mutationKey: ["GetDefaultPrivateKey"],
     mutationFn: () => PrivateKeysService.getDefaultPrivateKey(db)
