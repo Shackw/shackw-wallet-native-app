@@ -1,10 +1,11 @@
 import { CameraView, useCameraPermissions, type BarcodeScanningResult } from "expo-camera";
-import { useRouter } from "expo-router";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { Linking } from "react-native";
+import { RelativePathString, useRouter } from "expo-router";
+import { useCallback, useEffect } from "react";
 
+import { redirectSystemPath } from "@/app/+native-intent";
 import BackDrop from "@/components/BackDrop";
 import { ScreenContainer } from "@/components/Container";
+import { useBoolean } from "@/hooks/useBoolean";
 import { Box } from "@/vendor/gluestack-ui/box";
 import { Text } from "@/vendor/gluestack-ui/text";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
@@ -13,49 +14,43 @@ export default function ScanQrScreen() {
   const router = useRouter();
   const [permission, requestPermission] = useCameraPermissions();
 
-  const scanningRef = useRef(false);
-  const cameraRef = useRef<CameraView>(null);
-
-  const [enabled, setEnabled] = useState(true);
+  const [isScanning, setIsScanning] = useBoolean(false);
 
   useEffect(() => {
-    if (!permission?.granted) void requestPermission();
-    return () => setEnabled(false);
+    if (permission?.granted === false) void requestPermission();
   }, [permission, requestPermission]);
 
   const handleScan = useCallback(
     async (result: BarcodeScanningResult) => {
-      if (scanningRef.current) return;
-      scanningRef.current = true;
-      setEnabled(false);
+      if (isScanning) return;
+      setIsScanning.on();
 
       const value = result.data ?? result.raw;
       if (!value) {
-        scanningRef.current = false;
-        setEnabled(true);
+        setIsScanning.off();
         return;
       }
 
       try {
         if (/^https?:\/\//i.test(value)) {
-          await Linking.openURL(value);
+          const href = await redirectSystemPath({ path: value });
+          router.replace(href as RelativePathString);
         } else {
           router.replace("/");
         }
-      } catch {
-        scanningRef.current = false;
-        setEnabled(true);
+      } catch (e) {
+        console.warn("open failed", e);
+        setIsScanning.off();
       }
     },
-    [router]
+    [isScanning, router, setIsScanning]
   );
 
   const onBarcodeScanned = useCallback(
-    (r: BarcodeScanningResult): void => {
-      if (!enabled) return;
+    (r: BarcodeScanningResult) => {
       void handleScan(r);
     },
-    [enabled, handleScan]
+    [handleScan]
   );
 
   if (!permission) return <BackDrop visible />;
@@ -65,11 +60,10 @@ export default function ScanQrScreen() {
       <Box className="flex-1">
         {permission.granted ? (
           <CameraView
-            ref={cameraRef}
             style={{ flex: 1 }}
             facing="back"
             barcodeScannerSettings={{ barcodeTypes: ["qr"] }}
-            onBarcodeScanned={onBarcodeScanned}
+            onBarcodeScanned={isScanning ? undefined : onBarcodeScanned}
           />
         ) : (
           <VStack className="flex-1 justify-center items-center pb-32">

@@ -1,15 +1,11 @@
-import * as SQLite from "expo-sqlite";
-
 import { ENV } from "@/configs/env";
-import { PrivateKeysService } from "@/services/PrivateKeysService";
+import { PrivateKeySecureStore } from "@/db/secureStores/PrivateKeySecureStore";
 
 export async function redirectSystemPath({ path }: { path: string }): Promise<string> {
-  const db = await SQLite.openDatabaseAsync("hinomaru-wallet.db");
-  const storedPk = await PrivateKeysService.getDefaultPrivateKey(db)
-    .catch(() => null)
-    .finally(() => db.closeAsync());
+  const privateKeySecureStore = await PrivateKeySecureStore.getInstance();
+  const storeds = privateKeySecureStore.list();
 
-  if (path.includes(ENV.HINOMARU_UNIVERSAL_LINK) && !!storedPk) {
+  if (path.includes(ENV.HINOMARU_UNIVERSAL_LINK) && storeds.length > 0) {
     try {
       const url = new URL(path);
       const p = url.pathname;

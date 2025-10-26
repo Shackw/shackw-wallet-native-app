@@ -127,7 +127,7 @@ export const TransferFormProvider = ({ children }: PropsWithChildren) => {
     const amountMeta = fieldMeta.amount;
     const isAmountValid = !!amountMeta?.isValid && !!amountMeta?.isDirty;
     if (isAmountValid) fetchFee();
-  }, [fetchFee, fieldMeta.amount]);
+  }, [fetchFee, fieldMeta.amount, feeToken]);
 
   return (
     <TransferFormContext.Provider

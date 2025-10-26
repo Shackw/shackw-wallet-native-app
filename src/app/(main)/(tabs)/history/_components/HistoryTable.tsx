@@ -18,7 +18,12 @@ const HistoryTable = (props: HistoryTableProps) => {
   });
 
   return (
-    <TableSuspence title="取引履歴" rows={historyRows} isError={isError}>
+    <TableSuspence
+      title="取引履歴"
+      rows={historyRows}
+      isError={isError}
+      loadingMessage={`取引履歴を取得しています。\n取得完了には1~2分程度かかる場合がございます。`}
+    >
       {rows => (
         <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator>
           <Table className="w-full overflow-y-auto">

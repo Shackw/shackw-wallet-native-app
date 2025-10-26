@@ -6,7 +6,7 @@ import type { Address } from "viem";
 
 export interface IUserSettingRepository {
   get(db: SQLiteDatabase): Promise<UserSettingResult | null>;
-  update(db: SQLiteDatabase, query: UpdateUserSettingQuery): Promise<void>;
+  patch(db: SQLiteDatabase, query: PatchUserSettingQuery): Promise<void>;
 }
 
 export type UserSettingResult = {
@@ -17,4 +17,4 @@ export type UserSettingResult = {
   createdAt: Date;
 };
 
-export type UpdateUserSettingQuery = { selectedChain: SupportChain; defaultWallet: Address | null };
+export type PatchUserSettingQuery = { selectedChain?: SupportChain; defaultWallet?: Address | null };

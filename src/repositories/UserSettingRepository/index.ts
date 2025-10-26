@@ -4,7 +4,7 @@ import type { UserSettingWithAddressNameRow } from "@/db/schema";
 
 import { userSettingRowToResult } from "./mapper";
 
-import type { IUserSettingRepository, UpdateUserSettingQuery, UserSettingResult } from "./interface";
+import type { IUserSettingRepository, UserSettingResult, PatchUserSettingQuery } from "./interface";
 
 export const SqlUserSettingRepository: IUserSettingRepository = {
   async get(db: SQLiteDatabase): Promise<UserSettingResult | null> {
@@ -31,21 +31,29 @@ export const SqlUserSettingRepository: IUserSettingRepository = {
     }
   },
 
-  async update(db: SQLiteDatabase, query: UpdateUserSettingQuery): Promise<void> {
+  async patch(db: SQLiteDatabase, query: PatchUserSettingQuery): Promise<void> {
     const { selectedChain, defaultWallet } = query;
+
+    let setClauses = ["updated_at = strftime('%s','now')"];
+    const params: Record<string, string | null> = {};
+
+    if (selectedChain !== undefined) {
+      setClauses.push("selected_chain = $selectedChain");
+      params.$selectedChain = selectedChain;
+    }
+    if (defaultWallet !== undefined) {
+      setClauses.push("default_wallet = $defaultWallet");
+      params.$defaultWallet = defaultWallet ? defaultWallet.toLowerCase() : null;
+    }
+
     const stmt = await db.prepareAsync(`
       UPDATE user_setting
-      SET
-        selected_chain = $selectedChain,
-        default_wallet = $defaultWallet,
-        updated_at = strftime('%s','now')
+      SET ${setClauses.join(", ")}
       WHERE id = 1
     `);
+
     try {
-      await stmt.executeAsync({
-        $selectedChain: selectedChain,
-        $defaultWallet: defaultWallet ? defaultWallet.toLowerCase() : null
-      });
+      await stmt.executeAsync(params);
     } finally {
       await stmt.finalizeAsync();
     }

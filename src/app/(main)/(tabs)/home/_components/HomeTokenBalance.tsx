@@ -34,7 +34,7 @@ const HomeTokenBalance = ({ token }: HomeTokenBalanceProps) => {
             iconSize={20}
             iconColor={theme.colors.secondary[600]}
             className="absolute right-5 top-[-6px]"
-            action="none"
+            action="default"
             onPress={refetch}
           />
         </>
