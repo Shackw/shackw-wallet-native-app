@@ -28,7 +28,7 @@ export const TransactionsService = {
     try {
       const searched = await TransactionsRepository.search(db, query);
       if (searched.length === 0) return null;
-      return resultToModel(wallet, searched[0]);
+      return resultToModel(chain, wallet, searched[0]);
     } catch (error: unknown) {
       console.error(error);
 
@@ -52,9 +52,10 @@ export const TransactionsService = {
       timeFrom,
       timeTo
     };
+
     try {
       const searched = await TransactionsRepository.search(db, query);
-      const mapped = searched.map(v => resultToModel(wallet, v));
+      const mapped = searched.map(v => resultToModel(chain, wallet, v));
       return mapped;
     } catch (error: unknown) {
       console.error(error);
@@ -71,8 +72,8 @@ type TransferFlow = {
   direction: TransactionModel["direction"];
   counterparty: { address: Address; name?: string };
 };
-function resultToModel(wallet: Address, result: ResolvedTransactionResult): TransactionModel {
-  const token = ADDRESS_TO_TOKEN[result.tokenAddress.toLowerCase()];
+function resultToModel(chain: SupportChain, wallet: Address, result: ResolvedTransactionResult): TransactionModel {
+  const token = ADDRESS_TO_TOKEN[chain][result.tokenAddress.toLowerCase()];
 
   const { direction, counterparty }: TransferFlow = (() => {
     const me = wallet.toLowerCase();

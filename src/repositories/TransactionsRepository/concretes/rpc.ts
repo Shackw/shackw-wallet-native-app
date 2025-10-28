@@ -1,36 +1,40 @@
 import { Address, parseAbiItem } from "viem";
 
+import { RPC_TUNIGS } from "@/configs/rpcTuning";
+import { VIEM_PUBLIC_CLIENTS } from "@/configs/viem";
 import { blockNumberByTimestamp } from "@/helpers/block";
 import { toUnixSec } from "@/helpers/datetime";
 import { TOKEN_REGISTRY } from "@/registries/TokenRegistry";
-import { VIEM_PUBLIC_CLIENTS } from "@/registries/ViemClientRegistory";
 
 import type { SearchTransactionQuery, ResolvedTransactionResult, IRemoteTransactionsRepository } from "../interface";
 
 const transferEvt = parseAbiItem("event Transfer(address indexed from, address indexed to, uint256 value)");
 const blockTsCache = new Map<bigint, number>();
 
-const CONCURRENCY = 6;
-const CHUNK_SIZE = 10_000n;
-
 export const RpcTransactionsRepository: IRemoteTransactionsRepository = {
-  async search(paylaod: SearchTransactionQuery): Promise<ResolvedTransactionResult[]> {
-    const { chain, tokens, wallet, timeFrom, timeTo, limit, direction = "both" } = paylaod;
-
+  async search(payload: SearchTransactionQuery): Promise<ResolvedTransactionResult[]> {
+    const { chain, tokens, wallet, timeFrom, timeTo, limit, direction = "both" } = payload;
     const publicClient = VIEM_PUBLIC_CLIENTS[chain];
 
     const latest = await publicClient.getBlockNumber();
     const fromBlock = timeFrom ? await blockNumberByTimestamp(publicClient, toUnixSec(timeFrom), "gte") : 0n;
     const toBlock = timeTo ? await blockNumberByTimestamp(publicClient, toUnixSec(timeTo), "lte") : latest;
-
     if (fromBlock > toBlock) return [];
 
-    const tokenAddrs = [...new Set(tokens.map(t => TOKEN_REGISTRY[t.symbol].address))];
+    const tokenAddrs: Address[] = (() => {
+      const m = new Map<string, Address>();
+      for (const t of tokens) {
+        const addr = TOKEN_REGISTRY[t.symbol].address[chain] as Address;
+        if (!m.has(addr)) m.set(addr, addr);
+      }
+      return [...m.values()];
+    })();
     if (tokenAddrs.length === 0) return [];
 
     const ranges: { from: bigint; to: bigint }[] = [];
     for (let to = toBlock; to >= fromBlock; ) {
-      const from = to - CHUNK_SIZE + 1n > fromBlock ? to - CHUNK_SIZE + 1n : fromBlock;
+      const from =
+        to - RPC_TUNIGS[chain].chunkSize + 1n > fromBlock ? to - RPC_TUNIGS[chain].chunkSize + 1n : fromBlock;
       ranges.push({ from, to });
       if (from === fromBlock) break;
       to = from - 1n;
@@ -40,40 +44,58 @@ export const RpcTransactionsRepository: IRemoteTransactionsRepository = {
     const results: ResolvedTransactionResult[] = [];
     const seen = new Set<string>();
 
-    for (let i = 0; i < ranges.length && results.length < want; i += CONCURRENCY) {
-      const slice = ranges.slice(i, i + CONCURRENCY);
+    for (let i = 0; i < ranges.length && results.length < want; i += RPC_TUNIGS[chain].concurrency) {
+      const slice = ranges.slice(i, i + RPC_TUNIGS[chain].concurrency);
 
       const perRange = await Promise.all(
         slice.map(async r => {
-          const q: Promise<readonly any[]>[] = [];
-          if (direction === "both" || direction === "in") {
-            q.push(
-              publicClient.getLogs({
-                address: tokenAddrs,
-                event: transferEvt,
-                args: { to: wallet },
-                fromBlock: r.from,
-                toBlock: r.to
-              })
+          const qs: Promise<readonly any[]>[] = [];
+          if (direction !== "out") {
+            qs.push(
+              publicClient
+                .getLogs({
+                  address: tokenAddrs,
+                  event: transferEvt,
+                  args: { to: wallet },
+                  fromBlock: r.from,
+                  toBlock: r.to
+                })
+                .catch(() => [])
             );
           }
-          if (direction === "both" || direction === "out") {
-            q.push(
-              publicClient.getLogs({
-                address: tokenAddrs,
-                event: transferEvt,
-                args: { from: wallet },
-                fromBlock: r.from,
-                toBlock: r.to
-              })
+          if (direction !== "in") {
+            qs.push(
+              publicClient
+                .getLogs({
+                  address: tokenAddrs,
+                  event: transferEvt,
+                  args: { from: wallet },
+                  fromBlock: r.from,
+                  toBlock: r.to
+                })
+                .catch(() => [])
             );
           }
-          const logs = (await Promise.all(q)).flat();
+          const logs = (await Promise.all(qs)).flat();
           if (logs.length === 0) return [] as ResolvedTransactionResult[];
 
-          const uniqBns = [...new Set(logs.map(l => l.blockNumber! as bigint))];
+          logs.sort((a, b) => {
+            const ab = a.blockNumber as bigint,
+              bb = b.blockNumber as bigint;
+            return ab === bb ? b.logIndex - a.logIndex : ab < bb ? 1 : -1;
+          });
+
+          const need = want - results.length;
+          const picked = need === Number.POSITIVE_INFINITY ? logs : logs.slice(0, Math.max(need, 0));
+
+          const uniqNeededBns: bigint[] = (() => {
+            const s = new Set<bigint>();
+            for (const l of picked) s.add(l.blockNumber as bigint);
+            return [...s];
+          })();
+
           await Promise.all(
-            uniqBns.map(async bn => {
+            uniqNeededBns.map(async bn => {
               if (!blockTsCache.has(bn)) {
                 const b = await publicClient.getBlock({ blockNumber: bn });
                 blockTsCache.set(bn, Number(b.timestamp));
@@ -81,24 +103,20 @@ export const RpcTransactionsRepository: IRemoteTransactionsRepository = {
             })
           );
 
-          logs.sort((a, b) => {
-            const ab = a.blockNumber! as bigint;
-            const bb = b.blockNumber! as bigint;
-            return ab === bb ? b.logIndex - a.logIndex : ab < bb ? 1 : -1;
-          });
-
           const items: ResolvedTransactionResult[] = [];
-          for (const l of logs) {
-            if (!l.blockNumber || !l.transactionHash) continue;
+          for (const l of picked) {
+            const bn = l.blockNumber as bigint;
+            const ts = blockTsCache.get(bn);
+            if (ts == null || !l.transactionHash) continue;
             items.push({
-              txHash: l.transactionHash!,
-              blockNumber: l.blockNumber!,
+              txHash: l.transactionHash,
+              blockNumber: bn,
               logIndex: l.logIndex ?? 0,
               tokenAddress: l.address as Address,
               fromAddress: l.args.from as Address,
               toAddress: l.args.to as Address,
               valueMinUnits: l.args.value as bigint,
-              transferredUnixAt: blockTsCache.get(l.blockNumber!)!
+              transferredUnixAt: ts
             });
           }
           return items;
@@ -118,8 +136,8 @@ export const RpcTransactionsRepository: IRemoteTransactionsRepository = {
     }
 
     results.sort((a, b) =>
-      a.blockNumber === b.blockNumber ? b.logIndex - a.logIndex : Number(b.blockNumber - a.blockNumber)
+      a.blockNumber === b.blockNumber ? b.logIndex - a.logIndex : a.blockNumber < b.blockNumber ? 1 : -1
     );
-    return results.slice(0, want);
+    return want === Number.POSITIVE_INFINITY ? results : results.slice(0, want);
   }
 };

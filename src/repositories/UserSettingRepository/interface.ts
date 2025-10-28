@@ -11,10 +11,10 @@ export interface IUserSettingRepository {
 
 export type UserSettingResult = {
   name: string;
-  selectedChain: SupportChain;
+  defaultChain: SupportChain;
   defaultWallet: Address | null;
   updatedAt: Date;
   createdAt: Date;
 };
 
-export type PatchUserSettingQuery = { selectedChain?: SupportChain; defaultWallet?: Address | null };
+export type PatchUserSettingQuery = { defaultChain?: SupportChain; defaultWallet?: Address | null };

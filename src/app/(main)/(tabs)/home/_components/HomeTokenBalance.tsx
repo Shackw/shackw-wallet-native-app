@@ -13,8 +13,8 @@ import { VStack } from "@/vendor/gluestack-ui/vstack";
 type HomeTokenBalanceProps = { token: Token };
 
 const HomeTokenBalance = ({ token }: HomeTokenBalanceProps) => {
-  const tokenBalanceResult = useTokenBalanceContext();
-  const { balance, isFetching, refetch } = tokenBalanceResult[token];
+  const tokenBalances = useTokenBalanceContext();
+  const { balance, isFetching, refetch } = tokenBalances[token];
 
   const TokenSymboIcon = TOKEN_REGISTRY[token].Icon;
 

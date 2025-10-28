@@ -1,6 +1,5 @@
 import { useForm, useStore } from "@tanstack/react-form";
-import { RefetchOptions, QueryObserverResult } from "@tanstack/react-query";
-import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, PropsWithChildren, useContext, useMemo, useState } from "react";
 
 import { toAllowed } from "@/helpers/tokenUnits";
 import { useTransferFee } from "@/hooks/queries/useTransferFee";
@@ -38,7 +37,6 @@ export type TransferFormContextType = {
   isValid: boolean;
   insuff: { insufficient: boolean; message?: string };
   setSendToken: React.Dispatch<React.SetStateAction<Token>>;
-  fetchFee: (options?: RefetchOptions | undefined) => Promise<QueryObserverResult<FeeModel | null, Error>>;
 };
 const TransferFormContext = createContext<TransferFormContextType | undefined>(undefined);
 
@@ -61,9 +59,11 @@ export const TransferFormProvider = ({ children }: PropsWithChildren) => {
   const webhookUrl = useStore(form.baseStore, s => s.values.webhookUrl);
   const fieldMeta = useStore(form.store, s => s.fieldMeta);
 
-  const { data: fee, refetch: fetchFee } = useTransferFee(
+  const { data: fee } = useTransferFee(
     { token: sendToken, feeToken, amountDecimals: amount },
-    { enabled: false }
+    {
+      enabled: !!fieldMeta.amount?.isValid && !!fieldMeta.amount?.isDirty
+    }
   );
 
   const isValid = useMemo(() => {
@@ -123,12 +123,6 @@ export const TransferFormProvider = ({ children }: PropsWithChildren) => {
     return { insufficient: false };
   }, [amount, fee, feeToken, sendToken, tokenBalances]);
 
-  useEffect(() => {
-    const amountMeta = fieldMeta.amount;
-    const isAmountValid = !!amountMeta?.isValid && !!amountMeta?.isDirty;
-    if (isAmountValid) fetchFee();
-  }, [fetchFee, fieldMeta.amount, feeToken]);
-
   return (
     <TransferFormContext.Provider
       value={{
@@ -138,8 +132,7 @@ export const TransferFormProvider = ({ children }: PropsWithChildren) => {
         sendToken,
         isValid,
         insuff,
-        setSendToken,
-        fetchFee
+        setSendToken
       }}
     >
       {children}

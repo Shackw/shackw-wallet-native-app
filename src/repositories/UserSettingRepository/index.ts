@@ -11,7 +11,7 @@ export const SqlUserSettingRepository: IUserSettingRepository = {
     const stmt = await db.prepareAsync(`
       SELECT
         a.name AS name,
-        us.selected_chain AS selected_chain,
+        us.default_chain AS default_chain,
         us.default_wallet AS default_wallet,
         us.updated_at AS updated_at,
         us.created_at AS created_at
@@ -32,14 +32,14 @@ export const SqlUserSettingRepository: IUserSettingRepository = {
   },
 
   async patch(db: SQLiteDatabase, query: PatchUserSettingQuery): Promise<void> {
-    const { selectedChain, defaultWallet } = query;
+    const { defaultChain, defaultWallet } = query;
 
     let setClauses = ["updated_at = strftime('%s','now')"];
     const params: Record<string, string | null> = {};
 
-    if (selectedChain !== undefined) {
-      setClauses.push("selected_chain = $selectedChain");
-      params.$selectedChain = selectedChain;
+    if (defaultChain !== undefined) {
+      setClauses.push("default_chain = $defaultChain");
+      params.$defaultChain = defaultChain;
     }
     if (defaultWallet !== undefined) {
       setClauses.push("default_wallet = $defaultWallet");

@@ -2,19 +2,19 @@ import { Hex } from "viem";
 
 import { HinomaruApiErrorBody } from "@/clients/restClient";
 import { SUPPORT_CHAINS, SupportChain } from "@/configs/chain";
+import { VIEM_PUBLIC_CLIENTS } from "@/configs/viem";
 import { ApiError, CustomError } from "@/exceptions";
 import { toDecimalsStr, toMinUnits } from "@/helpers/tokenUnits";
 import { GetTokenBalanceCommand, TransferTokenCommand } from "@/models/token";
 import { TOKEN_REGISTRY } from "@/registries/TokenRegistry";
-import { VIEM_PUBLIC_CLIENTS } from "@/registries/ViemClientRegistory";
 import { QuotesRepository } from "@/repositories/QuotesRepository";
 import { CreateQuoteQuery } from "@/repositories/QuotesRepository/interface";
 import { TokensRepository } from "@/repositories/TokensRepository";
 import { TransferTokenQuery } from "@/repositories/TokensRepository/interface";
 
 export const TokensService = {
-  async getTokenBalance(chain: SupportChain, command: GetTokenBalanceCommand): Promise<string> {
-    const { wallet, token } = command;
+  async getTokenBalance(command: GetTokenBalanceCommand): Promise<string> {
+    const { chain, wallet, token } = command;
     const erc20Contract = TOKEN_REGISTRY[token].contract[chain];
     try {
       const balance = await erc20Contract.read.balanceOf([wallet]);

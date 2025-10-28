@@ -17,8 +17,9 @@ export const toDecimalsStr = (minUnits: bigint, token: Token): string => {
 };
 
 const _truncateAllowed = (amount: number, token: Token): number => {
+  const { supportDecimals } = TOKEN_REGISTRY[token];
   if (!Number.isFinite(amount)) return amount;
-  const d = Math.max(0, TOKEN_REGISTRY[token].supportDecimals | 0);
+  const d = Math.max(0, supportDecimals | 0);
   if (d === 0) return Math.trunc(amount);
   const f = 10 ** d;
   return amount >= 0 ? Math.floor(amount * f) / f : Math.ceil(amount * f) / f;
