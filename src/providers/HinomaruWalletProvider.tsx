@@ -6,7 +6,9 @@ import { Account, generatePrivateKey, privateKeyToAccount } from "viem/accounts"
 import { SUPPORT_CHAINS } from "@/configs/chain";
 import { CUSTOM_RPC_URLS } from "@/configs/rpcUrls";
 import { useGetDefaultPrivateKey } from "@/hooks/mutations/useGetDefaultPrivateKey";
+import { useGetPrivateKeyByWallet } from "@/hooks/mutations/useGetPrivateKeyByWallet";
 import { useStorePrivateKey } from "@/hooks/mutations/useStorePrivateKey";
+import { useUpdateDefaultWallet } from "@/hooks/mutations/useUpdateDefaultWallet";
 import { useBoolean } from "@/hooks/useBoolean";
 import { nameFormValidator } from "@/validations/forms/nameFormValidator";
 import { hex64Validator } from "@/validations/rules/addressValidator";
@@ -19,6 +21,7 @@ type HinomaruWalletContextType = {
   hasPrivateKey: boolean;
   createWallet: (name: string) => Promise<void>;
   restoreWallet: (name: string, pk: string) => Promise<void>;
+  changeWallet: (wallet: Address, isChangeDefault: boolean) => Promise<void>;
 };
 
 export const HinomaruWalletContext = createContext<HinomaruWalletContextType | undefined>(undefined);
@@ -29,8 +32,10 @@ export const HinomaruWalletProvider = ({ children }: PropsWithChildren) => {
   const [client, setClient] = useState<WalletClient | undefined>(undefined);
 
   const { currentChain } = useUserSettingContext();
-  const { mutateAsync: storePrivateKey } = useStorePrivateKey();
+  const { mutateAsync: storePrivateKey } = useStorePrivateKey({ retry: 0 });
   const { mutateAsync: getDefaultPrivateKey } = useGetDefaultPrivateKey({ retry: 0 });
+  const { mutateAsync: getPrivateKeyByWallet } = useGetPrivateKeyByWallet({ retry: 0 });
+  const { mutateAsync: updateDefaultWallet } = useUpdateDefaultWallet({ retry: 0 });
 
   const connectWallet = useCallback(
     (pk: Hex): Address => {
@@ -41,7 +46,7 @@ export const HinomaruWalletProvider = ({ children }: PropsWithChildren) => {
         transport: http(CUSTOM_RPC_URLS[currentChain])
       });
 
-      setAccount(account);
+      setAccount({ ...account, address: account.address.toLowerCase() as Address });
       setClient(client);
       return account.address;
     },
@@ -93,6 +98,16 @@ export const HinomaruWalletProvider = ({ children }: PropsWithChildren) => {
     [connectWallet, storePrivateKey, setHasPrivateKey]
   );
 
+  const changeWallet = useCallback(
+    async (wallet: Address, isChangeDefault: boolean) => {
+      const privateKey = await getPrivateKeyByWallet(wallet);
+      connectWallet(privateKey);
+
+      if (isChangeDefault) await updateDefaultWallet({ defaultWallet: wallet });
+    },
+    [connectWallet, getPrivateKeyByWallet, updateDefaultWallet]
+  );
+
   useEffect(() => {
     tryConnectWallet();
   }, [tryConnectWallet]);
@@ -104,7 +119,8 @@ export const HinomaruWalletProvider = ({ children }: PropsWithChildren) => {
         client,
         hasPrivateKey,
         createWallet,
-        restoreWallet
+        restoreWallet,
+        changeWallet
       }}
     >
       {children}

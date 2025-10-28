@@ -11,6 +11,6 @@ export const useStorePrivateKey = (
   return useMutation<void, Error, StorePrivateKeyCommand>({
     ...options,
     mutationKey: ["StorePrivateKey"],
-    mutationFn: address => PrivateKeysService.storePrivateKey(db, address)
+    mutationFn: command => PrivateKeysService.storePrivateKey(db, command)
   });
 };

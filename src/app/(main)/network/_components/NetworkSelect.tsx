@@ -19,7 +19,7 @@ import { Text } from "@/vendor/gluestack-ui/text";
 
 import useSelectNetworkForm from "../_hooks/useSelectNetworkForm";
 
-const NetworkChain = () => {
+const NetworkSelect = () => {
   const {
     form: { inputChain, setInputChain }
   } = useSelectNetworkForm();
@@ -57,4 +57,4 @@ const NetworkChain = () => {
   );
 };
 
-export default NetworkChain;
+export default NetworkSelect;

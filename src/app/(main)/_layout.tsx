@@ -52,6 +52,13 @@ const MainLayout = () => {
                 animation: "fade"
               }}
             />
+            <Stack.Screen
+              name="wallet/index"
+              options={{
+                presentation: "modal",
+                animation: "fade"
+              }}
+            />
           </Stack>
         </RootContainer>
       </LastTransactionProvider>

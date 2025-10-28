@@ -60,8 +60,8 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
             t.to_address,
             t.value_min_units,
             t.transferred_at,
-            CASE WHEN fa.is_mine = 1 THEN '自分' ELSE fa.name END AS from_name,
-            CASE WHEN ta.is_mine = 1 THEN '自分' ELSE ta.name END AS to_name
+            fa.name AS from_name,
+            ta.name AS to_name
       FROM transactions AS t
         LEFT JOIN addresses AS fa ON fa.address = t.from_address
         LEFT JOIN addresses AS ta ON ta.address = t.to_address
