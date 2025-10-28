@@ -52,7 +52,7 @@ export type SearchTransactionQuery = {
   timeFrom: Date;
   timeTo: Date;
   limit?: number;
-  direction?: "in" | "out" | "both";
+  direction: "in" | "out" | "both";
 };
 
 export type GetTransactionProgressQuery = {

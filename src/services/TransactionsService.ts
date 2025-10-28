@@ -23,6 +23,7 @@ export const TransactionsService = {
       timeTo: new Date(),
       timeFrom: subMonths(new Date(), 3),
       tokens: [...TOKENS.map(token => ({ symbol: token }))],
+      direction: "both",
       limit: 1
     };
     try {
@@ -50,7 +51,8 @@ export const TransactionsService = {
       wallet,
       tokens: [{ symbol: token }],
       timeFrom,
-      timeTo
+      timeTo,
+      direction: "both"
     };
 
     try {

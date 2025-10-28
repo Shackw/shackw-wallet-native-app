@@ -1,5 +1,5 @@
 import { SQLiteDatabase } from "expo-sqlite";
-import { Hex } from "viem";
+import { Address, Hex } from "viem";
 
 import { PrivateKeySecureStore } from "@/db/secureStores/PrivateKeySecureStore";
 import { CustomError } from "@/exceptions";
@@ -8,6 +8,22 @@ import { SqlAddressesRepository } from "@/repositories/AddressesRepository";
 import { SqlUserSettingRepository } from "@/repositories/UserSettingRepository";
 
 export const PrivateKeysService = {
+  async getPrivateKeyByWallet(db: SQLiteDatabase, wallet: Address): Promise<Hex> {
+    const privateKeySecureStore = await PrivateKeySecureStore.getInstance();
+    try {
+      const stored = privateKeySecureStore.get(wallet);
+      if (!stored) throw new CustomError("指定されたウォレットに紐づくプライベートキーがありません。");
+
+      return stored.privateKey;
+    } catch (error: unknown) {
+      console.error(error);
+
+      if (error instanceof CustomError) throw new Error(error.message);
+
+      throw new Error(`不明なエラーによりプライベートキーの取得に失敗しました。`);
+    }
+  },
+
   async getDefaultPrivateKey(db: SQLiteDatabase): Promise<Hex | null> {
     const privateKeySecureStore = await PrivateKeySecureStore.getInstance();
     try {

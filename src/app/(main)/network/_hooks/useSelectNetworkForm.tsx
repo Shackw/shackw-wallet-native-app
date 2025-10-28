@@ -22,12 +22,8 @@ const useSelectNetworkFormProvider = () => {
     setIsPending.on();
 
     if (isChangeDefault) {
-      try {
-        await updateSelectedChain({ defaultChain: inputChain });
-        await refetch();
-      } catch {
-        setIsError.on();
-      }
+      await updateSelectedChain({ defaultChain: inputChain }).catch(setIsError.on);
+      await refetch();
     } else {
       setCurrentChain(inputChain);
     }

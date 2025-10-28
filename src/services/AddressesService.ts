@@ -33,9 +33,9 @@ export const AddressesService = {
 
       await SqlAddressesRepository.create(db, { ...command, isMine: false });
     } catch (error: unknown) {
-      console.error(error);
-
       if (error instanceof CustomError) throw new Error(error.message);
+
+      console.error(error);
 
       throw new Error(`不明なエラーによりアドレスの作成に失敗しました。`);
     }
@@ -47,14 +47,14 @@ export const AddressesService = {
       const found = await SqlAddressesRepository.get(db, address);
       if (!found) throw new CustomError("指定のアドレスは登録されていません。");
 
-      if (found.isMine && found.address !== address)
+      if (found.isMine && found.address !== address.toLowerCase())
         throw new CustomError("自分のアドレスを変更することはできません。");
 
       await SqlAddressesRepository.update(db, command);
     } catch (error: unknown) {
-      console.error(error);
-
       if (error instanceof CustomError) throw new Error(error.message);
+
+      console.error(error);
 
       throw new Error("不明なエラーによりアドレスの更新に失敗しました。");
     }
@@ -69,9 +69,9 @@ export const AddressesService = {
 
       await SqlAddressesRepository.delete(db, address);
     } catch (error: unknown) {
-      console.error(error);
-
       if (error instanceof CustomError) throw new Error(error.message);
+
+      console.error(error);
 
       throw new Error("不明なエラーによりアドレスの削除に失敗しました");
     }
