@@ -30,9 +30,13 @@ export const EnvSchema = v.object(
     HINOMARU_API_URL: urlValidator("HINOMARU_API_URL"),
     HINOMARU_UNIVERSAL_LINK: urlValidator("HINOMARU_UNIVERSAL_LINK"),
 
-    JPYC_TOKEN_ADDRESS: addressValidator("JPYC_TOKEN_ADDRESS"),
-    USDC_TOKEN_ADDRESS: addressValidator("USDC_TOKEN_ADDRESS"),
-    EURC_TOKEN_ADDRESS: addressValidator("EURC_TOKEN_ADDRESS")
+    MAIN_JPYC_TOKEN_ADDRESS: addressValidator("MAIN_JPYC_TOKEN_ADDRESS"),
+    MAIN_USDC_TOKEN_ADDRESS: addressValidator("MAIN_USDC_TOKEN_ADDRESS"),
+    MAIN_EURC_TOKEN_ADDRESS: addressValidator("MAIN_EURC_TOKEN_ADDRESS"),
+
+    BASE_JPYC_TOKEN_ADDRESS: addressValidator("BASE_JPYC_TOKEN_ADDRESS"),
+    BASE_USDC_TOKEN_ADDRESS: addressValidator("BASE_USDC_TOKEN_ADDRESS"),
+    BASE_EURC_TOKEN_ADDRESS: addressValidator("BASE_EURC_TOKEN_ADDRESS")
   },
   issue => `${String(issue.expected)} is required`
 );

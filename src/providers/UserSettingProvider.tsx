@@ -1,35 +1,44 @@
-import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from "react";
 import { Address } from "viem";
 
 import { SupportChain } from "@/configs/chain";
 import { useUserSetting } from "@/hooks/queries/useUserSetting";
 
 type UserSettingContextType = {
-  selectedChain: SupportChain;
+  currentChain: SupportChain;
+  defaultChain: SupportChain | undefined;
   defaultWallet: Address | null | undefined;
+  setCurrentChain: React.Dispatch<React.SetStateAction<SupportChain>>;
   refetch: ReturnType<typeof useUserSetting>["refetch"];
 };
 
 export const UserSettingContext = createContext<UserSettingContextType | undefined>(undefined);
 
-export const UserSettingProvider = ({ children }: { children: ReactNode }) => {
+export const UserSettingProvider = ({ children }: PropsWithChildren) => {
   const { data, refetch } = useUserSetting();
-  const [selectedChain, setSelectedChain] = useState<SupportChain>("base");
+  const [currentChain, setCurrentChain] = useState<SupportChain>("base");
+
+  const defaultChain = useMemo(() => {
+    if (!data) return undefined;
+    return data.defaultChain;
+  }, [data]);
 
   const defaultWallet = useMemo(() => {
     if (!data) return undefined;
-    return data.defaultWallet ?? null;
+    return data.defaultWallet;
   }, [data]);
 
   useEffect(() => {
-    if (!!data) setSelectedChain(data.selectedChain);
+    if (!!data) setCurrentChain(data.defaultChain);
   }, [data]);
 
   return (
     <UserSettingContext.Provider
       value={{
-        selectedChain,
+        currentChain,
+        defaultChain,
         defaultWallet,
+        setCurrentChain,
         refetch
       }}
     >

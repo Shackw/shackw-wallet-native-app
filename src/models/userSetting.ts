@@ -4,14 +4,14 @@ import { SupportChain } from "@/configs/chain";
 
 export type UserSettingModel = {
   name: string;
-  selectedChain: SupportChain;
+  defaultChain: SupportChain;
   defaultWallet: Address | null;
   createdAt: Date;
   updatedAt: Date;
 };
 
 export type UpdateSelectedChainCommand = {
-  selectedChain: SupportChain;
+  defaultChain: SupportChain;
 };
 
 export type UpdateDefaultWalletCommand = {

@@ -8,7 +8,7 @@ export type UserVersionRow = {
 
 export type UserSettingRow = {
   id: 1;
-  selected_chain: SupportChain;
+  default_chain: SupportChain;
   default_wallet: Address | null;
   updated_at: number;
   created_at: number;

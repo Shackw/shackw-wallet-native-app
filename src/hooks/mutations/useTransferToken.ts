@@ -9,10 +9,10 @@ import type { Hex } from "viem";
 export const useTransferToken = (
   options?: UseMutationOptions<Hex, Error, TransferTokenCommand, unknown>
 ): UseMutationResult<Hex, Error, TransferTokenCommand, unknown> => {
-  const { selectedChain } = useUserSettingContext();
+  const { currentChain } = useUserSettingContext();
   return useMutation<Hex, Error, TransferTokenCommand>({
     ...options,
     mutationKey: ["TransferToken"],
-    mutationFn: command => TokensService.transferToken(selectedChain, command)
+    mutationFn: command => TokensService.transferToken(currentChain, command)
   });
 };

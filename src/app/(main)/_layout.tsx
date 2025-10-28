@@ -45,6 +45,13 @@ const MainLayout = () => {
                 animation: "fade"
               }}
             />
+            <Stack.Screen
+              name="network/index"
+              options={{
+                presentation: "modal",
+                animation: "fade"
+              }}
+            />
           </Stack>
         </RootContainer>
       </LastTransactionProvider>

@@ -1,16 +1,18 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, PropsWithChildren, useContext } from "react";
 
 import { useLastTransaction } from "@/hooks/queries/useLastTransaction";
 
 import { useHinomaruWalletContext } from "./HinomaruWalletProvider";
+import { useUserSettingContext } from "./UserSettingProvider";
 
 type LastTransactionContextType = ReturnType<typeof useLastTransaction>;
 
 export const LastTransactionContext = createContext<LastTransactionContextType | undefined>(undefined);
 
-export const LastTransactionProvider = ({ children }: { children: ReactNode }) => {
+export const LastTransactionProvider = ({ children }: PropsWithChildren) => {
   const { account } = useHinomaruWalletContext();
-  const queryResult = useLastTransaction(account?.address ?? "0x", {
+  const { currentChain } = useUserSettingContext();
+  const queryResult = useLastTransaction(account?.address ?? "0x", currentChain, {
     retry: 0,
     enabled: !!account?.address
   });

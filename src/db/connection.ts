@@ -7,6 +7,7 @@ export const applyPragmas = async (db: SQLiteDatabase) => {
   try {
     await db.execAsync?.("PRAGMA journal_mode = WAL;");
     await db.execAsync?.("PRAGMA synchronous = NORMAL;");
+    await db.execAsync?.("PRAGMA busy_timeout=5000;");
   } catch {}
 };
 

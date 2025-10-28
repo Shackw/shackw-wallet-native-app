@@ -5,8 +5,8 @@ export const up_0001 = async (db: SQLiteDatabase) => {
     CREATE TABLE IF NOT EXISTS user_setting (
       id              INTEGER PRIMARY KEY CHECK (id = 1) DEFAULT 1,
 
-      selected_chain  TEXT NOT NULL
-                      CHECK (selected_chain IN ('main','base'))
+      default_chain  TEXT NOT NULL
+                      CHECK (default_chain IN ('main','base'))
                       DEFAULT 'base',
 
       default_wallet  TEXT
@@ -125,7 +125,7 @@ export const up_0001 = async (db: SQLiteDatabase) => {
       ON transaction_progress(created_by_address, chain, year, month);
 
     -- Seeder
-    INSERT OR IGNORE INTO user_setting (id, selected_chain, default_wallet)
+    INSERT OR IGNORE INTO user_setting (id, default_chain, default_wallet)
     VALUES (1, 'base', NULL);
   `);
 };

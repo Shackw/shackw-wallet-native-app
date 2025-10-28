@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useState } from "react";
 import * as v from "valibot";
 import { Address, createWalletClient, Hex, http, WalletClient } from "viem";
 import { Account, generatePrivateKey, privateKeyToAccount } from "viem/accounts";
@@ -23,12 +23,12 @@ type HinomaruWalletContextType = {
 
 export const HinomaruWalletContext = createContext<HinomaruWalletContextType | undefined>(undefined);
 
-export const HinomaruWalletProvider = ({ children }: { children: ReactNode }) => {
+export const HinomaruWalletProvider = ({ children }: PropsWithChildren) => {
   const [hasPrivateKey, setHasPrivateKey] = useBoolean(true);
   const [account, setAccount] = useState<Account | undefined>(undefined);
   const [client, setClient] = useState<WalletClient | undefined>(undefined);
 
-  const { selectedChain } = useUserSettingContext();
+  const { currentChain } = useUserSettingContext();
   const { mutateAsync: storePrivateKey } = useStorePrivateKey();
   const { mutateAsync: getDefaultPrivateKey } = useGetDefaultPrivateKey({ retry: 0 });
 
@@ -37,15 +37,15 @@ export const HinomaruWalletProvider = ({ children }: { children: ReactNode }) =>
       const account = privateKeyToAccount(pk);
       const client = createWalletClient({
         account,
-        chain: SUPPORT_CHAINS[selectedChain],
-        transport: http(CUSTOM_RPC_URLS[selectedChain])
+        chain: SUPPORT_CHAINS[currentChain],
+        transport: http(CUSTOM_RPC_URLS[currentChain])
       });
 
       setAccount(account);
       setClient(client);
       return account.address;
     },
-    [selectedChain]
+    [currentChain]
   );
 
   const getStoredPrivateKey = useCallback(async (): Promise<Hex | null> => {

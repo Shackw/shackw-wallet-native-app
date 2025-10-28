@@ -15,6 +15,7 @@ export const FeesService = {
         feeToken: { symbol: feeToken },
         amountMinUnits: toMinUnits(amountDecimals, token)
       };
+      console.log(query);
 
       const fee = await FeesRepository.estimate(query);
       return responceToModel(fee);

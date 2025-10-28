@@ -1,19 +1,23 @@
 import { UseQueryOptions, UseQueryResult, useQuery } from "@tanstack/react-query";
 import { Address } from "viem";
 
-import { useUserSettingContext } from "@/providers/UserSettingProvider";
+import { SupportChain } from "@/configs/chain";
 import { Token } from "@/registries/TokenRegistry";
 import { TokensService } from "@/services/TokensService";
 
+type UseTokenBalanceProps = {
+  chain: SupportChain;
+  wallet: Address;
+  token: Token;
+};
+
 export const useTokenBalance = (
-  wallet: Address,
-  token: Token,
+  props: UseTokenBalanceProps,
   options?: Partial<UseQueryOptions<string>>
 ): UseQueryResult<string> => {
-  const { selectedChain } = useUserSettingContext();
   return useQuery({
     ...options,
-    queryKey: [wallet, token],
-    queryFn: () => TokensService.getTokenBalance(selectedChain, { wallet, token })
+    queryKey: [Object.values(props)],
+    queryFn: () => TokensService.getTokenBalance(props)
   });
 };

@@ -22,13 +22,13 @@ export const UserSettingService = {
   },
 
   async updateSelectedChain(db: SQLiteDatabase, command: UpdateSelectedChainCommand): Promise<void> {
-    const { selectedChain } = command;
+    const { defaultChain } = command;
 
     try {
       const userSetting = await SqlUserSettingRepository.get(db);
       if (!userSetting) throw new CustomError("ユーザの設定情報の取得に失敗しました。");
 
-      await SqlUserSettingRepository.patch(db, { selectedChain });
+      await SqlUserSettingRepository.patch(db, { defaultChain });
     } catch (error: unknown) {
       console.error(error);
 

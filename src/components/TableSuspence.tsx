@@ -25,7 +25,7 @@ const TableSuspence = <T extends object>(props: TableSuspenceProps<T>) => {
 
   if (!rows)
     return (
-      <VStack className="flex-1 justify-center items-center pb-32 gap-2">
+      <VStack className="flex-1 justify-center items-center pb-32 gap-y-2">
         <Spinner color={theme.colors.primary[400]} size={34.3} />
         {loadingMessage && (
           <Text className="font-bold text-secondary-500 whitespace-pre text-center">{loadingMessage}</Text>

@@ -8,10 +8,15 @@ export const useTransferFee = (
   command: EstimateFeeCommand,
   options?: Partial<UseQueryOptions<FeeModel | null>>
 ): UseQueryResult<FeeModel | null> => {
-  const { selectedChain } = useUserSettingContext();
+  const { currentChain } = useUserSettingContext();
   return useQuery({
     ...options,
-    queryKey: [command.token, command.feeToken, command.amountDecimals],
-    queryFn: () => FeesService.estimateFee(selectedChain, command)
+    queryKey: [currentChain, command.token, command.feeToken, command.amountDecimals],
+    queryFn: () => FeesService.estimateFee(currentChain, command),
+    staleTime: Infinity,
+    gcTime: Infinity,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false
   });
 };

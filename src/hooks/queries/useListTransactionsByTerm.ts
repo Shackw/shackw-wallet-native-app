@@ -10,10 +10,12 @@ export const useListTransactionsByTerm = (
   options?: Partial<UseQueryOptions<TransactionModel[]>>
 ): UseQueryResult<TransactionModel[]> => {
   const db = useSQLiteContext();
-  const { selectedChain } = useUserSettingContext();
+  const { currentChain } = useUserSettingContext();
   return useQuery({
     ...options,
-    queryKey: [command.timeTo, command.token, command.wallet],
-    queryFn: () => TransactionsService.listTransactionsByTerm(db, selectedChain, command)
+    queryKey: [currentChain, command.timeFrom.toString(), command.token, command.wallet],
+    queryFn: () => TransactionsService.listTransactionsByTerm(db, currentChain, command),
+    staleTime: Infinity,
+    gcTime: Infinity
   });
 };
