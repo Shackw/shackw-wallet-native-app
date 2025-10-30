@@ -11,10 +11,7 @@ export const feesPolicyValidator = v.object(
     bps: v.number("bps must be a number."),
     cap: v.object({
       minUnit: unsignedBigintFromStringValidator("cap.minUnit"),
-      currency: v.pipe(
-        v.string("currency must be a string."),
-        v.picklist(CURRENCIES, `currency must be one of: ${CURRENCIES.join(", ")}`)
-      )
+      currency: v.picklist(CURRENCIES, `currency must be one of: ${CURRENCIES.join(", ")}`)
     })
   },
   issue => `${String(issue.expected)} is required`
