@@ -10,11 +10,11 @@ export type QuoteModel = {
   feeToken: Token;
   amount: {
     minUnits: bigint;
-    decimals: number;
+    displyValue: number;
   };
   fee: {
     minUnits: bigint;
-    decimals: number;
+    displyValue: number;
   };
   delegate: `0x${string}`;
   sponsor: `0x${string}`;

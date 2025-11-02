@@ -2,7 +2,6 @@ import { useStore } from "@tanstack/react-form";
 import { ViewProps } from "react-native";
 
 import { toAllowedStr } from "@/helpers/tokenUnits";
-import { Token } from "@/registries/TokenRegistry";
 import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { Text } from "@/vendor/gluestack-ui/text";
 import { VStack } from "@/vendor/gluestack-ui/vstack";
@@ -38,7 +37,7 @@ const TransferAmountSummary = (props: TransferAmountSummaryProps) => {
             手数料
           </Text>
           <Text size="lg" className="flex-1 font-bold text-right">
-            {fee ? `${toAllowedStr(fee.feeDecimals, feeToken as Token)} ${feeToken}` : "ー"}
+            {fee ? `${fee.feeDisplayValue} ${feeToken}` : "ー"}
           </Text>
         </HStack>
       )}

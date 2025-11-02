@@ -4,7 +4,7 @@ import { Address } from "viem";
 
 import { SupportChain } from "@/configs/chain";
 import { CustomError } from "@/exceptions";
-import { toDecimals } from "@/helpers/tokenUnits";
+import { toDisplyValue } from "@/helpers/tokenUnits";
 import { GetLastTransactionCommand, ListTransactionsByTermCommand, TransactionModel } from "@/models/transaction";
 import { ADDRESS_TO_TOKEN, TOKENS } from "@/registries/TokenRegistry";
 import { TransactionsRepository } from "@/repositories/TransactionsRepository";
@@ -99,7 +99,7 @@ function resultToModel(chain: SupportChain, wallet: Address, result: ResolvedTra
     direction,
     value: {
       minUnits: result.valueMinUnits,
-      decimals: toDecimals(result.valueMinUnits, token)
+      displyValue: toDisplyValue(result.valueMinUnits, token)
     },
     counterparty,
     transferredAt: new Date(result.transferredUnixAt * 1000)

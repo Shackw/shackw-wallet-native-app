@@ -1,18 +1,15 @@
 import * as v from "valibot";
 
-import { CURRENCIES } from "@/registries/TokenRegistry";
-
-import { unsignedBigintFromStringValidator } from "./unsignedBigintFromStringValidator";
+import { amountUnitValidator } from "./amountUnitValidator";
+import { bigintStringValidator } from "./stringBigintValidator";
 
 export const feesPolicyValidator = v.object(
   {
-    method: v.string("method must be a string."),
-    version: v.string("version must be a string."),
-    bps: v.number("bps must be a number."),
-    cap: v.object({
-      minUnit: unsignedBigintFromStringValidator("cap.minUnit"),
-      currency: v.picklist(CURRENCIES, `currency must be one of: ${CURRENCIES.join(", ")}`)
-    })
+    method: v.string("policy.method must be a string."),
+    version: v.string("policy.version must be a string."),
+    bps: bigintStringValidator("policy.bps"),
+    cap: amountUnitValidator("policy.cap"),
+    quantumUnits: bigintStringValidator("policy.quantumUnits")
   },
   issue => `${String(issue.expected)} is required`
 );

@@ -28,16 +28,16 @@ const ConfirmAmount = (props: ConfirmAmountProps) => {
         </VStack>
         <VStack className="gap-y-1">
           <Text className="font-bold text-secondary-600">手数料</Text>
-          <Text className="font-bold text-secondary-800 text-right">{`${toAllowedStr(feeDecimals, sendToken)} ${feeToken}`}</Text>
+          <Text className="font-bold text-secondary-800 text-right">{`${feeDecimals} ${feeToken}`}</Text>
         </VStack>
         <VStack className="gap-y-1">
           <Text className="font-bold text-secondary-600">合計額</Text>
           {sendToken === feeToken ? (
-            <Text className="font-bold text-secondary-800 text-right">{`${toAllowedStr(amount + feeDecimals, sendToken)} ${feeToken}`}</Text>
+            <Text className="font-bold text-secondary-800 text-right">{`${amount + feeDecimals} ${feeToken}`}</Text>
           ) : (
             <>
               <Text className="font-bold text-secondary-800 text-right">{`${toAllowedStr(amount, sendToken)} ${sendToken}`}</Text>
-              <Text className="font-bold text-secondary-800 text-right">{`+ ${toAllowedStr(feeDecimals, sendToken)} ${feeToken}`}</Text>
+              <Text className="font-bold text-secondary-800 text-right">{`+ ${feeDecimals} ${feeToken}`}</Text>
             </>
           )}
         </VStack>

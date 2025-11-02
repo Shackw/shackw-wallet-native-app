@@ -8,7 +8,7 @@ export type TransactionModel = {
   logIndex: number;
   token: Token;
   direction: "in" | "out" | "self";
-  value: { minUnits: bigint; decimals: number };
+  value: { minUnits: bigint; displyValue: number };
   counterparty: {
     address: Address;
     name?: string;

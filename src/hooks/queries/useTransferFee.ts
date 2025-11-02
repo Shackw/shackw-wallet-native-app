@@ -11,7 +11,7 @@ export const useTransferFee = (
   const { currentChain } = useUserSettingContext();
   return useQuery({
     ...options,
-    queryKey: [currentChain, command.token, command.feeToken, command.amountDecimals],
+    queryKey: [currentChain, command.token, command.feeToken, command.amountDisplayValue],
     queryFn: () => FeesService.estimateFee(currentChain, command),
     staleTime: Infinity,
     gcTime: Infinity,
