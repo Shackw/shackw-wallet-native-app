@@ -60,7 +60,7 @@ export const TransferFormProvider = ({ children }: PropsWithChildren) => {
   const fieldMeta = useStore(form.store, s => s.fieldMeta);
 
   const { data: fee } = useTransferFee(
-    { token: sendToken, feeToken, amountDecimals: amount },
+    { token: sendToken, feeToken, amountDisplayValue: amount },
     {
       enabled: !!fieldMeta.amount?.isValid && !!fieldMeta.amount?.isDirty
     }
@@ -91,7 +91,7 @@ export const TransferFormProvider = ({ children }: PropsWithChildren) => {
       };
 
     if (sendToken === feeToken) {
-      const required = amount + fee.feeDecimals;
+      const required = amount + fee.feeDisplayValue;
       if (balToken < required)
         return {
           insufficient: true,
@@ -114,7 +114,7 @@ export const TransferFormProvider = ({ children }: PropsWithChildren) => {
         message: "送金残高が不足しています。"
       };
 
-    if (balFee < fee.feeDecimals)
+    if (balFee < fee.feeDisplayValue)
       return {
         insufficient: true,
         message: "手数料通貨の残高が不足しています。"

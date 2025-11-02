@@ -4,7 +4,7 @@ import { HinomaruApiErrorBody } from "@/clients/restClient";
 import { SUPPORT_CHAINS, SupportChain } from "@/configs/chain";
 import { VIEM_PUBLIC_CLIENTS } from "@/configs/viem";
 import { ApiError, CustomError } from "@/exceptions";
-import { toDecimalsStr, toMinUnits } from "@/helpers/tokenUnits";
+import { toDisplyValueStr, toMinUnits } from "@/helpers/tokenUnits";
 import { GetTokenBalanceCommand, TransferTokenCommand } from "@/models/token";
 import { TOKEN_REGISTRY } from "@/registries/TokenRegistry";
 import { QuotesRepository } from "@/repositories/QuotesRepository";
@@ -18,7 +18,7 @@ export const TokensService = {
     const erc20Contract = TOKEN_REGISTRY[token].contract[chain];
     try {
       const balance = await erc20Contract.read.balanceOf([wallet]);
-      return toDecimalsStr(balance, token);
+      return toDisplyValueStr(balance, token);
     } catch (error: unknown) {
       console.warn(error);
 

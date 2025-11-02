@@ -54,7 +54,7 @@ export const TOKEN_REGISTRY = {
       base: ENV.BASE_USDC_TOKEN_ADDRESS
     },
     decimals: 6,
-    supportDecimals: 4,
+    supportDecimals: 3,
     baseUnit: 10n ** 6n,
     minTransferAmountUnits: 10n ** 6n,
     contract: {
@@ -72,7 +72,7 @@ export const TOKEN_REGISTRY = {
       base: ENV.BASE_EURC_TOKEN_ADDRESS
     },
     decimals: 6,
-    supportDecimals: 4,
+    supportDecimals: 3,
     baseUnit: 10n ** 6n,
     minTransferAmountUnits: 10n ** 6n,
     contract: {

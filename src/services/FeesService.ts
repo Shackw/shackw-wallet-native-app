@@ -1,13 +1,13 @@
 import { SupportChain } from "@/configs/chain";
 import { CustomError } from "@/exceptions";
-import { toMinUnits } from "@/helpers/tokenUnits";
+import { toDisplyValue, toMinUnits } from "@/helpers/tokenUnits";
 import { EstimateFeeCommand, FeeModel } from "@/models/fee";
 import { FeesRepository } from "@/repositories/FeesRepository";
 import { EstimateFeeQuery, EstimateFeeResult } from "@/repositories/FeesRepository/interface";
 
 export const FeesService = {
   async estimateFee(chain: SupportChain, command: EstimateFeeCommand): Promise<FeeModel> {
-    const { token, feeToken, amountDecimals } = command;
+    const { token, feeToken, amountDisplayValue: amountDecimals } = command;
     try {
       const query: EstimateFeeQuery = {
         chain,
@@ -15,7 +15,6 @@ export const FeesService = {
         feeToken: { symbol: feeToken },
         amountMinUnits: toMinUnits(amountDecimals, token)
       };
-      console.log(query);
 
       const fee = await FeesRepository.estimate(query);
       return responceToModel(fee);
@@ -31,15 +30,15 @@ export const FeesService = {
 };
 
 function responceToModel(responce: EstimateFeeResult): FeeModel {
-  const { token, feeToken, feeMinUnits, feeDecimals, policy } = responce;
+  const { token, feeToken, fee, policy } = responce;
   return {
     token: token.symbol,
     feeToken: feeToken.symbol,
-    feeMinUnits,
-    feeDecimals,
+    feeMinUnits: fee.minUnits,
+    feeDisplayValue: toDisplyValue(fee.minUnits, fee.symbol),
     policy: {
       bps: policy.bps,
-      cap: policy.cap.minUnit
+      cap: policy.cap.minUnits
     }
   };
 }

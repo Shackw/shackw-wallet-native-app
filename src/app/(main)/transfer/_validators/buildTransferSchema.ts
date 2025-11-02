@@ -1,6 +1,6 @@
 import * as v from "valibot";
 
-import { toDecimals } from "@/helpers/tokenUnits";
+import { toDisplyValue } from "@/helpers/tokenUnits";
 import { Token, TOKEN_REGISTRY } from "@/registries/TokenRegistry";
 import { addressFormValidator } from "@/validations/forms/addressFormValidator";
 import { feeTokenFormValidator } from "@/validations/forms/tokenFormValidator";
@@ -10,7 +10,7 @@ export type TransferFormValues = v.InferInput<ReturnType<typeof buildTransferSch
 
 const buildTransferSchema = (sendToken: Token, maxSendable: number) => {
   const fraction = TOKEN_REGISTRY[sendToken].supportDecimals;
-  const minAmount = toDecimals(TOKEN_REGISTRY[sendToken].minTransferAmountUnits, sendToken);
+  const minAmount = toDisplyValue(TOKEN_REGISTRY[sendToken].minTransferAmountUnits, sendToken);
   const amountPattern = new RegExp(`^\\d+(?:\\.\\d{1,${fraction}})?$`);
 
   return v.object({

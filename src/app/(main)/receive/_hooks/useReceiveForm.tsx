@@ -49,7 +49,7 @@ export const ReceiveFormProvider = ({ children }: PropsWithChildren) => {
   const fieldMeta = useStore(form.store, s => s.fieldMeta);
 
   const { data: fee, refetch: fetchFee } = useTransferFee(
-    { token: sendToken, feeToken, amountDecimals: amount },
+    { token: sendToken, feeToken, amountDisplayValue: amount },
     { enabled: false }
   );
 
