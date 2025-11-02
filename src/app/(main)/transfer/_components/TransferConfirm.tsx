@@ -73,7 +73,7 @@ const TransferConfirm = (props: TransferConfirmProps) => {
               feeToken={feeToken}
               feeDecimals={feeDecimals}
             />
-            {error && <ErrorText className="flex-1">{error.message}</ErrorText>}
+            {error && <ErrorText>{error.message}</ErrorText>}
           </VStack>
           <HStack className="gap-x-4">
             <SubContainButton text="戻る" size="lg" className="flex-1" onPress={componentProps.onClose} />
@@ -91,7 +91,7 @@ const TransferConfirm = (props: TransferConfirmProps) => {
       <BackDrop visible={isTransferring} />
       <AlertDialog title="送金完了" isOpen={isSuccess && componentProps.isOpen} onClose={handleCloseSuccess} size="lg">
         <VStack className="py-4 gap-y-1">
-          <InfoText className="flex-1">送金が完了しました。</InfoText>
+          <InfoText>送金が完了しました。</InfoText>
         </VStack>
       </AlertDialog>
     </>

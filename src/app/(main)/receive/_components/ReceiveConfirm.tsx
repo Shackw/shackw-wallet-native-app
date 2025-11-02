@@ -64,7 +64,7 @@ const ReceiveConfirm = (props: ReceiveConfirmProps) => {
 
       <AlertDialog title="QRコード共有の失敗" isOpen={isShowErrorDialog} onClose={setIsShowErrorDialog.off} size="lg">
         <VStack className="py-4 gap-y-2">
-          <ErrorText className="flex-1">不明なエラーによりQRコードの共有に失敗しました。</ErrorText>
+          <ErrorText>不明なエラーによりQRコードの共有に失敗しました。</ErrorText>
         </VStack>
       </AlertDialog>
     </>

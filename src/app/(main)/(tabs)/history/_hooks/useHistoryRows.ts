@@ -45,7 +45,7 @@ const useHistoryRows = (props: UseHistoryRowsProps) => {
         direction: transaction.direction,
         counterparty: transaction.counterparty,
         transferredAt: transaction.transferredAt,
-        displayValue: `${valueSign}${toAllowedStr(transaction.value.decimals, token)} ${token}`,
+        displayValue: `${valueSign}${toAllowedStr(transaction.value.displyValue, token)} ${token}`,
         anchorColor
       };
     });

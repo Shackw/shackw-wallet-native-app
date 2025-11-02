@@ -1,6 +1,6 @@
 import { useStore } from "@tanstack/react-form";
 import { useLocalSearchParams } from "expo-router";
-import { useCallback, useEffect, useRef } from "react";
+import { memo, useCallback, useEffect, useRef } from "react";
 import * as v from "valibot";
 import { Address } from "viem";
 
@@ -25,6 +25,7 @@ const TransferSearchParam = () => {
   const rawParams = useLocalSearchParams<TransferSearchParams>();
 
   const { addressToName } = useAddressesRow();
+  const [isConfirmed, setIsConfirmed] = useBoolean(false);
   const [isConfirming, setIsConfirming] = useBoolean(false);
 
   const appliedRef = useRef(false);
@@ -56,12 +57,13 @@ const TransferSearchParam = () => {
   );
 
   useEffect(() => {
-    if (appliedRef.current) return;
+    if (appliedRef.current || isConfirmed) return;
 
     setIsParsing.on();
 
     const parsed = v.safeParse(TransferSearchParamsSchema, rawParams);
     if (!parsed.success) {
+      setIsConfirmed.on();
       setIsParsing.off();
       setIsError.on();
       appliedRef.current = true;
@@ -81,13 +83,17 @@ const TransferSearchParam = () => {
 
       return () => cancelAnimationFrame(id);
     } else {
+      setIsConfirmed.on();
       setIsParsing.off();
     }
-  }, [rawParams, setIsError, setIsParsing, setSendToken, trySubmit]);
+  }, [isConfirmed, rawParams, setIsConfirmed, setIsError, setIsParsing, setSendToken, trySubmit]);
 
   useEffect(() => {
-    if (isValid && !insuff.insufficient && !!fee) setIsConfirming.on();
-  }, [fee, insuff.insufficient, isValid, setIsConfirming]);
+    if (isValid && !insuff.insufficient && !!fee && !isConfirmed) {
+      setIsConfirming.on();
+      setIsConfirmed.on();
+    }
+  }, [fee, insuff.insufficient, isConfirmed, isValid, setIsConfirmed, setIsConfirming]);
 
   return (
     <>
@@ -99,18 +105,18 @@ const TransferSearchParam = () => {
         amount={amount}
         sendToken={sendToken}
         feeToken={feeToken}
-        feeDecimals={fee?.feeDecimals ?? 0}
+        feeDecimals={fee?.feeDisplayValue ?? 0}
         webhookUrl={webhookUrl}
         componentProps={{ title: "内容確認", size: "lg", isOpen: isConfirming, onClose: setIsConfirming.off }}
       />
 
       <AlertDialog title="読み取りエラー" isOpen={isError} onClose={setIsError.off} size="lg">
         <VStack className="py-4 gap-y-1">
-          <ErrorText className="flex-1">読み込まれた情報が正しくない可能性があります。</ErrorText>
+          <ErrorText>読み込まれた情報が正しくない可能性があります。</ErrorText>
         </VStack>
       </AlertDialog>
     </>
   );
 };
 
-export default TransferSearchParam;
+export default memo(TransferSearchParam);

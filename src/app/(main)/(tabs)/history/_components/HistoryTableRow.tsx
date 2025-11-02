@@ -1,10 +1,11 @@
 import AddressMutateField from "@/components/Addresses/AddressMutateField";
 import Anchor from "@/components/Anchor";
 import { TextButton } from "@/components/Button";
-import { DEFAULT_CHAIN } from "@/configs/chain";
+import { SUPPORT_CHAINS } from "@/configs/chain";
 import { shortenAddress } from "@/helpers/address";
 import { formatIsoString } from "@/helpers/datetime";
 import { useBoolean } from "@/hooks/useBoolean";
+import { useUserSettingContext } from "@/providers/UserSettingProvider";
 import { Box } from "@/vendor/gluestack-ui/box";
 import { HStack } from "@/vendor/gluestack-ui/hstack";
 import { TableRow } from "@/vendor/gluestack-ui/table";
@@ -20,6 +21,7 @@ type HistoryTableRowProps = {
 
 const HistoryTableRow = (props: HistoryTableRowProps) => {
   const { row, refetchHistory } = props;
+  const { currentChain } = useUserSettingContext();
   const { txHash, displayValue, counterparty, anchorColor, transferredAt } = row;
 
   const [isAddingAddress, setIsAddingAddress] = useBoolean(false);
@@ -32,9 +34,9 @@ const HistoryTableRow = (props: HistoryTableRowProps) => {
           <VStack className="w-full py-1 pl-3 pr-6 gap-y-1">
             <HStack className="justify-between">
               <Text className="font-bold text-secondary-500">{formatIsoString(transferredAt)}</Text>
-              {DEFAULT_CHAIN.blockExplorers?.default ? (
+              {SUPPORT_CHAINS[currentChain].blockExplorers?.default ? (
                 <Anchor
-                  href={`${DEFAULT_CHAIN.blockExplorers.default.url}/tx/${txHash}`}
+                  href={`${SUPPORT_CHAINS[currentChain].blockExplorers.default.url}/tx/${txHash}`}
                   className="font-bold text-secondary-500"
                 >{`tx: ${shortenAddress(txHash, 5)}`}</Anchor>
               ) : (

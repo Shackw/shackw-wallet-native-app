@@ -16,7 +16,7 @@ const useAddressesRow = () => {
   const [searchText, setSearchText] = useState<string>("");
 
   const mineRow: AddressRow = useMemo(() => {
-    const mine = addresses && addresses.find(a => a.isMine);
+    const mine = addresses && addresses.find(a => a.isMine && a.address === account?.address);
 
     if (!mine) {
       return { address: account?.address ?? "0x", name: "Mine" };

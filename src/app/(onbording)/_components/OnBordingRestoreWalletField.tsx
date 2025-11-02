@@ -12,7 +12,7 @@ const OnBordingRestoreWalletField = (props: OnBordingRestoreWalletFieldProps) =>
 
   const onRestore = useCallback(
     async (pk: string) => {
-      await restoreWallet(pk);
+      await restoreWallet("Mine", pk);
     },
     [restoreWallet]
   );

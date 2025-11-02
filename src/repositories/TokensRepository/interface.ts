@@ -1,6 +1,8 @@
 import * as v from "valibot";
 import { SignAuthorizationReturnType } from "viem";
 
+import { SupportChain } from "@/configs/chain";
+
 import { TransferTokenResultSchema } from "./parser";
 
 export interface ITokensRepository {
@@ -10,6 +12,7 @@ export interface ITokensRepository {
 export type TransferTokenResult = v.InferOutput<typeof TransferTokenResultSchema>;
 
 export type TransferTokenQuery = {
+  chain: SupportChain;
   quoteToken: string;
   authorization: SignAuthorizationReturnType;
   notify?: {

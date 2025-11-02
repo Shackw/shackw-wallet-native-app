@@ -68,9 +68,7 @@ const TransferRecipientDirectForm = (props: TransferRecipientDirectFormProps) =>
               <AlertDialog title="宛先入力不正" isOpen={isShowErrorDialog} onClose={setIsShowErrorDialog.off} size="lg">
                 <VStack className="py-4 gap-y-1">
                   {field.state.meta.errors.map((error, index) => (
-                    <ErrorText key={`recipient-error-${index}`} className="flex-1">
-                      {error?.message}
-                    </ErrorText>
+                    <ErrorText key={`recipient-error-${index}`}>{error?.message}</ErrorText>
                   ))}
                 </VStack>
               </AlertDialog>

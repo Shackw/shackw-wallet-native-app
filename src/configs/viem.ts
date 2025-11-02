@@ -1,18 +1,24 @@
-import { createPublicClient, http } from "viem";
+import { Chain, createPublicClient, http, PublicClient, Transport } from "viem";
 
-import { DEFAULT_CHAIN } from "./chain";
-import { ENV } from "./env";
+import { SUPPORT_CHAINS, SupportChain } from "@/configs/chain";
 
-export const VIEM_PUBLIC_CLIENT = createPublicClient({
-  chain: DEFAULT_CHAIN,
-  transport: http(undefined, {
-    batch: {
-      wait: 15,
-      batchSize: 50
-    },
-    retryCount: 3,
-    retryDelay: 250
+import { RPC_TUNIGS } from "./rpcTuning";
+
+export const VIEM_PUBLIC_CLIENTS: Record<SupportChain, PublicClient<Transport, Chain, undefined>> = {
+  main: createPublicClient({
+    chain: SUPPORT_CHAINS.main,
+    transport: http(undefined, {
+      batch: RPC_TUNIGS.main.batch,
+      retryCount: RPC_TUNIGS.main.retryCount,
+      retryDelay: RPC_TUNIGS.main.retryDelay
+    })
+  }),
+  base: createPublicClient({
+    chain: SUPPORT_CHAINS.base,
+    transport: http(undefined, {
+      batch: RPC_TUNIGS.base.batch,
+      retryCount: RPC_TUNIGS.base.retryCount,
+      retryDelay: RPC_TUNIGS.base.retryDelay
+    })
   })
-});
-
-export const { WALLET_PRIVATE_KEY_BASE_NAME } = ENV;
+};

@@ -30,9 +30,7 @@ const ReceiveSubmitButton = (props: ReceiveSubmitButtonProps) => {
   return (
     <>
       <VStack className="px-4 pt-5 gap-y-5">
-        <InfoText size="md" className="flex-1">
-          必要項目を入力すると手数料を自動計算します。
-        </InfoText>
+        <InfoText>必要項目を入力すると手数料を自動計算します。</InfoText>
         <ContainButton
           text="QRコードを作成"
           size="lg"
@@ -48,7 +46,7 @@ const ReceiveSubmitButton = (props: ReceiveSubmitButtonProps) => {
         amount={amount}
         sendToken={sendToken}
         feeToken={feeToken}
-        feeDecimals={fee?.feeDecimals ?? 0}
+        feeDecimals={fee?.feeDisplayValue ?? 0}
         webhookUrl={webhookUrl}
         componentProps={{ title: "請求リンクの共有", size: "lg", isOpen: isSharing, onClose: setIsSharing.off }}
       />

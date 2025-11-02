@@ -3,7 +3,7 @@ import { Hex } from "viem";
 
 export const TransferTokenResultSchema = v.object(
   {
-    status: v.pipe(v.string("status must be a string."), v.picklist(["submitted"], "status must be one of: submitted")),
+    status: v.picklist(["submitted"], "status must be one of: submitted"),
     txHash: v.pipe(
       v.string("txHash must be a string."),
       v.transform(v => v as Hex)

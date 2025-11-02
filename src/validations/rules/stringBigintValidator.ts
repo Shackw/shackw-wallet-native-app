@@ -1,6 +1,6 @@
 import * as v from "valibot";
 
-export const unsignedBigintFromStringValidator = (field: string) =>
+export const bigintStringValidator = (field: string) =>
   v.pipe(
     v.string(`${field} must be a string.`),
     v.transform(s => s.trim()),

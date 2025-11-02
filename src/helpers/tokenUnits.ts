@@ -7,18 +7,19 @@ export const toMinUnits = (amount: string | number, token: Token): bigint => {
   return parseUnits(String(amount), decimals);
 };
 
-export const toDecimals = (minUnits: bigint, token: Token): number => {
+export const toDisplyValue = (minUnits: bigint, token: Token): number => {
   return Number(formatUnits(minUnits, TOKEN_REGISTRY[token].decimals));
 };
 
-export const toDecimalsStr = (minUnits: bigint, token: Token): string => {
+export const toDisplyValueStr = (minUnits: bigint, token: Token): string => {
   const { decimals } = TOKEN_REGISTRY[token];
   return formatUnits(minUnits, decimals);
 };
 
 const _truncateAllowed = (amount: number, token: Token): number => {
+  const { supportDecimals } = TOKEN_REGISTRY[token];
   if (!Number.isFinite(amount)) return amount;
-  const d = Math.max(0, TOKEN_REGISTRY[token].supportDecimals | 0);
+  const d = Math.max(0, supportDecimals | 0);
   if (d === 0) return Math.trunc(amount);
   const f = 10 ** d;
   return amount >= 0 ? Math.floor(amount * f) / f : Math.ceil(amount * f) / f;

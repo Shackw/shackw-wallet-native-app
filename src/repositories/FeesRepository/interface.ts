@@ -1,5 +1,6 @@
 import * as v from "valibot";
 
+import { SupportChain } from "@/configs/chain";
 import { Token } from "@/registries/TokenRegistry";
 
 import { EstimateFeeResultSchema } from "./parser";
@@ -11,7 +12,7 @@ export interface IFeesRepository {
 export type EstimateFeeResult = v.InferOutput<typeof EstimateFeeResultSchema>;
 
 export type EstimateFeeQuery = {
-  chainId: number;
+  chain: SupportChain;
   amountMinUnits: bigint;
   token: { symbol: Token };
   feeToken: { symbol: Token };

@@ -1,58 +1,63 @@
-import { UseQueryResult } from "@tanstack/react-query";
-import * as SecureStore from "expo-secure-store";
-import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useState } from "react";
 import * as v from "valibot";
 import { Address, createWalletClient, Hex, http, WalletClient } from "viem";
 import { Account, generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 
-import { DEFAULT_CHAIN } from "@/configs/chain";
-import { WALLET_PRIVATE_KEY_BASE_NAME } from "@/configs/viem";
-import { useCreateAddress } from "@/hooks/mutations/useCreateAddress";
-import { useLastTransaction } from "@/hooks/queries/useLastTransaction";
+import { SUPPORT_CHAINS } from "@/configs/chain";
+import { CUSTOM_RPC_URLS } from "@/configs/rpcUrls";
+import { useGetDefaultPrivateKey } from "@/hooks/mutations/useGetDefaultPrivateKey";
+import { useGetPrivateKeyByWallet } from "@/hooks/mutations/useGetPrivateKeyByWallet";
+import { useStorePrivateKey } from "@/hooks/mutations/useStorePrivateKey";
+import { useUpdateDefaultWallet } from "@/hooks/mutations/useUpdateDefaultWallet";
 import { useBoolean } from "@/hooks/useBoolean";
-import { TransactionModel } from "@/models/transaction";
-import { hex32Validator } from "@/validations/rules/addressValidator";
+import { nameFormValidator } from "@/validations/forms/nameFormValidator";
+import { hex64Validator } from "@/validations/rules/addressValidator";
+
+import { useUserSettingContext } from "./UserSettingProvider";
 
 type HinomaruWalletContextType = {
   account: Account | undefined;
   client: WalletClient | undefined;
   hasPrivateKey: boolean;
-  lastTransactionResult: UseQueryResult<TransactionModel | null | undefined>;
-  createHinomaruWallet: () => Promise<void>;
-  restoreWallet: (inputPk: string) => Promise<void>;
+  createWallet: (name: string) => Promise<void>;
+  restoreWallet: (name: string, pk: string) => Promise<void>;
+  changeWallet: (wallet: Address, isChangeDefault: boolean) => Promise<void>;
 };
 
 export const HinomaruWalletContext = createContext<HinomaruWalletContextType | undefined>(undefined);
 
-export const HinomaruWalletProvider = ({ children }: { children: ReactNode }) => {
+export const HinomaruWalletProvider = ({ children }: PropsWithChildren) => {
+  const [hasPrivateKey, setHasPrivateKey] = useBoolean(true);
   const [account, setAccount] = useState<Account | undefined>(undefined);
   const [client, setClient] = useState<WalletClient | undefined>(undefined);
-  const [hasPrivateKey, setHasPrivateKey] = useBoolean(true);
-  const { mutateAsync: createAddress } = useCreateAddress();
 
-  const lastTransactionResult = useLastTransaction(account?.address ?? "0x", {
-    retry: 0,
-    enabled: !!account?.address
-  });
+  const { currentChain } = useUserSettingContext();
+  const { mutateAsync: storePrivateKey } = useStorePrivateKey({ retry: 0 });
+  const { mutateAsync: getDefaultPrivateKey } = useGetDefaultPrivateKey({ retry: 0 });
+  const { mutateAsync: getPrivateKeyByWallet } = useGetPrivateKeyByWallet({ retry: 0 });
+  const { mutateAsync: updateDefaultWallet } = useUpdateDefaultWallet({ retry: 0 });
 
-  const connectWallet = useCallback((pk: Hex): Address => {
-    const account = privateKeyToAccount(pk);
-    const client = createWalletClient({
-      account,
-      chain: DEFAULT_CHAIN,
-      transport: http()
-    });
+  const connectWallet = useCallback(
+    (pk: Hex): Address => {
+      const account = privateKeyToAccount(pk);
+      const client = createWalletClient({
+        account,
+        chain: SUPPORT_CHAINS[currentChain],
+        transport: http(CUSTOM_RPC_URLS[currentChain])
+      });
 
-    setAccount(account);
-    setClient(client);
-    return account.address;
-  }, []);
+      setAccount({ ...account, address: account.address.toLowerCase() as Address });
+      setClient(client);
+      return account.address;
+    },
+    [currentChain]
+  );
 
   const getStoredPrivateKey = useCallback(async (): Promise<Hex | null> => {
-    const storedPk = await SecureStore.getItemAsync(WALLET_PRIVATE_KEY_BASE_NAME);
+    const storedPk = await getDefaultPrivateKey().catch(() => null);
     setHasPrivateKey.set(!!storedPk);
-    return storedPk ? (storedPk as Hex) : null;
-  }, [setHasPrivateKey]);
+    return storedPk;
+  }, [getDefaultPrivateKey, setHasPrivateKey]);
 
   const tryConnectWallet = useCallback(async () => {
     const storedPk = await getStoredPrivateKey();
@@ -62,32 +67,45 @@ export const HinomaruWalletProvider = ({ children }: { children: ReactNode }) =>
     connectWallet(storedPk);
   }, [connectWallet, getStoredPrivateKey]);
 
-  const createHinomaruWallet = useCallback(async () => {
-    const storedPk = await getStoredPrivateKey();
-    if (storedPk) throw new Error("すでに登録済みのウォレットがあります。");
+  const createWallet = useCallback(
+    async (name: string) => {
+      const validatedName = v.safeParse(nameFormValidator, name);
+      if (!validatedName.success) throw new Error(validatedName.issues[0].message);
 
-    const privateKey = generatePrivateKey();
-    setHasPrivateKey.on();
+      const privateKey = generatePrivateKey();
+      const address = connectWallet(privateKey);
 
-    const address = connectWallet(privateKey);
-    await SecureStore.setItemAsync(WALLET_PRIVATE_KEY_BASE_NAME, privateKey);
-    await createAddress({ address, name: "Mine", isMine: true });
-  }, [connectWallet, createAddress, getStoredPrivateKey, setHasPrivateKey]);
+      await storePrivateKey({ name: validatedName.output, wallet: address, privateKey });
+
+      setHasPrivateKey.on();
+    },
+    [connectWallet, storePrivateKey, setHasPrivateKey]
+  );
 
   const restoreWallet = useCallback(
-    async (inputPk: string) => {
-      const storedPk = await getStoredPrivateKey();
-      if (storedPk) throw new Error("すでに登録済みのウォレットがあります。");
+    async (name: string, pk: string) => {
+      const validatedPk = v.safeParse(hex64Validator("PK"), pk);
+      if (!validatedPk.success) throw new Error("不正なプライベートキーが入力されました。");
 
-      const validated = v.safeParse(hex32Validator("PK"), inputPk);
-      if (!validated.success) throw new Error("不正なプライベートキーが入力されました。");
+      const validatedName = v.safeParse(nameFormValidator, name);
+      if (!validatedName.success) throw new Error(validatedName.issues[0].message);
+
+      const address = connectWallet(validatedPk.output);
+      await storePrivateKey({ name: validatedName.output, wallet: address, privateKey: validatedPk.output });
+
       setHasPrivateKey.on();
-
-      const address = connectWallet(validated.output);
-      await SecureStore.setItemAsync(WALLET_PRIVATE_KEY_BASE_NAME, validated.output);
-      await createAddress({ address, name: "Mine", isMine: true });
     },
-    [connectWallet, createAddress, getStoredPrivateKey, setHasPrivateKey]
+    [connectWallet, storePrivateKey, setHasPrivateKey]
+  );
+
+  const changeWallet = useCallback(
+    async (wallet: Address, isChangeDefault: boolean) => {
+      const privateKey = await getPrivateKeyByWallet(wallet);
+      connectWallet(privateKey);
+
+      if (isChangeDefault) await updateDefaultWallet({ defaultWallet: wallet });
+    },
+    [connectWallet, getPrivateKeyByWallet, updateDefaultWallet]
   );
 
   useEffect(() => {
@@ -100,9 +118,9 @@ export const HinomaruWalletProvider = ({ children }: { children: ReactNode }) =>
         account,
         client,
         hasPrivateKey,
-        lastTransactionResult,
-        createHinomaruWallet,
-        restoreWallet
+        createWallet,
+        restoreWallet,
+        changeWallet
       }}
     >
       {children}

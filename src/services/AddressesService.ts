@@ -1,6 +1,7 @@
 import { Address } from "viem";
 
-import type { AddressModel, CreateAddressCommand, UpdateAddressCommand } from "@/models/address";
+import { CustomError } from "@/exceptions";
+import type { AddressModel, MutateAddressCommand } from "@/models/address";
 import { SqlAddressesRepository } from "@/repositories/AddressesRepository";
 
 import type { SQLiteDatabase } from "expo-sqlite";
@@ -11,36 +12,50 @@ export const AddressesService = {
       const addresses = await SqlAddressesRepository.list(db);
       return addresses;
     } catch {
-      throw new Error("アドレス一覧の取得に失敗しました");
+      throw new Error("アドレス一覧の取得に失敗しました。");
     }
   },
 
-  async createAddress(db: SQLiteDatabase, command: CreateAddressCommand): Promise<void> {
+  async listMyAddress(db: SQLiteDatabase): Promise<AddressModel[]> {
+    try {
+      const addresses = await SqlAddressesRepository.listMine(db);
+      return addresses;
+    } catch {
+      throw new Error("自分のアドレス一覧の取得に失敗しました。");
+    }
+  },
+
+  async createAddress(db: SQLiteDatabase, command: MutateAddressCommand): Promise<void> {
     const { address } = command;
     try {
       const found = await SqlAddressesRepository.get(db, address);
-      if (!!found) throw new Error("このアドレスは既に登録されています。");
+      if (!!found) throw new CustomError("このアドレスは既に登録されています。");
 
-      await SqlAddressesRepository.create(db, command);
+      await SqlAddressesRepository.create(db, { ...command, isMine: false });
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
+      if (error instanceof CustomError) throw new Error(error.message);
+
+      console.error(error);
+
       throw new Error(`不明なエラーによりアドレスの作成に失敗しました。`);
     }
   },
 
-  async updateAddress(db: SQLiteDatabase, command: UpdateAddressCommand): Promise<void> {
+  async updateAddress(db: SQLiteDatabase, command: MutateAddressCommand): Promise<void> {
     const { address } = command;
     try {
       const found = await SqlAddressesRepository.get(db, address);
-      if (!found) throw new Error("指定のアドレスは登録されていません。");
+      if (!found) throw new CustomError("指定のアドレスは登録されていません。");
+
+      if (found.isMine && found.address !== address.toLowerCase())
+        throw new CustomError("自分のアドレスを変更することはできません。");
 
       await SqlAddressesRepository.update(db, command);
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
+      if (error instanceof CustomError) throw new Error(error.message);
+
+      console.error(error);
+
       throw new Error("不明なエラーによりアドレスの更新に失敗しました。");
     }
   },
@@ -48,13 +63,16 @@ export const AddressesService = {
   async deleteAddress(db: SQLiteDatabase, address: Address): Promise<void> {
     try {
       const found = await SqlAddressesRepository.get(db, address);
-      if (!found) throw new Error("指定のアドレスは登録されていません。");
+      if (!found) throw new CustomError("指定のアドレスは登録されていません。");
+
+      if (found.isMine) throw new CustomError("自分のアドレスを削除することはできません。");
 
       await SqlAddressesRepository.delete(db, address);
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        throw new Error(error.message);
-      }
+      if (error instanceof CustomError) throw new Error(error.message);
+
+      console.error(error);
+
       throw new Error("不明なエラーによりアドレスの削除に失敗しました");
     }
   }

@@ -4,12 +4,12 @@ export type FeeModel = {
   token: Token;
   feeToken: Token;
   feeMinUnits: bigint;
-  feeDecimals: number;
-  policy: { bps: number; cap: bigint };
+  feeDisplayValue: number;
+  policy: { bps: bigint; cap: bigint };
 };
 
 export type EstimateFeeCommand = {
-  amountDecimals: number;
+  amountDisplayValue: number;
   token: Token;
   feeToken: Token;
 };

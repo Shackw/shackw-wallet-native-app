@@ -8,7 +8,7 @@ export type TransactionModel = {
   logIndex: number;
   token: Token;
   direction: "in" | "out" | "self";
-  value: { minUnits: bigint; decimals: number };
+  value: { minUnits: bigint; displyValue: number };
   counterparty: {
     address: Address;
     name?: string;
@@ -16,6 +16,13 @@ export type TransactionModel = {
   transferredAt: Date;
 };
 
-export type GetLastTransactionCommand = { wallet: Address };
+export type GetLastTransactionCommand = {
+  wallet: Address;
+};
 
-export type ListTransactionsByTermCommand = { wallet: Address; token: Token; timeFrom: Date; timeTo: Date };
+export type ListTransactionsByTermCommand = {
+  wallet: Address;
+  token: Token;
+  timeFrom: Date;
+  timeTo: Date;
+};

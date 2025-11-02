@@ -1,12 +1,11 @@
-import * as SecureStore from "expo-secure-store";
-
 import { ENV } from "@/configs/env";
-import { WALLET_PRIVATE_KEY_BASE_NAME } from "@/configs/viem";
+import { PrivateKeySecureStore } from "@/db/secureStores/PrivateKeySecureStore";
 
 export async function redirectSystemPath({ path }: { path: string }): Promise<string> {
-  const storedPk = await SecureStore.getItemAsync(WALLET_PRIVATE_KEY_BASE_NAME);
+  const privateKeySecureStore = await PrivateKeySecureStore.getInstance();
+  const storeds = privateKeySecureStore.list();
 
-  if (path.includes(ENV.HINOMARU_UNIVERSAL_LINK) && !!storedPk) {
+  if (path.includes(ENV.HINOMARU_UNIVERSAL_LINK) && storeds.length > 0) {
     try {
       const url = new URL(path);
       const p = url.pathname;

@@ -14,7 +14,7 @@ import type { SQLiteDatabase } from "expo-sqlite";
 
 export const TransactionsRepository: ITransactionsRepository = {
   async search(db: SQLiteDatabase, query: SearchTransactionQuery): Promise<ResolvedTransactionResult[]> {
-    const { timeTo, timeFrom, tokens } = query;
+    const { chain, wallet, timeTo, timeFrom, tokens } = query;
 
     if (isAfter(timeFrom, new Date())) throw new Error("timeFrom は現在時刻以前で指定する必要があります。");
 
@@ -30,9 +30,11 @@ export const TransactionsRepository: ITransactionsRepository = {
     if (!usedLocal) return await RpcTransactionsRepository.search(query);
 
     const progress = await SqlTransactionsRepository.getProgress(db, {
+      chain,
       year: toYear,
       month: toMonth,
-      token: tokens[0]
+      token: tokens[0],
+      wallet
     });
 
     if (progress?.status !== "completed") {
@@ -43,9 +45,11 @@ export const TransactionsRepository: ITransactionsRepository = {
       const searchedRemote = await RpcTransactionsRepository.search(remoteQuery);
 
       const newProgress: TransactionProgressResult = {
+        chain,
         year: toYear,
         month: toMonth,
         token: tokens[0].symbol,
+        createdBy: wallet,
         status: isEqual(timeTo, endOfMonth(timeTo)) ? "completed" : "partial",
         lastUpdatedAt: timeTo
       };

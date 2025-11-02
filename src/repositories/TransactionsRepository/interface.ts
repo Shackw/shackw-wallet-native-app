@@ -1,6 +1,7 @@
 import { SQLiteDatabase } from "expo-sqlite";
 import { Address, Hex } from "viem";
 
+import { SupportChain } from "@/configs/chain";
 import { Token } from "@/registries/TokenRegistry";
 
 export interface ITransactionsRepository {
@@ -35,23 +36,28 @@ export type ResolvedTransactionResult = TransactionResult & {
 };
 
 export type TransactionProgressResult = {
+  chain: SupportChain;
   year: number;
   month: number;
   token: Token;
+  createdBy: Address;
   status: "completed" | "partial";
   lastUpdatedAt: Date;
 };
 
 export type SearchTransactionQuery = {
+  chain: SupportChain;
   wallet: Address;
   tokens: { symbol: Token }[];
   timeFrom: Date;
   timeTo: Date;
   limit?: number;
-  direction?: "in" | "out" | "both";
+  direction: "in" | "out" | "both";
 };
 
 export type GetTransactionProgressQuery = {
+  chain: SupportChain;
+  wallet: Address;
   year: number;
   month: number;
   token: { symbol: Token };

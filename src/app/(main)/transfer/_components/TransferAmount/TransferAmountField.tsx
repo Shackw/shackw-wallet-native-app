@@ -26,7 +26,8 @@ type TransferAmountFieldProps = {
 
 const TransferAmountField = (props: TransferAmountFieldProps) => {
   const { prevValue, transferForm, componentProps } = props;
-  const { form, maxSendable, sendToken, fetchFee } = transferForm;
+
+  const { form, maxSendable, sendToken } = transferForm;
   const [isShowErrorDialog, setIsShowErrorDialog] = useBoolean(false);
 
   const TokenSymboIcon = TOKEN_REGISTRY[sendToken].Icon;
@@ -51,9 +52,8 @@ const TransferAmountField = (props: TransferAmountFieldProps) => {
       setIsShowErrorDialog.on();
       return;
     }
-    if (form.state.fieldMeta.amount.isTouched) fetchFee();
     componentProps.onClose();
-  }, [componentProps, fetchFee, form, setIsShowErrorDialog]);
+  }, [componentProps, form, setIsShowErrorDialog]);
 
   return (
     <BottomInputDrawer {...componentProps} onClose={handleClose}>
@@ -101,9 +101,7 @@ const TransferAmountField = (props: TransferAmountFieldProps) => {
               >
                 <VStack className="py-4 gap-y-1">
                   {field.state.meta.errors.map((error, index) => (
-                    <ErrorText key={`amount-error-${index}`} className="flex-1">
-                      {error?.message}
-                    </ErrorText>
+                    <ErrorText key={`amount-error-${index}`}>{error?.message}</ErrorText>
                   ))}
                 </VStack>
               </AlertDialog>

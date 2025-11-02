@@ -231,7 +231,7 @@ type IconButtonProps = {
   iconSize?: number;
   iconColor?: string;
   bgClassName?: string;
-  action?: string;
+  action?: React.ComponentProps<typeof Button>["action"];
   onPress?: () => void;
   className?: string;
   style?: ViewStyle;
