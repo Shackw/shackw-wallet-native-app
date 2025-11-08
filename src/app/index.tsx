@@ -1,7 +1,7 @@
 import { Redirect } from "expo-router";
 
-import Loading from "@/components/Loading";
-import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
+import Loading from "@/presentation/components/Loading";
+import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
 
 const AppIndex = () => {
   const { account, hasPrivateKey } = useHinomaruWalletContext();

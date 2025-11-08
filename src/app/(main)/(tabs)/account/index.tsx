@@ -1,7 +1,7 @@
 import { ScrollView } from "react-native";
 
-import { ScreenContainer } from "@/components/Container";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import { ScreenContainer } from "@/presentation/components/Container";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 
 import AccountNetworkMenu from "./_components/AccountNetworkMenu";
 import AccountPrivateMenu from "./_components/AccountPrivateMenu";

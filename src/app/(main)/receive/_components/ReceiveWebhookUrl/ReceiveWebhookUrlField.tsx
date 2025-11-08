@@ -1,14 +1,14 @@
 import { useCallback } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import { SubContainButton, ContainButton } from "@/components/Button";
-import { AlertDialog } from "@/components/Dialog";
-import { BottomInputDrawer } from "@/components/Drawer";
-import { ErrorText, InfoText } from "@/components/Text";
-import { useBoolean } from "@/hooks/useBoolean";
-import { HStack } from "@/vendor/gluestack-ui/hstack";
-import { Textarea, TextareaInput } from "@/vendor/gluestack-ui/textarea";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import { SubContainButton, ContainButton } from "@/presentation/components/Button";
+import { AlertDialog } from "@/presentation/components/Dialog";
+import { BottomInputDrawer } from "@/presentation/components/Drawer";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { Textarea, TextareaInput } from "@/presentation/components/gluestack-ui/textarea";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import { ErrorText, InfoText } from "@/presentation/components/Text";
+import { useBoolean } from "@/presentation/hooks/useBoolean";
 
 import { ReceiveFormContextType } from "../../_hooks/useReceiveForm";
 

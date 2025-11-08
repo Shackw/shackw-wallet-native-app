@@ -1,5 +1,5 @@
-import { ENV } from "@/configs/env";
-import { PrivateKeySecureStore } from "@/db/secureStores/PrivateKeySecureStore";
+import { ENV } from "@/config/env";
+import { PrivateKeySecureStore } from "@/infrastructure/secureStore/PrivateKeySecureStore";
 
 export async function redirectSystemPath({ path }: { path: string }): Promise<string> {
   const privateKeySecureStore = await PrivateKeySecureStore.getInstance();

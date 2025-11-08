@@ -2,13 +2,13 @@ import { NotepadText } from "lucide-react-native";
 import { useCallback } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import { SubContainButton, ContainButton } from "@/components/Button";
-import { AlertDialog } from "@/components/Dialog";
-import { ErrorText } from "@/components/Text";
-import { useBoolean } from "@/hooks/useBoolean";
-import { HStack } from "@/vendor/gluestack-ui/hstack";
-import { Input, InputSlot, InputIcon, InputField } from "@/vendor/gluestack-ui/input";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import { SubContainButton, ContainButton } from "@/presentation/components/Button";
+import { AlertDialog } from "@/presentation/components/Dialog";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { Input, InputSlot, InputIcon, InputField } from "@/presentation/components/gluestack-ui/input";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import { ErrorText } from "@/presentation/components/Text";
+import { useBoolean } from "@/presentation/hooks/useBoolean";
 
 import { TransferFormContextType } from "../../_hooks/useTransferForm";
 

@@ -1,10 +1,10 @@
 import * as v from "valibot";
 
-import { toDisplyValue } from "@/helpers/tokenUnits";
 import { Token, TOKEN_REGISTRY } from "@/registries/TokenRegistry";
-import { addressFormValidator } from "@/validations/forms/addressFormValidator";
-import { feeTokenFormValidator } from "@/validations/forms/tokenFormValidator";
-import { urlFormValidator } from "@/validations/forms/urlFormValidator";
+import { toDisplyValue } from "@/shared/helpers/tokenUnits";
+import { addressFormValidator } from "@/shared/validations/forms/addressFormValidator";
+import { feeTokenFormValidator } from "@/shared/validations/forms/tokenFormValidator";
+import { urlFormValidator } from "@/shared/validations/forms/urlFormValidator";
 
 export type TransferFormValues = v.InferInput<ReturnType<typeof buildTransferSchema>>;
 

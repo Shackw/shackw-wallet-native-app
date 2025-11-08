@@ -1,0 +1,22 @@
+import * as v from "valibot";
+import { Address } from "viem";
+
+import { SupportChain } from "@/config/chain";
+import { Token } from "@/registries/TokenRegistry";
+
+import { CreateQuoteResultSchema } from "../../infrastructure/parsers/CreateQuoteResultSchema";
+
+export interface IQuotesRepository {
+  create(query: CreateQuoteQuery): Promise<CreateQuoteResult>;
+}
+
+export type CreateQuoteResult = v.InferOutput<typeof CreateQuoteResultSchema>;
+
+export type CreateQuoteQuery = {
+  chain: SupportChain;
+  sender: Address;
+  recipient: Address;
+  token: { symbol: Token };
+  feeToken: { symbol: Token };
+  amountMinUnits: bigint;
+};

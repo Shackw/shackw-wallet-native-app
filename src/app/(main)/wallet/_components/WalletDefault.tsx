@@ -1,6 +1,6 @@
-import { HStack } from "@/vendor/gluestack-ui/hstack";
-import { Switch } from "@/vendor/gluestack-ui/switch";
-import { Text } from "@/vendor/gluestack-ui/text";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { Switch } from "@/presentation/components/gluestack-ui/switch";
+import { Text } from "@/presentation/components/gluestack-ui/text";
 
 import useSelectNetworkForm from "../_hooks/useSelectWalletForm";
 

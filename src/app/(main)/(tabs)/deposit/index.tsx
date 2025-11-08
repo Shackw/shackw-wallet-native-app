@@ -1,10 +1,10 @@
 import { Hammer } from "lucide-react-native";
 
-import { ScreenContainer } from "@/components/Container";
-import { HStack } from "@/vendor/gluestack-ui/hstack";
-import { Icon } from "@/vendor/gluestack-ui/icon";
-import { Text } from "@/vendor/gluestack-ui/text";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import { ScreenContainer } from "@/presentation/components/Container";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { Icon } from "@/presentation/components/gluestack-ui/icon";
+import { Text } from "@/presentation/components/gluestack-ui/text";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 
 const DepositScreen = () => {
   return (

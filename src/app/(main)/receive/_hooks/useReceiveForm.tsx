@@ -2,8 +2,8 @@ import { useForm, useStore } from "@tanstack/react-form";
 import { RefetchOptions, QueryObserverResult } from "@tanstack/react-query";
 import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from "react";
 
-import { useTransferFee } from "@/hooks/queries/useTransferFee";
-import { FeeModel } from "@/models/fee";
+import { FeeModel } from "@/domain/fee";
+import { useTransferFee } from "@/presentation/hooks/queries/useTransferFee";
 import { Token } from "@/registries/TokenRegistry";
 
 import buildReceiveSchema, { type ReceiveFormValues } from "../_validators/buildReceiveSchema";

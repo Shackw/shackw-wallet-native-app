@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import { Address } from "viem";
 
-import { shortenAddress } from "@/helpers/address";
-import { useListMyAddresses } from "@/hooks/queries/useListMyAddresses";
-import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
+import { useListMyAddresses } from "@/presentation/hooks/queries/useListMyAddresses";
+import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
+import { shortenAddress } from "@/shared/helpers/address";
 
 export type AddressOption = {
   label: string;

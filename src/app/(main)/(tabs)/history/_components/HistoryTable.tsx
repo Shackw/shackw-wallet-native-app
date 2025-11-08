@@ -1,8 +1,8 @@
 import { ScrollView } from "react-native";
 
-import TableSuspence from "@/components/TableSuspence";
+import { Table, TableBody } from "@/presentation/components/gluestack-ui/table";
+import TableSuspence from "@/presentation/components/TableSuspence";
 import { Token } from "@/registries/TokenRegistry";
-import { Table, TableBody } from "@/vendor/gluestack-ui/table";
 
 import useHistoryRows, { HistoryTerm } from "../_hooks/useHistoryRows";
 

@@ -1,10 +1,10 @@
 import { useRouter } from "expo-router";
 import { useCallback } from "react";
 
-import { shortenAddress } from "@/helpers/address";
-import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
-import { HStack } from "@/vendor/gluestack-ui/hstack";
-import { Text } from "@/vendor/gluestack-ui/text";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { Text } from "@/presentation/components/gluestack-ui/text";
+import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
+import { shortenAddress } from "@/shared/helpers/address";
 
 import AccountMenuConteiner from "../AccountMenuConteiner";
 import AccountMenuItem from "../AccountMenuItem";

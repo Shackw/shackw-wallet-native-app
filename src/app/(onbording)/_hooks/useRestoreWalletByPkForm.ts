@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 import { TextInput as RNTextInput } from "react-native";
 
-import { useBoolean } from "@/hooks/useBoolean";
+import { useBoolean } from "@/presentation/hooks/useBoolean";
 
 type UseRestoreWalletByPkFormProps = {
   onClose: () => void;

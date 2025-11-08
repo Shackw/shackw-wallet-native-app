@@ -2,20 +2,20 @@ import { useRouter } from "expo-router";
 import { useCallback } from "react";
 import { Address } from "viem";
 
-import BackDrop from "@/components/BackDrop";
-import { ContainButton, SubContainButton } from "@/components/Button";
-import ConfirmAmount from "@/components/Confirm/ConfirmAmount";
-import ConfirmRecipient from "@/components/Confirm/ConfirmRecipient";
-import { AlertDialog } from "@/components/Dialog";
-import { BottomInputDrawer } from "@/components/Drawer";
-import { ErrorText, InfoText } from "@/components/Text";
-import { useTransferToken } from "@/hooks/mutations/useTransferToken";
-import { useBoolean } from "@/hooks/useBoolean";
-import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
+import BackDrop from "@/presentation/components/BackDrop";
+import { ContainButton, SubContainButton } from "@/presentation/components/Button";
+import ConfirmAmount from "@/presentation/components/Confirm/ConfirmAmount";
+import ConfirmRecipient from "@/presentation/components/Confirm/ConfirmRecipient";
+import { AlertDialog } from "@/presentation/components/Dialog";
+import { BottomInputDrawer } from "@/presentation/components/Drawer";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { Text } from "@/presentation/components/gluestack-ui/text";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import { ErrorText, InfoText } from "@/presentation/components/Text";
+import { useTransferToken } from "@/presentation/hooks/mutations/useTransferToken";
+import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
 import { Token } from "@/registries/TokenRegistry";
-import { HStack } from "@/vendor/gluestack-ui/hstack";
-import { Text } from "@/vendor/gluestack-ui/text";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
 
 type TransferConfirmProps = {
   name: string | undefined;

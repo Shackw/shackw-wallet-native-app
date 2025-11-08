@@ -1,6 +1,6 @@
-import { ContainButton } from "@/components/Button";
-import { ErrorText, InfoText } from "@/components/Text";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import { ContainButton } from "@/presentation/components/Button";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import { ErrorText, InfoText } from "@/presentation/components/Text";
 
 import useSelectNetworkForm from "../_hooks/useSelectWalletForm";
 
