@@ -1,14 +1,18 @@
 import { memo } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import BackDrop from "@/components/BackDrop";
-import { SubContainButton, ContainButton } from "@/components/Button";
-import { AlertDialog } from "@/components/Dialog";
-import { ErrorText, InfoText } from "@/components/Text";
-import { FormControl, FormControlLabel, FormControlLabelText } from "@/vendor/gluestack-ui/form-control";
-import { HStack } from "@/vendor/gluestack-ui/hstack";
-import { Input, InputField } from "@/vendor/gluestack-ui/input";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import BackDrop from "@/presentation/components/BackDrop";
+import { SubContainButton, ContainButton } from "@/presentation/components/Button";
+import { AlertDialog } from "@/presentation/components/Dialog";
+import {
+  FormControl,
+  FormControlLabel,
+  FormControlLabelText
+} from "@/presentation/components/gluestack-ui/form-control";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { Input, InputField } from "@/presentation/components/gluestack-ui/input";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import { ErrorText, InfoText } from "@/presentation/components/Text";
 
 import useEditProfileForm from "./_hooks/useEditProfileForm";
 

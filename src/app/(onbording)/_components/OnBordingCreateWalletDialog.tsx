@@ -1,11 +1,11 @@
 import { useCallback, useState } from "react";
 
-import BackDrop from "@/components/BackDrop";
-import { ActionDialog } from "@/components/Dialog";
-import { ErrorText, InfoText } from "@/components/Text";
-import { useBoolean } from "@/hooks/useBoolean";
-import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import BackDrop from "@/presentation/components/BackDrop";
+import { ActionDialog } from "@/presentation/components/Dialog";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import { ErrorText, InfoText } from "@/presentation/components/Text";
+import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
 
 type OnBordingCreateWalletDialogProps = {
   isOpen: boolean;

@@ -1,6 +1,6 @@
-import { ContainButton, OutlineButton } from "@/components/Button";
-import { useBoolean } from "@/hooks/useBoolean";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import { ContainButton, OutlineButton } from "@/presentation/components/Button";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import { useBoolean } from "@/presentation/hooks/useBoolean";
 
 import OnBordingCreateWalletDialog from "./OnBordingCreateWalletDialog";
 import OnBordingRestoreWalletField from "./OnBordingRestoreWalletField";

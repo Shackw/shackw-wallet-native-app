@@ -1,13 +1,13 @@
 import { memo } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import BackDrop from "@/components/BackDrop";
-import { SubContainButton, ContainButton } from "@/components/Button";
-import { AlertDialog } from "@/components/Dialog";
-import { ErrorText, InfoText } from "@/components/Text";
-import { HStack } from "@/vendor/gluestack-ui/hstack";
-import { Textarea, TextareaInput } from "@/vendor/gluestack-ui/textarea";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import BackDrop from "@/presentation/components/BackDrop";
+import { SubContainButton, ContainButton } from "@/presentation/components/Button";
+import { AlertDialog } from "@/presentation/components/Dialog";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { Textarea, TextareaInput } from "@/presentation/components/gluestack-ui/textarea";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import { ErrorText, InfoText } from "@/presentation/components/Text";
 
 import useRestoreWalletByPkForm from "../_hooks/useRestoreWalletByPkForm";
 

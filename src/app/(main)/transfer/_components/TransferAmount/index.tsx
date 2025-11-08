@@ -2,11 +2,11 @@ import { useStore } from "@tanstack/react-form";
 import { useCallback, useEffect, useState } from "react";
 import { Pressable } from "react-native";
 
-import { toAllowedStr } from "@/helpers/tokenUnits";
-import { useBoolean } from "@/hooks/useBoolean";
-import { HStack } from "@/vendor/gluestack-ui/hstack";
-import { Text } from "@/vendor/gluestack-ui/text";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { Text } from "@/presentation/components/gluestack-ui/text";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { toAllowedStr } from "@/shared/helpers/tokenUnits";
 
 import useTransferForm from "../../_hooks/useTransferForm";
 

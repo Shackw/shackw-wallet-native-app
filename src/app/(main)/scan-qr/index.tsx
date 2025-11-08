@@ -3,12 +3,12 @@ import { RelativePathString, useRouter } from "expo-router";
 import { useCallback, useEffect } from "react";
 
 import { redirectSystemPath } from "@/app/+native-intent";
-import BackDrop from "@/components/BackDrop";
-import { ScreenContainer } from "@/components/Container";
-import { useBoolean } from "@/hooks/useBoolean";
-import { Box } from "@/vendor/gluestack-ui/box";
-import { Text } from "@/vendor/gluestack-ui/text";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import BackDrop from "@/presentation/components/BackDrop";
+import { ScreenContainer } from "@/presentation/components/Container";
+import { Box } from "@/presentation/components/gluestack-ui/box";
+import { Text } from "@/presentation/components/gluestack-ui/text";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import { useBoolean } from "@/presentation/hooks/useBoolean";
 
 export default function ScanQrScreen() {
   const router = useRouter();

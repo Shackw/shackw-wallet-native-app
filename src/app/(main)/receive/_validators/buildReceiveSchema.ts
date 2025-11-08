@@ -1,9 +1,9 @@
 import * as v from "valibot";
 
-import { toDisplyValue } from "@/helpers/tokenUnits";
 import { Token, TOKEN_REGISTRY } from "@/registries/TokenRegistry";
-import { feeTokenFormValidator } from "@/validations/forms/tokenFormValidator";
-import { urlFormValidator } from "@/validations/forms/urlFormValidator";
+import { toDisplyValue } from "@/shared/helpers/tokenUnits";
+import { feeTokenFormValidator } from "@/shared/validations/forms/tokenFormValidator";
+import { urlFormValidator } from "@/shared/validations/forms/urlFormValidator";
 
 export type ReceiveFormValues = v.InferInput<ReturnType<typeof buildReceiveSchema>>;
 

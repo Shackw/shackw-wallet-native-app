@@ -1,16 +1,16 @@
-import AddressMutateField from "@/components/Addresses/AddressMutateField";
-import Anchor from "@/components/Anchor";
-import { TextButton } from "@/components/Button";
-import { SUPPORT_CHAINS } from "@/configs/chain";
-import { shortenAddress } from "@/helpers/address";
-import { formatIsoString } from "@/helpers/datetime";
-import { useBoolean } from "@/hooks/useBoolean";
-import { useUserSettingContext } from "@/providers/UserSettingProvider";
-import { Box } from "@/vendor/gluestack-ui/box";
-import { HStack } from "@/vendor/gluestack-ui/hstack";
-import { TableRow } from "@/vendor/gluestack-ui/table";
-import { Text } from "@/vendor/gluestack-ui/text";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import { SUPPORT_CHAINS } from "@/config/chain";
+import AddressMutateField from "@/presentation/components/Addresses/AddressMutateField";
+import Anchor from "@/presentation/components/Anchor";
+import { TextButton } from "@/presentation/components/Button";
+import { Box } from "@/presentation/components/gluestack-ui/box";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { TableRow } from "@/presentation/components/gluestack-ui/table";
+import { Text } from "@/presentation/components/gluestack-ui/text";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { useUserSettingContext } from "@/presentation/providers/UserSettingProvider";
+import { shortenAddress } from "@/shared/helpers/address";
+import { formatIsoString } from "@/shared/helpers/datetime";
 
 import useHistoryRows, { HistoryViewModel } from "../_hooks/useHistoryRows";
 

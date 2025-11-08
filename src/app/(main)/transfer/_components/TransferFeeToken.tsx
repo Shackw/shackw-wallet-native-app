@@ -1,7 +1,6 @@
 import { ChevronDownIcon } from "lucide-react-native";
 
-import { TOKENS } from "@/registries/TokenRegistry";
-import { HStack } from "@/vendor/gluestack-ui/hstack";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import {
   Select,
   SelectTrigger,
@@ -13,8 +12,9 @@ import {
   SelectDragIndicatorWrapper,
   SelectDragIndicator,
   SelectItem
-} from "@/vendor/gluestack-ui/select";
-import { Text } from "@/vendor/gluestack-ui/text";
+} from "@/presentation/components/gluestack-ui/select";
+import { Text } from "@/presentation/components/gluestack-ui/text";
+import { TOKENS } from "@/registries/TokenRegistry";
 
 import useTransferForm from "../_hooks/useTransferForm";
 

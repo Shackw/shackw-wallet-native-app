@@ -1,12 +1,12 @@
 import { startOfMonth } from "date-fns";
 import { useState } from "react";
 
-import { ScreenContainer } from "@/components/Container";
-import { Tab } from "@/components/Tab";
-import YearMonthTermPicker from "@/components/YearMonthTermPicker";
+import { ScreenContainer } from "@/presentation/components/Container";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import { Tab } from "@/presentation/components/Tab";
+import YearMonthTermPicker from "@/presentation/components/YearMonthTermPicker";
 import { Token, TOKENS_MAP } from "@/registries/TokenRegistry";
-import { HStack } from "@/vendor/gluestack-ui/hstack";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
 
 import HistoryTable from "./_components/HistoryTable";
 

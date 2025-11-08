@@ -1,11 +1,11 @@
 import { useForm, useStore } from "@tanstack/react-form";
 import { createContext, PropsWithChildren, useContext, useMemo, useState } from "react";
 
-import { toAllowed } from "@/helpers/tokenUnits";
-import { useTransferFee } from "@/hooks/queries/useTransferFee";
-import { FeeModel } from "@/models/fee";
-import { useTokenBalanceContext } from "@/providers/TokenBalanceProvider";
+import { FeeModel } from "@/domain/fee";
+import { useTransferFee } from "@/presentation/hooks/queries/useTransferFee";
+import { useTokenBalanceContext } from "@/presentation/providers/TokenBalanceProvider";
 import { Token } from "@/registries/TokenRegistry";
+import { toAllowed } from "@/shared/helpers/tokenUnits";
 
 import buildTransferSchema, { type TransferFormValues } from "../_validators/buildTransferSchema";
 

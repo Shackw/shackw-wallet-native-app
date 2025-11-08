@@ -1,10 +1,10 @@
 import { ComponentType } from "react";
 import { Address, erc20Abi, getContract, GetContractReturnType } from "viem";
 
-import { TokenSymbolIconProps, JpycIcon, UsdcIcon, EurcIcon } from "@/components/Icons/TokenSymbolIcons";
-import { SupportChain } from "@/configs/chain";
-import { ENV } from "@/configs/env";
-import { VIEM_PUBLIC_CLIENTS } from "@/configs/viem";
+import { SupportChain } from "@/config/chain";
+import { ENV } from "@/config/env";
+import { VIEM_PUBLIC_CLIENTS } from "@/config/viem";
+import { TokenSymbolIconProps, JpycIcon, UsdcIcon, EurcIcon } from "@/presentation/components/Icons/TokenSymbolIcons";
 
 type TokenMeta = {
   symbol: string;

@@ -1,9 +1,13 @@
 /** @type {import('tailwindcss').Config} */
-const { theme } = require("./src/styles/theme");
+const { theme } = require("./src/presentation/styles/theme");
 
 module.exports = {
   darkMode: "class",
-  content: ["./App.{js,jsx,ts,tsx}", "./src/**/*.{js,jsx,ts,tsx}", "./src/vendor/gluestack-ui/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./App.{js,jsx,ts,tsx}",
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./src/presentation/components/gluestack-ui/**/*.{js,jsx,ts,tsx}"
+  ],
   presets: [require("nativewind/preset")],
   theme: {
     extend: {

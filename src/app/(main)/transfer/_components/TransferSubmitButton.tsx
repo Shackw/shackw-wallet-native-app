@@ -1,12 +1,12 @@
 import { useStore } from "@tanstack/react-form";
 import { Address } from "viem";
 
-import { ContainButton } from "@/components/Button";
-import { ErrorText, InfoText } from "@/components/Text";
-import useAddressesRow from "@/hooks/useAddressesRow";
-import { useBoolean } from "@/hooks/useBoolean";
+import { ContainButton } from "@/presentation/components/Button";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import { ErrorText, InfoText } from "@/presentation/components/Text";
+import useAddressesRow from "@/presentation/hooks/useAddressesRow";
+import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { Token } from "@/registries/TokenRegistry";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
 
 import useTransferForm from "../_hooks/useTransferForm";
 

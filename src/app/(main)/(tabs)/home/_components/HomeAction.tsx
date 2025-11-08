@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { Linking } from "react-native";
 
-import { ContainButton } from "@/components/Button";
-import { Text } from "@/vendor/gluestack-ui/text";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import { ContainButton } from "@/presentation/components/Button";
+import { Text } from "@/presentation/components/gluestack-ui/text";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 
 const HomeAction = () => {
   // TODO 購入・償還ページへのリンク差し替え

@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
 
-import { Box } from "@/vendor/gluestack-ui/box";
-import { Text } from "@/vendor/gluestack-ui/text";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import { Box } from "@/presentation/components/gluestack-ui/box";
+import { Text } from "@/presentation/components/gluestack-ui/text";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 
 type AccountMenuConteinerProps = { title: string; children: ReactNode };
 

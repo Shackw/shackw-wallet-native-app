@@ -2,17 +2,17 @@ import { useCallback } from "react";
 import { Pressable } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import { SubContainButton, ContainButton } from "@/components/Button";
-import { AlertDialog } from "@/components/Dialog";
-import { BottomInputDrawer } from "@/components/Drawer";
-import { ErrorText } from "@/components/Text";
-import { useBoolean } from "@/hooks/useBoolean";
+import { SubContainButton, ContainButton } from "@/presentation/components/Button";
+import { AlertDialog } from "@/presentation/components/Dialog";
+import { BottomInputDrawer } from "@/presentation/components/Drawer";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { Input, InputField, InputSlot } from "@/presentation/components/gluestack-ui/input";
+import { Text } from "@/presentation/components/gluestack-ui/text";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import { ErrorText } from "@/presentation/components/Text";
+import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { theme } from "@/presentation/styles/theme";
 import { TOKEN_REGISTRY } from "@/registries/TokenRegistry";
-import { theme } from "@/styles/theme";
-import { HStack } from "@/vendor/gluestack-ui/hstack";
-import { Input, InputField, InputSlot } from "@/vendor/gluestack-ui/input";
-import { Text } from "@/vendor/gluestack-ui/text";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
 
 import { TransferFormContextType } from "../../_hooks/useTransferForm";
 

@@ -1,12 +1,12 @@
 import React from "react";
 
-import { shortenAddress } from "@/helpers/address";
-import useAddressesRow from "@/hooks/useAddressesRow";
-import { AddressModel } from "@/models/address";
-import { Avatar, AvatarFallbackText } from "@/vendor/gluestack-ui/avatar";
-import { HStack } from "@/vendor/gluestack-ui/hstack";
-import { Text } from "@/vendor/gluestack-ui/text";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import { AddressModel } from "@/domain/address";
+import { Avatar, AvatarFallbackText } from "@/presentation/components/gluestack-ui/avatar";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { Text } from "@/presentation/components/gluestack-ui/text";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import useAddressesRow from "@/presentation/hooks/useAddressesRow";
+import { shortenAddress } from "@/shared/helpers/address";
 
 import AddressesMineMenu from "./AddressesMineMenu";
 

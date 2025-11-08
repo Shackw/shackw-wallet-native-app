@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
 
-import { theme } from "@/styles/theme";
-import { Spinner } from "@/vendor/gluestack-ui/spinner";
-import { Text } from "@/vendor/gluestack-ui/text";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import { Spinner } from "@/presentation/components/gluestack-ui/spinner";
+import { Text } from "@/presentation/components/gluestack-ui/text";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import { theme } from "@/presentation/styles/theme";
 
 import useMyAddressOptions, { type AddressOption } from "../_hooks/useMyAddressOptions";
 

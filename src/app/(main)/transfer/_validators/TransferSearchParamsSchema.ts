@@ -1,8 +1,8 @@
 import * as v from "valibot";
 
-import { addressFormValidator } from "@/validations/forms/addressFormValidator";
-import { feeTokenFormValidator } from "@/validations/forms/tokenFormValidator";
-import { urlFormValidator } from "@/validations/forms/urlFormValidator";
+import { addressFormValidator } from "@/shared/validations/forms/addressFormValidator";
+import { feeTokenFormValidator } from "@/shared/validations/forms/tokenFormValidator";
+import { urlFormValidator } from "@/shared/validations/forms/urlFormValidator";
 
 export type TransferSearchParams = v.InferInput<typeof TransferSearchParamsSchema>;
 

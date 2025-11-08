@@ -3,13 +3,13 @@ import { Copy, EllipsisVertical, QrCode, SquarePen } from "lucide-react-native";
 import { useCallback } from "react";
 import { Address } from "viem";
 
-import AddressesDisplayQR from "@/components/Addresses/AddressesDisplayQR";
-import { IconButton } from "@/components/Button";
-import useAddressesRow from "@/hooks/useAddressesRow";
-import { useBoolean } from "@/hooks/useBoolean";
-import { theme } from "@/styles/theme";
-import { Icon } from "@/vendor/gluestack-ui/icon";
-import { Menu, MenuItem, MenuItemLabel } from "@/vendor/gluestack-ui/menu";
+import AddressesDisplayQR from "@/presentation/components/Addresses/AddressesDisplayQR";
+import { IconButton } from "@/presentation/components/Button";
+import { Icon } from "@/presentation/components/gluestack-ui/icon";
+import { Menu, MenuItem, MenuItemLabel } from "@/presentation/components/gluestack-ui/menu";
+import useAddressesRow from "@/presentation/hooks/useAddressesRow";
+import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { theme } from "@/presentation/styles/theme";
 
 import AddressesMineEditField from "./AddressesMineEditField";
 

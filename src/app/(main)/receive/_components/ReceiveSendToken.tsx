@@ -1,6 +1,6 @@
-import { Tab } from "@/components/Tab";
+import { Box } from "@/presentation/components/gluestack-ui/box";
+import { Tab } from "@/presentation/components/Tab";
 import { TOKENS_MAP } from "@/registries/TokenRegistry";
-import { Box } from "@/vendor/gluestack-ui/box";
 
 import useReceiveForm from "../_hooks/useReceiveForm";
 
