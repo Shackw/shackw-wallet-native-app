@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { Address } from "viem";
 
-import { BottomInputDrawer } from "@/components/Drawer";
-import { useUpdateAddress } from "@/hooks/mutations/useUpdateAddress";
-import useAddressesRow from "@/hooks/useAddressesRow";
+import { BottomInputDrawer } from "@/presentation/components/Drawer";
+import { useUpdateAddress } from "@/presentation/hooks/mutations/useUpdateAddress";
+import useAddressesRow from "@/presentation/hooks/useAddressesRow";
 
 import AddressesMineEditForm from "./AddressesMineEditForm";
 

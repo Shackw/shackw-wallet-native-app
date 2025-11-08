@@ -1,16 +1,16 @@
 import { useRef, useCallback } from "react";
 import { Address } from "viem";
 
-import { ContainButton, SubContainButton } from "@/components/Button";
-import ConfirmAmount from "@/components/Confirm/ConfirmAmount";
-import { AlertDialog } from "@/components/Dialog";
-import { BottomInputDrawer } from "@/components/Drawer";
-import QRCode, { QRCodeHandle } from "@/components/QRCode";
-import { ErrorText } from "@/components/Text";
-import { useBoolean } from "@/hooks/useBoolean";
+import { ContainButton, SubContainButton } from "@/presentation/components/Button";
+import ConfirmAmount from "@/presentation/components/Confirm/ConfirmAmount";
+import { AlertDialog } from "@/presentation/components/Dialog";
+import { BottomInputDrawer } from "@/presentation/components/Drawer";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import QRCode, { QRCodeHandle } from "@/presentation/components/QRCode";
+import { ErrorText } from "@/presentation/components/Text";
+import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { Token } from "@/registries/TokenRegistry";
-import { HStack } from "@/vendor/gluestack-ui/hstack";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
 
 type ReceiveConfirmProps = {
   recipient: Address;

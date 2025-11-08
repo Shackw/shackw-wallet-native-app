@@ -2,9 +2,9 @@ import { useState, useRef, useCallback } from "react";
 import { TextInput as RNTextInput } from "react-native";
 import * as v from "valibot";
 
-import { normalizeNameInput } from "@/helpers/normalize";
-import { useBoolean } from "@/hooks/useBoolean";
-import { nameFormValidator } from "@/validations/forms/nameFormValidator";
+import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { normalizeNameInput } from "@/shared/helpers/normalize";
+import { nameFormValidator } from "@/shared/validations/forms/nameFormValidator";
 
 type UseEditProfileFormProps = {
   initName: string;

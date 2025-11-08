@@ -1,6 +1,6 @@
-import { useLastTransactionContext } from "@/providers/LastTransactionProvider";
-import { HStack } from "@/vendor/gluestack-ui/hstack";
-import { Text } from "@/vendor/gluestack-ui/text";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { Text } from "@/presentation/components/gluestack-ui/text";
+import { useLastTransactionContext } from "@/presentation/providers/LastTransactionProvider";
 
 import useLastTransactionElement from "../_hooks/useLastTransactionElement";
 

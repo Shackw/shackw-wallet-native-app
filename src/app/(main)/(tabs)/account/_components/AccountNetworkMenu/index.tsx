@@ -1,10 +1,10 @@
 import { useRouter } from "expo-router";
 import { useCallback } from "react";
 
-import { SUPPORT_CHAIN_KEYS_MAP } from "@/configs/chain";
-import { useUserSettingContext } from "@/providers/UserSettingProvider";
-import { HStack } from "@/vendor/gluestack-ui/hstack";
-import { Text } from "@/vendor/gluestack-ui/text";
+import { SUPPORT_CHAIN_KEYS_MAP } from "@/config/chain";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { Text } from "@/presentation/components/gluestack-ui/text";
+import { useUserSettingContext } from "@/presentation/providers/UserSettingProvider";
 
 import AccountMenuConteiner from "../AccountMenuConteiner";
 import AccountMenuItem from "../AccountMenuItem";

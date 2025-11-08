@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 
-import { toAllowedStr } from "@/helpers/tokenUnits";
-import { useListTransactionsByTerm } from "@/hooks/queries/useListTransactionsByTerm";
-import { TransactionModel } from "@/models/transaction";
-import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
+import { TransactionModel } from "@/domain/transaction";
+import { useListTransactionsByTerm } from "@/presentation/hooks/queries/useListTransactionsByTerm";
+import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
 import { Token } from "@/registries/TokenRegistry";
+import { toAllowedStr } from "@/shared/helpers/tokenUnits";
 
 export type HistoryViewModel = Pick<
   TransactionModel,

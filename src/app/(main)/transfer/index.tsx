@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 
-import { ScreenContainer } from "@/components/Container";
-import Loading from "@/components/Loading";
-import { useTokenBalanceContext } from "@/providers/TokenBalanceProvider";
-import { Box } from "@/vendor/gluestack-ui/box";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import { ScreenContainer } from "@/presentation/components/Container";
+import { Box } from "@/presentation/components/gluestack-ui/box";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import Loading from "@/presentation/components/Loading";
+import { useTokenBalanceContext } from "@/presentation/providers/TokenBalanceProvider";
 
 import TransferAmount from "./_components/TransferAmount";
 import TransferFeeToken from "./_components/TransferFeeToken";

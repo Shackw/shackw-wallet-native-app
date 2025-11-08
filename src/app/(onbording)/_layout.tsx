@@ -1,7 +1,7 @@
 import { Redirect, Slot } from "expo-router";
 import { StatusBar } from "react-native";
 
-import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
+import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
 
 const OnbordingLayout = () => {
   const { account, hasPrivateKey } = useHinomaruWalletContext();

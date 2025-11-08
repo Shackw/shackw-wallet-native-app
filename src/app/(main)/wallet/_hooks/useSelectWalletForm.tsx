@@ -2,9 +2,9 @@ import { useRouter } from "expo-router";
 import { createContext, ReactNode, useCallback, useContext, useState } from "react";
 import { Address } from "viem";
 
-import { useBoolean } from "@/hooks/useBoolean";
-import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
-import { useUserSettingContext } from "@/providers/UserSettingProvider";
+import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
+import { useUserSettingContext } from "@/presentation/providers/UserSettingProvider";
 
 import { AddressOption } from "./useMyAddressOptions";
 

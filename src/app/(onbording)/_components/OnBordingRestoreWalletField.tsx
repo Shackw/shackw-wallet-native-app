@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 
-import { BottomInputDrawer } from "@/components/Drawer";
-import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
+import { BottomInputDrawer } from "@/presentation/components/Drawer";
+import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
 
 import OnBordingInputPkForm from "./OnBordingInputPkForm";
 

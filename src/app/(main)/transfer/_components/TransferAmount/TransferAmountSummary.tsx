@@ -1,10 +1,10 @@
 import { useStore } from "@tanstack/react-form";
 import { ViewProps } from "react-native";
 
-import { toAllowedStr } from "@/helpers/tokenUnits";
-import { HStack } from "@/vendor/gluestack-ui/hstack";
-import { Text } from "@/vendor/gluestack-ui/text";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { Text } from "@/presentation/components/gluestack-ui/text";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import { toAllowedStr } from "@/shared/helpers/tokenUnits";
 
 import { TransferFormContextType } from "../../_hooks/useTransferForm";
 

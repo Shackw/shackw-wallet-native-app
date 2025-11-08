@@ -4,14 +4,14 @@ import * as SplashScreen from "expo-splash-screen";
 import { SQLiteProvider } from "expo-sqlite";
 import { useEffect, useState } from "react";
 
-import Loading from "@/components/Loading";
-import { migrate } from "@/db";
-import { useFonts } from "@/hooks/useFonts";
-import { HinomaruWalletProvider } from "@/providers/HinomaruWalletProvider";
-import { UserSettingProvider } from "@/providers/UserSettingProvider";
-import { GluestackUIProvider } from "@/vendor/gluestack-ui/gluestack-ui-provider";
+import { migrate } from "@/infrastructure/db";
+import { GluestackUIProvider } from "@/presentation/components/gluestack-ui/gluestack-ui-provider";
+import Loading from "@/presentation/components/Loading";
+import { useFonts } from "@/presentation/hooks/useFonts";
+import { HinomaruWalletProvider } from "@/presentation/providers/HinomaruWalletProvider";
+import { UserSettingProvider } from "@/presentation/providers/UserSettingProvider";
 
-import "@/styles/global.css";
+import "@/presentation/styles/global.css";
 
 SplashScreen.preventAutoHideAsync();
 

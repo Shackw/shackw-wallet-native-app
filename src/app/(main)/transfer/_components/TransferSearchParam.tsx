@@ -4,13 +4,13 @@ import { memo, useCallback, useEffect, useRef } from "react";
 import * as v from "valibot";
 import { Address } from "viem";
 
-import BackDrop from "@/components/BackDrop";
-import { AlertDialog } from "@/components/Dialog";
-import { ErrorText } from "@/components/Text";
-import useAddressesRow from "@/hooks/useAddressesRow";
-import { useBoolean } from "@/hooks/useBoolean";
+import BackDrop from "@/presentation/components/BackDrop";
+import { AlertDialog } from "@/presentation/components/Dialog";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import { ErrorText } from "@/presentation/components/Text";
+import useAddressesRow from "@/presentation/hooks/useAddressesRow";
+import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { Token } from "@/registries/TokenRegistry";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
 
 import useTransferForm from "../_hooks/useTransferForm";
 import TransferSearchParamsSchema, {

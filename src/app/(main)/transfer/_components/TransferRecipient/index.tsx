@@ -3,12 +3,12 @@ import { useCallback, useState } from "react";
 import { Pressable } from "react-native";
 import { Address } from "viem";
 
-import { shortenAddress } from "@/helpers/address";
-import useAddressesRow from "@/hooks/useAddressesRow";
-import { useBoolean } from "@/hooks/useBoolean";
-import { HStack } from "@/vendor/gluestack-ui/hstack";
-import { Text } from "@/vendor/gluestack-ui/text";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { Text } from "@/presentation/components/gluestack-ui/text";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import useAddressesRow from "@/presentation/hooks/useAddressesRow";
+import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { shortenAddress } from "@/shared/helpers/address";
 
 import useTransferForm from "../../_hooks/useTransferForm";
 

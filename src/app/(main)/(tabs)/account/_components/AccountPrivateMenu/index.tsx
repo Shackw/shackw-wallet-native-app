@@ -1,4 +1,4 @@
-import { Text } from "@/vendor/gluestack-ui/text";
+import { Text } from "@/presentation/components/gluestack-ui/text";
 
 import AccountMenuConteiner from "../AccountMenuConteiner";
 import AccountMenuItem from "../AccountMenuItem";

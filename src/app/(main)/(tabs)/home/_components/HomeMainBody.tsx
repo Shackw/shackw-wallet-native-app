@@ -1,9 +1,9 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 
-import { theme } from "@/styles/theme";
-import { Box } from "@/vendor/gluestack-ui/box";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import { Box } from "@/presentation/components/gluestack-ui/box";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import { theme } from "@/presentation/styles/theme";
 
 const HomeMainBody = ({ children }: { children: React.ReactNode }) => {
   return (

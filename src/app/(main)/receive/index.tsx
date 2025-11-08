@@ -1,8 +1,8 @@
-import BackDrop from "@/components/BackDrop";
-import { ScreenContainer } from "@/components/Container";
-import { useHinomaruWalletContext } from "@/providers/HinomaruWalletProvider";
-import { Box } from "@/vendor/gluestack-ui/box";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import BackDrop from "@/presentation/components/BackDrop";
+import { ScreenContainer } from "@/presentation/components/Container";
+import { Box } from "@/presentation/components/gluestack-ui/box";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
 
 import ReceiveAmount from "./_components/ReceiveAmount";
 import ReceiveFeeToken from "./_components/ReceiveFeeToken";

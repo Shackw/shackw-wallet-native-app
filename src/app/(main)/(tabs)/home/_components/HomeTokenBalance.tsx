@@ -1,14 +1,14 @@
 import { RefreshCcw } from "lucide-react-native";
 
-import { IconButton } from "@/components/Button";
-import { toAllowedStr } from "@/helpers/tokenUnits";
-import { useTokenBalanceContext } from "@/providers/TokenBalanceProvider";
+import { IconButton } from "@/presentation/components/Button";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { Spinner } from "@/presentation/components/gluestack-ui/spinner";
+import { Text } from "@/presentation/components/gluestack-ui/text";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import { useTokenBalanceContext } from "@/presentation/providers/TokenBalanceProvider";
+import { theme } from "@/presentation/styles/theme";
 import { Token, TOKEN_REGISTRY } from "@/registries/TokenRegistry";
-import { theme } from "@/styles/theme";
-import { HStack } from "@/vendor/gluestack-ui/hstack";
-import { Spinner } from "@/vendor/gluestack-ui/spinner";
-import { Text } from "@/vendor/gluestack-ui/text";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import { toAllowedStr } from "@/shared/helpers/tokenUnits";
 
 type HomeTokenBalanceProps = { token: Token };
 

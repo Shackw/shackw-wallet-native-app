@@ -2,14 +2,14 @@ import { useCallback } from "react";
 import { Pressable, ScrollView } from "react-native";
 import { Address } from "viem";
 
-import Searcher from "@/components/Searcher";
-import TableSuspence from "@/components/TableSuspence";
-import useAddressesRow from "@/hooks/useAddressesRow";
-import { Avatar, AvatarFallbackText } from "@/vendor/gluestack-ui/avatar";
-import { HStack } from "@/vendor/gluestack-ui/hstack";
-import { Table, TableBody, TableRow } from "@/vendor/gluestack-ui/table";
-import { Text } from "@/vendor/gluestack-ui/text";
-import { VStack } from "@/vendor/gluestack-ui/vstack";
+import { Avatar, AvatarFallbackText } from "@/presentation/components/gluestack-ui/avatar";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { Table, TableBody, TableRow } from "@/presentation/components/gluestack-ui/table";
+import { Text } from "@/presentation/components/gluestack-ui/text";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import Searcher from "@/presentation/components/Searcher";
+import TableSuspence from "@/presentation/components/TableSuspence";
+import useAddressesRow from "@/presentation/hooks/useAddressesRow";
 
 import { TransferFormContextType } from "../../_hooks/useTransferForm";
 

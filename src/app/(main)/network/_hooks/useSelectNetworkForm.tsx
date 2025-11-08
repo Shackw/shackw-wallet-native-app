@@ -1,10 +1,10 @@
 import { useRouter } from "expo-router";
 import { createContext, PropsWithChildren, useCallback, useContext, useState } from "react";
 
-import { SupportChain } from "@/configs/chain";
-import { useUpdateSelectedChain } from "@/hooks/mutations/useUpdateSelectedChain";
-import { useBoolean } from "@/hooks/useBoolean";
-import { useUserSettingContext } from "@/providers/UserSettingProvider";
+import { SupportChain } from "@/config/chain";
+import { useUpdateSelectedChain } from "@/presentation/hooks/mutations/useUpdateSelectedChain";
+import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { useUserSettingContext } from "@/presentation/providers/UserSettingProvider";
 
 const useSelectNetworkFormProvider = () => {
   const router = useRouter();

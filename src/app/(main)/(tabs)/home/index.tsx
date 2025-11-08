@@ -2,11 +2,11 @@ import { useRouter } from "expo-router";
 import { Scan } from "lucide-react-native";
 import { useCallback, useState } from "react";
 
-import { ScreenContainer } from "@/components/Container";
-import { Tab } from "@/components/Tab";
+import { ScreenContainer } from "@/presentation/components/Container";
+import { Divider } from "@/presentation/components/gluestack-ui/divider";
+import { Fab, FabIcon } from "@/presentation/components/gluestack-ui/fab";
+import { Tab } from "@/presentation/components/Tab";
 import { Token, TOKENS_MAP } from "@/registries/TokenRegistry";
-import { Divider } from "@/vendor/gluestack-ui/divider";
-import { Fab, FabIcon } from "@/vendor/gluestack-ui/fab";
 
 import HomeAction from "./_components/HomeAction";
 import HomeLastTransactionAt from "./_components/HomeLastTransaction";

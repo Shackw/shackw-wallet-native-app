@@ -2,7 +2,7 @@ import { ChevronDownIcon } from "lucide-react-native";
 import { useCallback } from "react";
 import { Address } from "viem";
 
-import { HStack } from "@/vendor/gluestack-ui/hstack";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import {
   Select,
   SelectTrigger,
@@ -14,8 +14,8 @@ import {
   SelectDragIndicatorWrapper,
   SelectDragIndicator,
   SelectItem
-} from "@/vendor/gluestack-ui/select";
-import { Text } from "@/vendor/gluestack-ui/text";
+} from "@/presentation/components/gluestack-ui/select";
+import { Text } from "@/presentation/components/gluestack-ui/text";
 
 import { AddressOption } from "../_hooks/useMyAddressOptions";
 import useSelectNetworkForm from "../_hooks/useSelectWalletForm";

@@ -4,11 +4,11 @@
     "slug": "hinomaru-wallet",
     "version": "0.1.0",
     "orientation": "portrait",
-    "icon": "./src/assets/images/icon.png",
+    "icon": "./src/presentation/assets/images/icon.png",
     "scheme": "com.ficklewolf.hinomaruwallet",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./src/assets/images/splash.png",
+      "image": "./src/presentation/assets/images/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -35,7 +35,7 @@
       ],
       "edgeToEdgeEnabled": true,
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/images/adaptive-icon.png",
+        "foregroundImage": "./src/presentation/assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
     },

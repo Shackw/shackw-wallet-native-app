@@ -1,9 +1,9 @@
 import { Stack } from "expo-router";
 import { StatusBar } from "react-native";
 
-import { RootContainer } from "@/components/Container";
-import { LastTransactionProvider } from "@/providers/LastTransactionProvider";
-import { TokenBalanceProvider } from "@/providers/TokenBalanceProvider";
+import { RootContainer } from "@/presentation/components/Container";
+import { LastTransactionProvider } from "@/presentation/providers/LastTransactionProvider";
+import { TokenBalanceProvider } from "@/presentation/providers/TokenBalanceProvider";
 
 const MainLayout = () => {
   return (

@@ -3,10 +3,10 @@ import { RefreshCcw } from "lucide-react-native";
 import React, { useCallback, useMemo } from "react";
 import { Pressable, View } from "react-native";
 
-import { formatIsoString } from "@/helpers/datetime";
-import { TransactionModel } from "@/models/transaction";
-import { theme } from "@/styles/theme";
-import { Spinner } from "@/vendor/gluestack-ui/spinner";
+import { TransactionModel } from "@/domain/transaction";
+import { Spinner } from "@/presentation/components/gluestack-ui/spinner";
+import { theme } from "@/presentation/styles/theme";
+import { formatIsoString } from "@/shared/helpers/datetime";
 
 type LastTransactionElementProps = {
   element: React.ReactNode;
