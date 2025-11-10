@@ -1,12 +1,10 @@
-import { SQLiteDatabase } from "expo-sqlite";
-
 import type { SupportChain } from "@/config/chain";
 
 import type { Address } from "viem";
 
 export interface IUserSettingRepository {
-  get(db: SQLiteDatabase): Promise<UserSettingResult | null>;
-  patch(db: SQLiteDatabase, query: PatchUserSettingQuery): Promise<void>;
+  get(): Promise<UserSettingResult | null>;
+  patch(query: PatchUserSettingQuery): Promise<void>;
 }
 
 export type UserSettingResult = {

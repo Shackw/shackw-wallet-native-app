@@ -1,8 +1,8 @@
 import { ENV } from "@/config/env";
-import { PrivateKeySecureStore } from "@/infrastructure/secureStore/PrivateKeySecureStore";
+import { SecureStorePrivateKeyRepository } from "@/infrastructure/secureStore/SecureStorePrivateKeyRepository";
 
 export async function redirectSystemPath({ path }: { path: string }): Promise<string> {
-  const privateKeySecureStore = await PrivateKeySecureStore.getInstance();
+  const privateKeySecureStore = await SecureStorePrivateKeyRepository.getInstance();
   const storeds = privateKeySecureStore.list();
 
   if (path.includes(ENV.HINOMARU_UNIVERSAL_LINK) && storeds.length > 0) {

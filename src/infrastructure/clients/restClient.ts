@@ -24,6 +24,8 @@ export type HinomaruApiErrorBody = {
   timestamp: Date;
 };
 
+export type RestClient = ReturnType<typeof createRestClient>;
+
 const bigintReplacer = (_: string, v: unknown) => (typeof v === "bigint" ? v.toString() : v);
 
 function withQuery(url: string, query?: RequestOptions["query"]) {

@@ -1,17 +1,16 @@
-import { SQLiteDatabase } from "expo-sqlite";
 import { Address, Hex } from "viem";
 
 import { StorePrivateKeyCommand } from "@/domain/privateKey";
-import { PrivateKeySecureStore } from "@/infrastructure/secureStore/PrivateKeySecureStore";
-import { SqlAddressesRepository } from "@/infrastructure/sql/SqlAddressesRepository";
-import { SqlUserSettingRepository } from "@/infrastructure/sql/SqlUserSettingRepository";
 import { CustomError } from "@/shared/exceptions";
 
+import { IAddressesRepository } from "../ports/IAddressesRepository";
+import { IPrivateKeyRepository } from "../ports/IPrivateKeyRepository";
+import { IUserSettingRepository } from "../ports/IUserSettingRepository";
+
 export const PrivateKeysService = {
-  async getPrivateKeyByWallet(db: SQLiteDatabase, wallet: Address): Promise<Hex> {
-    const privateKeySecureStore = await PrivateKeySecureStore.getInstance();
+  async getPrivateKeyByWallet(privateKeyRepository: IPrivateKeyRepository, wallet: Address): Promise<Hex> {
     try {
-      const stored = privateKeySecureStore.get(wallet);
+      const stored = privateKeyRepository.get(wallet);
       if (!stored) throw new CustomError("指定されたウォレットに紐づくプライベートキーがありません。");
 
       return stored.privateKey;
@@ -24,24 +23,27 @@ export const PrivateKeysService = {
     }
   },
 
-  async getDefaultPrivateKey(db: SQLiteDatabase): Promise<Hex | null> {
-    const privateKeySecureStore = await PrivateKeySecureStore.getInstance();
+  async getDefaultPrivateKey(
+    addressesRepository: IAddressesRepository,
+    userSettingRepository: IUserSettingRepository,
+    privateKeyRepository: IPrivateKeyRepository
+  ): Promise<Hex | null> {
     try {
-      const userSetting = await SqlUserSettingRepository.get(db);
+      const userSetting = await userSettingRepository.get();
       if (!userSetting) throw new CustomError("ユーザの設定情報の取得に失敗しました。");
 
       const defaultWallet = await (async () => {
         const defaultWalletBySetting = userSetting.defaultWallet;
         if (!!defaultWalletBySetting) return defaultWalletBySetting;
 
-        const myAddresses = await SqlAddressesRepository.listMine(db);
+        const myAddresses = await addressesRepository.listMine();
         if (myAddresses.length === 0) return null;
         return myAddresses[0].address;
       })();
 
       if (!defaultWallet) return null;
 
-      const pk = privateKeySecureStore.get(defaultWallet.toLowerCase());
+      const pk = privateKeyRepository.get(defaultWallet.toLowerCase());
       if (!pk) return null;
 
       return pk.privateKey;
@@ -54,22 +56,25 @@ export const PrivateKeysService = {
     }
   },
 
-  async storePrivateKey(db: SQLiteDatabase, command: StorePrivateKeyCommand): Promise<void> {
+  async storePrivateKey(
+    addressesRepository: IAddressesRepository,
+    userSettingRepository: IUserSettingRepository,
+    privateKeyRepository: IPrivateKeyRepository,
+    command: StorePrivateKeyCommand
+  ): Promise<void> {
     const { name, wallet, privateKey } = command;
-
-    const privateKeySecureStore = await PrivateKeySecureStore.getInstance();
     try {
-      const stored = privateKeySecureStore.get(wallet);
+      const stored = privateKeyRepository.get(wallet);
       if (!!stored) throw new CustomError("このプライベートキーは既に登録されています。");
 
-      await privateKeySecureStore.upsert({ wallet, privateKey, createdAt: new Date().getTime() });
+      await privateKeyRepository.upsert({ wallet, privateKey, createdAt: new Date().getTime() });
 
-      const found = await SqlAddressesRepository.get(db, wallet);
+      const found = await addressesRepository.get(wallet);
       if (!!found) return;
 
-      await SqlAddressesRepository.create(db, { name, address: wallet, isMine: true });
+      await addressesRepository.create({ name, address: wallet, isMine: true });
 
-      await SqlUserSettingRepository.patch(db, { defaultWallet: wallet });
+      await userSettingRepository.patch({ defaultWallet: wallet });
     } catch (error: unknown) {
       console.error(error);
 

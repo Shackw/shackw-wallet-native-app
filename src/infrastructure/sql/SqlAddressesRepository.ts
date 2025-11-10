@@ -12,9 +12,15 @@ import type {
 } from "../../application/ports/IAddressesRepository";
 import type { SQLiteDatabase } from "expo-sqlite";
 
-export const SqlAddressesRepository: IAddressesRepository = {
-  async get(db: SQLiteDatabase, address: Address): Promise<AddressesResult | null> {
-    const stmt = await db.prepareAsync(`
+export class SqlAddressesRepository implements IAddressesRepository {
+  private db: SQLiteDatabase;
+
+  constructor(db: SQLiteDatabase) {
+    this.db = db;
+  }
+
+  async get(address: Address): Promise<AddressesResult | null> {
+    const stmt = await this.db.prepareAsync(`
       SELECT *
       FROM addresses
       WHERE address = $address
@@ -27,10 +33,10 @@ export const SqlAddressesRepository: IAddressesRepository = {
     } finally {
       await stmt.finalizeAsync();
     }
-  },
+  }
 
-  async list(db: SQLiteDatabase): Promise<AddressesResult[]> {
-    const stmt = await db.prepareAsync(`
+  async list(): Promise<AddressesResult[]> {
+    const stmt = await this.db.prepareAsync(`
       SELECT *
       FROM addresses
       ORDER BY
@@ -45,10 +51,10 @@ export const SqlAddressesRepository: IAddressesRepository = {
     } finally {
       await stmt.finalizeAsync();
     }
-  },
+  }
 
-  async listMine(db: SQLiteDatabase): Promise<AddressesResult[]> {
-    const stmt = await db.prepareAsync(`
+  async listMine(): Promise<AddressesResult[]> {
+    const stmt = await this.db.prepareAsync(`
       SELECT *
       FROM addresses
       WHERE is_mine = 1
@@ -63,11 +69,11 @@ export const SqlAddressesRepository: IAddressesRepository = {
     } finally {
       await stmt.finalizeAsync();
     }
-  },
+  }
 
-  async create(db: SQLiteDatabase, query: CreateAddressQuery): Promise<void> {
+  async create(query: CreateAddressQuery): Promise<void> {
     const { address, name, isMine } = query;
-    const stmt = await db.prepareAsync(`
+    const stmt = await this.db.prepareAsync(`
       INSERT INTO addresses(address, name, is_mine)
       VALUES ($address, $name, $isMine)
     `);
@@ -76,11 +82,11 @@ export const SqlAddressesRepository: IAddressesRepository = {
     } finally {
       await stmt.finalizeAsync();
     }
-  },
+  }
 
-  async update(db: SQLiteDatabase, query: UpdateAddressQuery): Promise<void> {
+  async update(query: UpdateAddressQuery): Promise<void> {
     const { address, name } = query;
-    const stmt = await db.prepareAsync(`
+    const stmt = await this.db.prepareAsync(`
       UPDATE addresses
       SET name = $name, updated_at = strftime('%s','now')
       WHERE address = $address
@@ -90,10 +96,10 @@ export const SqlAddressesRepository: IAddressesRepository = {
     } finally {
       await stmt.finalizeAsync();
     }
-  },
+  }
 
-  async delete(db: SQLiteDatabase, address: Address): Promise<void> {
-    const stmt = await db.prepareAsync(`
+  async delete(address: Address): Promise<void> {
+    const stmt = await this.db.prepareAsync(`
       DELETE FROM addresses
       WHERE address = $address
     `);
@@ -103,4 +109,4 @@ export const SqlAddressesRepository: IAddressesRepository = {
       await stmt.finalizeAsync();
     }
   }
-};
+}

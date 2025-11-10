@@ -3,7 +3,7 @@ import * as v from "valibot";
 import { SupportChain } from "@/config/chain";
 import { Token } from "@/registries/TokenRegistry";
 
-import { EstimateFeeResultSchema } from "../../infrastructure/parsers/EstimateFeeResultSchema";
+import { EstimateFeeResultSchema } from "../../infrastructure/parsers/HttpFeeResultSchema";
 
 export interface IFeesRepository {
   estimate(query: EstimateFeeQuery): Promise<EstimateFeeResult>;

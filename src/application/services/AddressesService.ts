@@ -1,37 +1,36 @@
 import { Address } from "viem";
 
 import type { AddressModel, MutateAddressCommand } from "@/domain/address";
-import { SqlAddressesRepository } from "@/infrastructure/sql/SqlAddressesRepository";
 import { CustomError } from "@/shared/exceptions";
 
-import type { SQLiteDatabase } from "expo-sqlite";
+import { IAddressesRepository } from "../ports/IAddressesRepository";
 
 export const AddressesService = {
-  async listAddress(db: SQLiteDatabase): Promise<AddressModel[]> {
+  async listAddress(addressesRepository: IAddressesRepository): Promise<AddressModel[]> {
     try {
-      const addresses = await SqlAddressesRepository.list(db);
+      const addresses = await addressesRepository.list();
       return addresses;
     } catch {
       throw new Error("アドレス一覧の取得に失敗しました。");
     }
   },
 
-  async listMyAddress(db: SQLiteDatabase): Promise<AddressModel[]> {
+  async listMyAddress(addressesRepository: IAddressesRepository): Promise<AddressModel[]> {
     try {
-      const addresses = await SqlAddressesRepository.listMine(db);
+      const addresses = await addressesRepository.listMine();
       return addresses;
     } catch {
       throw new Error("自分のアドレス一覧の取得に失敗しました。");
     }
   },
 
-  async createAddress(db: SQLiteDatabase, command: MutateAddressCommand): Promise<void> {
+  async createAddress(addressesRepository: IAddressesRepository, command: MutateAddressCommand): Promise<void> {
     const { address } = command;
     try {
-      const found = await SqlAddressesRepository.get(db, address);
+      const found = await addressesRepository.get(address);
       if (!!found) throw new CustomError("このアドレスは既に登録されています。");
 
-      await SqlAddressesRepository.create(db, { ...command, isMine: false });
+      await addressesRepository.create({ ...command, isMine: false });
     } catch (error: unknown) {
       if (error instanceof CustomError) throw new Error(error.message);
 
@@ -41,16 +40,16 @@ export const AddressesService = {
     }
   },
 
-  async updateAddress(db: SQLiteDatabase, command: MutateAddressCommand): Promise<void> {
+  async updateAddress(addressesRepository: IAddressesRepository, command: MutateAddressCommand): Promise<void> {
     const { address } = command;
     try {
-      const found = await SqlAddressesRepository.get(db, address);
+      const found = await addressesRepository.get(address);
       if (!found) throw new CustomError("指定のアドレスは登録されていません。");
 
       if (found.isMine && found.address !== address.toLowerCase())
         throw new CustomError("自分のアドレスを変更することはできません。");
 
-      await SqlAddressesRepository.update(db, command);
+      await addressesRepository.update(command);
     } catch (error: unknown) {
       if (error instanceof CustomError) throw new Error(error.message);
 
@@ -60,14 +59,14 @@ export const AddressesService = {
     }
   },
 
-  async deleteAddress(db: SQLiteDatabase, address: Address): Promise<void> {
+  async deleteAddress(addressesRepository: IAddressesRepository, address: Address): Promise<void> {
     try {
-      const found = await SqlAddressesRepository.get(db, address);
+      const found = await addressesRepository.get(address);
       if (!found) throw new CustomError("指定のアドレスは登録されていません。");
 
       if (found.isMine) throw new CustomError("自分のアドレスを削除することはできません。");
 
-      await SqlAddressesRepository.delete(db, address);
+      await addressesRepository.delete(address);
     } catch (error: unknown) {
       if (error instanceof CustomError) throw new Error(error.message);
 
