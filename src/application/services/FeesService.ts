@@ -1,12 +1,15 @@
-import { EstimateFeeQuery, EstimateFeeResult } from "@/application/ports/IFeesRepository";
+import { EstimateFeeQuery, EstimateFeeResult, IFeesRepository } from "@/application/ports/IFeesRepository";
 import { SupportChain } from "@/config/chain";
 import { EstimateFeeCommand, FeeModel } from "@/domain/fee";
-import { HttpFeesRepository } from "@/infrastructure/http/HttpFeesRepository";
 import { CustomError } from "@/shared/exceptions";
 import { toDisplyValue, toMinUnits } from "@/shared/helpers/tokenUnits";
 
 export const FeesService = {
-  async estimateFee(chain: SupportChain, command: EstimateFeeCommand): Promise<FeeModel> {
+  async estimateFee(
+    chain: SupportChain,
+    command: EstimateFeeCommand,
+    feesRepository: IFeesRepository
+  ): Promise<FeeModel> {
     const { token, feeToken, amountDisplayValue: amountDecimals } = command;
     try {
       const query: EstimateFeeQuery = {
@@ -16,7 +19,7 @@ export const FeesService = {
         amountMinUnits: toMinUnits(amountDecimals, token)
       };
 
-      const fee = await HttpFeesRepository.estimate(query);
+      const fee = await feesRepository.estimate(query);
       return responceToModel(fee);
     } catch (error: unknown) {
       console.error(error);

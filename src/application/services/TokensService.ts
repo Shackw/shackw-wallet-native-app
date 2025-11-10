@@ -1,13 +1,11 @@
 import { Hex } from "viem";
 
-import { CreateQuoteQuery } from "@/application/ports/IQuotesRepository";
-import { TransferTokenQuery } from "@/application/ports/ITokensRepository";
+import { CreateQuoteQuery, IQuotesRepository } from "@/application/ports/IQuotesRepository";
+import { ITokensRepository, TransferTokenQuery } from "@/application/ports/ITokensRepository";
 import { SUPPORT_CHAINS, SupportChain } from "@/config/chain";
 import { VIEM_PUBLIC_CLIENTS } from "@/config/viem";
 import { GetTokenBalanceCommand, TransferTokenCommand } from "@/domain/token";
 import { HinomaruApiErrorBody } from "@/infrastructure/clients/restClient";
-import { HttpQuotesRepository } from "@/infrastructure/http/HttpQuotesRepository";
-import { HttpTokensRepository } from "@/infrastructure/http/HttpTokensRepository";
 import { TOKEN_REGISTRY } from "@/registries/TokenRegistry";
 import { ApiError, CustomError } from "@/shared/exceptions";
 import { toDisplyValueStr, toMinUnits } from "@/shared/helpers/tokenUnits";
@@ -28,7 +26,12 @@ export const TokensService = {
     }
   },
 
-  async transferToken(chain: SupportChain, command: TransferTokenCommand): Promise<Hex> {
+  async transferToken(
+    chain: SupportChain,
+    command: TransferTokenCommand,
+    quotesRepository: IQuotesRepository,
+    tokenRepository: ITokensRepository
+  ): Promise<Hex> {
     const { account, client, token, feeToken, recipient, amountDecimals, webhookUrl } = command;
 
     const createQuoteQuery: CreateQuoteQuery = {
@@ -45,7 +48,7 @@ export const TokensService = {
     };
     try {
       const publicClient = VIEM_PUBLIC_CLIENTS[chain];
-      const { delegate, quoteToken } = await HttpQuotesRepository.create(createQuoteQuery);
+      const { delegate, quoteToken } = await quotesRepository.create(createQuoteQuery);
 
       const nonce = await publicClient.getTransactionCount({
         address: account.address,
@@ -72,7 +75,7 @@ export const TokensService = {
             }
           : undefined
       };
-      const { txHash } = await HttpTokensRepository.transfer(transferTokenQuery);
+      const { txHash } = await tokenRepository.transfer(transferTokenQuery);
 
       return txHash;
     } catch (error: unknown) {

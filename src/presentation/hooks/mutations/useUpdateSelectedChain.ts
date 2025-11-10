@@ -3,14 +3,19 @@ import { useSQLiteContext } from "expo-sqlite";
 
 import { UserSettingService } from "@/application/services/UserSettingService";
 import type { UpdateSelectedChainCommand } from "@/domain/userSetting";
+import { SqlUserSettingRepository } from "@/infrastructure/sql/SqlUserSettingRepository";
 
 export const useUpdateSelectedChain = (
   options?: UseMutationOptions<void, Error, UpdateSelectedChainCommand, unknown>
 ): UseMutationResult<void, Error, UpdateSelectedChainCommand, unknown> => {
   const db = useSQLiteContext();
+
   return useMutation<void, Error, UpdateSelectedChainCommand>({
     ...options,
     mutationKey: ["UpdateSelectedChain"],
-    mutationFn: command => UserSettingService.updateSelectedChain(db, command)
+    mutationFn: command => {
+      const userSettingRepository = new SqlUserSettingRepository(db);
+      return UserSettingService.updateSelectedChain(userSettingRepository, command);
+    }
   });
 };

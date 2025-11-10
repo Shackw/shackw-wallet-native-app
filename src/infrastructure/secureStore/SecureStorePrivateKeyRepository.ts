@@ -1,30 +1,24 @@
 import * as SecureStore from "expo-secure-store";
-import { Address, Hex } from "viem";
 
+import { IPrivateKeyRepository, PrivateKeyResult } from "@/application/ports/IPrivateKeyRepository";
 import { ENV } from "@/config/env";
-
-type PrivateKeySecureStoreValue = {
-  wallet: Address;
-  privateKey: Hex;
-  createdAt: number;
-};
 
 const STORAGE_KEY = ENV.WALLET_PRIVATE_KEY_BASE_NAME;
 
-export class PrivateKeySecureStore {
-  private static instance: PrivateKeySecureStore | null = null;
-  private static ready: Promise<PrivateKeySecureStore> | null = null;
+export class SecureStorePrivateKeyRepository implements IPrivateKeyRepository {
+  private static instance: IPrivateKeyRepository | null = null;
+  private static ready: Promise<IPrivateKeyRepository> | null = null;
 
-  private items: PrivateKeySecureStoreValue[] = [];
+  private items: PrivateKeyResult[] = [];
 
   private constructor() {}
 
-  static async getInstance(): Promise<PrivateKeySecureStore> {
+  static async getInstance(): Promise<IPrivateKeyRepository> {
     if (this.instance) return this.instance;
 
     if (!this.ready) {
       this.ready = (async () => {
-        const inst = new PrivateKeySecureStore();
+        const inst = new SecureStorePrivateKeyRepository();
         await inst.load();
         this.instance = inst;
         return inst;
@@ -42,7 +36,7 @@ export class PrivateKeySecureStore {
         return;
       }
       const parsed = JSON.parse(stored) as unknown;
-      this.items = Array.isArray(parsed) ? (parsed as PrivateKeySecureStoreValue[]) : [];
+      this.items = Array.isArray(parsed) ? (parsed as PrivateKeyResult[]) : [];
     } catch (e) {
       console.warn("PrivateKeySecureStore: failed to load, fallback to empty.", e);
       this.items = [];
@@ -54,16 +48,16 @@ export class PrivateKeySecureStore {
   }
 
   // ---- CRUD ----
-  list(): PrivateKeySecureStoreValue[] {
+  list(): PrivateKeyResult[] {
     return [...this.items];
   }
 
-  get(wallet: string): PrivateKeySecureStoreValue | undefined {
+  get(wallet: string): PrivateKeyResult | undefined {
     const key = wallet.toLowerCase();
     return this.items.find(it => it.wallet.toLowerCase() === key);
   }
 
-  async upsert(entry: PrivateKeySecureStoreValue): Promise<void> {
+  async upsert(entry: PrivateKeyResult): Promise<void> {
     const key = entry.wallet.toLowerCase();
     const idx = this.items.findIndex(it => it.wallet.toLowerCase() === key);
     if (idx >= 0) this.items[idx] = entry;

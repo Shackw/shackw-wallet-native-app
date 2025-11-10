@@ -4,7 +4,7 @@ import { Address } from "viem";
 import { SupportChain } from "@/config/chain";
 import { Token } from "@/registries/TokenRegistry";
 
-import { CreateQuoteResultSchema } from "../../infrastructure/parsers/CreateQuoteResultSchema";
+import { CreateQuoteResultSchema } from "../../infrastructure/parsers/HttpQuoteResultSchema";
 
 export interface IQuotesRepository {
   create(query: CreateQuoteQuery): Promise<CreateQuoteResult>;
