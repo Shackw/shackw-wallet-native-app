@@ -1,6 +1,6 @@
 import * as v from "valibot";
 
-import { hinomaruRestClient, RestClient } from "@/infrastructure/clients/restClient";
+import { shackwRestClient, RestClient } from "@/infrastructure/clients/restClient";
 
 import { EstimateFeeResultSchema } from "../parsers/HttpFeeResultSchema";
 
@@ -11,7 +11,7 @@ export class HttpFeesRepository implements IFeesRepository {
   private client: RestClient;
 
   constructor() {
-    this.client = hinomaruRestClient;
+    this.client = shackwRestClient;
   }
 
   async estimate(query: EstimateFeeQuery): Promise<EstimateFeeResult> {

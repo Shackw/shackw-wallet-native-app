@@ -5,7 +5,7 @@ import { ActionDialog } from "@/presentation/components/Dialog";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText, InfoText } from "@/presentation/components/Text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
-import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
+import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 
 type OnBordingCreateWalletDialogProps = {
   isOpen: boolean;
@@ -14,7 +14,7 @@ type OnBordingCreateWalletDialogProps = {
 
 const OnBordingCreateWalletDialog = (props: OnBordingCreateWalletDialogProps) => {
   const { isOpen, handleClose } = props;
-  const { createWallet } = useHinomaruWalletContext();
+  const { createWallet } = useShackwWalletContext();
 
   const [isCreating, setIsCreating] = useBoolean(false);
   const [error, setError] = useState<string | undefined>(undefined);

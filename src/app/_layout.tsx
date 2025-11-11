@@ -8,7 +8,7 @@ import { migrate } from "@/infrastructure/db";
 import { GluestackUIProvider } from "@/presentation/components/gluestack-ui/gluestack-ui-provider";
 import Loading from "@/presentation/components/Loading";
 import { useFonts } from "@/presentation/hooks/useFonts";
-import { HinomaruWalletProvider } from "@/presentation/providers/HinomaruWalletProvider";
+import { ShackwWalletProvider } from "@/presentation/providers/ShackwWalletProvider";
 import { UserSettingProvider } from "@/presentation/providers/UserSettingProvider";
 
 import "@/presentation/styles/global.css";
@@ -26,10 +26,10 @@ const RootLayout = () => {
   if (!fontsLoaded) return <Loading />;
 
   return (
-    <SQLiteProvider databaseName="hinomaru-wallet.db" onInit={migrate}>
+    <SQLiteProvider databaseName="shackw-wallet.db" onInit={migrate}>
       <QueryClientProvider client={queryClient}>
         <UserSettingProvider>
-          <HinomaruWalletProvider>
+          <ShackwWalletProvider>
             <GluestackUIProvider>
               <Stack
                 screenOptions={{
@@ -38,7 +38,7 @@ const RootLayout = () => {
                 }}
               />
             </GluestackUIProvider>
-          </HinomaruWalletProvider>
+          </ShackwWalletProvider>
         </UserSettingProvider>
       </QueryClientProvider>
     </SQLiteProvider>

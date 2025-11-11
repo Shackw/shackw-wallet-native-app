@@ -26,7 +26,7 @@ const QRCode = forwardRef<QRCodeHandle, QRCodeProps>((props, ref) => {
   const qrRef = useRef<Svg>(null);
 
   const value = useMemo(() => {
-    const url = new URL(path, `${ENV.HINOMARU_UNIVERSAL_LINK}/wallet`);
+    const url = new URL(path, `${ENV.SHACKW_UNIVERSAL_LINK}/wallet`);
     for (const [key, v] of Object.entries(query)) if (!!v) url.searchParams.set(key, String(v));
 
     return url.toString();

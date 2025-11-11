@@ -1,11 +1,11 @@
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Spinner } from "@/presentation/components/gluestack-ui/spinner";
 import { Text } from "@/presentation/components/gluestack-ui/text";
-import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
+import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 import { shortenAddress } from "@/shared/helpers/address";
 
 const AppBarDefaultBody = () => {
-  const { account } = useHinomaruWalletContext();
+  const { account } = useShackwWalletContext();
   const accountAddress = account?.address;
 
   return (

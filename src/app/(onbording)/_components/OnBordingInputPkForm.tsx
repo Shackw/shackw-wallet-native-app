@@ -39,7 +39,7 @@ const OnBordingInputPkForm = (props: OnBordingInputPkFormProps) => {
                 onBlur={handleBlur}
               />
             </Textarea>
-            <InfoText>HINOMARU WALLET以外で作成された秘密鍵を使用して復元することが可能です。</InfoText>
+            <InfoText>SHACKW WALLET以外で作成された秘密鍵を使用して復元することが可能です。</InfoText>
           </VStack>
 
           <HStack className="gap-x-4">

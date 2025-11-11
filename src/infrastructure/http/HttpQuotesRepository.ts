@@ -1,6 +1,6 @@
 import * as v from "valibot";
 
-import { hinomaruRestClient, RestClient } from "@/infrastructure/clients/restClient";
+import { shackwRestClient, RestClient } from "@/infrastructure/clients/restClient";
 
 import { CreateQuoteResultSchema } from "../parsers/HttpQuoteResultSchema";
 
@@ -11,7 +11,7 @@ export class HttpQuotesRepository implements IQuotesRepository {
   private client: RestClient;
 
   constructor() {
-    this.client = hinomaruRestClient;
+    this.client = shackwRestClient;
   }
 
   async create(query: CreateQuoteQuery): Promise<CreateQuoteResult> {

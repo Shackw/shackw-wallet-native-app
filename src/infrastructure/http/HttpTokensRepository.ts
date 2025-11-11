@@ -1,6 +1,6 @@
 import * as v from "valibot";
 
-import { hinomaruRestClient, RestClient } from "@/infrastructure/clients/restClient";
+import { shackwRestClient, RestClient } from "@/infrastructure/clients/restClient";
 
 import { TransferTokenResultSchema } from "../parsers/HttpTokenResultSchema";
 
@@ -15,7 +15,7 @@ export class HttpTokensRepository implements ITokensRepository {
   private client: RestClient;
 
   constructor() {
-    this.client = hinomaruRestClient;
+    this.client = shackwRestClient;
   }
 
   async transfer(query: TransferTokenQuery): Promise<TransferTokenResult> {

@@ -18,7 +18,7 @@ export type RequestOptions = {
   idempotencyKey?: string;
 };
 
-export type HinomaruApiErrorBody = {
+export type ShackwApiErrorBody = {
   statusCode: number;
   errors: { code: string; message: string }[];
   timestamp: Date;
@@ -148,8 +148,8 @@ export function createRestClient(cfg: RestClientConfig = {}) {
   };
 }
 
-export const hinomaruRestClient = createRestClient({
-  baseURL: ENV.HINOMARU_API_URL,
+export const shackwRestClient = createRestClient({
+  baseURL: ENV.SHACKW_API_URL,
   timeoutMs: 15_000
 });
 
