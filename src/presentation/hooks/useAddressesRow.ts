@@ -3,13 +3,14 @@ import { TextInput as RNTextInput } from "react-native";
 
 import { AddressModel } from "@/domain/address";
 import { useListAddresses } from "@/presentation/hooks/queries/useListAddresses";
-import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
+
+import { useShackwWalletContext } from "../providers/ShackwWalletProvider";
 
 export type AddressRow = Pick<AddressModel, "address" | "name">;
 export type AddressRows = AddressRow[] | undefined;
 
 const useAddressesRow = () => {
-  const { account } = useHinomaruWalletContext();
+  const { account } = useShackwWalletContext();
   const { data: addresses, ...rest } = useListAddresses();
 
   const searchTextRef = useRef<RNTextInput | null>(null);

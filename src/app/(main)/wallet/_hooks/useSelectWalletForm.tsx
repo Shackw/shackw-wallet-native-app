@@ -3,14 +3,14 @@ import { createContext, ReactNode, useCallback, useContext, useState } from "rea
 import { Address } from "viem";
 
 import { useBoolean } from "@/presentation/hooks/useBoolean";
-import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
+import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 import { useUserSettingContext } from "@/presentation/providers/UserSettingProvider";
 
 import { AddressOption } from "./useMyAddressOptions";
 
 const useSelectWalletFormProvider = (initialValue: AddressOption) => {
   const router = useRouter();
-  const { changeWallet } = useHinomaruWalletContext();
+  const { changeWallet } = useShackwWalletContext();
   const { defaultWallet, refetch } = useUserSettingContext();
 
   const [inputWallet, setInputWallet] = useState<Address>(initialValue.value);

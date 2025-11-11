@@ -5,7 +5,7 @@ export async function redirectSystemPath({ path }: { path: string }): Promise<st
   const privateKeySecureStore = await SecureStorePrivateKeyRepository.getInstance();
   const storeds = privateKeySecureStore.list();
 
-  if (path.includes(ENV.HINOMARU_UNIVERSAL_LINK) && storeds.length > 0) {
+  if (path.includes(ENV.SHACKW_UNIVERSAL_LINK) && storeds.length > 0) {
     try {
       const url = new URL(path);
       const p = url.pathname;

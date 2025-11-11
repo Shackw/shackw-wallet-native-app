@@ -5,11 +5,11 @@ import { useCallback } from "react";
 
 import { IconButton } from "@/presentation/components/Button";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
-import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
+import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 
 const AppBarDefaultActions = () => {
   const router = useRouter();
-  const { account } = useHinomaruWalletContext();
+  const { account } = useShackwWalletContext();
 
   const handleForwardAddresses = useCallback(() => {
     router.push("/addresses");

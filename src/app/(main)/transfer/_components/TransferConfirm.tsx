@@ -14,7 +14,7 @@ import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText, InfoText } from "@/presentation/components/Text";
 import { useTransferToken } from "@/presentation/hooks/mutations/useTransferToken";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
-import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
+import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 import { Token } from "@/registries/TokenRegistry";
 
 type TransferConfirmProps = {
@@ -32,7 +32,7 @@ const TransferConfirm = (props: TransferConfirmProps) => {
   const { name, recipient, amount, sendToken, feeToken, feeDecimals, webhookUrl, componentProps } = props;
 
   const router = useRouter();
-  const { account, client } = useHinomaruWalletContext();
+  const { account, client } = useShackwWalletContext();
   const [isTransferring, setIsTransferring] = useBoolean(false);
 
   const { mutate, error, isSuccess } = useTransferToken({ onSettled: setIsTransferring.off });

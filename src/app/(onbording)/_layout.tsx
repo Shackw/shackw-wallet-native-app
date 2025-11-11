@@ -1,10 +1,10 @@
 import { Redirect, Slot } from "expo-router";
 import { StatusBar } from "react-native";
 
-import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
+import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 
 const OnbordingLayout = () => {
-  const { account, hasPrivateKey } = useHinomaruWalletContext();
+  const { account, hasPrivateKey } = useShackwWalletContext();
   const hasWallet = !!account && !!hasPrivateKey;
 
   if (hasWallet) return <Redirect href="/(main)/(tabs)" />;

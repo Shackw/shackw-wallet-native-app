@@ -5,7 +5,7 @@ import { ITokensRepository, TransferTokenQuery } from "@/application/ports/IToke
 import { SUPPORT_CHAINS, SupportChain } from "@/config/chain";
 import { VIEM_PUBLIC_CLIENTS } from "@/config/viem";
 import { GetTokenBalanceCommand, TransferTokenCommand } from "@/domain/token";
-import { HinomaruApiErrorBody } from "@/infrastructure/clients/restClient";
+import { ShackwApiErrorBody } from "@/infrastructure/clients/restClient";
 import { TOKEN_REGISTRY } from "@/registries/TokenRegistry";
 import { ApiError, CustomError } from "@/shared/exceptions";
 import { toDisplyValueStr, toMinUnits } from "@/shared/helpers/tokenUnits";
@@ -83,7 +83,7 @@ export const TokensService = {
 
       let mes = "送金処理中に不明なエラーが発生しました。";
       if (error instanceof ApiError) {
-        const body = error.body as HinomaruApiErrorBody;
+        const body = error.body as ShackwApiErrorBody;
         const code = body.errors[0].code;
 
         if (code === "BAD_REQUEST") mes = "リクエスト内容が不正です。";

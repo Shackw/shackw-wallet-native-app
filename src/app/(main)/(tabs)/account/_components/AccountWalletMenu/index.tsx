@@ -3,7 +3,7 @@ import { useCallback } from "react";
 
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Text } from "@/presentation/components/gluestack-ui/text";
-import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
+import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 import { shortenAddress } from "@/shared/helpers/address";
 
 import AccountMenuConteiner from "../AccountMenuConteiner";
@@ -11,7 +11,7 @@ import AccountMenuItem from "../AccountMenuItem";
 
 const AccountWalletMenu = () => {
   const router = useRouter();
-  const { account } = useHinomaruWalletContext();
+  const { account } = useShackwWalletContext();
 
   const handleChangeWallet = useCallback(() => {
     router.push("/wallet");

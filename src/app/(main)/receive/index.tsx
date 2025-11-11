@@ -2,7 +2,7 @@ import BackDrop from "@/presentation/components/BackDrop";
 import { ScreenContainer } from "@/presentation/components/Container";
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
-import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
+import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 
 import ReceiveAmount from "./_components/ReceiveAmount";
 import ReceiveFeeToken from "./_components/ReceiveFeeToken";
@@ -12,7 +12,7 @@ import ReceiveWebhookUrl from "./_components/ReceiveWebhookUrl";
 import { ReceiveFormProvider } from "./_hooks/useReceiveForm";
 
 const ReceiveScreen = () => {
-  const { account } = useHinomaruWalletContext();
+  const { account } = useShackwWalletContext();
 
   if (!account) return <BackDrop visible />;
 
