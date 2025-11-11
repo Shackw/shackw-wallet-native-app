@@ -1,10 +1,10 @@
 import { Redirect } from "expo-router";
 
 import Loading from "@/presentation/components/Loading";
-import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
+import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 
 const AppIndex = () => {
-  const { account, hasPrivateKey } = useHinomaruWalletContext();
+  const { account, hasPrivateKey } = useShackwWalletContext();
 
   const isLoading = !account && hasPrivateKey;
   const hasWallet = !!account && !!hasPrivateKey;

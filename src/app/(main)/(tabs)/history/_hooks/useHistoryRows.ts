@@ -2,7 +2,7 @@ import { useMemo } from "react";
 
 import { TransactionModel } from "@/domain/transaction";
 import { useListTransactionsByTerm } from "@/presentation/hooks/queries/useListTransactionsByTerm";
-import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
+import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 import { Token } from "@/registries/TokenRegistry";
 import { toAllowedStr } from "@/shared/helpers/tokenUnits";
 
@@ -18,7 +18,7 @@ export type UseHistoryRowsProps = { token: Token } & HistoryTerm;
 const useHistoryRows = (props: UseHistoryRowsProps) => {
   const { token, timeFrom, timeTo } = props;
 
-  const { account } = useHinomaruWalletContext();
+  const { account } = useShackwWalletContext();
   const { data: transactions, ...rest } = useListTransactionsByTerm(
     { wallet: account?.address ?? "0x00", token, timeFrom, timeTo },
     { enabled: !!account?.address }

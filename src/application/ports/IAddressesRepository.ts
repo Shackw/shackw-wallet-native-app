@@ -1,13 +1,12 @@
-import { SQLiteDatabase } from "expo-sqlite";
 import { Address } from "viem";
 
 export interface IAddressesRepository {
-  get(db: SQLiteDatabase, address: Address): Promise<AddressesResult | null>;
-  list(db: SQLiteDatabase): Promise<AddressesResult[]>;
-  listMine(db: SQLiteDatabase): Promise<AddressesResult[]>;
-  create(db: SQLiteDatabase, query: CreateAddressQuery): Promise<void>;
-  update(db: SQLiteDatabase, query: UpdateAddressQuery): Promise<void>;
-  delete(db: SQLiteDatabase, address: Address): Promise<void>;
+  get(address: Address): Promise<AddressesResult | null>;
+  list(): Promise<AddressesResult[]>;
+  listMine(): Promise<AddressesResult[]>;
+  create(query: CreateAddressQuery): Promise<void>;
+  update(query: UpdateAddressQuery): Promise<void>;
+  delete(address: Address): Promise<void>;
 }
 
 export type AddressesResult = {

@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { Address } from "viem";
 
 import { useListMyAddresses } from "@/presentation/hooks/queries/useListMyAddresses";
-import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
+import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 import { shortenAddress } from "@/shared/helpers/address";
 
 export type AddressOption = {
@@ -11,7 +11,7 @@ export type AddressOption = {
 };
 
 const useMyAddressOptions = () => {
-  const { account } = useHinomaruWalletContext();
+  const { account } = useShackwWalletContext();
   const { data: addresses, ...rest } = useListMyAddresses();
 
   const addressOptions: AddressOption[] | undefined = useMemo(() => {

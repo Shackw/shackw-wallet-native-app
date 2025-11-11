@@ -1,14 +1,14 @@
 import { useCallback } from "react";
 
 import { BottomInputDrawer } from "@/presentation/components/Drawer";
-import { useHinomaruWalletContext } from "@/presentation/providers/HinomaruWalletProvider";
+import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 
 import OnBordingInputPkForm from "./OnBordingInputPkForm";
 
 type OnBordingRestoreWalletFieldProps = Omit<React.ComponentProps<typeof BottomInputDrawer>, "children">;
 
 const OnBordingRestoreWalletField = (props: OnBordingRestoreWalletFieldProps) => {
-  const { restoreWallet } = useHinomaruWalletContext();
+  const { restoreWallet } = useShackwWalletContext();
 
   const onRestore = useCallback(
     async (pk: string) => {

@@ -12,14 +12,14 @@ const OnBording = () => {
       <HStack className="items-center">
         <Image size="sm" source={require("@/presentation/assets/images/splash.png")} alt="image" />
         <Text size="3xl" className="font-bold">
-          HINOMARU WALLET
+          SHACKW WALLET
         </Text>
       </HStack>
       <Box className="w-full aspect-[1]">
         <Image size="full" source={require("@/presentation/assets/images/onbording.png")} alt="image" />
       </Box>
       <OnBordingActions />
-      <Text>Powerd By FickleWolf</Text>
+      <Text>Powerd By Shackw</Text>
     </VStack>
   );
 };

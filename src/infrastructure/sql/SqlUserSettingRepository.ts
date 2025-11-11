@@ -10,9 +10,15 @@ import type {
   PatchUserSettingQuery
 } from "../../application/ports/IUserSettingRepository";
 
-export const SqlUserSettingRepository: IUserSettingRepository = {
-  async get(db: SQLiteDatabase): Promise<UserSettingResult | null> {
-    const stmt = await db.prepareAsync(`
+export class SqlUserSettingRepository implements IUserSettingRepository {
+  private db: SQLiteDatabase;
+
+  constructor(db: SQLiteDatabase) {
+    this.db = db;
+  }
+
+  async get(): Promise<UserSettingResult | null> {
+    const stmt = await this.db.prepareAsync(`
       SELECT
         a.name AS name,
         us.default_chain AS default_chain,
@@ -33,9 +39,9 @@ export const SqlUserSettingRepository: IUserSettingRepository = {
     } finally {
       await stmt.finalizeAsync();
     }
-  },
+  }
 
-  async patch(db: SQLiteDatabase, query: PatchUserSettingQuery): Promise<void> {
+  async patch(query: PatchUserSettingQuery): Promise<void> {
     const { defaultChain, defaultWallet } = query;
 
     let setClauses = ["updated_at = strftime('%s','now')"];
@@ -50,7 +56,7 @@ export const SqlUserSettingRepository: IUserSettingRepository = {
       params.$defaultWallet = defaultWallet ? defaultWallet.toLowerCase() : null;
     }
 
-    const stmt = await db.prepareAsync(`
+    const stmt = await this.db.prepareAsync(`
       UPDATE user_setting
       SET ${setClauses.join(", ")}
       WHERE id = 1
@@ -62,4 +68,4 @@ export const SqlUserSettingRepository: IUserSettingRepository = {
       await stmt.finalizeAsync();
     }
   }
-};
+}

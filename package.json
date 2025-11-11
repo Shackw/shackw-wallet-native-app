@@ -1,8 +1,8 @@
 {
-  "name": "hinomaru-wallet-app",
+  "name": "shackw-wallet-app",
   "version": "0.1.0",
-  "description": "HinomaruWallet is a non-custodial mobile wallet focused on stablecoin with EIP-7702 support.",
-  "author": "FickleWolf",
+  "description": "ShackwWallet is a non-custodial mobile wallet focused on stablecoin with EIP-7702 support.",
+  "author": "Shackw",
   "main": "./src/index.ts",
   "scripts": {
     "start": "expo start",

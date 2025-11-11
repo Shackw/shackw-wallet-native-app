@@ -3,7 +3,7 @@ import { SignAuthorizationReturnType } from "viem";
 
 import { SupportChain } from "@/config/chain";
 
-import { TransferTokenResultSchema } from "../../infrastructure/parsers/TransferTokenResultSchema";
+import { TransferTokenResultSchema } from "../../infrastructure/parsers/HttpTokenResultSchema";
 
 export interface ITokensRepository {
   transfer(query: TransferTokenQuery): Promise<TransferTokenResult>;

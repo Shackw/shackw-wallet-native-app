@@ -4,7 +4,7 @@ import { createContext, PropsWithChildren, useContext } from "react";
 import { useTokenBalance } from "@/presentation/hooks/queries/useTokenBalance";
 import { Token } from "@/registries/TokenRegistry";
 
-import { useHinomaruWalletContext } from "./HinomaruWalletProvider";
+import { useShackwWalletContext } from "./ShackwWalletProvider";
 import { useUserSettingContext } from "./UserSettingProvider";
 
 type TokenBalanceContextType = Record<Token, Omit<UseQueryResult<string>, "data"> & { balance: string | undefined }>;
@@ -12,7 +12,7 @@ type TokenBalanceContextType = Record<Token, Omit<UseQueryResult<string>, "data"
 export const TokenBalanceContext = createContext<TokenBalanceContextType | undefined>(undefined);
 
 export const TokenBalanceProvider = ({ children }: PropsWithChildren) => {
-  const { account } = useHinomaruWalletContext();
+  const { account } = useShackwWalletContext();
   const { currentChain: chain } = useUserSettingContext();
 
   const { data: jpycData, ...restJpycResult } = useTokenBalance(

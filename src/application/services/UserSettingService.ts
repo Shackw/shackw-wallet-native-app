@@ -1,14 +1,11 @@
-import { SQLiteDatabase } from "expo-sqlite";
-
-import type { UserSettingResult } from "@/application/ports/IUserSettingRepository";
+import type { IUserSettingRepository, UserSettingResult } from "@/application/ports/IUserSettingRepository";
 import type { UpdateDefaultWalletCommand, UpdateSelectedChainCommand } from "@/domain/userSetting";
-import { SqlUserSettingRepository } from "@/infrastructure/sql/SqlUserSettingRepository";
 import { CustomError } from "@/shared/exceptions";
 
 export const UserSettingService = {
-  async getUserSetting(db: SQLiteDatabase): Promise<UserSettingResult> {
+  async getUserSetting(userSettingRepository: IUserSettingRepository): Promise<UserSettingResult> {
     try {
-      const userSetting = await SqlUserSettingRepository.get(db);
+      const userSetting = await userSettingRepository.get();
       if (!userSetting) throw new CustomError("ユーザの設定情報の取得に失敗しました。");
 
       return userSetting;
@@ -21,14 +18,17 @@ export const UserSettingService = {
     }
   },
 
-  async updateSelectedChain(db: SQLiteDatabase, command: UpdateSelectedChainCommand): Promise<void> {
+  async updateSelectedChain(
+    userSettingRepository: IUserSettingRepository,
+    command: UpdateSelectedChainCommand
+  ): Promise<void> {
     const { defaultChain } = command;
 
     try {
-      const userSetting = await SqlUserSettingRepository.get(db);
+      const userSetting = await userSettingRepository.get();
       if (!userSetting) throw new CustomError("ユーザの設定情報の取得に失敗しました。");
 
-      await SqlUserSettingRepository.patch(db, { defaultChain });
+      await userSettingRepository.patch({ defaultChain });
     } catch (error: unknown) {
       console.error(error);
 
@@ -38,14 +38,17 @@ export const UserSettingService = {
     }
   },
 
-  async updateDefaultWallet(db: SQLiteDatabase, command: UpdateDefaultWalletCommand): Promise<void> {
+  async updateDefaultWallet(
+    userSettingRepository: IUserSettingRepository,
+    command: UpdateDefaultWalletCommand
+  ): Promise<void> {
     const { defaultWallet } = command;
 
     try {
-      const userSetting = await SqlUserSettingRepository.get(db);
+      const userSetting = await userSettingRepository.get();
       if (!userSetting) throw new CustomError("ユーザの設定情報の取得に失敗しました。");
 
-      await SqlUserSettingRepository.patch(db, { defaultWallet });
+      await userSettingRepository.patch({ defaultWallet });
     } catch (error: unknown) {
       console.error(error);
 

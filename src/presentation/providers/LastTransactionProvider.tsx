@@ -2,7 +2,7 @@ import { createContext, PropsWithChildren, useContext } from "react";
 
 import { useLastTransaction } from "@/presentation/hooks/queries/useLastTransaction";
 
-import { useHinomaruWalletContext } from "./HinomaruWalletProvider";
+import { useShackwWalletContext } from "./ShackwWalletProvider";
 import { useUserSettingContext } from "./UserSettingProvider";
 
 type LastTransactionContextType = ReturnType<typeof useLastTransaction>;
@@ -10,7 +10,7 @@ type LastTransactionContextType = ReturnType<typeof useLastTransaction>;
 export const LastTransactionContext = createContext<LastTransactionContextType | undefined>(undefined);
 
 export const LastTransactionProvider = ({ children }: PropsWithChildren) => {
-  const { account } = useHinomaruWalletContext();
+  const { account } = useShackwWalletContext();
   const { currentChain } = useUserSettingContext();
   const queryResult = useLastTransaction(account?.address ?? "0x", currentChain, {
     retry: 0,

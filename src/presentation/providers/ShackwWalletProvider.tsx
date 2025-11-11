@@ -15,7 +15,7 @@ import { hex64Validator } from "@/shared/validations/rules/addressValidator";
 
 import { useUserSettingContext } from "./UserSettingProvider";
 
-type HinomaruWalletContextType = {
+type ShackwWalletContextType = {
   account: Account | undefined;
   client: WalletClient | undefined;
   hasPrivateKey: boolean;
@@ -24,9 +24,9 @@ type HinomaruWalletContextType = {
   changeWallet: (wallet: Address, isChangeDefault: boolean) => Promise<void>;
 };
 
-export const HinomaruWalletContext = createContext<HinomaruWalletContextType | undefined>(undefined);
+export const ShackwWalletContext = createContext<ShackwWalletContextType | undefined>(undefined);
 
-export const HinomaruWalletProvider = ({ children }: PropsWithChildren) => {
+export const ShackwWalletProvider = ({ children }: PropsWithChildren) => {
   const [hasPrivateKey, setHasPrivateKey] = useBoolean(true);
   const [account, setAccount] = useState<Account | undefined>(undefined);
   const [client, setClient] = useState<WalletClient | undefined>(undefined);
@@ -113,7 +113,7 @@ export const HinomaruWalletProvider = ({ children }: PropsWithChildren) => {
   }, [tryConnectWallet]);
 
   return (
-    <HinomaruWalletContext.Provider
+    <ShackwWalletContext.Provider
       value={{
         account,
         client,
@@ -124,13 +124,12 @@ export const HinomaruWalletProvider = ({ children }: PropsWithChildren) => {
       }}
     >
       {children}
-    </HinomaruWalletContext.Provider>
+    </ShackwWalletContext.Provider>
   );
 };
 
-export const useHinomaruWalletContext = () => {
-  const ctx = useContext(HinomaruWalletContext);
-  if (!ctx)
-    throw new Error("HinomaruWalletProvider is not mounted. Wrap your component with <HinomaruWalletProvider>.");
+export const useShackwWalletContext = () => {
+  const ctx = useContext(ShackwWalletContext);
+  if (!ctx) throw new Error("ShackwWalletProvider is not mounted. Wrap your component with <ShackwWalletProvider>.");
   return ctx;
 };

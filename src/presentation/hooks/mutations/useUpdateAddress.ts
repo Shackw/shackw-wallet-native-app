@@ -3,14 +3,19 @@ import { useSQLiteContext } from "expo-sqlite";
 
 import { AddressesService } from "@/application/services/AddressesService";
 import type { MutateAddressCommand } from "@/domain/address";
+import { SqlAddressesRepository } from "@/infrastructure/sql/SqlAddressesRepository";
 
 export const useUpdateAddress = (
   options?: UseMutationOptions<void, Error, MutateAddressCommand, unknown>
 ): UseMutationResult<void, Error, MutateAddressCommand, unknown> => {
   const db = useSQLiteContext();
+
   return useMutation<void, Error, MutateAddressCommand>({
     ...options,
     mutationKey: ["UpdateAddress"],
-    mutationFn: command => AddressesService.updateAddress(db, command)
+    mutationFn: command => {
+      const addressesRepository = new SqlAddressesRepository(db);
+      return AddressesService.updateAddress(addressesRepository, command);
+    }
   });
 };
