@@ -2,7 +2,7 @@ import { Hex } from "viem";
 
 import { CreateQuoteQuery, IQuotesRepository } from "@/application/ports/IQuotesRepository";
 import { ITokensRepository, TransferTokenQuery } from "@/application/ports/ITokensRepository";
-import { SUPPORT_CHAINS, SupportChain } from "@/config/chain";
+import { Chain, CHAINS } from "@/config/chain";
 import { VIEM_PUBLIC_CLIENTS } from "@/config/viem";
 import { GetTokenBalanceCommand, TransferTokenCommand } from "@/domain/token";
 import { ShackwApiErrorBody } from "@/infrastructure/clients/restClient";
@@ -15,6 +15,8 @@ export const TokensService = {
     const { chain, wallet, token } = command;
     const erc20Contract = TOKEN_REGISTRY[token].contract[chain];
     try {
+      if (!erc20Contract) throw new CustomError("ERC20コントラクトが取得できませんでした。");
+
       const balance = await erc20Contract.read.balanceOf([wallet]);
       return toDisplyValueStr(balance, token);
     } catch (error: unknown) {
@@ -27,7 +29,7 @@ export const TokensService = {
   },
 
   async transferToken(
-    chain: SupportChain,
+    chain: Chain,
     command: TransferTokenCommand,
     quotesRepository: IQuotesRepository,
     tokenRepository: ITokensRepository
@@ -57,7 +59,7 @@ export const TokensService = {
       const authorization = await client.signAuthorization({
         account,
         contractAddress: delegate,
-        chainId: SUPPORT_CHAINS[chain].id,
+        chainId: CHAINS[chain].id,
         nonce
       });
 

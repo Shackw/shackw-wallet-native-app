@@ -1,4 +1,4 @@
-import { SupportChain } from "@/config/chain";
+import { Chain } from "@/config/chain";
 import { TransactionProgressRow, TransactionWithAddressRow } from "@/infrastructure/db/schema";
 import { ADDRESS_TO_TOKEN } from "@/registries/TokenRegistry";
 
@@ -20,7 +20,7 @@ export const transactionWithAddressRowToResult = (dbModel: TransactionWithAddres
 };
 
 export const transactionProgressRowToResult = (
-  chain: SupportChain,
+  chain: Chain,
   dbModel: TransactionProgressRow
 ): TransactionProgressResult => {
   return {

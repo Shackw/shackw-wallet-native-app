@@ -4,7 +4,7 @@ import { Address } from "viem";
 
 import { ResolvedTransactionResult, SearchTransactionQuery } from "@/application/ports/ITransactionsRepository";
 import { TransactionsService } from "@/application/services/TransactionsService";
-import { SupportChain } from "@/config/chain";
+import { Chain } from "@/config/chain";
 import { GetLastTransactionCommand, ListTransactionsByTermCommand, TransactionModel } from "@/domain/transaction";
 import { ADDRESS_TO_TOKEN, TOKENS } from "@/registries/TokenRegistry";
 import { CustomError } from "@/shared/exceptions";
@@ -13,7 +13,7 @@ import { toDisplyValue } from "@/shared/helpers/tokenUnits";
 export const TransactionsUsecase = {
   async getLastTransaction(
     db: SQLiteDatabase,
-    chain: SupportChain,
+    chain: Chain,
     command: GetLastTransactionCommand
   ): Promise<TransactionModel | null> {
     const { wallet } = command;
@@ -42,7 +42,7 @@ export const TransactionsUsecase = {
 
   async listTransactionsByTerm(
     db: SQLiteDatabase,
-    chain: SupportChain,
+    chain: Chain,
     command: ListTransactionsByTermCommand
   ): Promise<TransactionModel[]> {
     const { wallet, token, timeFrom, timeTo } = command;
@@ -74,7 +74,7 @@ type TransferFlow = {
   direction: TransactionModel["direction"];
   counterparty: { address: Address; name?: string };
 };
-function resultToModel(chain: SupportChain, wallet: Address, result: ResolvedTransactionResult): TransactionModel {
+function resultToModel(chain: Chain, wallet: Address, result: ResolvedTransactionResult): TransactionModel {
   const token = ADDRESS_TO_TOKEN[chain][result.tokenAddress.toLowerCase()];
 
   const { direction, counterparty }: TransferFlow = (() => {

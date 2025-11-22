@@ -2,11 +2,11 @@ import { UseQueryOptions, UseQueryResult, useQuery } from "@tanstack/react-query
 import { Address } from "viem";
 
 import { TokensService } from "@/application/services/TokensService";
-import { SupportChain } from "@/config/chain";
+import { Chain } from "@/config/chain";
 import { Token } from "@/registries/TokenRegistry";
 
 type UseTokenBalanceProps = {
-  chain: SupportChain;
+  chain: Chain;
   wallet: Address;
   token: Token;
 };

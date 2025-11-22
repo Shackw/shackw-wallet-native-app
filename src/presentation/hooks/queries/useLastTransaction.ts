@@ -3,12 +3,12 @@ import { useSQLiteContext } from "expo-sqlite";
 import { Address } from "viem";
 
 import { TransactionsUsecase } from "@/application/usecase/TransactionsUsecase";
-import { SupportChain } from "@/config/chain";
+import { Chain } from "@/config/chain";
 import { TransactionModel } from "@/domain/transaction";
 
 export const useLastTransaction = (
   wallet: Address,
-  currentChain: SupportChain,
+  currentChain: Chain,
   options?: Partial<UseQueryOptions<TransactionModel | null>>
 ): UseQueryResult<TransactionModel | null> => {
   const db = useSQLiteContext();
