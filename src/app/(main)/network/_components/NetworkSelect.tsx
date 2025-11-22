@@ -1,7 +1,7 @@
 import { ChevronDownIcon } from "lucide-react-native";
 import { useCallback } from "react";
 
-import { SUPPORT_CHAIN_KEYS_MAP, SupportChain } from "@/config/chain";
+import { SUPPORT_CHAIN_KEYS_MAP, Chain } from "@/config/chain";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import {
   Select,
@@ -26,7 +26,7 @@ const NetworkSelect = () => {
 
   const handleChange = useCallback(
     (arg: string) => {
-      setInputChain(arg as SupportChain);
+      setInputChain(arg as Chain);
     },
     [setInputChain]
   );

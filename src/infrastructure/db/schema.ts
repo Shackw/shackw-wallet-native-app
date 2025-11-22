@@ -1,6 +1,6 @@
 import { Address, Hex } from "viem";
 
-import { SupportChain } from "@/config/chain";
+import { Chain } from "@/config/chain";
 
 export type UserVersionRow = {
   user_version: number;
@@ -8,7 +8,7 @@ export type UserVersionRow = {
 
 export type UserSettingRow = {
   id: 1;
-  default_chain: SupportChain;
+  default_chain: Chain;
   default_wallet: Address | null;
   updated_at: number;
   created_at: number;
@@ -25,7 +25,7 @@ export type AddressRow = {
 };
 
 export type TransactionRow = {
-  chain: SupportChain;
+  chain: Chain;
   tx_hash: Hex;
   log_index: number;
   block_number: string;
@@ -40,7 +40,7 @@ export type TransactionRow = {
 export type TransactionWithAddressRow = TransactionRow & { from_name: string | null; to_name: string | null };
 
 export type TransactionProgressRow = {
-  chain: SupportChain;
+  chain: Chain;
   year: number;
   month: number;
   token_address: Address;
