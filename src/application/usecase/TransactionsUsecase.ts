@@ -6,7 +6,7 @@ import { ResolvedTransactionResult, SearchTransactionQuery } from "@/application
 import { TransactionsService } from "@/application/services/TransactionsService";
 import { Chain } from "@/config/chain";
 import { GetLastTransactionCommand, ListTransactionsByTermCommand, TransactionModel } from "@/domain/transaction";
-import { ADDRESS_TO_TOKEN, TOKENS } from "@/registries/TokenRegistry";
+import { ADDRESS_TO_TOKEN, SUPPORT_CHAIN_TO_TOKEN } from "@/registries/ChainTokenRegistry";
 import { CustomError } from "@/shared/exceptions";
 import { toDisplyValue } from "@/shared/helpers/tokenUnits";
 
@@ -22,7 +22,7 @@ export const TransactionsUsecase = {
       wallet,
       timeTo: new Date(),
       timeFrom: subMonths(new Date(), 3),
-      tokens: [...TOKENS.map(token => ({ symbol: token }))],
+      tokens: [...SUPPORT_CHAIN_TO_TOKEN[chain].map(t => ({ symbol: t }))],
       direction: "both",
       limit: 1
     };
@@ -75,7 +75,12 @@ type TransferFlow = {
   counterparty: { address: Address; name?: string };
 };
 function resultToModel(chain: Chain, wallet: Address, result: ResolvedTransactionResult): TransactionModel {
-  const token = ADDRESS_TO_TOKEN[chain][result.tokenAddress.toLowerCase()];
+  const token = ADDRESS_TO_TOKEN[chain][result.tokenAddress.toLowerCase() as Address];
+
+  if (!token)
+    throw new CustomError(
+      `Unsupported token address detected for chain "${chain}": ${result.tokenAddress}. The token is not registered in ADDRESS_TO_TOKEN and cannot be processed.`
+    );
 
   const { direction, counterparty }: TransferFlow = (() => {
     const me = wallet.toLowerCase();

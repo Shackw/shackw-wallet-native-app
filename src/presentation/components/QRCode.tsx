@@ -7,7 +7,7 @@ import { Address } from "viem";
 
 import { ENV } from "@/config/env";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
-import { Token } from "@/registries/TokenRegistry";
+import { Token } from "@/registries/ChainTokenRegistry";
 
 type QRCodeProps = (
   | { path: "addresses"; query: { name: string; address: Address } }

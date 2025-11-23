@@ -7,7 +7,7 @@ import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { useTokenBalanceContext } from "@/presentation/providers/TokenBalanceProvider";
 import { theme } from "@/presentation/styles/theme";
-import { Token, TOKEN_REGISTRY } from "@/registries/TokenRegistry";
+import { Token, TOKEN_REGISTRY } from "@/registries/ChainTokenRegistry";
 import { toAllowedStr } from "@/shared/helpers/tokenUnits";
 
 type HomeTokenBalanceProps = { token: Token };

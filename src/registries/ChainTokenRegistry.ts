@@ -9,7 +9,7 @@ import {
   Chain as ViemChain
 } from "viem";
 
-import { Chain, CHAINS } from "@/config/chain";
+import { Chain, CHAIN_KEYS, CHAINS } from "@/config/chain";
 import { ENV } from "@/config/env";
 import { VIEM_PUBLIC_CLIENTS } from "@/config/viem";
 import { TokenSymbolIconProps, JpycIcon, UsdcIcon, EurcIcon } from "@/presentation/components/Icons/TokenSymbolIcons";
@@ -23,9 +23,6 @@ export const TOKENS = Object.keys(TOKENS_MAP) as Token[];
 
 export const CURRENCIES = ["JPY", "USD", "EUR"] as const;
 export type Currency = (typeof CURRENCIES)[number];
-
-export type ChainByToken<T extends Token> = (typeof TOKEN_TO_SUPPORT_CHAIN)[T][number];
-export type TokenByChain<T extends Chain> = (typeof SUPPORT_CHAIN_TO_TOKEN)[T][number];
 
 /** MAPPING */
 export const TOKEN_TO_SUPPORT_CHAIN = {
@@ -49,7 +46,7 @@ export const SUPPORT_CHAIN_TO_TOKEN = {
   polygonAmoy: ["JPYC", "USDC"]
 } as const satisfies Record<Chain, Token[]>;
 
-export const ADDRESS_TO_TOKEN = {
+export const ADDRESS_TO_TOKEN: Record<Chain, Partial<Record<Address, Token>>> = {
   mainnet: {
     [ENV.ETH_MAIN_JPYC_TOKEN_ADDRESS.toLowerCase() as Address]: "JPYC",
     [ENV.ETH_MAIN_USDC_TOKEN_ADDRESS.toLowerCase() as Address]: "USDC",
@@ -76,7 +73,7 @@ export const ADDRESS_TO_TOKEN = {
     [ENV.POLYGON_AMOY_JPYC_TOKEN_ADDRESS.toLowerCase() as Address]: "JPYC",
     [ENV.POLYGON_AMOY_USDC_TOKEN_ADDRESS.toLowerCase() as Address]: "USDC"
   }
-} as const satisfies { [T in Chain]: Record<Address, TokenByChain<T>> };
+};
 
 /** TOKEN CONSTANT */
 type TokenMeta = {
@@ -215,4 +212,13 @@ export const TOKEN_REGISTRY: Record<Token, TokenMeta> = {
     },
     Icon: EurcIcon
   }
+};
+
+/** HELPRES */
+export const isChain = (value: string): value is Chain => {
+  return (CHAIN_KEYS as readonly string[]).includes(value);
+};
+
+export const isToken = (value: string): value is Token => {
+  return (TOKENS as readonly string[]).includes(value);
 };

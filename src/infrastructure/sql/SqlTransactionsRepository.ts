@@ -1,6 +1,7 @@
 import { chunk, withBusyRetry, execWithRetry } from "@/infrastructure/db/libs";
 import type { TransactionProgressRow, TransactionWithAddressRow } from "@/infrastructure/db/schema";
-import { TOKEN_REGISTRY } from "@/registries/TokenRegistry";
+import { TOKEN_REGISTRY } from "@/registries/ChainTokenRegistry";
+import { CustomError } from "@/shared/exceptions";
 
 import { transactionProgressRowToResult, transactionWithAddressRowToResult } from "../mappers/transactionRowToResult";
 
@@ -18,7 +19,9 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
   async search(db: SQLiteDatabase, query: SearchTransactionQuery): Promise<ResolvedTransactionResult[]> {
     const { chain, wallet, tokens, timeFrom, timeTo, limit, direction } = query;
 
-    const tokenAddrs = tokens.map(t => TOKEN_REGISTRY[t.symbol].address[chain].toLowerCase());
+    const tokenAddrs = tokens
+      .map(({ symbol }) => TOKEN_REGISTRY[symbol].address[chain]?.toLowerCase())
+      .filter((addr): addr is string => Boolean(addr));
     const inPlaceholders = tokenAddrs.map((_, i) => `$t${i}`).join(",");
 
     const cond: string[] = [`t.token_address IN (${inPlaceholders})`];
@@ -80,7 +83,12 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
 
   async batchWrite(db: SQLiteDatabase, progress: TransactionProgressResult, rows: TransactionResult[]): Promise<void> {
     const { chain, year, month, status, token, createdBy, lastUpdatedAt } = progress;
-    const tokenAddress = TOKEN_REGISTRY[token].address[chain].toLowerCase();
+    const tokenAddress = TOKEN_REGISTRY[token].address[chain];
+
+    if (!tokenAddress)
+      throw new CustomError(
+        `Token "${token}" is not configured for chain "${chain}" in TOKEN_REGISTRY. Unable to resolve token address.`
+      );
 
     for (const part of chunk(rows, 300)) {
       await withBusyRetry(async () => {
@@ -152,7 +160,12 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
 
   async getProgress(db: SQLiteDatabase, query: GetTransactionProgressQuery): Promise<TransactionProgressResult | null> {
     const { chain, wallet, year, month, token } = query;
-    const tokenAddress = TOKEN_REGISTRY[token.symbol].address[chain].toLowerCase();
+    const tokenAddress = TOKEN_REGISTRY[token.symbol].address[chain];
+
+    if (!tokenAddress)
+      throw new CustomError(
+        `Token "${token.symbol}" is not configured for chain "${chain}" in TOKEN_REGISTRY. Unable to resolve token address.`
+      );
 
     const stmt = await db.prepareAsync(`
       SELECT

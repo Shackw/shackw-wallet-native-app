@@ -1,14 +1,14 @@
 import { Chain } from "@/config/chain";
-import { Token } from "@/registries/TokenRegistry";
+import { Token } from "@/registries/ChainTokenRegistry";
 
-type TokenAmountMeta = {
+export type TokenAmountMeta = {
   minUnits: bigint;
   display: number;
 };
 
-export type TokenMeta = {
+export type WalletMetaItem = {
   minTransfer: TokenAmountMeta;
   fixedFee: TokenAmountMeta;
 };
 
-export type WalletMetaModel = Record<Chain, Record<Token, TokenMeta>>;
+export type WalletMetaModel = Record<Chain, Partial<Record<Token, WalletMetaItem>>>;

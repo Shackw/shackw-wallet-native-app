@@ -10,7 +10,7 @@ import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import QRCode, { QRCodeHandle } from "@/presentation/components/QRCode";
 import { ErrorText } from "@/presentation/components/Text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
-import { Token } from "@/registries/TokenRegistry";
+import { Token } from "@/registries/ChainTokenRegistry";
 
 type ReceiveConfirmProps = {
   recipient: Address;

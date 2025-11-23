@@ -4,12 +4,12 @@ import { createContext, PropsWithChildren, useCallback, useContext, useState } f
 import { Chain } from "@/config/chain";
 import { useUpdateSelectedChain } from "@/presentation/hooks/mutations/useUpdateSelectedChain";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
-import { useUserSettingContext } from "@/presentation/providers/UserSettingProvider";
+import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 
 const useSelectNetworkFormProvider = () => {
   const router = useRouter();
   const { mutateAsync: updateSelectedChain } = useUpdateSelectedChain();
-  const { currentChain, defaultChain, setCurrentChain, refetch } = useUserSettingContext();
+  const { currentChain, defaultChain, setCurrentChain, refetch } = useWalletPreferencesContext();
 
   const [inputChain, setInputChain] = useState<Chain>(currentChain);
   const [isChangeDefault, setIsChangeDefault] = useBoolean(false);

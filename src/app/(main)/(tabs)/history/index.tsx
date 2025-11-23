@@ -6,14 +6,16 @@ import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { Tab } from "@/presentation/components/Tab";
 import YearMonthTermPicker from "@/presentation/components/YearMonthTermPicker";
-import { Token, TOKENS_MAP } from "@/registries/TokenRegistry";
+import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
+import { Token } from "@/registries/ChainTokenRegistry";
 
 import HistoryTable from "./_components/HistoryTable";
 
 import type { HistoryTerm } from "./_hooks/useHistoryRows";
 
 const HistoryScreen = () => {
-  const [selectedToken, setSelectedToken] = useState<Token>("JPYC");
+  const { currentChainSupportedTokens } = useWalletPreferencesContext();
+  const [selectedToken, setSelectedToken] = useState<Token>("USDC");
   const [term, setTerm] = useState<HistoryTerm>({
     timeFrom: startOfMonth(new Date()),
     timeTo: new Date()
@@ -26,7 +28,7 @@ const HistoryScreen = () => {
   return (
     <ScreenContainer className="bg-white rounded-t-[12px] px-[12px] py-[8px]">
       <VStack className="gap-y-5 items-center flex-1">
-        <Tab options={TOKENS_MAP} value={selectedToken} handleChange={setSelectedToken} />
+        <Tab options={currentChainSupportedTokens} value={selectedToken} handleChange={setSelectedToken} />
         <YearMonthTermPicker onChange={handleTermChange} />
         <HStack className="w-full flex-1 justify-center">
           <HistoryTable token={selectedToken} term={term} />

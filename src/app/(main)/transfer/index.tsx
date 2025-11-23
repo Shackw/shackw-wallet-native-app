@@ -5,6 +5,7 @@ import { Box } from "@/presentation/components/gluestack-ui/box";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import Loading from "@/presentation/components/Loading";
 import { useTokenBalanceContext } from "@/presentation/providers/TokenBalanceProvider";
+import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 
 import TransferAmount from "./_components/TransferAmount";
 import TransferFeeToken from "./_components/TransferFeeToken";
@@ -16,7 +17,14 @@ import { TransferFormProvider } from "./_hooks/useTransferForm";
 
 const TransferScreen = () => {
   const tokenBalances = useTokenBalanceContext();
-  const isBalanceFetched = useMemo(() => Object.values(tokenBalances).every(v => v.isFetched), [tokenBalances]);
+  const { currentChainSupportedTokens } = useWalletPreferencesContext();
+  const isBalanceFetched = useMemo(
+    () =>
+      Object.entries(tokenBalances).every(
+        ([key, value]) => !Object.keys(currentChainSupportedTokens).includes(key) || value.isFetched
+      ),
+    [tokenBalances, currentChainSupportedTokens]
+  );
 
   if (!isBalanceFetched) return <Loading />;
 

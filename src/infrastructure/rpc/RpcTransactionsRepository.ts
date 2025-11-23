@@ -2,7 +2,7 @@ import { Address, parseAbiItem } from "viem";
 
 import { RPC_TUNIGS } from "@/config/rpcTuning";
 import { VIEM_PUBLIC_CLIENTS } from "@/config/viem";
-import { TOKEN_REGISTRY } from "@/registries/TokenRegistry";
+import { TOKEN_REGISTRY } from "@/registries/ChainTokenRegistry";
 import { blockNumberByTimestamp } from "@/shared/helpers/block";
 import { toUnixSec } from "@/shared/helpers/datetime";
 

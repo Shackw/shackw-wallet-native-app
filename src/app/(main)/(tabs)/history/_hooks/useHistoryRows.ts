@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { TransactionModel } from "@/domain/transaction";
 import { useListTransactionsByTerm } from "@/presentation/hooks/queries/useListTransactionsByTerm";
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
-import { Token } from "@/registries/TokenRegistry";
+import { Token } from "@/registries/ChainTokenRegistry";
 import { toAllowedStr } from "@/shared/helpers/tokenUnits";
 
 export type HistoryViewModel = Pick<
