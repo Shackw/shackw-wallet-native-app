@@ -6,7 +6,8 @@ import { ScreenContainer } from "@/presentation/components/Container";
 import { Divider } from "@/presentation/components/gluestack-ui/divider";
 import { Fab, FabIcon } from "@/presentation/components/gluestack-ui/fab";
 import { Tab } from "@/presentation/components/Tab";
-import { Token, TOKENS_MAP } from "@/registries/TokenRegistry";
+import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
+import { Token } from "@/registries/ChainTokenRegistry";
 
 import HomeAction from "./_components/HomeAction";
 import HomeLastTransactionAt from "./_components/HomeLastTransaction";
@@ -15,7 +16,8 @@ import HomeTokenBalance from "./_components/HomeTokenBalance";
 
 const HomeScreen = () => {
   const router = useRouter();
-  const [currentTab, setCurrentTab] = useState<Token>("JPYC");
+  const [currentTab, setCurrentTab] = useState<Token>("USDC");
+  const { currentChainSupportedTokens } = useWalletPreferencesContext();
 
   const handlePressScan = useCallback(() => {
     router.replace("/scan-qr");
@@ -24,7 +26,7 @@ const HomeScreen = () => {
   return (
     <ScreenContainer className="px-4 items-center">
       <HomeMainBody>
-        <Tab options={TOKENS_MAP} value={currentTab} handleChange={setCurrentTab} />
+        <Tab options={currentChainSupportedTokens} value={currentTab} handleChange={setCurrentTab} />
         <HomeTokenBalance token={currentTab} />
         <HomeLastTransactionAt />
         <Divider className="w-[90%] bg-secondary-50" />

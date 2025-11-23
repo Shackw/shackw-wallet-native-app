@@ -1,7 +1,5 @@
 import * as v from "valibot";
 
-import { CHAIN_KEYS } from "@/config/chain";
-import { TOKENS } from "@/registries/TokenRegistry";
 import { addressValidator } from "@/shared/validations/rules/addressValidator";
 
 // Schema Version
@@ -11,7 +9,7 @@ const schemaVersionShape = v.literal("v1", "schemaVersion must be 'v1'");
 const chainsMetaShape = v.array(
   v.object(
     {
-      symbol: v.picklist(CHAIN_KEYS, `chains[].symbol must be one of ${CHAIN_KEYS.join(", ")}`),
+      symbol: v.string("chains[].symbol is required"),
       id: v.number("chains[].id must be a number"),
       testnet: v.boolean("chains[].testnet must be a boolean")
     },
@@ -24,9 +22,9 @@ const chainsMetaShape = v.array(
 const tokensMetaSchema = v.array(
   v.object(
     {
-      symbol: v.picklist(TOKENS, `tokens[].symbol must be one of ${TOKENS.join(", ")}`),
+      symbol: v.string("tokens[].symbol is required"),
       address: v.record(
-        v.picklist(CHAIN_KEYS, `token chainSymbol must be one of ${CHAIN_KEYS.join(", ")}`),
+        v.string("token chainSymbol must be a string"),
         addressValidator("tokens[].address[...] is not a valid address")
       ),
       decimals: v.number("tokens[].decimals must be a number")
@@ -40,8 +38,8 @@ const tokensMetaSchema = v.array(
 const fixedFeesMetaShape = v.array(
   v.object(
     {
-      chainSymbol: v.picklist(CHAIN_KEYS, `fixedFees[].chainSymbol must be one of ${CHAIN_KEYS.join(", ")}`),
-      tokenSymbol: v.picklist(TOKENS, `fixedFees[].tokenSymbol must be one of ${TOKENS.join(", ")}`),
+      chainSymbol: v.string("fixedFees[].chainSymbol is required"),
+      tokenSymbol: v.string("fixedFees[].tokenSymbol is required"),
       fixedFeeAmountUnits: v.string("fixedFees[].fixedFeeAmountUnits must be a string"),
       fixedFeeAmountDisplay: v.number("fixedFees[].fixedFeeAmountDisplay must be a number")
     },
@@ -54,8 +52,8 @@ const fixedFeesMetaShape = v.array(
 const minTransfersMetaShape = v.array(
   v.object(
     {
-      chainSymbol: v.picklist(CHAIN_KEYS, `minTransfers[].chainSymbol must be one of ${CHAIN_KEYS.join(", ")}`),
-      tokenSymbol: v.picklist(TOKENS, `minTransfers[].tokenSymbol must be one of ${TOKENS.join(", ")}`),
+      chainSymbol: v.string("minTransfers[].chainSymbol is required"),
+      tokenSymbol: v.string("minTransfers[].tokenSymbol is required"),
       minUnits: v.string("minTransfers[].minUnits must be a string"),
       display: v.number("minTransfers[].display must be a number")
     },
@@ -69,11 +67,11 @@ const contractsMetaShape = v.object(
   {
     sponsor: addressValidator("contracts.sponsor is not a valid address"),
     delegate: v.record(
-      v.picklist(CHAIN_KEYS, `delegate chainSymbol must be one of ${CHAIN_KEYS.join(", ")}`),
+      v.string("delegate chainSymbol must be a string"),
       addressValidator("contracts.delegate[...] is not a valid address")
     ),
     registry: v.record(
-      v.picklist(CHAIN_KEYS, `delegate chainSymbol must be one of ${CHAIN_KEYS.join(", ")}`),
+      v.string("registry chainSymbol must be a string"),
       addressValidator("contracts.registry[...] is not a valid address")
     )
   },

@@ -6,7 +6,7 @@ import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText, InfoText } from "@/presentation/components/Text";
 import useAddressesRow from "@/presentation/hooks/useAddressesRow";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
-import { Token } from "@/registries/TokenRegistry";
+import { Token } from "@/registries/ChainTokenRegistry";
 
 import useTransferForm from "../_hooks/useTransferForm";
 
@@ -50,7 +50,7 @@ const TransferSubmitButton = () => {
         amount={amount}
         sendToken={sendToken}
         feeToken={feeToken}
-        feeDecimals={fee?.feeDisplayValue ?? 0}
+        feeDecimals={fee?.display ?? 0}
         webhookUrl={webhookUrl}
         componentProps={{ title: "内容確認", size: "lg", isOpen: isConfirming, onClose: setIsConfirming.off }}
       />

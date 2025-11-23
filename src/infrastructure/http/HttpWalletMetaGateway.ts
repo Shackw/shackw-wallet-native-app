@@ -1,11 +1,11 @@
 import * as v from "valibot";
 
-import { GetWalletSummaryResult, IWalletMetaRepository } from "@/application/ports/IWalletMetaRepository";
+import { GetWalletSummaryResult, IWalletMetaGateway } from "@/application/ports/IWalletMetaGateway";
+import { WalletApiMetaSchema } from "@/shared/validations/schemas/HttpWalletMetaSchema";
 
 import { RestClient, shackwRestClient } from "../clients/restClient";
-import { WalletApiMetaSchema } from "../parsers/HttpWalletMetaSchema";
 
-export class HttpWalletMetaRepository implements IWalletMetaRepository {
+export class HttpWalletMetaGateway implements IWalletMetaGateway {
   private baseUrl = "/meta";
   private client: RestClient;
 

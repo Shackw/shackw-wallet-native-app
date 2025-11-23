@@ -16,10 +16,10 @@ export const CreateQuoteResultSchema = v.object(
     token: tokenMetaValidator("token"),
     feeToken: tokenMetaValidator("feeToken"),
     amount: amountUnitValidator("amount"),
-    fee: amountUnitValidator("fee"),
     delegate: addressValidator("delegate"),
     sponsor: addressValidator("sponsor"),
     callHash: hex64Validator("callHash"),
+    fee: amountUnitValidator("fee"),
     policy: feesPolicyValidator,
     serverTime: isoDateValidator("serverTime")
   },

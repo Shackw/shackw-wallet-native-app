@@ -1,10 +1,11 @@
 import { useForm, useStore } from "@tanstack/react-form";
 import { createContext, PropsWithChildren, useContext, useMemo, useState } from "react";
 
-import { FeeModel } from "@/domain/fee";
-import { useTransferFee } from "@/presentation/hooks/queries/useTransferFee";
+import { TokenAmountMeta } from "@/domain/walletMeta";
 import { useTokenBalanceContext } from "@/presentation/providers/TokenBalanceProvider";
-import { Token } from "@/registries/TokenRegistry";
+import { useWalletMetaContext } from "@/presentation/providers/WalletMetaProvider";
+import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
+import { Token } from "@/registries/ChainTokenRegistry";
 import { toAllowed } from "@/shared/helpers/tokenUnits";
 
 import buildTransferSchema, { type TransferFormValues } from "../_validators/buildTransferSchema";
@@ -12,10 +13,14 @@ import buildTransferSchema, { type TransferFormValues } from "../_validators/bui
 type useTransferFormProviderProps = {
   sendToken: Token;
   maxSendable: number;
+  minTransfer: number;
 };
 const useTransferFormProvider = (props: useTransferFormProviderProps) => {
-  const { sendToken, maxSendable } = props;
-  const schema = useMemo(() => buildTransferSchema(sendToken, maxSendable ?? 0), [maxSendable, sendToken]);
+  const { sendToken, maxSendable, minTransfer } = props;
+  const schema = useMemo(
+    () => buildTransferSchema(sendToken, maxSendable ?? 0, minTransfer),
+    [maxSendable, minTransfer, sendToken]
+  );
 
   const defaultValues: TransferFormValues = {
     feeToken: "JPYC",
@@ -32,7 +37,7 @@ const useTransferFormProvider = (props: useTransferFormProviderProps) => {
 export type TransferFormContextType = {
   form: ReturnType<typeof useTransferFormProvider>;
   maxSendable: number;
-  fee?: FeeModel;
+  fee?: TokenAmountMeta;
   sendToken: Token;
   isValid: boolean;
   insuff: { insufficient: boolean; message?: string };
@@ -41,7 +46,10 @@ export type TransferFormContextType = {
 const TransferFormContext = createContext<TransferFormContextType | undefined>(undefined);
 
 export const TransferFormProvider = ({ children }: PropsWithChildren) => {
-  const [sendToken, setSendToken] = useState<Token>("JPYC");
+  const [sendToken, setSendToken] = useState<Token>("USDC");
+  const { currentChain } = useWalletPreferencesContext();
+
+  const { meta } = useWalletMetaContext();
 
   const tokenBalances = useTokenBalanceContext();
   const maxSendable = useMemo(
@@ -49,7 +57,16 @@ export const TransferFormProvider = ({ children }: PropsWithChildren) => {
     [sendToken, tokenBalances]
   );
 
-  const form = useTransferFormProvider({ sendToken, maxSendable });
+  const minTransfer = useMemo(
+    () => meta[currentChain][sendToken]?.minTransfer.display ?? 0,
+    [currentChain, meta, sendToken]
+  );
+
+  const form = useTransferFormProvider({
+    sendToken,
+    maxSendable,
+    minTransfer
+  });
 
   const amount = useStore(form.baseStore, s => {
     const v = s.values.amount;
@@ -59,12 +76,7 @@ export const TransferFormProvider = ({ children }: PropsWithChildren) => {
   const webhookUrl = useStore(form.baseStore, s => s.values.webhookUrl);
   const fieldMeta = useStore(form.store, s => s.fieldMeta);
 
-  const { data: fee } = useTransferFee(
-    { token: sendToken, feeToken, amountDisplayValue: amount },
-    {
-      enabled: !!fieldMeta.amount?.isValid && !!fieldMeta.amount?.isDirty
-    }
-  );
+  const fee = useMemo(() => meta[currentChain][feeToken]?.fixedFee, [currentChain, feeToken, meta]);
 
   const isValid = useMemo(() => {
     const amountMeta = fieldMeta.amount;
@@ -91,7 +103,7 @@ export const TransferFormProvider = ({ children }: PropsWithChildren) => {
       };
 
     if (sendToken === feeToken) {
-      const required = amount + fee.feeDisplayValue;
+      const required = amount + fee.display;
       if (balToken < required)
         return {
           insufficient: true,
@@ -114,7 +126,7 @@ export const TransferFormProvider = ({ children }: PropsWithChildren) => {
         message: "送金残高が不足しています。"
       };
 
-    if (balFee < fee.feeDisplayValue)
+    if (balFee < fee.display)
       return {
         insufficient: true,
         message: "手数料通貨の残高が不足しています。"

@@ -1,14 +1,15 @@
 import { Hex } from "viem";
 
-import { CreateQuoteQuery, IQuotesRepository } from "@/application/ports/IQuotesRepository";
-import { ITokensRepository, TransferTokenQuery } from "@/application/ports/ITokensRepository";
+import { CreateQuoteQuery, IQuotesGateway } from "@/application/ports/IQuotesGateway";
 import { Chain, CHAINS } from "@/config/chain";
 import { VIEM_PUBLIC_CLIENTS } from "@/config/viem";
 import { GetTokenBalanceCommand, TransferTokenCommand } from "@/domain/token";
 import { ShackwApiErrorBody } from "@/infrastructure/clients/restClient";
-import { TOKEN_REGISTRY } from "@/registries/TokenRegistry";
+import { TOKEN_REGISTRY } from "@/registries/ChainTokenRegistry";
 import { ApiError, CustomError } from "@/shared/exceptions";
 import { toDisplyValueStr, toMinUnits } from "@/shared/helpers/tokenUnits";
+
+import { ITokensGateway, TransferTokenQuery } from "../ports/ITokensGateway";
 
 export const TokensService = {
   async getTokenBalance(command: GetTokenBalanceCommand): Promise<string> {
@@ -31,8 +32,8 @@ export const TokensService = {
   async transferToken(
     chain: Chain,
     command: TransferTokenCommand,
-    quotesRepository: IQuotesRepository,
-    tokenRepository: ITokensRepository
+    quotesGateway: IQuotesGateway,
+    tokenGateway: ITokensGateway
   ): Promise<Hex> {
     const { account, client, token, feeToken, recipient, amountDecimals, webhookUrl } = command;
 
@@ -50,7 +51,7 @@ export const TokensService = {
     };
     try {
       const publicClient = VIEM_PUBLIC_CLIENTS[chain];
-      const { delegate, quoteToken } = await quotesRepository.create(createQuoteQuery);
+      const { delegate, quoteToken } = await quotesGateway.create(createQuoteQuery);
 
       const nonce = await publicClient.getTransactionCount({
         address: account.address,
@@ -77,7 +78,7 @@ export const TokensService = {
             }
           : undefined
       };
-      const { txHash } = await tokenRepository.transfer(transferTokenQuery);
+      const { txHash } = await tokenGateway.transfer(transferTokenQuery);
 
       return txHash;
     } catch (error: unknown) {

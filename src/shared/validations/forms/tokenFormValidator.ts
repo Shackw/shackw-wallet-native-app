@@ -1,6 +1,6 @@
 import * as v from "valibot";
 
-import { TOKENS } from "@/registries/TokenRegistry";
+import { TOKENS } from "@/registries/ChainTokenRegistry";
 
 export const feeTokenFormValidator = v.pipe(
   v.string("手数料に使う通貨を選んでください。"),

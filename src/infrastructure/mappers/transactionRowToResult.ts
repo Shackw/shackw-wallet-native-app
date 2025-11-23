@@ -1,6 +1,9 @@
+import { Address } from "viem";
+
 import { Chain } from "@/config/chain";
 import { TransactionProgressRow, TransactionWithAddressRow } from "@/infrastructure/db/schema";
-import { ADDRESS_TO_TOKEN } from "@/registries/TokenRegistry";
+import { ADDRESS_TO_TOKEN } from "@/registries/ChainTokenRegistry";
+import { CustomError } from "@/shared/exceptions";
 
 import { TransactionProgressResult, ResolvedTransactionResult } from "../../application/ports/ITransactionsRepository";
 
@@ -23,11 +26,18 @@ export const transactionProgressRowToResult = (
   chain: Chain,
   dbModel: TransactionProgressRow
 ): TransactionProgressResult => {
+  const token = ADDRESS_TO_TOKEN[chain][dbModel.token_address.toLowerCase() as Address];
+
+  if (!token)
+    throw new CustomError(
+      `Unsupported token address detected for chain "${chain}": ${dbModel.token_address}. The token is not registered in ADDRESS_TO_TOKEN and cannot be processed.`
+    );
+
   return {
     chain: dbModel.chain,
     year: dbModel.year,
     month: dbModel.month,
-    token: ADDRESS_TO_TOKEN[chain][dbModel.token_address.toLowerCase()],
+    token,
     createdBy: dbModel.created_by_address,
     status: dbModel.status,
     lastUpdatedAt: new Date(dbModel.last_updated_at * 1000)

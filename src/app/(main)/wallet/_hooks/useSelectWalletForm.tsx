@@ -4,14 +4,14 @@ import { Address } from "viem";
 
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
-import { useUserSettingContext } from "@/presentation/providers/UserSettingProvider";
+import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 
 import { AddressOption } from "./useMyAddressOptions";
 
 const useSelectWalletFormProvider = (initialValue: AddressOption) => {
   const router = useRouter();
   const { changeWallet } = useShackwWalletContext();
-  const { defaultWallet, refetch } = useUserSettingContext();
+  const { defaultWallet, refetch } = useWalletPreferencesContext();
 
   const [inputWallet, setInputWallet] = useState<Address>(initialValue.value);
   const [isChangeDefault, setIsChangeDefault] = useBoolean(false);

@@ -2,10 +2,9 @@ import * as v from "valibot";
 import { SignAuthorizationReturnType } from "viem";
 
 import { Chain } from "@/config/chain";
+import { TransferTokenResultSchema } from "@/shared/validations/schemas/HttpTokenResultSchema";
 
-import { TransferTokenResultSchema } from "../../infrastructure/parsers/HttpTokenResultSchema";
-
-export interface ITokensRepository {
+export interface ITokensGateway {
   transfer(query: TransferTokenQuery): Promise<TransferTokenResult>;
 }
 

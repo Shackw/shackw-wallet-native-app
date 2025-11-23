@@ -6,7 +6,7 @@ import { TransactionsUsecase } from "@/application/usecase/TransactionsUsecase";
 import { Chain } from "@/config/chain";
 import { TransactionModel } from "@/domain/transaction";
 
-export const useLastTransaction = (
+export const useGetLastTransaction = (
   wallet: Address,
   currentChain: Chain,
   options?: Partial<UseQueryOptions<TransactionModel | null>>

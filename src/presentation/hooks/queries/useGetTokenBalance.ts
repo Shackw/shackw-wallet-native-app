@@ -3,16 +3,16 @@ import { Address } from "viem";
 
 import { TokensService } from "@/application/services/TokensService";
 import { Chain } from "@/config/chain";
-import { Token } from "@/registries/TokenRegistry";
+import { Token } from "@/registries/ChainTokenRegistry";
 
-type UseTokenBalanceProps = {
+type UseGetTokenBalanceProps = {
   chain: Chain;
   wallet: Address;
   token: Token;
 };
 
-export const useTokenBalance = (
-  props: UseTokenBalanceProps,
+export const useGetTokenBalance = (
+  props: UseGetTokenBalanceProps,
   options?: Partial<UseQueryOptions<string>>
 ): UseQueryResult<string> => {
   return useQuery({

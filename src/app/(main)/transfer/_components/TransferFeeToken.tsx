@@ -14,7 +14,7 @@ import {
   SelectItem
 } from "@/presentation/components/gluestack-ui/select";
 import { Text } from "@/presentation/components/gluestack-ui/text";
-import { TOKENS } from "@/registries/TokenRegistry";
+import { TOKENS } from "@/registries/ChainTokenRegistry";
 
 import useTransferForm from "../_hooks/useTransferForm";
 

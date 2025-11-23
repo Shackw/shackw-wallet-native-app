@@ -1,18 +1,18 @@
 import { createContext, PropsWithChildren, useContext } from "react";
 
-import { useLastTransaction } from "@/presentation/hooks/queries/useLastTransaction";
+import { useGetLastTransaction } from "@/presentation/hooks/queries/useGetLastTransaction";
 
 import { useShackwWalletContext } from "./ShackwWalletProvider";
-import { useUserSettingContext } from "./UserSettingProvider";
+import { useWalletPreferencesContext } from "./WalletPreferencesProvider";
 
-type LastTransactionContextType = ReturnType<typeof useLastTransaction>;
+type LastTransactionContextType = ReturnType<typeof useGetLastTransaction>;
 
 export const LastTransactionContext = createContext<LastTransactionContextType | undefined>(undefined);
 
 export const LastTransactionProvider = ({ children }: PropsWithChildren) => {
   const { account } = useShackwWalletContext();
-  const { currentChain } = useUserSettingContext();
-  const queryResult = useLastTransaction(account?.address ?? "0x", currentChain, {
+  const { currentChain } = useWalletPreferencesContext();
+  const queryResult = useGetLastTransaction(account?.address ?? "0x", currentChain, {
     retry: 0,
     enabled: !!account?.address
   });

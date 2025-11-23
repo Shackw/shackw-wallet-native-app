@@ -1,7 +1,7 @@
 import { ChevronDownIcon } from "lucide-react-native";
 import { useCallback } from "react";
 
-import { SUPPORT_CHAIN_KEYS_MAP, Chain } from "@/config/chain";
+import { CHAIN_KEY_TO_DISPLAY_NAME, Chain } from "@/config/chain";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import {
   Select,
@@ -36,7 +36,11 @@ const NetworkSelect = () => {
       <Text size="xl" className="font-bold text-secondary-700 ">
         ネットワーク
       </Text>
-      <Select initialLabel={SUPPORT_CHAIN_KEYS_MAP[inputChain]} selectedValue={inputChain} onValueChange={handleChange}>
+      <Select
+        initialLabel={CHAIN_KEY_TO_DISPLAY_NAME[inputChain]}
+        selectedValue={inputChain}
+        onValueChange={handleChange}
+      >
         <SelectTrigger variant="underlined" size="xl">
           <SelectInput placeholder="Select option" className="w-[150px] text-center" />
           <SelectIcon className="mr-3" as={ChevronDownIcon} />
@@ -47,7 +51,7 @@ const NetworkSelect = () => {
             <SelectDragIndicatorWrapper>
               <SelectDragIndicator />
             </SelectDragIndicatorWrapper>
-            {Object.entries(SUPPORT_CHAIN_KEYS_MAP).map(([key, label]) => (
+            {Object.entries(CHAIN_KEY_TO_DISPLAY_NAME).map(([key, label]) => (
               <SelectItem key={key} label={label} value={key} className="py-6" textStyle={{ bold: true, size: "xl" }} />
             ))}
           </SelectContent>

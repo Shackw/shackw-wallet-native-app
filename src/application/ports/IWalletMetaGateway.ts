@@ -1,8 +1,8 @@
 import * as v from "valibot";
 
-import { WalletApiMetaSchema } from "@/infrastructure/parsers/HttpWalletMetaSchema";
+import { WalletApiMetaSchema } from "@/shared/validations/schemas/HttpWalletMetaSchema";
 
-export interface IWalletMetaRepository {
+export interface IWalletMetaGateway {
   get(): Promise<GetWalletSummaryResult>;
 }
 

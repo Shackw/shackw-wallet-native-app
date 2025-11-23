@@ -3,8 +3,8 @@ import * as v from "valibot";
 import { Address, createWalletClient, Hex, http, WalletClient } from "viem";
 import { Account, generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 
-import { SUPPORT_CHAINS } from "@/config/chain";
-import { CUSTOM_RPC_URLS } from "@/config/rpcUrls";
+import { CHAINS } from "@/config/chain";
+import { CUSTOM_RPC_URL } from "@/config/rpcUrls";
 import { useGetDefaultPrivateKey } from "@/presentation/hooks/mutations/useGetDefaultPrivateKey";
 import { useGetPrivateKeyByWallet } from "@/presentation/hooks/mutations/useGetPrivateKeyByWallet";
 import { useStorePrivateKey } from "@/presentation/hooks/mutations/useStorePrivateKey";
@@ -13,7 +13,7 @@ import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { nameFormValidator } from "@/shared/validations/forms/nameFormValidator";
 import { hex64Validator } from "@/shared/validations/rules/addressValidator";
 
-import { useUserSettingContext } from "./UserSettingProvider";
+import { useWalletPreferencesContext } from "./WalletPreferencesProvider";
 
 type ShackwWalletContextType = {
   account: Account | undefined;
@@ -31,7 +31,7 @@ export const ShackwWalletProvider = ({ children }: PropsWithChildren) => {
   const [account, setAccount] = useState<Account | undefined>(undefined);
   const [client, setClient] = useState<WalletClient | undefined>(undefined);
 
-  const { currentChain } = useUserSettingContext();
+  const { currentChain } = useWalletPreferencesContext();
   const { mutateAsync: storePrivateKey } = useStorePrivateKey({ retry: 0 });
   const { mutateAsync: getDefaultPrivateKey } = useGetDefaultPrivateKey({ retry: 0 });
   const { mutateAsync: getPrivateKeyByWallet } = useGetPrivateKeyByWallet({ retry: 0 });
@@ -42,8 +42,8 @@ export const ShackwWalletProvider = ({ children }: PropsWithChildren) => {
       const account = privateKeyToAccount(pk);
       const client = createWalletClient({
         account,
-        chain: SUPPORT_CHAINS[currentChain],
-        transport: http(CUSTOM_RPC_URLS[currentChain])
+        chain: CHAINS[currentChain],
+        transport: http(CUSTOM_RPC_URL[currentChain])
       });
 
       setAccount({ ...account, address: account.address.toLowerCase() as Address });

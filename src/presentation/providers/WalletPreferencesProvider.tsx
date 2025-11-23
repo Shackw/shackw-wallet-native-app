@@ -3,18 +3,20 @@ import { Address } from "viem";
 
 import { Chain } from "@/config/chain";
 import { useUserSetting } from "@/presentation/hooks/queries/useUserSetting";
+import { SUPPORT_CHAIN_TO_TOKEN, Token } from "@/registries/ChainTokenRegistry";
 
-type UserSettingContextType = {
+type WalletPreferencesContextType = {
   currentChain: Chain;
   defaultChain: Chain | undefined;
   defaultWallet: Address | null | undefined;
+  currentChainSupportedTokens: Partial<Record<"JPYC" | "USDC" | "EURC", string>>;
   setCurrentChain: React.Dispatch<React.SetStateAction<Chain>>;
   refetch: ReturnType<typeof useUserSetting>["refetch"];
 };
 
-export const UserSettingContext = createContext<UserSettingContextType | undefined>(undefined);
+export const WalletPreferencesContext = createContext<WalletPreferencesContextType | undefined>(undefined);
 
-export const UserSettingProvider = ({ children }: PropsWithChildren) => {
+export const WalletPreferencesProvider = ({ children }: PropsWithChildren) => {
   const { data, refetch } = useUserSetting();
   const [currentChain, setCurrentChain] = useState<Chain>("base");
 
@@ -28,27 +30,35 @@ export const UserSettingProvider = ({ children }: PropsWithChildren) => {
     return data.defaultWallet;
   }, [data]);
 
+  const currentChainSupportedTokens = useMemo(() => {
+    return SUPPORT_CHAIN_TO_TOKEN[currentChain].reduce<Partial<Record<Token, string>>>((acc, token) => {
+      acc[token] = token;
+      return acc;
+    }, {});
+  }, [currentChain]);
+
   useEffect(() => {
     if (!!data) setCurrentChain(data.defaultChain);
   }, [data]);
 
   return (
-    <UserSettingContext.Provider
+    <WalletPreferencesContext.Provider
       value={{
         currentChain,
         defaultChain,
         defaultWallet,
+        currentChainSupportedTokens,
         setCurrentChain,
         refetch
       }}
     >
       {children}
-    </UserSettingContext.Provider>
+    </WalletPreferencesContext.Provider>
   );
 };
 
-export const useUserSettingContext = () => {
-  const ctx = useContext(UserSettingContext);
+export const useWalletPreferencesContext = () => {
+  const ctx = useContext(WalletPreferencesContext);
   if (!ctx) throw new Error("UserSettingProvider is not mounted. Wrap your component with <UserSettingProvider>.");
   return ctx;
 };

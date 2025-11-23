@@ -2,7 +2,7 @@ import { SQLiteDatabase } from "expo-sqlite";
 import { Address, Hex } from "viem";
 
 import { Chain } from "@/config/chain";
-import { Token } from "@/registries/TokenRegistry";
+import { Token } from "@/registries/ChainTokenRegistry";
 
 export interface ITransactionsRepository {
   search(db: SQLiteDatabase, query: SearchTransactionQuery): Promise<ResolvedTransactionResult[]>;
