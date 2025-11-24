@@ -25,7 +25,7 @@ const TransferRecipientDirectForm = (props: TransferRecipientDirectFormProps) =>
   }, [form, handleClose]);
 
   const handleSubmit = useCallback(() => {
-    if (!form.state.fieldMeta.recipient.isValid) {
+    if (!form.state.fieldMeta?.recipient?.isValid) {
       setIsShowErrorDialog.on();
       return;
     }

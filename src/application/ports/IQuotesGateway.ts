@@ -1,19 +1,18 @@
 import * as v from "valibot";
 import { Address } from "viem";
 
-import { SupportChain } from "@/config/chain";
-import { Token } from "@/registries/TokenRegistry";
+import { Chain } from "@/config/chain";
+import { Token } from "@/registries/ChainTokenRegistry";
+import { CreateQuoteResultSchema } from "@/shared/validations/schemas/HttpQuoteResultSchema";
 
-import { CreateQuoteResultSchema } from "../../infrastructure/parsers/HttpQuoteResultSchema";
-
-export interface IQuotesRepository {
+export interface IQuotesGateway {
   create(query: CreateQuoteQuery): Promise<CreateQuoteResult>;
 }
 
 export type CreateQuoteResult = v.InferOutput<typeof CreateQuoteResultSchema>;
 
 export type CreateQuoteQuery = {
-  chain: SupportChain;
+  chain: Chain;
   sender: Address;
   recipient: Address;
   token: { symbol: Token };

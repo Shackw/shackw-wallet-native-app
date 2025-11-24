@@ -4,12 +4,6 @@ import { addressValidator, hex32Validator } from "../rules/addressValidator";
 import { urlValidator } from "../rules/urlValidator";
 
 export const EnvSchema = v.object({
-  BUILD_ENV: v.pipe(
-    v.string("BUILD_ENV must be a string."),
-    v.transform(s => s.trim()),
-    v.picklist(["dev", "prd"], "BUILD_ENV must be 'dev' or 'prd'.")
-  ),
-
   DATABASE_VERSION: v.pipe(
     v.string("DATABASE_VERSION is required"),
     v.trim(),
@@ -29,11 +23,23 @@ export const EnvSchema = v.object({
   SHACKW_API_URL: urlValidator("SHACKW_API_URL"),
   SHACKW_UNIVERSAL_LINK: urlValidator("SHACKW_UNIVERSAL_LINK"),
 
-  MAIN_JPYC_TOKEN_ADDRESS: addressValidator("MAIN_JPYC_TOKEN_ADDRESS"),
-  MAIN_USDC_TOKEN_ADDRESS: addressValidator("MAIN_USDC_TOKEN_ADDRESS"),
-  MAIN_EURC_TOKEN_ADDRESS: addressValidator("MAIN_EURC_TOKEN_ADDRESS"),
+  ETH_MAIN_JPYC_TOKEN_ADDRESS: addressValidator("ETH_MAIN_JPYC_TOKEN_ADDRESS"),
+  ETH_MAIN_USDC_TOKEN_ADDRESS: addressValidator("ETH_MAIN_USDC_TOKEN_ADDRESS"),
+  ETH_MAIN_EURC_TOKEN_ADDRESS: addressValidator("ETH_MAIN_EURC_TOKEN_ADDRESS"),
 
-  BASE_JPYC_TOKEN_ADDRESS: addressValidator("BASE_JPYC_TOKEN_ADDRESS"),
-  BASE_USDC_TOKEN_ADDRESS: addressValidator("BASE_USDC_TOKEN_ADDRESS"),
-  BASE_EURC_TOKEN_ADDRESS: addressValidator("BASE_EURC_TOKEN_ADDRESS")
+  ETH_SEPOLIA_JPYC_TOKEN_ADDRESS: addressValidator("ETH_SEPOLIA_JPYC_TOKEN_ADDRESS"),
+  ETH_SEPOLIA_USDC_TOKEN_ADDRESS: addressValidator("ETH_SEPOLIA_USDC_TOKEN_ADDRESS"),
+  ETH_SEPOLIA_EURC_TOKEN_ADDRESS: addressValidator("ETH_SEPOLIA_EURC_TOKEN_ADDRESS"),
+
+  BASE_MAIN_USDC_TOKEN_ADDRESS: addressValidator("BASE_MAIN_USDC_TOKEN_ADDRESS"),
+  BASE_MAIN_EURC_TOKEN_ADDRESS: addressValidator("BASE_MAIN_EURC_TOKEN_ADDRESS"),
+
+  BASE_SEPOLIA_USDC_TOKEN_ADDRESS: addressValidator("BASE_SEPOLIA_USDC_TOKEN_ADDRESS"),
+  BASE_SEPOLIA_EURC_TOKEN_ADDRESS: addressValidator("BASE_SEPOLIA_EURC_TOKEN_ADDRESS"),
+
+  POLYGON_MAIN_JPYC_TOKEN_ADDRESS: addressValidator("POLYGON_MAIN_JPYC_TOKEN_ADDRESS"),
+  POLYGON_MAIN_USDC_TOKEN_ADDRESS: addressValidator("POLYGON_MAIN_USDC_TOKEN_ADDRESS"),
+
+  POLYGON_AMOY_JPYC_TOKEN_ADDRESS: addressValidator("POLYGON_AMOY_JPYC_TOKEN_ADDRESS"),
+  POLYGON_AMOY_USDC_TOKEN_ADDRESS: addressValidator("POLYGON_AMOY_USDC_TOKEN_ADDRESS")
 });

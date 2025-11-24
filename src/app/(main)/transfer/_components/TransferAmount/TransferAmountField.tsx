@@ -12,7 +12,7 @@ import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText } from "@/presentation/components/Text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { theme } from "@/presentation/styles/theme";
-import { TOKEN_REGISTRY } from "@/registries/TokenRegistry";
+import { TOKEN_REGISTRY } from "@/registries/ChainTokenRegistry";
 
 import { TransferFormContextType } from "../../_hooks/useTransferForm";
 
@@ -48,7 +48,7 @@ const TransferAmountField = (props: TransferAmountFieldProps) => {
   }, [componentProps, form]);
 
   const handleSubmit = useCallback(() => {
-    if (!form.state.fieldMeta.amount.isValid) {
+    if (!form.state.fieldMeta?.amount?.isValid) {
       setIsShowErrorDialog.on();
       return;
     }

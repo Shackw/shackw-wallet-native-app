@@ -1,20 +1,23 @@
 import { Hex } from "viem";
 
-import { CreateQuoteQuery, IQuotesRepository } from "@/application/ports/IQuotesRepository";
-import { ITokensRepository, TransferTokenQuery } from "@/application/ports/ITokensRepository";
-import { SUPPORT_CHAINS, SupportChain } from "@/config/chain";
+import { CreateQuoteQuery, IQuotesGateway } from "@/application/ports/IQuotesGateway";
+import { Chain, CHAINS } from "@/config/chain";
 import { VIEM_PUBLIC_CLIENTS } from "@/config/viem";
 import { GetTokenBalanceCommand, TransferTokenCommand } from "@/domain/token";
 import { ShackwApiErrorBody } from "@/infrastructure/clients/restClient";
-import { TOKEN_REGISTRY } from "@/registries/TokenRegistry";
+import { TOKEN_REGISTRY } from "@/registries/ChainTokenRegistry";
 import { ApiError, CustomError } from "@/shared/exceptions";
 import { toDisplyValueStr, toMinUnits } from "@/shared/helpers/tokenUnits";
+
+import { ITokensGateway, TransferTokenQuery } from "../ports/ITokensGateway";
 
 export const TokensService = {
   async getTokenBalance(command: GetTokenBalanceCommand): Promise<string> {
     const { chain, wallet, token } = command;
     const erc20Contract = TOKEN_REGISTRY[token].contract[chain];
     try {
+      if (!erc20Contract) throw new CustomError("ERC20コントラクトが取得できませんでした。");
+
       const balance = await erc20Contract.read.balanceOf([wallet]);
       return toDisplyValueStr(balance, token);
     } catch (error: unknown) {
@@ -27,10 +30,10 @@ export const TokensService = {
   },
 
   async transferToken(
-    chain: SupportChain,
+    chain: Chain,
     command: TransferTokenCommand,
-    quotesRepository: IQuotesRepository,
-    tokenRepository: ITokensRepository
+    quotesGateway: IQuotesGateway,
+    tokenGateway: ITokensGateway
   ): Promise<Hex> {
     const { account, client, token, feeToken, recipient, amountDecimals, webhookUrl } = command;
 
@@ -48,7 +51,7 @@ export const TokensService = {
     };
     try {
       const publicClient = VIEM_PUBLIC_CLIENTS[chain];
-      const { delegate, quoteToken } = await quotesRepository.create(createQuoteQuery);
+      const { delegate, quoteToken } = await quotesGateway.create(createQuoteQuery);
 
       const nonce = await publicClient.getTransactionCount({
         address: account.address,
@@ -57,7 +60,7 @@ export const TokensService = {
       const authorization = await client.signAuthorization({
         account,
         contractAddress: delegate,
-        chainId: SUPPORT_CHAINS[chain].id,
+        chainId: CHAINS[chain].id,
         nonce
       });
 
@@ -75,7 +78,7 @@ export const TokensService = {
             }
           : undefined
       };
-      const { txHash } = await tokenRepository.transfer(transferTokenQuery);
+      const { txHash } = await tokenGateway.transfer(transferTokenQuery);
 
       return txHash;
     } catch (error: unknown) {

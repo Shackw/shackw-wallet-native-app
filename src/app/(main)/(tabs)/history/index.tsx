@@ -1,35 +1,36 @@
-import { startOfMonth } from "date-fns";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { ScreenContainer } from "@/presentation/components/Container";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { Tab } from "@/presentation/components/Tab";
-import YearMonthTermPicker from "@/presentation/components/YearMonthTermPicker";
-import { Token, TOKENS_MAP } from "@/registries/TokenRegistry";
+import YearMonthPicker from "@/presentation/components/YearMonthTermPicker";
+import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
+import { Token } from "@/registries/ChainTokenRegistry";
 
 import HistoryTable from "./_components/HistoryTable";
 
-import type { HistoryTerm } from "./_hooks/useHistoryRows";
+import type { HistoryYearMonth } from "./_hooks/useHistoryRows";
 
 const HistoryScreen = () => {
-  const [selectedToken, setSelectedToken] = useState<Token>("JPYC");
-  const [term, setTerm] = useState<HistoryTerm>({
-    timeFrom: startOfMonth(new Date()),
-    timeTo: new Date()
+  const { currentChainSupportedTokens } = useWalletPreferencesContext();
+  const [selectedToken, setSelectedToken] = useState<Token>("USDC");
+  const [yearMonth, setYearMonth] = useState<HistoryYearMonth>({
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1
   });
 
-  const handleTermChange = (from: Date, to: Date) => {
-    setTerm({ timeFrom: from, timeTo: to });
-  };
+  const handleChangeYearMonth = useCallback((year: number, month: number) => {
+    setYearMonth({ year, month });
+  }, []);
 
   return (
     <ScreenContainer className="bg-white rounded-t-[12px] px-[12px] py-[8px]">
       <VStack className="gap-y-5 items-center flex-1">
-        <Tab options={TOKENS_MAP} value={selectedToken} handleChange={setSelectedToken} />
-        <YearMonthTermPicker onChange={handleTermChange} />
+        <Tab options={currentChainSupportedTokens} value={selectedToken} handleChange={setSelectedToken} />
+        <YearMonthPicker onChange={handleChangeYearMonth} />
         <HStack className="w-full flex-1 justify-center">
-          <HistoryTable token={selectedToken} term={term} />
+          <HistoryTable token={selectedToken} yaerMonth={yearMonth} />
         </HStack>
       </VStack>
     </ScreenContainer>

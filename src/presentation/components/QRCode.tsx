@@ -7,7 +7,7 @@ import { Address } from "viem";
 
 import { ENV } from "@/config/env";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
-import { Token } from "@/registries/TokenRegistry";
+import { Token } from "@/registries/ChainTokenRegistry";
 
 type QRCodeProps = (
   | { path: "addresses"; query: { name: string; address: Address } }
@@ -26,7 +26,7 @@ const QRCode = forwardRef<QRCodeHandle, QRCodeProps>((props, ref) => {
   const qrRef = useRef<Svg>(null);
 
   const value = useMemo(() => {
-    const url = new URL(path, `${ENV.SHACKW_UNIVERSAL_LINK}/wallet`);
+    const url = new URL(path, `${ENV.SHACKW_UNIVERSAL_LINK}`);
     for (const [key, v] of Object.entries(query)) if (!!v) url.searchParams.set(key, String(v));
 
     return url.toString();

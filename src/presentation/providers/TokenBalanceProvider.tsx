@@ -1,11 +1,11 @@
 import { UseQueryResult } from "@tanstack/react-query";
 import { createContext, PropsWithChildren, useContext } from "react";
 
-import { useTokenBalance } from "@/presentation/hooks/queries/useTokenBalance";
-import { Token } from "@/registries/TokenRegistry";
+import { useGetTokenBalance } from "@/presentation/hooks/queries/useGetTokenBalance";
+import { Token } from "@/registries/ChainTokenRegistry";
 
 import { useShackwWalletContext } from "./ShackwWalletProvider";
-import { useUserSettingContext } from "./UserSettingProvider";
+import { useWalletPreferencesContext } from "./WalletPreferencesProvider";
 
 type TokenBalanceContextType = Record<Token, Omit<UseQueryResult<string>, "data"> & { balance: string | undefined }>;
 
@@ -13,9 +13,9 @@ export const TokenBalanceContext = createContext<TokenBalanceContextType | undef
 
 export const TokenBalanceProvider = ({ children }: PropsWithChildren) => {
   const { account } = useShackwWalletContext();
-  const { currentChain: chain } = useUserSettingContext();
+  const { currentChain: chain, currentChainSupportedTokens } = useWalletPreferencesContext();
 
-  const { data: jpycData, ...restJpycResult } = useTokenBalance(
+  const { data: jpycData, ...restJpycResult } = useGetTokenBalance(
     {
       chain,
       wallet: account?.address ?? "0x",
@@ -23,12 +23,12 @@ export const TokenBalanceProvider = ({ children }: PropsWithChildren) => {
     },
     {
       retry: 1,
-      enabled: !!account?.address
+      enabled: !!account?.address && !!currentChainSupportedTokens.JPYC
     }
   );
   const jpycBalance = restJpycResult.isFetched && !jpycData ? "0" : jpycData;
 
-  const { data: usdcData, ...restUsdcResult } = useTokenBalance(
+  const { data: usdcData, ...restUsdcResult } = useGetTokenBalance(
     {
       chain,
       wallet: account?.address ?? "0x",
@@ -36,12 +36,12 @@ export const TokenBalanceProvider = ({ children }: PropsWithChildren) => {
     },
     {
       retry: 1,
-      enabled: !!account?.address
+      enabled: !!account?.address && !!currentChainSupportedTokens.USDC
     }
   );
   const usdcBalance = restUsdcResult.isFetched && !usdcData ? "0" : usdcData;
 
-  const { data: eurcData, ...restEurcResult } = useTokenBalance(
+  const { data: eurcData, ...restEurcResult } = useGetTokenBalance(
     {
       chain,
       wallet: account?.address ?? "0x",
@@ -49,7 +49,7 @@ export const TokenBalanceProvider = ({ children }: PropsWithChildren) => {
     },
     {
       retry: 1,
-      enabled: !!account?.address
+      enabled: !!account?.address && !!currentChainSupportedTokens.EURC
     }
   );
   const eurcBalance = restEurcResult.isFetched && !eurcData ? "0" : eurcData;

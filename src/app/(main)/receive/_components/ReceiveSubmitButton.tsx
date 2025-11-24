@@ -5,7 +5,7 @@ import { ContainButton } from "@/presentation/components/Button";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { InfoText } from "@/presentation/components/Text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
-import { Token } from "@/registries/TokenRegistry";
+import { Token } from "@/registries/ChainTokenRegistry";
 
 import useReceiveForm from "../_hooks/useReceiveForm";
 
@@ -15,8 +15,8 @@ type ReceiveSubmitButtonProps = { recipient: Address };
 
 const ReceiveSubmitButton = (props: ReceiveSubmitButtonProps) => {
   const { recipient } = props;
-  const transferForm = useReceiveForm();
-  const { form, sendToken, fee, isValid } = transferForm;
+  const receiveForm = useReceiveForm();
+  const { form, sendToken, fee, isValid } = receiveForm;
 
   const [isSharing, setIsSharing] = useBoolean(false);
 
@@ -46,7 +46,7 @@ const ReceiveSubmitButton = (props: ReceiveSubmitButtonProps) => {
         amount={amount}
         sendToken={sendToken}
         feeToken={feeToken}
-        feeDecimals={fee?.feeDisplayValue ?? 0}
+        feeDecimals={fee?.display ?? 0}
         webhookUrl={webhookUrl}
         componentProps={{ title: "請求リンクの共有", size: "lg", isOpen: isSharing, onClose: setIsSharing.off }}
       />
