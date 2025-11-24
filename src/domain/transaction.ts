@@ -20,9 +20,9 @@ export type GetLastTransactionCommand = {
   wallet: Address;
 };
 
-export type ListTransactionsByTermCommand = {
+export type ListMonthlyTransactionsCommand = {
   wallet: Address;
   token: Token;
-  timeFrom: Date;
-  timeTo: Date;
+  year: number;
+  month: number;
 };

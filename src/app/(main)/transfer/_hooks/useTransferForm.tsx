@@ -23,7 +23,7 @@ const useTransferFormProvider = (props: useTransferFormProviderProps) => {
   );
 
   const defaultValues: TransferFormValues = {
-    feeToken: "JPYC",
+    feeToken: "USDC",
     recipient: "",
     amount: ""
   };

@@ -14,12 +14,14 @@ import {
   SelectItem
 } from "@/presentation/components/gluestack-ui/select";
 import { Text } from "@/presentation/components/gluestack-ui/text";
-import { TOKENS } from "@/registries/ChainTokenRegistry";
+import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
+import { SUPPORT_CHAIN_TO_TOKEN } from "@/registries/ChainTokenRegistry";
 
 import useReceiveForm from "../_hooks/useReceiveForm";
 
 const ReceiveFeeToken = () => {
   const { form } = useReceiveForm();
+  const { currentChain } = useWalletPreferencesContext();
 
   return (
     <HStack className="w-full px-4 py-3 h-[90px] bg-white items-center justify-between gap-x-5">
@@ -40,7 +42,7 @@ const ReceiveFeeToken = () => {
                 <SelectDragIndicatorWrapper>
                   <SelectDragIndicator />
                 </SelectDragIndicatorWrapper>
-                {TOKENS.map(token => (
+                {SUPPORT_CHAIN_TO_TOKEN[currentChain].map(token => (
                   <SelectItem
                     key={token}
                     label={token}
