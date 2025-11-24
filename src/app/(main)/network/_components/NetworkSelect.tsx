@@ -42,7 +42,7 @@ const NetworkSelect = () => {
         onValueChange={handleChange}
       >
         <SelectTrigger variant="underlined" size="xl">
-          <SelectInput placeholder="Select option" className="w-[150px] text-center" />
+          <SelectInput placeholder="Select option" className="w-[200px] text-center" />
           <SelectIcon className="mr-3" as={ChevronDownIcon} />
         </SelectTrigger>
         <SelectPortal>

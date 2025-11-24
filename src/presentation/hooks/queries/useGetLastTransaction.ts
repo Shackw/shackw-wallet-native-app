@@ -1,21 +1,23 @@
 import { UseQueryOptions, UseQueryResult, useQuery } from "@tanstack/react-query";
-import { useSQLiteContext } from "expo-sqlite";
 import { Address } from "viem";
 
-import { TransactionsUsecase } from "@/application/usecase/TransactionsUsecase";
+import { TransactionsService } from "@/application/services/TransactionsService";
 import { Chain } from "@/config/chain";
 import { TransactionModel } from "@/domain/transaction";
+import { HttpRemoteTransactionsGateway } from "@/infrastructure/http/HttpRemoteTransactionsGateway";
 
 export const useGetLastTransaction = (
   wallet: Address,
   currentChain: Chain,
   options?: Partial<UseQueryOptions<TransactionModel | null>>
 ): UseQueryResult<TransactionModel | null> => {
-  const db = useSQLiteContext();
   return useQuery({
     ...options,
     queryKey: [currentChain, wallet],
-    queryFn: () => TransactionsUsecase.getLastTransaction(db, currentChain, { wallet }),
+    queryFn: () => {
+      const remoteTransactionsGateway = new HttpRemoteTransactionsGateway();
+      return TransactionsService.getLastTransaction(currentChain, { wallet }, remoteTransactionsGateway);
+    },
     staleTime: Infinity,
     gcTime: Infinity
   });

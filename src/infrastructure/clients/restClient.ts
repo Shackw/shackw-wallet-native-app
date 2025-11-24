@@ -150,7 +150,7 @@ export function createRestClient(cfg: RestClientConfig = {}) {
 
 export const shackwRestClient = createRestClient({
   baseURL: ENV.SHACKW_API_URL,
-  timeoutMs: 15_000
+  timeoutMs: 60_000
 });
 
 export const restClient = createRestClient();

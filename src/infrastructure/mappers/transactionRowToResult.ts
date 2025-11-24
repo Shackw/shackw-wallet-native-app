@@ -5,9 +5,14 @@ import { TransactionProgressRow, TransactionWithAddressRow } from "@/infrastruct
 import { ADDRESS_TO_TOKEN } from "@/registries/ChainTokenRegistry";
 import { CustomError } from "@/shared/exceptions";
 
-import { TransactionProgressResult, ResolvedTransactionResult } from "../../application/ports/ITransactionsRepository";
+import {
+  LocalTransactionProgress,
+  SearchLocalTransactionsResult
+} from "../../application/ports/ILocalTransactionsRepository";
 
-export const transactionWithAddressRowToResult = (dbModel: TransactionWithAddressRow): ResolvedTransactionResult => {
+export const transactionWithAddressRowToResult = (
+  dbModel: TransactionWithAddressRow
+): SearchLocalTransactionsResult => {
   return {
     txHash: dbModel.tx_hash,
     blockNumber: BigInt(dbModel.block_number),
@@ -25,7 +30,7 @@ export const transactionWithAddressRowToResult = (dbModel: TransactionWithAddres
 export const transactionProgressRowToResult = (
   chain: Chain,
   dbModel: TransactionProgressRow
-): TransactionProgressResult => {
+): LocalTransactionProgress => {
   const token = ADDRESS_TO_TOKEN[chain][dbModel.token_address.toLowerCase() as Address];
 
   if (!token)

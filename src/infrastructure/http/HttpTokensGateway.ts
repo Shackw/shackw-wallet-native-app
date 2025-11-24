@@ -5,7 +5,7 @@ import { shackwRestClient, RestClient } from "@/infrastructure/clients/restClien
 import { TransferTokenResultSchema } from "@/shared/validations/schemas/HttpTokenResultSchema";
 
 export class HttpTokensGateway implements ITokensGateway {
-  private baseUrl = "/transfers";
+  private baseUrl = "/tokens";
   private client: RestClient;
 
   constructor() {
@@ -13,7 +13,7 @@ export class HttpTokensGateway implements ITokensGateway {
   }
 
   async transfer(query: TransferTokenQuery): Promise<TransferTokenResult> {
-    const transfered = await this.client.post(this.baseUrl, query);
+    const transfered = await this.client.post(`${this.baseUrl}:transfer`, query);
     const parsed = v.parse(TransferTokenResultSchema, transfered);
     return parsed;
   }

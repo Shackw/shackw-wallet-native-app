@@ -14,7 +14,7 @@ const useReceiveFormProvider = (props: useReceiveFormProviderProps) => {
   const schema = useMemo(() => buildReceiveSchema(sendToken, minTransfer), [minTransfer, sendToken]);
 
   const defaultValues: ReceiveFormValues = {
-    feeToken: "JPYC",
+    feeToken: "USDC",
     amount: "",
     webhookUrl: ""
   };
