@@ -1,23 +1,25 @@
-import { mainnet, base, sepolia, baseSepolia, type Chain } from "viem/chains";
+import { mainnet, base, sepolia, baseSepolia, polygon, polygonAmoy, Chain as ViemChain } from "viem/chains";
 
-import { ENV, type BuildEnv } from "./env";
+export type Chain = (typeof CHAIN_KEYS)[number];
 
-export const SUPPORT_CHAIN_KEYS_MAP = {
-  main: `Ethereum ${ENV.BUILD_ENV === "prd" ? "Main" : "Test"} Net`,
-  base: `Base ${ENV.BUILD_ENV === "prd" ? "Main" : "Test"} Net`
-} as const;
-export type SupportChain = keyof typeof SUPPORT_CHAIN_KEYS_MAP;
-export const SUPPORT_CHAIN_KEYS = Object.keys(SUPPORT_CHAIN_KEYS_MAP) as SupportChain[];
+export const CHAIN_KEYS = ["mainnet", "base", "polygon", "sepolia", "baseSepolia", "polygonAmoy"] as const;
 
-const BUILD_ENV_TO_SUPPORT_CHAINS: Record<BuildEnv, Record<SupportChain, Chain>> = {
-  dev: {
-    main: sepolia,
-    base: baseSepolia
-  },
-  prd: {
-    main: mainnet,
-    base: base
-  }
+export const CHAIN_KEY_TO_DISPLAY_NAME = {
+  mainnet: "Ethereum Mainnet",
+  base: "Base Mainnet",
+  polygon: "Polygon PoS",
+  sepolia: "Ethereum Sepolia Testnet",
+  baseSepolia: "Base Sepolia Testnet",
+  polygonAmoy: "Polygon Amoy Testnet"
+} as const satisfies Record<Chain, string>;
+
+export const CHAINS: Record<Chain, ViemChain> = {
+  mainnet,
+  base,
+  polygon,
+  sepolia,
+  baseSepolia,
+  polygonAmoy
 };
-export const SUPPORT_CHAINS = BUILD_ENV_TO_SUPPORT_CHAINS[ENV.BUILD_ENV];
-export const SUPPORT_CHAIN_IDS = Object.values(SUPPORT_CHAINS).map(c => c.id);
+
+export const CHAIN_IDS = Object.values(CHAINS).map(c => c.id);

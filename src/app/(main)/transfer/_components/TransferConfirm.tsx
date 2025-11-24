@@ -15,7 +15,7 @@ import { ErrorText, InfoText } from "@/presentation/components/Text";
 import { useTransferToken } from "@/presentation/hooks/mutations/useTransferToken";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
-import { Token } from "@/registries/TokenRegistry";
+import { Token } from "@/registries/ChainTokenRegistry";
 
 type TransferConfirmProps = {
   name: string | undefined;

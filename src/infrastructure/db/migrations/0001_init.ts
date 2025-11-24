@@ -5,8 +5,15 @@ export const up_0001 = async (db: SQLiteDatabase) => {
     CREATE TABLE IF NOT EXISTS user_setting (
       id              INTEGER PRIMARY KEY CHECK (id = 1) DEFAULT 1,
 
-      default_chain  TEXT NOT NULL
-                      CHECK (default_chain IN ('main','base'))
+      default_chain   TEXT NOT NULL
+                      CHECK (default_chain IN (
+                        'mainnet',
+                        'base',
+                        'polygon',
+                        'sepolia',
+                        'baseSepolia',
+                        'polygonAmoy'
+                      ))
                       DEFAULT 'base',
 
       default_wallet  TEXT
@@ -41,7 +48,14 @@ export const up_0001 = async (db: SQLiteDatabase) => {
 
     CREATE TABLE IF NOT EXISTS transactions (
       chain             TEXT NOT NULL
-                        CHECK(chain IN ('main','base'))
+                        CHECK(chain IN (
+                          'mainnet',
+                          'base',
+                          'polygon',
+                          'sepolia',
+                          'baseSepolia',
+                          'polygonAmoy'
+                        ))
                         DEFAULT 'base',
 
       tx_hash           TEXT NOT NULL
@@ -81,7 +95,14 @@ export const up_0001 = async (db: SQLiteDatabase) => {
 
     CREATE TABLE IF NOT EXISTS transaction_progress (
       chain               TEXT NOT NULL
-                          CHECK(chain IN ('main','base'))
+                          CHECK(chain IN (
+                            'mainnet',
+                            'base',
+                            'polygon',
+                            'sepolia',
+                            'baseSepolia',
+                            'polygonAmoy'
+                          ))
                           DEFAULT 'base',
 
       year                INTEGER NOT NULL CHECK(year BETWEEN 2009 AND 9999),

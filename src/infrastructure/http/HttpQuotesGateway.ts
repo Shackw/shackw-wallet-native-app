@@ -2,11 +2,11 @@ import * as v from "valibot";
 
 import { shackwRestClient, RestClient } from "@/infrastructure/clients/restClient";
 
-import { CreateQuoteResultSchema } from "../parsers/HttpQuoteResultSchema";
+import { CreateQuoteResultSchema } from "../../shared/validations/schemas/HttpQuoteResultSchema";
 
-import type { CreateQuoteQuery, CreateQuoteResult, IQuotesRepository } from "../../application/ports/IQuotesRepository";
+import type { CreateQuoteQuery, CreateQuoteResult, IQuotesGateway } from "../../application/ports/IQuotesGateway";
 
-export class HttpQuotesRepository implements IQuotesRepository {
+export class HttpQuotesGateway implements IQuotesGateway {
   private baseUrl = "/quotes";
   private client: RestClient;
 

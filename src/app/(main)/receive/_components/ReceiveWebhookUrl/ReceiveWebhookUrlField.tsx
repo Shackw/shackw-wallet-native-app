@@ -36,7 +36,7 @@ const ReceiveWebhookUrlField = (props: ReceiveWebhookUrlFieldProps) => {
   }, [componentProps, form]);
 
   const handleSubmit = useCallback(() => {
-    if (!form.state.fieldMeta.webhookUrl.isValid) {
+    if (!form.state.fieldMeta?.webhookUrl?.isValid) {
       setIsShowErrorDialog.on();
       return;
     }

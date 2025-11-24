@@ -1,6 +1,6 @@
 import * as v from "valibot";
 
-import { TOKENS } from "@/registries/TokenRegistry";
+import { TOKENS } from "@/registries/ChainTokenRegistry";
 
 import { stringBigintValidator } from "./stringBigintValidator";
 

@@ -1,4 +1,4 @@
-import type { SupportChain } from "@/config/chain";
+import type { Chain } from "@/config/chain";
 
 import type { Address } from "viem";
 
@@ -9,10 +9,10 @@ export interface IUserSettingRepository {
 
 export type UserSettingResult = {
   name: string;
-  defaultChain: SupportChain;
+  defaultChain: Chain;
   defaultWallet: Address | null;
   updatedAt: Date;
   createdAt: Date;
 };
 
-export type PatchUserSettingQuery = { defaultChain?: SupportChain; defaultWallet?: Address | null };
+export type PatchUserSettingQuery = { defaultChain?: Chain; defaultWallet?: Address | null };

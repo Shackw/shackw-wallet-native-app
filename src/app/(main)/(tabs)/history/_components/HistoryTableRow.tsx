@@ -1,4 +1,4 @@
-import { SUPPORT_CHAINS } from "@/config/chain";
+import { CHAINS } from "@/config/chain";
 import AddressMutateField from "@/presentation/components/Addresses/AddressMutateField";
 import Anchor from "@/presentation/components/Anchor";
 import { TextButton } from "@/presentation/components/Button";
@@ -8,7 +8,7 @@ import { TableRow } from "@/presentation/components/gluestack-ui/table";
 import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
-import { useUserSettingContext } from "@/presentation/providers/UserSettingProvider";
+import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 import { shortenAddress } from "@/shared/helpers/address";
 import { formatIsoString } from "@/shared/helpers/datetime";
 
@@ -21,7 +21,7 @@ type HistoryTableRowProps = {
 
 const HistoryTableRow = (props: HistoryTableRowProps) => {
   const { row, refetchHistory } = props;
-  const { currentChain } = useUserSettingContext();
+  const { currentChain } = useWalletPreferencesContext();
   const { txHash, displayValue, counterparty, anchorColor, transferredAt } = row;
 
   const [isAddingAddress, setIsAddingAddress] = useBoolean(false);
@@ -34,9 +34,9 @@ const HistoryTableRow = (props: HistoryTableRowProps) => {
           <VStack className="w-full py-1 pl-3 pr-6 gap-y-1">
             <HStack className="justify-between">
               <Text className="font-bold text-secondary-500">{formatIsoString(transferredAt)}</Text>
-              {SUPPORT_CHAINS[currentChain].blockExplorers?.default ? (
+              {CHAINS[currentChain].blockExplorers?.default ? (
                 <Anchor
-                  href={`${SUPPORT_CHAINS[currentChain].blockExplorers.default.url}/tx/${txHash}`}
+                  href={`${CHAINS[currentChain].blockExplorers.default.url}/tx/${txHash}`}
                   className="font-bold text-secondary-500"
                 >{`tx: ${shortenAddress(txHash, 5)}`}</Anchor>
               ) : (

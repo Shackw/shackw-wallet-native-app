@@ -37,7 +37,7 @@ const TransferAmountSummary = (props: TransferAmountSummaryProps) => {
             手数料
           </Text>
           <Text size="lg" className="flex-1 font-bold text-right">
-            {fee ? `${fee.feeDisplayValue} ${feeToken}` : "ー"}
+            {fee ? `${fee.display} ${feeToken}` : "ー"}
           </Text>
         </HStack>
       )}

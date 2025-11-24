@@ -1,24 +1,33 @@
 import { chunk, withBusyRetry, execWithRetry } from "@/infrastructure/db/libs";
 import type { TransactionProgressRow, TransactionWithAddressRow } from "@/infrastructure/db/schema";
-import { TOKEN_REGISTRY } from "@/registries/TokenRegistry";
+import { TOKEN_REGISTRY } from "@/registries/ChainTokenRegistry";
+import { CustomError } from "@/shared/exceptions";
 
 import { transactionProgressRowToResult, transactionWithAddressRowToResult } from "../mappers/transactionRowToResult";
 
 import type {
-  SearchTransactionQuery,
-  ResolvedTransactionResult,
+  SearchLocalTransactionQuery,
+  SearchLocalTransactionsResult,
   ILocalTransactionsRepository,
   GetTransactionProgressQuery,
-  TransactionProgressResult,
-  TransactionResult
-} from "../../application/ports/ITransactionsRepository";
+  LocalTransactionProgress,
+  SearchLocalTransactionItem
+} from "../../application/ports/ILocalTransactionsRepository";
 import type { SQLiteDatabase } from "expo-sqlite";
 
-export const SqlTransactionsRepository: ILocalTransactionsRepository = {
-  async search(db: SQLiteDatabase, query: SearchTransactionQuery): Promise<ResolvedTransactionResult[]> {
+export class SqlLocalTransactionsRepository implements ILocalTransactionsRepository {
+  private db: SQLiteDatabase;
+
+  constructor(db: SQLiteDatabase) {
+    this.db = db;
+  }
+
+  async search(query: SearchLocalTransactionQuery): Promise<SearchLocalTransactionsResult[]> {
     const { chain, wallet, tokens, timeFrom, timeTo, limit, direction } = query;
 
-    const tokenAddrs = tokens.map(t => TOKEN_REGISTRY[t.symbol].address[chain].toLowerCase());
+    const tokenAddrs = tokens
+      .map(({ symbol }) => TOKEN_REGISTRY[symbol].address[chain]?.toLowerCase())
+      .filter((addr): addr is string => Boolean(addr));
     const inPlaceholders = tokenAddrs.map((_, i) => `$t${i}`).join(",");
 
     const cond: string[] = [`t.token_address IN (${inPlaceholders})`];
@@ -51,7 +60,7 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
     const limitSql = limit ? `LIMIT $limit` : "";
     if (limit) bind.$limit = limit;
 
-    const stmt = await db.prepareAsync(`
+    const stmt = await this.db.prepareAsync(`
       SELECT t.tx_hash,
             t.log_index,
             t.block_number,
@@ -76,15 +85,22 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
     } finally {
       await stmt.finalizeAsync();
     }
-  },
+  }
 
-  async batchWrite(db: SQLiteDatabase, progress: TransactionProgressResult, rows: TransactionResult[]): Promise<void> {
+  async batchWrite(progress: LocalTransactionProgress, items: SearchLocalTransactionItem[]): Promise<void> {
     const { chain, year, month, status, token, createdBy, lastUpdatedAt } = progress;
-    const tokenAddress = TOKEN_REGISTRY[token].address[chain].toLowerCase();
+    const registryTokenAddress = TOKEN_REGISTRY[token].address[chain];
 
-    for (const part of chunk(rows, 300)) {
+    if (!registryTokenAddress)
+      throw new CustomError(
+        `Token "${token}" is not configured for chain "${chain}" in TOKEN_REGISTRY. Unable to resolve token address.`
+      );
+
+    const walletAddress = createdBy.toLowerCase();
+
+    for (const part of chunk(items, 300)) {
       await withBusyRetry(async () => {
-        await db.withExclusiveTransactionAsync(async txn => {
+        await this.db.withExclusiveTransactionAsync(async txn => {
           const txStmt = await txn.prepareAsync(`
           INSERT OR IGNORE INTO transactions (
             chain, tx_hash, log_index, block_number,
@@ -121,26 +137,27 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
     }
 
     await withBusyRetry(async () => {
-      await db.withExclusiveTransactionAsync(async txn => {
+      await this.db.withExclusiveTransactionAsync(async txn => {
         const progStmt = await txn.prepareAsync(`
-          INSERT INTO transaction_progress (
-            chain, year, month, token_address, created_by_address, status, last_updated_at
-          ) VALUES (
-            $chain, $year, $month, $tokenAddress, $createdBy, $status, $lastUpdatedAt
-          )
-          ON CONFLICT(chain, year, month, token_address, created_by_address)
-          DO UPDATE SET status=excluded.status, last_updated_at=excluded.last_updated_at
-        `);
+        INSERT INTO transaction_progress (
+          chain, year, month, token_address, created_by_address, status, last_updated_at
+        ) VALUES (
+          $chain, $year, $month, $tokenAddress, $createdBy, $status, $lastUpdatedAt
+        )
+        ON CONFLICT(chain, year, month, token_address, created_by_address)
+        DO UPDATE SET status=excluded.status, last_updated_at=excluded.last_updated_at
+      `);
+
         try {
           await execWithRetry(() =>
             progStmt.executeAsync({
               $chain: chain,
               $year: year,
               $month: month,
-              $tokenAddress: tokenAddress,
-              $createdBy: createdBy.toLowerCase(),
+              $tokenAddress: registryTokenAddress.toLowerCase(),
+              $createdBy: walletAddress,
               $status: status,
-              $lastUpdatedAt: Math.floor(lastUpdatedAt.getTime() / 1000)
+              $lastUpdatedAt: Math.floor(lastUpdatedAt.getTime() / 1000) // Date → unix(sec)
             })
           );
         } finally {
@@ -148,13 +165,18 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
         }
       });
     });
-  },
+  }
 
-  async getProgress(db: SQLiteDatabase, query: GetTransactionProgressQuery): Promise<TransactionProgressResult | null> {
+  async getProgress(query: GetTransactionProgressQuery): Promise<LocalTransactionProgress | null> {
     const { chain, wallet, year, month, token } = query;
-    const tokenAddress = TOKEN_REGISTRY[token.symbol].address[chain].toLowerCase();
+    const tokenAddress = TOKEN_REGISTRY[token.symbol].address[chain];
 
-    const stmt = await db.prepareAsync(`
+    if (!tokenAddress)
+      throw new CustomError(
+        `Token "${token.symbol}" is not configured for chain "${chain}" in TOKEN_REGISTRY. Unable to resolve token address.`
+      );
+
+    const stmt = await this.db.prepareAsync(`
       SELECT
         chain,
         year,
@@ -187,4 +209,4 @@ export const SqlTransactionsRepository: ILocalTransactionsRepository = {
       await stmt.finalizeAsync();
     }
   }
-};
+}

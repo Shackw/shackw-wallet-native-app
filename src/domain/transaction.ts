@@ -1,4 +1,4 @@
-import { Token } from "@/registries/TokenRegistry";
+import { Token } from "@/registries/ChainTokenRegistry";
 
 import type { Address, Hex } from "viem";
 
@@ -20,9 +20,9 @@ export type GetLastTransactionCommand = {
   wallet: Address;
 };
 
-export type ListTransactionsByTermCommand = {
+export type ListMonthlyTransactionsCommand = {
   wallet: Address;
   token: Token;
-  timeFrom: Date;
-  timeTo: Date;
+  year: number;
+  month: number;
 };

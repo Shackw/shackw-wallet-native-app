@@ -1,16 +1,10 @@
 import * as v from "valibot";
 
+import { ITokensGateway, TransferTokenQuery, TransferTokenResult } from "@/application/ports/ITokensGateway";
 import { shackwRestClient, RestClient } from "@/infrastructure/clients/restClient";
+import { TransferTokenResultSchema } from "@/shared/validations/schemas/HttpTokenResultSchema";
 
-import { TransferTokenResultSchema } from "../parsers/HttpTokenResultSchema";
-
-import type {
-  ITokensRepository,
-  TransferTokenQuery,
-  TransferTokenResult
-} from "../../application/ports/ITokensRepository";
-
-export class HttpTokensRepository implements ITokensRepository {
+export class HttpTokensGateway implements ITokensGateway {
   private baseUrl = "/tokens";
   private client: RestClient;
 

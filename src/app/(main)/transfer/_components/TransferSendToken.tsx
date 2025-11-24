@@ -1,14 +1,16 @@
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { Tab } from "@/presentation/components/Tab";
-import { TOKENS_MAP } from "@/registries/TokenRegistry";
+import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 
 import useTransferForm from "../_hooks/useTransferForm";
 
 const TransferSendToken = () => {
   const { sendToken, setSendToken } = useTransferForm();
+  const { currentChainSupportedTokens } = useWalletPreferencesContext();
+
   return (
     <Box className="px-[12px]">
-      <Tab options={TOKENS_MAP} value={sendToken} handleChange={setSendToken} />
+      <Tab options={currentChainSupportedTokens} value={sendToken} handleChange={setSendToken} />
     </Box>
   );
 };

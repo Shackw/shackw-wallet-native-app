@@ -1,17 +1,17 @@
 import { Address } from "viem";
 
-import { SupportChain } from "@/config/chain";
+import { Chain } from "@/config/chain";
 
 export type UserSettingModel = {
   name: string;
-  defaultChain: SupportChain;
+  defaultChain: Chain;
   defaultWallet: Address | null;
   createdAt: Date;
   updatedAt: Date;
 };
 
 export type UpdateSelectedChainCommand = {
-  defaultChain: SupportChain;
+  defaultChain: Chain;
 };
 
 export type UpdateDefaultWalletCommand = {
