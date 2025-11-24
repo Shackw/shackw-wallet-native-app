@@ -1,18 +1,17 @@
 import * as v from "valibot";
 import { SignAuthorizationReturnType } from "viem";
 
-import { SupportChain } from "@/config/chain";
+import { Chain } from "@/config/chain";
+import { TransferTokenResultSchema } from "@/shared/validations/schemas/HttpTokenResultSchema";
 
-import { TransferTokenResultSchema } from "../../infrastructure/parsers/HttpTokenResultSchema";
-
-export interface ITokensRepository {
+export interface ITokensGateway {
   transfer(query: TransferTokenQuery): Promise<TransferTokenResult>;
 }
 
 export type TransferTokenResult = v.InferOutput<typeof TransferTokenResultSchema>;
 
 export type TransferTokenQuery = {
-  chain: SupportChain;
+  chain: Chain;
   quoteToken: string;
   authorization: SignAuthorizationReturnType;
   notify?: {

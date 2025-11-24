@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 
 import { TransactionModel } from "@/domain/transaction";
-import { useListTransactionsByTerm } from "@/presentation/hooks/queries/useListTransactionsByTerm";
+import { useListMonthlyTransactions } from "@/presentation/hooks/queries/useListMonthlyTransactions";
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
-import { Token } from "@/registries/TokenRegistry";
+import { Token } from "@/registries/ChainTokenRegistry";
 import { toAllowedStr } from "@/shared/helpers/tokenUnits";
 
 export type HistoryViewModel = Pick<
@@ -11,16 +11,16 @@ export type HistoryViewModel = Pick<
   "txHash" | "token" | "direction" | "counterparty" | "transferredAt"
 > & { displayValue: string; anchorColor: string };
 
-export type HistoryTerm = { timeFrom: Date; timeTo: Date };
+export type HistoryYearMonth = { year: number; month: number };
 
-export type UseHistoryRowsProps = { token: Token } & HistoryTerm;
+export type UseHistoryRowsProps = { token: Token } & HistoryYearMonth;
 
 const useHistoryRows = (props: UseHistoryRowsProps) => {
-  const { token, timeFrom, timeTo } = props;
+  const { token, year, month } = props;
 
   const { account } = useShackwWalletContext();
-  const { data: transactions, ...rest } = useListTransactionsByTerm(
-    { wallet: account?.address ?? "0x00", token, timeFrom, timeTo },
+  const { data: transactions, ...rest } = useListMonthlyTransactions(
+    { wallet: account?.address ?? "0x00", token, year, month },
     { enabled: !!account?.address }
   );
 

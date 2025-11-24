@@ -2,19 +2,19 @@ import { ScrollView } from "react-native";
 
 import { Table, TableBody } from "@/presentation/components/gluestack-ui/table";
 import TableSuspence from "@/presentation/components/TableSuspence";
-import { Token } from "@/registries/TokenRegistry";
+import { Token } from "@/registries/ChainTokenRegistry";
 
-import useHistoryRows, { HistoryTerm } from "../_hooks/useHistoryRows";
+import useHistoryRows, { HistoryYearMonth } from "../_hooks/useHistoryRows";
 
 import HistoryTableRow from "./HistoryTableRow";
 
-type HistoryTableProps = { token: Token; term: HistoryTerm };
+type HistoryTableProps = { token: Token; yaerMonth: HistoryYearMonth };
 
 const HistoryTable = (props: HistoryTableProps) => {
-  const { token, term } = props;
+  const { token, yaerMonth } = props;
   const { historyRows, isError, refetch } = useHistoryRows({
     token,
-    ...term
+    ...yaerMonth
   });
 
   return (

@@ -10,7 +10,7 @@ import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText } from "@/presentation/components/Text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { theme } from "@/presentation/styles/theme";
-import { TOKEN_REGISTRY } from "@/registries/TokenRegistry";
+import { TOKEN_REGISTRY } from "@/registries/ChainTokenRegistry";
 
 import { ReceiveFormContextType } from "../../_hooks/useReceiveForm";
 
@@ -24,7 +24,7 @@ type ReceiveAmountFieldProps = {
 
 const ReceiveAmountField = (props: ReceiveAmountFieldProps) => {
   const { prevValue, transferForm, componentProps } = props;
-  const { form, sendToken, fetchFee } = transferForm;
+  const { form, sendToken } = transferForm;
   const [isShowErrorDialog, setIsShowErrorDialog] = useBoolean(false);
 
   const TokenSymboIcon = TOKEN_REGISTRY[sendToken].Icon;
@@ -41,13 +41,12 @@ const ReceiveAmountField = (props: ReceiveAmountFieldProps) => {
   }, [componentProps, form]);
 
   const handleSubmit = useCallback(() => {
-    if (!form.state.fieldMeta.amount.isValid) {
+    if (!form.state.fieldMeta?.amount?.isValid) {
       setIsShowErrorDialog.on();
       return;
     }
-    if (form.state.fieldMeta.amount.isTouched) fetchFee();
     componentProps.onClose();
-  }, [componentProps, fetchFee, form, setIsShowErrorDialog]);
+  }, [componentProps, form, setIsShowErrorDialog]);
 
   return (
     <BottomInputDrawer {...componentProps} onClose={handleClose}>

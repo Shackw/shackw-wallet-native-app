@@ -1,10 +1,10 @@
 import { Account, WalletClient, Address } from "viem";
 
-import { SupportChain } from "@/config/chain";
-import { Token } from "@/registries/TokenRegistry";
+import { Chain } from "@/config/chain";
+import { Token } from "@/registries/ChainTokenRegistry";
 
 export type GetTokenBalanceCommand = {
-  chain: SupportChain;
+  chain: Chain;
   wallet: Address;
   token: Token;
 };

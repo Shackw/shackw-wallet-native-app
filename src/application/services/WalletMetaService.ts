@@ -1,0 +1,99 @@
+import { Chain } from "@/config/chain";
+import { WalletMetaModel, WalletMetaItem } from "@/domain/walletMeta";
+import { isChain, isToken, Token } from "@/registries/ChainTokenRegistry";
+import { CustomError } from "@/shared/exceptions";
+
+import { GetWalletSummaryResult, IWalletMetaGateway } from "../ports/IWalletMetaGateway";
+
+export const WalletMetaService = {
+  async getSummary(walletMetaGateway: IWalletMetaGateway): Promise<WalletMetaModel> {
+    try {
+      const meta = await walletMetaGateway.get();
+      return buildWalletMetaModel(meta);
+    } catch (error: unknown) {
+      console.error(error);
+
+      if (error instanceof CustomError) {
+        throw new Error(error.message);
+      }
+
+      throw new Error("不明なエラーによりウォレットメタ情報を取得できませんでした。");
+    }
+  }
+};
+
+function buildWalletMetaModel(meta: GetWalletSummaryResult): WalletMetaModel {
+  const result = createInitialWalletMeta();
+
+  const ensureTokenMeta = (chain: Chain, token: Token): WalletMetaItem => {
+    if (!result[chain]) {
+      result[chain] = {};
+    }
+    if (!result[chain]![token]) {
+      result[chain]![token] = {
+        minTransfer: { minUnits: 0n, display: 0 },
+        fixedFee: { minUnits: 0n, display: 0 }
+      };
+    }
+    return result[chain]![token]!;
+  };
+
+  // minTransfers -> minTransfer
+  for (const entry of meta.minTransfers) {
+    if (!isChain(entry.chainSymbol)) continue;
+    if (!isToken(entry.tokenSymbol)) continue;
+
+    const tokenMeta = ensureTokenMeta(entry.chainSymbol, entry.tokenSymbol);
+
+    tokenMeta.minTransfer = {
+      minUnits: BigInt(entry.minUnits),
+      display: entry.display
+    };
+  }
+
+  // fixedFees -> fixedFee
+  for (const entry of meta.fixedFees) {
+    if (!isChain(entry.chainSymbol)) continue;
+    if (!isToken(entry.tokenSymbol)) continue;
+
+    const tokenMeta = ensureTokenMeta(entry.chainSymbol, entry.tokenSymbol);
+
+    tokenMeta.fixedFee = {
+      minUnits: BigInt(entry.fixedFeeAmountUnits),
+      display: entry.fixedFeeAmountDisplay
+    };
+  }
+
+  return result;
+}
+
+function createInitialWalletMeta(): WalletMetaModel {
+  return {
+    mainnet: {
+      JPYC: { fixedFee: { display: 0, minUnits: 0n }, minTransfer: { display: 0, minUnits: 0n } },
+      USDC: { fixedFee: { display: 0, minUnits: 0n }, minTransfer: { display: 0, minUnits: 0n } },
+      EURC: { fixedFee: { display: 0, minUnits: 0n }, minTransfer: { display: 0, minUnits: 0n } }
+    },
+    base: {
+      USDC: { fixedFee: { display: 0, minUnits: 0n }, minTransfer: { display: 0, minUnits: 0n } },
+      EURC: { fixedFee: { display: 0, minUnits: 0n }, minTransfer: { display: 0, minUnits: 0n } }
+    },
+    polygon: {
+      JPYC: { fixedFee: { display: 0, minUnits: 0n }, minTransfer: { display: 0, minUnits: 0n } },
+      USDC: { fixedFee: { display: 0, minUnits: 0n }, minTransfer: { display: 0, minUnits: 0n } }
+    },
+    sepolia: {
+      JPYC: { fixedFee: { display: 0, minUnits: 0n }, minTransfer: { display: 0, minUnits: 0n } },
+      USDC: { fixedFee: { display: 0, minUnits: 0n }, minTransfer: { display: 0, minUnits: 0n } },
+      EURC: { fixedFee: { display: 0, minUnits: 0n }, minTransfer: { display: 0, minUnits: 0n } }
+    },
+    baseSepolia: {
+      USDC: { fixedFee: { display: 0, minUnits: 0n }, minTransfer: { display: 0, minUnits: 0n } },
+      EURC: { fixedFee: { display: 0, minUnits: 0n }, minTransfer: { display: 0, minUnits: 0n } }
+    },
+    polygonAmoy: {
+      JPYC: { fixedFee: { display: 0, minUnits: 0n }, minTransfer: { display: 0, minUnits: 0n } },
+      USDC: { fixedFee: { display: 0, minUnits: 0n }, minTransfer: { display: 0, minUnits: 0n } }
+    }
+  };
+}

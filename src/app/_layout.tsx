@@ -9,7 +9,7 @@ import { GluestackUIProvider } from "@/presentation/components/gluestack-ui/glue
 import Loading from "@/presentation/components/Loading";
 import { useFonts } from "@/presentation/hooks/useFonts";
 import { ShackwWalletProvider } from "@/presentation/providers/ShackwWalletProvider";
-import { UserSettingProvider } from "@/presentation/providers/UserSettingProvider";
+import { WalletPreferencesProvider } from "@/presentation/providers/WalletPreferencesProvider";
 
 import "@/presentation/styles/global.css";
 
@@ -28,7 +28,7 @@ const RootLayout = () => {
   return (
     <SQLiteProvider databaseName="shackw-wallet.db" onInit={migrate}>
       <QueryClientProvider client={queryClient}>
-        <UserSettingProvider>
+        <WalletPreferencesProvider>
           <ShackwWalletProvider>
             <GluestackUIProvider>
               <Stack
@@ -39,7 +39,7 @@ const RootLayout = () => {
               />
             </GluestackUIProvider>
           </ShackwWalletProvider>
-        </UserSettingProvider>
+        </WalletPreferencesProvider>
       </QueryClientProvider>
     </SQLiteProvider>
   );

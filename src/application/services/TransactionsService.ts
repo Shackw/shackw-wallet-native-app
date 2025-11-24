@@ -1,65 +1,117 @@
-import { endOfMonth, isAfter, isEqual } from "date-fns";
+import { endOfMonth, getUnixTime, startOfMonth, subMinutes, subYears } from "date-fns";
 
-import { RpcTransactionsRepository } from "../../infrastructure/rpc/RpcTransactionsRepository";
-import { SqlTransactionsRepository } from "../../infrastructure/sql/SqlTransactionsRepository";
+import { Chain } from "@/config/chain";
+import { GetLastTransactionCommand, ListMonthlyTransactionsCommand, TransactionModel } from "@/domain/transaction";
+import { SUPPORT_CHAIN_TO_TOKEN } from "@/registries/ChainTokenRegistry";
+import { CustomError } from "@/shared/exceptions";
 
-import type {
-  GetTransactionProgressQuery,
-  TransactionProgressResult,
-  SearchTransactionQuery,
-  ResolvedTransactionResult
-} from "../ports/ITransactionsRepository";
-import type { SQLiteDatabase } from "expo-sqlite";
+import { localTransactionToDomain, remoteToLocalTransaction, remoteTransactionToDomain } from "../mappers/transaction";
+import { ILocalTransactionsRepository, LocalTransactionProgress } from "../ports/ILocalTransactionsRepository";
+import { IRemoteTransactionsGateway, SearchRemoteTransactionsQuery } from "../ports/IRemoteTransactionsGateway";
 
 export const TransactionsService = {
-  async search(db: SQLiteDatabase, query: SearchTransactionQuery): Promise<ResolvedTransactionResult[]> {
-    const { chain, wallet, timeTo, timeFrom, tokens } = query;
+  async getLastTransaction(
+    chain: Chain,
+    command: GetLastTransactionCommand,
+    remoteTransactionsGateway: IRemoteTransactionsGateway
+  ): Promise<TransactionModel | null> {
+    const { wallet } = command;
 
-    if (isAfter(timeFrom, new Date())) throw new Error("timeFrom は現在時刻以前で指定する必要があります。");
-
-    if (tokens.length === 0) throw new Error("tokens を1つ以上指定してください。");
-
-    const toYear = timeTo && timeTo.getFullYear();
-    const toMonth = timeTo && timeTo.getMonth() + 1;
-
-    const fromYear = timeFrom && timeFrom.getFullYear();
-    const fromMonth = timeFrom && timeFrom.getMonth() + 1;
-
-    const usedLocal = (toYear === fromYear && toMonth === fromMonth) || tokens.length === 1;
-    if (!usedLocal) return await RpcTransactionsRepository.search(query);
-
-    const progress = await SqlTransactionsRepository.getProgress(db, {
+    const now = new Date();
+    const query: SearchRemoteTransactionsQuery = {
       chain,
-      year: toYear,
-      month: toMonth,
-      token: tokens[0],
-      wallet
-    });
+      tokens: [...SUPPORT_CHAIN_TO_TOKEN[chain].map(t => ({ symbol: t }))],
+      wallet,
+      timestampGte: getUnixTime(subYears(now, 1)),
+      timestampLte: getUnixTime(subMinutes(now, 1)),
+      direction: "both",
+      limit: 1
+    };
+    try {
+      const searched = await remoteTransactionsGateway.search(query);
+      if (searched.count === 0) return null;
+      return remoteTransactionToDomain(searched.items[0]);
+    } catch (error: unknown) {
+      console.error(error);
 
-    if (progress?.status !== "completed") {
-      const remoteQuery: SearchTransactionQuery = {
-        ...query,
-        timeFrom: progress ? progress.lastUpdatedAt : timeFrom
-      };
-      const searchedRemote = await RpcTransactionsRepository.search(remoteQuery);
+      if (error instanceof CustomError)
+        throw new Error(`最新の取引の取得に失敗しました: ${error.message}`, { cause: error });
 
-      const newProgress: TransactionProgressResult = {
-        chain,
-        year: toYear,
-        month: toMonth,
-        token: tokens[0].symbol,
-        createdBy: wallet,
-        status: isEqual(timeTo, endOfMonth(timeTo)) ? "completed" : "partial",
-        lastUpdatedAt: timeTo
-      };
-      await SqlTransactionsRepository.batchWrite(db, newProgress, searchedRemote);
-      return await SqlTransactionsRepository.search(db, query);
+      throw new Error(`最新の取引の取得に失敗しました（不明なエラー）: ${String(error)}`);
     }
-
-    return await SqlTransactionsRepository.search(db, query);
   },
 
-  async getProgress(db: SQLiteDatabase, query: GetTransactionProgressQuery): Promise<TransactionProgressResult | null> {
-    return await SqlTransactionsRepository.getProgress(db, query);
+  async listMonthlyTransactionsService(
+    chain: Chain,
+    command: ListMonthlyTransactionsCommand,
+    remoteTransactionsGateway: IRemoteTransactionsGateway,
+    localTransactionsRepository: ILocalTransactionsRepository
+  ): Promise<TransactionModel[]> {
+    const { wallet, token, year, month } = command;
+
+    const monthStart = startOfMonth(new Date(year, month - 1));
+    const monthEnd = endOfMonth(monthStart);
+
+    const now = new Date();
+    const isCurrentMonth = year === now.getFullYear() && month === now.getMonth() + 1;
+
+    try {
+      const progress = await localTransactionsRepository.getProgress({
+        chain,
+        wallet,
+        token: { symbol: token },
+        year,
+        month
+      });
+
+      if (!progress || progress.status !== "completed") {
+        const remoteQuery: SearchRemoteTransactionsQuery = {
+          chain,
+          tokens: [{ symbol: token }],
+          wallet,
+          timestampGte: getUnixTime(monthStart),
+          timestampLte: getUnixTime(monthEnd),
+          direction: "both",
+          limit: 10_000
+        };
+
+        const remoteTransactions = await remoteTransactionsGateway.search(remoteQuery);
+        const remoteToLocalTransactions = remoteTransactions.items.map(item =>
+          remoteToLocalTransaction(chain, wallet, item)
+        );
+
+        const newProgress: LocalTransactionProgress = {
+          chain,
+          year,
+          month,
+          token,
+          createdBy: wallet,
+          status: isCurrentMonth ? "partial" : "completed",
+          lastUpdatedAt: new Date()
+        };
+
+        await localTransactionsRepository.batchWrite(newProgress, remoteToLocalTransactions);
+      }
+
+      const localTransactions = await localTransactionsRepository.search({
+        chain,
+        tokens: [{ symbol: token }],
+        wallet,
+        timeFrom: monthStart,
+        timeTo: monthEnd,
+        direction: "both"
+      });
+
+      const mappeds = localTransactions.map(row => localTransactionToDomain(chain, wallet, row));
+      return mappeds;
+    } catch (error: unknown) {
+      console.error(error);
+
+      if (error instanceof CustomError) {
+        throw new Error(`期間指定の取引一覧の取得に失敗しました: ${error.message}`, { cause: error });
+      }
+
+      throw new Error(`期間指定の取引一覧の取得に失敗しました（不明なエラー）: ${String(error)}`);
+    }
   }
 };

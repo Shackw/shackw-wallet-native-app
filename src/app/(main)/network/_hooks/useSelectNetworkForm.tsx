@@ -1,17 +1,17 @@
 import { useRouter } from "expo-router";
 import { createContext, PropsWithChildren, useCallback, useContext, useState } from "react";
 
-import { SupportChain } from "@/config/chain";
+import { Chain } from "@/config/chain";
 import { useUpdateSelectedChain } from "@/presentation/hooks/mutations/useUpdateSelectedChain";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
-import { useUserSettingContext } from "@/presentation/providers/UserSettingProvider";
+import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 
 const useSelectNetworkFormProvider = () => {
   const router = useRouter();
   const { mutateAsync: updateSelectedChain } = useUpdateSelectedChain();
-  const { currentChain, defaultChain, setCurrentChain, refetch } = useUserSettingContext();
+  const { currentChain, defaultChain, setCurrentChain, refetch } = useWalletPreferencesContext();
 
-  const [inputChain, setInputChain] = useState<SupportChain>(currentChain);
+  const [inputChain, setInputChain] = useState<Chain>(currentChain);
   const [isChangeDefault, setIsChangeDefault] = useBoolean(false);
 
   const [isError, setIsError] = useBoolean(false);
