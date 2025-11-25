@@ -46,7 +46,7 @@ const ReceiveSubmitButton = (props: ReceiveSubmitButtonProps) => {
         amount={amount}
         sendToken={sendToken}
         feeToken={feeToken}
-        feeDecimals={fee?.display ?? 0}
+        feeDisplayValue={fee?.display ?? 0}
         webhookUrl={webhookUrl}
         componentProps={{ title: "請求リンクの共有", size: "lg", isOpen: isSharing, onClose: setIsSharing.off }}
       />

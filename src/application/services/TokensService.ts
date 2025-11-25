@@ -35,7 +35,7 @@ export const TokensService = {
     quotesGateway: IQuotesGateway,
     tokenGateway: ITokensGateway
   ): Promise<Hex> {
-    const { account, client, token, feeToken, recipient, amountDecimals, webhookUrl } = command;
+    const { account, client, token, feeToken, recipient, amountDisplayValue, webhookUrl } = command;
 
     const createQuoteQuery: CreateQuoteQuery = {
       chain,
@@ -47,7 +47,7 @@ export const TokensService = {
       feeToken: {
         symbol: feeToken
       },
-      amountMinUnits: toMinUnits(amountDecimals, token)
+      amountMinUnits: toMinUnits(amountDisplayValue, token)
     };
     try {
       const publicClient = VIEM_PUBLIC_CLIENTS[chain];

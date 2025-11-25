@@ -50,7 +50,7 @@ const TransferSubmitButton = () => {
         amount={amount}
         sendToken={sendToken}
         feeToken={feeToken}
-        feeDecimals={fee?.display ?? 0}
+        feeDisplyValue={fee?.display ?? 0}
         webhookUrl={webhookUrl}
         componentProps={{ title: "内容確認", size: "lg", isOpen: isConfirming, onClose: setIsConfirming.off }}
       />

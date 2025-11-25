@@ -23,13 +23,13 @@ type TransferConfirmProps = {
   amount: number;
   sendToken: Token;
   feeToken: Token;
-  feeDecimals: number;
+  feeDisplyValue: number;
   webhookUrl?: string;
   componentProps: Omit<React.ComponentProps<typeof BottomInputDrawer>, "children">;
 };
 
 const TransferConfirm = (props: TransferConfirmProps) => {
-  const { name, recipient, amount, sendToken, feeToken, feeDecimals, webhookUrl, componentProps } = props;
+  const { name, recipient, amount, sendToken, feeToken, feeDisplyValue, webhookUrl, componentProps } = props;
 
   const router = useRouter();
   const { account, client } = useShackwWalletContext();
@@ -45,7 +45,7 @@ const TransferConfirm = (props: TransferConfirmProps) => {
       client,
       token: sendToken,
       feeToken: feeToken as Token,
-      amountDecimals: Number(amount),
+      amountDisplayValue: Number(amount),
       recipient: recipient as Address,
       webhookUrl
     });
@@ -71,7 +71,7 @@ const TransferConfirm = (props: TransferConfirmProps) => {
               amount={amount}
               sendToken={sendToken}
               feeToken={feeToken}
-              feeDecimals={feeDecimals}
+              feeDisplayValue={feeDisplyValue}
             />
             {error && <ErrorText>{error.message}</ErrorText>}
           </VStack>
