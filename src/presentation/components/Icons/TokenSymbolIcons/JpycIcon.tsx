@@ -1,4 +1,3 @@
-import React from "react";
 import Svg, { G, Path } from "react-native-svg";
 
 import { Box } from "@/presentation/components/gluestack-ui/box";
