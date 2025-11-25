@@ -10,6 +10,7 @@ import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import QRCode, { QRCodeHandle } from "@/presentation/components/QRCode";
 import { ErrorText } from "@/presentation/components/Text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 import { Token } from "@/registries/ChainTokenRegistry";
 
 type ReceiveConfirmProps = {
@@ -17,13 +18,15 @@ type ReceiveConfirmProps = {
   amount: number;
   sendToken: Token;
   feeToken: Token;
-  feeDecimals: number;
+  feeDisplayValue: number;
   webhookUrl: string | undefined;
   componentProps: Omit<React.ComponentProps<typeof BottomInputDrawer>, "children">;
 };
 
 const ReceiveConfirm = (props: ReceiveConfirmProps) => {
-  const { recipient, amount, sendToken, feeToken, feeDecimals, webhookUrl, componentProps } = props;
+  const { recipient, amount, sendToken, feeToken, feeDisplayValue, webhookUrl, componentProps } = props;
+
+  const { currentChain: chain } = useWalletPreferencesContext();
   const [isShowErrorDialog, setIsShowErrorDialog] = useBoolean(false);
 
   const qrCodeRef = useRef<QRCodeHandle | null>(null);
@@ -46,12 +49,12 @@ const ReceiveConfirm = (props: ReceiveConfirmProps) => {
               amount={amount}
               sendToken={sendToken}
               feeToken={feeToken}
-              feeDecimals={feeDecimals}
+              feeDisplayValue={feeDisplayValue}
             />
             <QRCode
               ref={qrCodeRef}
               path="transfer"
-              query={{ sendToken, feeToken, recipient, amount, webhookUrl }}
+              query={{ chain, sendToken, feeToken, recipient, amount, webhookUrl }}
               size={275}
             />
           </VStack>
