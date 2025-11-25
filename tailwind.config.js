@@ -142,9 +142,10 @@ module.exports = {
         }
       },
       fontFamily: {
-        body: "NotoSansJP",
-        heading: "Inter",
-        mono: "Courier"
+        sans: ["NotoSans", "NotoSansJP"],
+        body: ["NotoSans", "NotoSansJP"],
+        heading: ["NotoSans", "NotoSansJP"],
+        mono: ["NotoSans", "NotoSansJP"]
       },
       fontWeight: {
         extrablack: "950"
