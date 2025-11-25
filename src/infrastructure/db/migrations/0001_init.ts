@@ -14,7 +14,7 @@ export const up_0001 = async (db: SQLiteDatabase) => {
                         'baseSepolia',
                         'polygonAmoy'
                       ))
-                      DEFAULT 'base',
+                      DEFAULT 'polygon',
 
       default_wallet  TEXT
                       CHECK(default_wallet = lower(default_wallet))
@@ -56,7 +56,7 @@ export const up_0001 = async (db: SQLiteDatabase) => {
                           'baseSepolia',
                           'polygonAmoy'
                         ))
-                        DEFAULT 'base',
+                        DEFAULT 'polygon',
 
       tx_hash           TEXT NOT NULL
                         CHECK(tx_hash = lower(tx_hash))
@@ -103,7 +103,7 @@ export const up_0001 = async (db: SQLiteDatabase) => {
                             'baseSepolia',
                             'polygonAmoy'
                           ))
-                          DEFAULT 'base',
+                          DEFAULT 'polygon',
 
       year                INTEGER NOT NULL CHECK(year BETWEEN 2009 AND 9999),
 
@@ -147,6 +147,6 @@ export const up_0001 = async (db: SQLiteDatabase) => {
 
     -- Seeder
     INSERT OR IGNORE INTO user_setting (id, default_chain, default_wallet)
-    VALUES (1, 'base', NULL);
+    VALUES (1, 'polygon', NULL);
   `);
 };
