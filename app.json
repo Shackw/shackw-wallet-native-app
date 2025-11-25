@@ -14,9 +14,9 @@
     },
     "ios": {
       "bundleIdentifier": "com.shackw.shackwwallet",
-      "associatedDomains": ["applinks:shackw.com"],
+      "associatedDomains": ["applinks:wallet.shackw.com"],
       "entitlements": {
-        "com.apple.developer.associated-domains": ["applinks:shackw.com"]
+        "com.apple.developer.associated-domains": ["applinks:wallet.shackw.com"]
       },
       "supportsTablet": true
     },
@@ -27,8 +27,8 @@
           "action": "VIEW",
           "autoVerify": true,
           "data": [
-            { "scheme": "https", "host": "shackw.com", "pathPrefix": "/wallet/addresses" },
-            { "scheme": "https", "host": "shackw.com", "pathPrefix": "/wallet/transfer" }
+            { "scheme": "https", "host": "wallet.shackw.com", "pathPrefix": "/addresses" },
+            { "scheme": "https", "host": "wallet.shackw.com", "pathPrefix": "/transfer" }
           ],
           "category": ["BROWSABLE", "DEFAULT"]
         }

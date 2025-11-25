@@ -3,19 +3,11 @@ import * as Sharing from "expo-sharing";
 import { forwardRef, useCallback, useImperativeHandle, useMemo, useRef } from "react";
 import RNQRCode from "react-native-qrcode-svg";
 import Svg from "react-native-svg";
-import { Address } from "viem";
 
 import { ENV } from "@/config/env";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
-import { Token } from "@/registries/ChainTokenRegistry";
 
-type QRCodeProps = (
-  | { path: "addresses"; query: { name: string; address: Address } }
-  | {
-      path: "transfer";
-      query: { sendToken: Token; feeToken: Token; recipient: Address; amount: number; webhookUrl: string | undefined };
-    }
-) & { size: number };
+type QRCodeProps = { path: string; query: object; size: number };
 
 export type QRCodeHandle = { handleShare: () => Promise<void> };
 

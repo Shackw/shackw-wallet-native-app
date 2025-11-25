@@ -1,12 +1,15 @@
 import * as v from "valibot";
 
+import { Chain } from "@/config/chain";
 import { addressFormValidator } from "@/shared/validations/forms/addressFormValidator";
-import { feeTokenFormValidator } from "@/shared/validations/forms/tokenFormValidator";
+import { chainValidator } from "@/shared/validations/forms/chainValidator";
+import { feeTokenFormValidator, sendTokenFormValidator } from "@/shared/validations/forms/tokenFormValidator";
 import { urlFormValidator } from "@/shared/validations/forms/urlFormValidator";
 
 export type TransferSearchParams = v.InferInput<typeof TransferSearchParamsSchema>;
 
 export type ParsedTransferSearchParams = {
+  chain: Chain;
   feeToken: string;
   amount: string;
   recipient: string;
@@ -14,7 +17,8 @@ export type ParsedTransferSearchParams = {
 };
 
 const TransferSearchParamsSchema = v.object({
-  sendToken: v.optional(feeTokenFormValidator),
+  chain: v.optional(chainValidator),
+  sendToken: v.optional(sendTokenFormValidator),
   feeToken: v.optional(feeTokenFormValidator),
   recipient: v.optional(addressFormValidator),
   amount: v.optional(

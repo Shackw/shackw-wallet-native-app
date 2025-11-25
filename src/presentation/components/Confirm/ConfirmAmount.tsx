@@ -10,11 +10,11 @@ type ConfirmAmountProps = {
   amount: number;
   sendToken: Token;
   feeToken: Token;
-  feeDecimals: number;
+  feeDisplayValue: number;
 };
 
 const ConfirmAmount = (props: ConfirmAmountProps) => {
-  const { title, amount, sendToken, feeToken, feeDecimals } = props;
+  const { title, amount, sendToken, feeToken, feeDisplayValue } = props;
   return (
     <VStack className="w-full gap-y-2">
       <HStack className="gap-x-2">
@@ -28,16 +28,16 @@ const ConfirmAmount = (props: ConfirmAmountProps) => {
         </VStack>
         <VStack className="gap-y-1">
           <Text className="font-bold text-secondary-600">手数料</Text>
-          <Text className="font-bold text-secondary-800 text-right">{`${feeDecimals} ${feeToken}`}</Text>
+          <Text className="font-bold text-secondary-800 text-right">{`${feeDisplayValue} ${feeToken}`}</Text>
         </VStack>
         <VStack className="gap-y-1">
           <Text className="font-bold text-secondary-600">合計額</Text>
           {sendToken === feeToken ? (
-            <Text className="font-bold text-secondary-800 text-right">{`${amount + feeDecimals} ${feeToken}`}</Text>
+            <Text className="font-bold text-secondary-800 text-right">{`${amount + feeDisplayValue} ${feeToken}`}</Text>
           ) : (
             <>
               <Text className="font-bold text-secondary-800 text-right">{`${toAllowedStr(amount, sendToken)} ${sendToken}`}</Text>
-              <Text className="font-bold text-secondary-800 text-right">{`+ ${feeDecimals} ${feeToken}`}</Text>
+              <Text className="font-bold text-secondary-800 text-right">{`+ ${feeDisplayValue} ${feeToken}`}</Text>
             </>
           )}
         </VStack>

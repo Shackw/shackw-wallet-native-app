@@ -18,7 +18,7 @@ export const WalletPreferencesContext = createContext<WalletPreferencesContextTy
 
 export const WalletPreferencesProvider = ({ children }: PropsWithChildren) => {
   const { data, refetch } = useUserSetting();
-  const [currentChain, setCurrentChain] = useState<Chain>("base");
+  const [currentChain, setCurrentChain] = useState<Chain>("polygon");
 
   const defaultChain = useMemo(() => {
     if (!data) return undefined;

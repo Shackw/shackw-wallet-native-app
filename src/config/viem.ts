@@ -2,55 +2,31 @@ import { createPublicClient, http, PublicClient, Transport, Chain as ViemChain }
 
 import { Chain, CHAINS } from "@/config/chain";
 
-import { RPC_TUNIGS } from "./rpcTuning";
+import { CUSTOM_RPC_URL } from "./rpcUrls";
 
 export const VIEM_PUBLIC_CLIENTS: Record<Chain, PublicClient<Transport, ViemChain | undefined>> = {
   mainnet: createPublicClient({
     chain: CHAINS.mainnet,
-    transport: http(undefined, {
-      batch: RPC_TUNIGS.mainnet.batch,
-      retryCount: RPC_TUNIGS.mainnet.retryCount,
-      retryDelay: RPC_TUNIGS.mainnet.retryDelay
-    })
+    transport: http(CUSTOM_RPC_URL.mainnet)
   }),
   base: createPublicClient({
     chain: CHAINS.base,
-    transport: http(undefined, {
-      batch: RPC_TUNIGS.base.batch,
-      retryCount: RPC_TUNIGS.base.retryCount,
-      retryDelay: RPC_TUNIGS.base.retryDelay
-    })
+    transport: http(CUSTOM_RPC_URL.base)
   }),
   polygon: createPublicClient({
     chain: CHAINS.polygon,
-    transport: http(undefined, {
-      batch: RPC_TUNIGS.polygon.batch,
-      retryCount: RPC_TUNIGS.polygon.retryCount,
-      retryDelay: RPC_TUNIGS.polygon.retryDelay
-    })
+    transport: http(CUSTOM_RPC_URL.polygon)
   }),
   sepolia: createPublicClient({
     chain: CHAINS.sepolia,
-    transport: http(undefined, {
-      batch: RPC_TUNIGS.sepolia.batch,
-      retryCount: RPC_TUNIGS.sepolia.retryCount,
-      retryDelay: RPC_TUNIGS.sepolia.retryDelay
-    })
+    transport: http(CUSTOM_RPC_URL.sepolia)
   }),
   baseSepolia: createPublicClient({
     chain: CHAINS.baseSepolia,
-    transport: http(undefined, {
-      batch: RPC_TUNIGS.baseSepolia.batch,
-      retryCount: RPC_TUNIGS.baseSepolia.retryCount,
-      retryDelay: RPC_TUNIGS.baseSepolia.retryDelay
-    })
+    transport: http(CUSTOM_RPC_URL.baseSepolia)
   }),
   polygonAmoy: createPublicClient({
     chain: CHAINS.polygonAmoy,
-    transport: http(undefined, {
-      batch: RPC_TUNIGS.polygonAmoy.batch,
-      retryCount: RPC_TUNIGS.polygonAmoy.retryCount,
-      retryDelay: RPC_TUNIGS.polygonAmoy.retryDelay
-    })
+    transport: http(CUSTOM_RPC_URL.polygonAmoy)
   })
 };
