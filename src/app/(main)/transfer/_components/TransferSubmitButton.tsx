@@ -33,7 +33,9 @@ const TransferSubmitButton = () => {
         {insuff.insufficient && insuff.message ? (
           <ErrorText>{insuff.message}</ErrorText>
         ) : (
-          <InfoText>必要項目を入力すると手数料を自動計算します。</InfoText>
+          <InfoText>
+            手数料は、取引が実行されるチェーンと、手数料として使用する通貨によって自動的に決まります。
+          </InfoText>
         )}
         <ContainButton
           text="確認画面へ"

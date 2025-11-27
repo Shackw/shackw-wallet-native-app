@@ -8,15 +8,14 @@ import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Textarea, TextareaInput } from "@/presentation/components/gluestack-ui/textarea";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText, InfoText } from "@/presentation/components/Text";
+import useRestoreWalletByPkForm from "@/presentation/hooks/useRestoreWalletByPkForm";
 
-import useRestoreWalletByPkForm from "../_hooks/useRestoreWalletByPkForm";
-
-type OnBordingInputPkFormProps = {
+type RestoreWalletFieldFormProps = {
   onClose: () => void;
   onRestore: (pk: string) => Promise<void>;
 };
 
-const OnBordingInputPkForm = (props: OnBordingInputPkFormProps) => {
+const RestoreWalletFieldForm = (props: RestoreWalletFieldFormProps) => {
   const { inputRef, hasValue, isRestoring, error, handleRestore, handleChange, handleBlur, handleClear, closeError } =
     useRestoreWalletByPkForm(props);
   return (
@@ -70,4 +69,4 @@ const OnBordingInputPkForm = (props: OnBordingInputPkFormProps) => {
   );
 };
 
-export default memo(OnBordingInputPkForm);
+export default memo(RestoreWalletFieldForm);
