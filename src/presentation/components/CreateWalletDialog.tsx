@@ -5,16 +5,15 @@ import { ActionDialog } from "@/presentation/components/Dialog";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText, InfoText } from "@/presentation/components/Text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
-import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 
-type OnBordingCreateWalletDialogProps = {
+type CreateWalletDialogProps = {
   isOpen: boolean;
   handleClose: () => void;
+  createWallet: (name: string) => Promise<void>;
 };
 
-const OnBordingCreateWalletDialog = (props: OnBordingCreateWalletDialogProps) => {
-  const { isOpen, handleClose } = props;
-  const { createWallet } = useShackwWalletContext();
+const CreateWalletDialog = (props: CreateWalletDialogProps) => {
+  const { isOpen, handleClose, createWallet } = props;
 
   const [isCreating, setIsCreating] = useBoolean(false);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -56,4 +55,4 @@ const OnBordingCreateWalletDialog = (props: OnBordingCreateWalletDialogProps) =>
   );
 };
 
-export default OnBordingCreateWalletDialog;
+export default CreateWalletDialog;

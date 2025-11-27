@@ -1,13 +1,15 @@
 import { ContainButton, OutlineButton } from "@/presentation/components/Button";
+import CreateWalletDialog from "@/presentation/components/CreateWalletDialog";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import RestoreWalletField from "@/presentation/components/RestoreWalletField";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
-
-import OnBordingCreateWalletDialog from "./OnBordingCreateWalletDialog";
-import OnBordingRestoreWalletField from "./OnBordingRestoreWalletField";
+import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 
 const OnBordingActions = () => {
   const [isCreating, setIsCreating] = useBoolean(false);
   const [isRestoring, setIsRestoring] = useBoolean(false);
+
+  const { createWallet, restoreWallet } = useShackwWalletContext();
 
   return (
     <>
@@ -15,12 +17,10 @@ const OnBordingActions = () => {
         <ContainButton text="新規作成" size="lg" onPress={setIsCreating.on} />
         <OutlineButton text="復元" size="lg" onPress={setIsRestoring.on} />
       </VStack>
-      <OnBordingCreateWalletDialog isOpen={isCreating} handleClose={setIsCreating.off} />
-      <OnBordingRestoreWalletField
-        title="秘密鍵からの復元"
-        size="lg"
-        isOpen={isRestoring}
-        onClose={setIsRestoring.off}
+      <CreateWalletDialog isOpen={isCreating} handleClose={setIsCreating.off} createWallet={createWallet} />
+      <RestoreWalletField
+        componentProps={{ title: "秘密鍵からの復元", size: "lg", isOpen: isRestoring, onClose: setIsRestoring.off }}
+        restoreWallet={restoreWallet}
       />
     </>
   );
