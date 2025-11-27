@@ -8,7 +8,7 @@ import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 
 const DepositScreen = () => {
   return (
-    <ScreenContainer className="bg-white rounded-t-[12px] px-[12px] py-[8px]">
+    <ScreenContainer className="bg-white rounded-t-2xl px-[12px] py-[8px]">
       <VStack className="gap-y-5 items-center flex-1">
         <HStack className="w-full flex-1 justify-center items-center gap-2">
           <Icon as={Hammer} size="xl" className="mr-2" />

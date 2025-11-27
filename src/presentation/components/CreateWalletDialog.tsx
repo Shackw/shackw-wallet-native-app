@@ -8,20 +8,25 @@ import { useBoolean } from "@/presentation/hooks/useBoolean";
 
 type CreateWalletDialogProps = {
   isOpen: boolean;
-  handleClose: () => void;
-  createWallet: (name: string) => Promise<void>;
+  onClose: () => void;
+  onCreateWallet: (name: string) => Promise<void>;
 };
 
 const CreateWalletDialog = (props: CreateWalletDialogProps) => {
-  const { isOpen, handleClose, createWallet } = props;
+  const { isOpen, onClose, onCreateWallet } = props;
 
   const [isCreating, setIsCreating] = useBoolean(false);
   const [error, setError] = useState<string | undefined>(undefined);
 
+  const handleClose = useCallback(() => {
+    onClose();
+    setError(undefined);
+  }, [onClose]);
+
   const handleCreate = useCallback(async () => {
     try {
       setIsCreating.on();
-      await createWallet("Mine");
+      await onCreateWallet("Mine");
     } catch (error) {
       setIsCreating.off();
       if (error instanceof Error) {
@@ -30,7 +35,7 @@ const CreateWalletDialog = (props: CreateWalletDialogProps) => {
       }
       setError("ウォレットの新規作成中に不明なエラーが発生しました。");
     }
-  }, [createWallet, setIsCreating]);
+  }, [onCreateWallet, setIsCreating]);
 
   return (
     <>
@@ -43,7 +48,7 @@ const CreateWalletDialog = (props: CreateWalletDialogProps) => {
         size="lg"
         buttonProps={{ text: "作成", isLoading: isCreating, onPress: handleCreate }}
       >
-        <VStack className="py-4 gap-y-1">
+        <VStack className="py-4 gap-y-1 h-20 justify-center">
           {!error ? (
             <InfoText>すでにウォレットをお持ちの方は「復元」をご利用ください</InfoText>
           ) : (

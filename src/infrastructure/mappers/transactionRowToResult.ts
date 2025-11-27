@@ -1,14 +1,13 @@
 import { Address } from "viem";
 
+import type {
+  LocalTransactionProgress,
+  SearchLocalTransactionsResult
+} from "@/application/ports/ILocalTransactionsRepository";
 import { Chain } from "@/config/chain";
 import { TransactionProgressRow, TransactionWithAddressRow } from "@/infrastructure/db/schema";
 import { ADDRESS_TO_TOKEN } from "@/registries/ChainTokenRegistry";
 import { CustomError } from "@/shared/exceptions";
-
-import {
-  LocalTransactionProgress,
-  SearchLocalTransactionsResult
-} from "../../application/ports/ILocalTransactionsRepository";
 
 export const transactionWithAddressRowToResult = (
   dbModel: TransactionWithAddressRow

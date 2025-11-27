@@ -38,7 +38,7 @@ export const ShackwWalletProvider = ({ children }: PropsWithChildren) => {
   const { mutateAsync: updateDefaultWallet } = useUpdateDefaultWallet({ retry: 0 });
 
   const connectWallet = useCallback(
-    (pk: Hex): Address => {
+    (pk: Hex) => {
       const account = privateKeyToAccount(pk);
       const client = createWalletClient({
         account,
@@ -48,7 +48,6 @@ export const ShackwWalletProvider = ({ children }: PropsWithChildren) => {
 
       setAccount({ ...account, address: account.address.toLowerCase() as Address });
       setClient(client);
-      return account.address;
     },
     [currentChain]
   );
@@ -73,9 +72,10 @@ export const ShackwWalletProvider = ({ children }: PropsWithChildren) => {
       if (!validatedName.success) throw new Error(validatedName.issues[0].message);
 
       const privateKey = generatePrivateKey();
-      const address = connectWallet(privateKey);
-
+      const { address } = privateKeyToAccount(privateKey);
       await storePrivateKey({ name: validatedName.output, wallet: address, privateKey });
+
+      connectWallet(privateKey);
 
       setHasPrivateKey.on();
     },
@@ -90,8 +90,10 @@ export const ShackwWalletProvider = ({ children }: PropsWithChildren) => {
       const validatedName = v.safeParse(nameFormValidator, name);
       if (!validatedName.success) throw new Error(validatedName.issues[0].message);
 
-      const address = connectWallet(validatedPk.output);
+      const { address } = privateKeyToAccount(validatedPk.output);
       await storePrivateKey({ name: validatedName.output, wallet: address, privateKey: validatedPk.output });
+
+      connectWallet(validatedPk.output);
 
       setHasPrivateKey.on();
     },

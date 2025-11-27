@@ -4,8 +4,8 @@ export interface IPrivateKeyRepository {
   list(): PrivateKeyResult[];
   get(wallet: string): PrivateKeyResult | undefined;
   upsert(entry: PrivateKeyResult): Promise<void>;
-  remove(wallet: string): Promise<void>;
-  clear(): Promise<void>;
+  delete(wallet: string): Promise<void>;
+  reload(): Promise<void>;
 }
 
 export type PrivateKeyResult = {

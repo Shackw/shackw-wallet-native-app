@@ -7,6 +7,7 @@ import { Text } from "@/presentation/components/gluestack-ui/text";
 import RestoreWalletField from "@/presentation/components/RestoreWalletField";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
+import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 import { shortenAddress } from "@/shared/helpers/address";
 
 import AccountMenuConteiner from "../AccountMenuConteiner";
@@ -16,15 +17,34 @@ const AccountWalletMenu = () => {
   const router = useRouter();
   const [isCreating, setIsCreating] = useBoolean(false);
   const [isRestoring, setIsRestoring] = useBoolean(false);
+  const { refetchUserSetting } = useWalletPreferencesContext();
   const { account, createWallet, restoreWallet } = useShackwWalletContext();
 
-  const handleChangeWallet = useCallback(() => {
+  const handlePressChangeWallet = useCallback(() => {
     router.push("/wallet");
   }, [router]);
 
+  const handlePressCreateWallet = useCallback(
+    async (name: string) => {
+      await createWallet(name);
+      await refetchUserSetting();
+      router.push("/home");
+    },
+    [router, createWallet, refetchUserSetting]
+  );
+
+  const handlePressRestoreWallet = useCallback(
+    async (name: string, pk: string) => {
+      await restoreWallet(name, pk);
+      await refetchUserSetting();
+      router.push("/home");
+    },
+    [router, restoreWallet, refetchUserSetting]
+  );
+
   return (
     <AccountMenuConteiner title="ウォレット設定">
-      <AccountMenuItem onPress={handleChangeWallet}>
+      <AccountMenuItem onPress={handlePressChangeWallet}>
         <HStack className="justify-between">
           <Text className="font-bold">接続中のウォレット</Text>
           <Text size="lg">{shortenAddress(account?.address ?? "0x00", 8)}</Text>
@@ -39,10 +59,10 @@ const AccountWalletMenu = () => {
         <Text className="font-bold">ウォレットの復元</Text>
       </AccountMenuItem>
 
-      <CreateWalletDialog isOpen={isCreating} handleClose={setIsCreating.off} createWallet={createWallet} />
+      <CreateWalletDialog isOpen={isCreating} onClose={setIsCreating.off} onCreateWallet={handlePressCreateWallet} />
       <RestoreWalletField
         componentProps={{ title: "秘密鍵からの復元", size: "lg", isOpen: isRestoring, onClose: setIsRestoring.off }}
-        restoreWallet={restoreWallet}
+        onRestoreWallet={handlePressRestoreWallet}
       />
     </AccountMenuConteiner>
   );
