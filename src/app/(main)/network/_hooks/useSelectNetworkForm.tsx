@@ -9,7 +9,7 @@ import { useWalletPreferencesContext } from "@/presentation/providers/WalletPref
 const useSelectNetworkFormProvider = () => {
   const router = useRouter();
   const { mutateAsync: updateSelectedChain } = useUpdateSelectedChain();
-  const { currentChain, defaultChain, setCurrentChain, refetch } = useWalletPreferencesContext();
+  const { currentChain, defaultChain, setCurrentChain, refetchUserSetting: refetch } = useWalletPreferencesContext();
 
   const [inputChain, setInputChain] = useState<Chain>(currentChain);
   const [isChangeDefault, setIsChangeDefault] = useBoolean(false);

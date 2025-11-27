@@ -2,29 +2,22 @@ import { UseMutationOptions, UseMutationResult, useMutation } from "@tanstack/re
 import { useSQLiteContext } from "expo-sqlite";
 
 import { PrivateKeysService } from "@/application/services/PrivateKeysService";
-import type { StorePrivateKeyCommand } from "@/domain/privateKey";
+import { ListPrivateKeysCommand, PrivateKeyModel } from "@/domain/privateKey";
 import { SecureStorePrivateKeyRepository } from "@/infrastructure/secureStore/SecureStorePrivateKeyRepository";
 import { SqlAddressesRepository } from "@/infrastructure/sql/SqlAddressesRepository";
-import { SqlUserSettingRepository } from "@/infrastructure/sql/SqlUserSettingRepository";
 
-export const useStorePrivateKey = (
-  options?: UseMutationOptions<void, Error, StorePrivateKeyCommand, unknown>
-): UseMutationResult<void, Error, StorePrivateKeyCommand, unknown> => {
+export const useListPrivateKeys = (
+  options?: UseMutationOptions<PrivateKeyModel[], Error, ListPrivateKeysCommand, unknown>
+): UseMutationResult<PrivateKeyModel[], Error, ListPrivateKeysCommand, unknown> => {
   const db = useSQLiteContext();
 
-  return useMutation<void, Error, StorePrivateKeyCommand>({
+  return useMutation<PrivateKeyModel[], Error, ListPrivateKeysCommand>({
     ...options,
-    mutationKey: ["StorePrivateKey"],
+    mutationKey: ["ListPrivateKeys"],
     mutationFn: async command => {
       const addressesRepository = new SqlAddressesRepository(db);
-      const userSettingRepository = new SqlUserSettingRepository(db);
       const privateKeyRepository = await SecureStorePrivateKeyRepository.getInstance();
-      return PrivateKeysService.storePrivateKey(
-        command,
-        addressesRepository,
-        userSettingRepository,
-        privateKeyRepository
-      );
+      return PrivateKeysService.listPrivateKeys(command, addressesRepository, privateKeyRepository);
     }
   });
 };

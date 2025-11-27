@@ -11,7 +11,7 @@ import { AddressOption } from "./useMyAddressOptions";
 const useSelectWalletFormProvider = (initialValue: AddressOption) => {
   const router = useRouter();
   const { changeWallet } = useShackwWalletContext();
-  const { defaultWallet, refetch } = useWalletPreferencesContext();
+  const { defaultWallet, refetchUserSetting: refetch } = useWalletPreferencesContext();
 
   const [inputWallet, setInputWallet] = useState<Address>(initialValue.value);
   const [isChangeDefault, setIsChangeDefault] = useBoolean(false);

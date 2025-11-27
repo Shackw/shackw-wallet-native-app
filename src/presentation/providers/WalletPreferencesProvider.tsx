@@ -11,7 +11,7 @@ type WalletPreferencesContextType = {
   defaultWallet: Address | null | undefined;
   currentChainSupportedTokens: Partial<Record<"JPYC" | "USDC" | "EURC", string>>;
   setCurrentChain: React.Dispatch<React.SetStateAction<Chain>>;
-  refetch: ReturnType<typeof useUserSetting>["refetch"];
+  refetchUserSetting: ReturnType<typeof useUserSetting>["refetch"];
 };
 
 export const WalletPreferencesContext = createContext<WalletPreferencesContextType | undefined>(undefined);
@@ -49,7 +49,7 @@ export const WalletPreferencesProvider = ({ children }: PropsWithChildren) => {
         defaultWallet,
         currentChainSupportedTokens,
         setCurrentChain,
-        refetch
+        refetchUserSetting: refetch
       }}
     >
       {children}

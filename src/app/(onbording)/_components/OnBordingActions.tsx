@@ -17,10 +17,10 @@ const OnBordingActions = () => {
         <ContainButton text="新規作成" size="lg" onPress={setIsCreating.on} />
         <OutlineButton text="復元" size="lg" onPress={setIsRestoring.on} />
       </VStack>
-      <CreateWalletDialog isOpen={isCreating} handleClose={setIsCreating.off} createWallet={createWallet} />
+      <CreateWalletDialog isOpen={isCreating} onClose={setIsCreating.off} onCreateWallet={createWallet} />
       <RestoreWalletField
         componentProps={{ title: "秘密鍵からの復元", size: "lg", isOpen: isRestoring, onClose: setIsRestoring.off }}
-        restoreWallet={restoreWallet}
+        onRestoreWallet={restoreWallet}
       />
     </>
   );

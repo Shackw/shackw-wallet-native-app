@@ -15,7 +15,7 @@ import TransferSearchParamsSchema, {
 
 import useTransferForm from "./useTransferForm";
 
-export const useTransferSearchParam = () => {
+const useTransferSearchParam = () => {
   const { setCurrentChain } = useWalletPreferencesContext();
   const rawParams = useLocalSearchParams<TransferSearchParams>();
   const { form, fee, sendToken, isValid, insuff, setSendToken } = useTransferForm();
@@ -100,3 +100,5 @@ export const useTransferSearchParam = () => {
     setIsError
   };
 };
+
+export default useTransferSearchParam;

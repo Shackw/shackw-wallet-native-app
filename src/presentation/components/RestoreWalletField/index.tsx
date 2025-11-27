@@ -6,17 +6,17 @@ import RestoreWalletFieldForm from "./RestoreWalletFieldForm";
 
 type RestoreWalletFieldProps = {
   componentProps: Omit<React.ComponentProps<typeof BottomInputDrawer>, "children">;
-  restoreWallet: (name: string, pk: string) => Promise<void>;
+  onRestoreWallet: (name: string, pk: string) => Promise<void>;
 };
 
 const RestoreWalletField = (props: RestoreWalletFieldProps) => {
-  const { componentProps, restoreWallet } = props;
+  const { componentProps, onRestoreWallet } = props;
 
   const onRestore = useCallback(
     async (pk: string) => {
-      await restoreWallet("Mine", pk);
+      await onRestoreWallet("Mine", pk);
     },
-    [restoreWallet]
+    [onRestoreWallet]
   );
 
   return (

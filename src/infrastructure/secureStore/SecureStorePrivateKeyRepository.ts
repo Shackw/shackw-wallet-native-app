@@ -2,6 +2,7 @@ import * as SecureStore from "expo-secure-store";
 
 import { IPrivateKeyRepository, PrivateKeyResult } from "@/application/ports/IPrivateKeyRepository";
 import { ENV } from "@/config/env";
+import { CustomError } from "@/shared/exceptions";
 
 const STORAGE_KEY = ENV.WALLET_PRIVATE_KEY_BASE_NAME;
 
@@ -38,13 +39,16 @@ export class SecureStorePrivateKeyRepository implements IPrivateKeyRepository {
       const parsed = JSON.parse(stored) as unknown;
       this.items = Array.isArray(parsed) ? (parsed as PrivateKeyResult[]) : [];
     } catch (e) {
-      console.warn("PrivateKeySecureStore: failed to load, fallback to empty.", e);
-      this.items = [];
+      throw new CustomError("セキュアストアの読み込みに失敗しました。", { cause: e });
     }
   }
 
   private async persist(): Promise<void> {
-    await SecureStore.setItemAsync(STORAGE_KEY, JSON.stringify(this.items), { requireAuthentication: true });
+    try {
+      await SecureStore.setItemAsync(STORAGE_KEY, JSON.stringify(this.items), { requireAuthentication: true });
+    } catch (e) {
+      throw new CustomError("セキュアストアにアクセスできませんでした。", { cause: e });
+    }
   }
 
   // ---- CRUD ----
@@ -60,22 +64,39 @@ export class SecureStorePrivateKeyRepository implements IPrivateKeyRepository {
   async upsert(entry: PrivateKeyResult): Promise<void> {
     const key = entry.wallet.toLowerCase();
     const idx = this.items.findIndex(it => it.wallet.toLowerCase() === key);
+
+    const snapshot = [...this.items];
+
     if (idx >= 0) this.items[idx] = entry;
     else this.items.push(entry);
-    await this.persist();
-  }
 
-  async remove(wallet: string): Promise<void> {
-    const key = wallet.toLowerCase();
-    const next = this.items.filter(it => it.wallet.toLowerCase() !== key);
-    if (next.length !== this.items.length) {
-      this.items = next;
+    try {
       await this.persist();
+    } catch (e) {
+      this.items = snapshot;
+      throw e;
     }
   }
 
-  async clear(): Promise<void> {
-    this.items = [];
-    await this.persist();
+  async delete(wallet: string): Promise<void> {
+    const key = wallet.toLowerCase();
+    const snapshot = [...this.items];
+
+    const next = this.items.filter(it => it.wallet.toLowerCase() !== key);
+
+    if (next.length === this.items.length) return;
+
+    this.items = next;
+
+    try {
+      await this.persist();
+    } catch (e) {
+      this.items = snapshot;
+      throw e;
+    }
+  }
+
+  async reload(): Promise<void> {
+    await this.load();
   }
 }

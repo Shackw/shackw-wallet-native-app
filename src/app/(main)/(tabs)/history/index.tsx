@@ -25,7 +25,7 @@ const HistoryScreen = () => {
   }, []);
 
   return (
-    <ScreenContainer className="bg-white rounded-t-[12px] px-[12px] py-[8px]">
+    <ScreenContainer className="bg-white rounded-t-2xl px-[12px] py-[8px]">
       <VStack className="gap-y-5 items-center flex-1">
         <Tab options={currentChainSupportedTokens} value={selectedToken} handleChange={setSelectedToken} />
         <YearMonthPicker onChange={handleChangeYearMonth} />
