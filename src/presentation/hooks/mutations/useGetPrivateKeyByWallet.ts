@@ -12,7 +12,7 @@ export const useGetPrivateKeyByWallet = (
     mutationKey: ["GetPrivateKeyByWallet"],
     mutationFn: async wallet => {
       const privateKeyRepository = await SecureStorePrivateKeyRepository.getInstance();
-      return PrivateKeysService.getPrivateKeyByWallet(privateKeyRepository, wallet);
+      return PrivateKeysService.getPrivateKeyByWallet(wallet, privateKeyRepository);
     }
   });
 };

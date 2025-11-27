@@ -5,24 +5,28 @@ import { ActionDialog } from "@/presentation/components/Dialog";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText, InfoText } from "@/presentation/components/Text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
-import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 
-type OnBordingCreateWalletDialogProps = {
+type CreateWalletDialogProps = {
   isOpen: boolean;
-  handleClose: () => void;
+  onClose: () => void;
+  onCreateWallet: (name: string) => Promise<void>;
 };
 
-const OnBordingCreateWalletDialog = (props: OnBordingCreateWalletDialogProps) => {
-  const { isOpen, handleClose } = props;
-  const { createWallet } = useShackwWalletContext();
+const CreateWalletDialog = (props: CreateWalletDialogProps) => {
+  const { isOpen, onClose, onCreateWallet } = props;
 
   const [isCreating, setIsCreating] = useBoolean(false);
   const [error, setError] = useState<string | undefined>(undefined);
 
+  const handleClose = useCallback(() => {
+    onClose();
+    setError(undefined);
+  }, [onClose]);
+
   const handleCreate = useCallback(async () => {
     try {
       setIsCreating.on();
-      await createWallet("Mine");
+      await onCreateWallet("Mine");
     } catch (error) {
       setIsCreating.off();
       if (error instanceof Error) {
@@ -31,7 +35,7 @@ const OnBordingCreateWalletDialog = (props: OnBordingCreateWalletDialogProps) =>
       }
       setError("ウォレットの新規作成中に不明なエラーが発生しました。");
     }
-  }, [createWallet, setIsCreating]);
+  }, [onCreateWallet, setIsCreating]);
 
   return (
     <>
@@ -44,7 +48,7 @@ const OnBordingCreateWalletDialog = (props: OnBordingCreateWalletDialogProps) =>
         size="lg"
         buttonProps={{ text: "作成", isLoading: isCreating, onPress: handleCreate }}
       >
-        <VStack className="py-4 gap-y-1">
+        <VStack className="py-4 gap-y-1 h-20 justify-center">
           {!error ? (
             <InfoText>すでにウォレットをお持ちの方は「復元」をご利用ください</InfoText>
           ) : (
@@ -56,4 +60,4 @@ const OnBordingCreateWalletDialog = (props: OnBordingCreateWalletDialogProps) =>
   );
 };
 
-export default OnBordingCreateWalletDialog;
+export default CreateWalletDialog;

@@ -67,6 +67,13 @@ const MainRoot = (props: MainRootProps) => {
                   animation: "fade"
                 }}
               />
+              <Stack.Screen
+                name="privateKey/index"
+                options={{
+                  presentation: "modal",
+                  animation: "fade"
+                }}
+              />
             </Stack>
           </RootContainer>
         </LastTransactionProvider>

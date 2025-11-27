@@ -8,7 +8,7 @@ import useAddressesRow from "@/presentation/hooks/useAddressesRow";
 import { useTokenBalanceContext } from "@/presentation/providers/TokenBalanceProvider";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 
-import { useTransferSearchParam } from "../_hooks/useTransferSearchParam";
+import useTransferSearchParam from "../_hooks/useTransferSearchParam";
 
 import TransferConfirm from "./TransferConfirm";
 

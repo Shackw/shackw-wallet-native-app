@@ -7,7 +7,7 @@ const AccountMenuItem = (props: AccountMenuItemProps) => {
   const { children, className, ...rest } = props;
 
   return (
-    <Pressable {...rest} className={`w-full px-4 py-6 bg-secondary-50 rounded-lg ${className}`}>
+    <Pressable {...rest} className={`w-full px-4 py-6 bg-secondary-50 rounded-lg active:bg-secondary-100 ${className}`}>
       {children}
     </Pressable>
   );
