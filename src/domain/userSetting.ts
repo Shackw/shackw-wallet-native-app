@@ -10,7 +10,7 @@ export type UserSettingModel = {
   updatedAt: Date;
 };
 
-export type UpdateSelectedChainCommand = {
+export type UpdateDefaultChainCommand = {
   defaultChain: Chain;
 };
 

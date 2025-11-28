@@ -2,14 +2,14 @@ import { useRouter } from "expo-router";
 import { createContext, PropsWithChildren, useCallback, useContext, useState } from "react";
 
 import { Chain } from "@/config/chain";
-import { useUpdateSelectedChain } from "@/presentation/hooks/mutations/useUpdateSelectedChain";
+import { useUpdateDefaultChain } from "@/presentation/hooks/mutations/useUpdateSelectedChain";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 
 const useSelectNetworkFormProvider = () => {
   const router = useRouter();
-  const { mutateAsync: updateSelectedChain } = useUpdateSelectedChain();
-  const { currentChain, defaultChain, setCurrentChain, refetchUserSetting: refetch } = useWalletPreferencesContext();
+  const { mutateAsync: updateDefaultChain } = useUpdateDefaultChain();
+  const { currentChain, defaultChain, setCurrentChain, refetchUserSetting } = useWalletPreferencesContext();
 
   const [inputChain, setInputChain] = useState<Chain>(currentChain);
   const [isChangeDefault, setIsChangeDefault] = useBoolean(false);
@@ -22,15 +22,24 @@ const useSelectNetworkFormProvider = () => {
     setIsPending.on();
 
     if (isChangeDefault) {
-      await updateSelectedChain({ defaultChain: inputChain }).catch(setIsError.on);
-      await refetch();
+      await updateDefaultChain({ defaultChain: inputChain }).catch(setIsError.on);
+      await refetchUserSetting();
     } else {
       setCurrentChain(inputChain);
     }
 
     setIsPending.off();
     router.back();
-  }, [inputChain, isChangeDefault, refetch, router, setIsError, setIsPending, setCurrentChain, updateSelectedChain]);
+  }, [
+    router,
+    inputChain,
+    isChangeDefault,
+    setIsError,
+    setIsPending,
+    setCurrentChain,
+    refetchUserSetting,
+    updateDefaultChain
+  ]);
 
   return {
     form: {

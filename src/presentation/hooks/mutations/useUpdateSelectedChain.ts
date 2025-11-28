@@ -2,20 +2,20 @@ import { UseMutationOptions, UseMutationResult, useMutation } from "@tanstack/re
 import { useSQLiteContext } from "expo-sqlite";
 
 import { UserSettingService } from "@/application/services/UserSettingService";
-import type { UpdateSelectedChainCommand } from "@/domain/userSetting";
+import type { UpdateDefaultChainCommand } from "@/domain/userSetting";
 import { SqlUserSettingRepository } from "@/infrastructure/sql/SqlUserSettingRepository";
 
-export const useUpdateSelectedChain = (
-  options?: UseMutationOptions<void, Error, UpdateSelectedChainCommand, unknown>
-): UseMutationResult<void, Error, UpdateSelectedChainCommand, unknown> => {
+export const useUpdateDefaultChain = (
+  options?: UseMutationOptions<void, Error, UpdateDefaultChainCommand, unknown>
+): UseMutationResult<void, Error, UpdateDefaultChainCommand, unknown> => {
   const db = useSQLiteContext();
 
-  return useMutation<void, Error, UpdateSelectedChainCommand>({
+  return useMutation<void, Error, UpdateDefaultChainCommand>({
     ...options,
     mutationKey: ["UpdateSelectedChain"],
     mutationFn: command => {
       const userSettingRepository = new SqlUserSettingRepository(db);
-      return UserSettingService.updateSelectedChain(userSettingRepository, command);
+      return UserSettingService.updateDefaultChain(command, userSettingRepository);
     }
   });
 };
