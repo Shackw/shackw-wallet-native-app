@@ -31,7 +31,7 @@ export const ShackwWalletProvider = ({ children }: PropsWithChildren) => {
   const [account, setAccount] = useState<Account | undefined>(undefined);
   const [client, setClient] = useState<WalletClient | undefined>(undefined);
 
-  const { currentChain } = useWalletPreferencesContext();
+  const { currentChain, refetchUserSetting } = useWalletPreferencesContext();
   const { mutateAsync: storePrivateKey } = useStorePrivateKey({ retry: 0 });
   const { mutateAsync: getDefaultPrivateKey } = useGetDefaultPrivateKey({ retry: 0 });
   const { mutateAsync: getPrivateKeyByWallet } = useGetPrivateKeyByWallet({ retry: 0 });
@@ -46,10 +46,12 @@ export const ShackwWalletProvider = ({ children }: PropsWithChildren) => {
         transport: http(CUSTOM_RPC_URL[currentChain])
       });
 
-      setAccount({ ...account, address: account.address.toLowerCase() as Address });
       setClient(client);
+      setAccount({ ...account, address: account.address.toLowerCase() as Address });
+
+      refetchUserSetting();
     },
-    [currentChain]
+    [currentChain, refetchUserSetting]
   );
 
   const getStoredPrivateKey = useCallback(async (): Promise<Hex | null> => {

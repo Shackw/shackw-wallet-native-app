@@ -5,7 +5,7 @@
     "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./src/presentation/assets/images/icon.png",
-    "scheme": "com.shackw.shackwwallet",
+    "scheme": "com.shackw.wallet",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./src/presentation/assets/images/splash.png",
@@ -13,7 +13,7 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "bundleIdentifier": "com.shackw.shackwwallet",
+      "bundleIdentifier": "com.shackw.wallet",
       "associatedDomains": ["applinks:wallet.shackw.com"],
       "entitlements": {
         "com.apple.developer.associated-domains": ["applinks:wallet.shackw.com"]
@@ -21,7 +21,7 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.shackw.shackwwallet",
+      "package": "com.shackw.wallet",
       "intentFilters": [
         {
           "action": "VIEW",
