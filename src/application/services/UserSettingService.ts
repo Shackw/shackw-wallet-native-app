@@ -1,5 +1,5 @@
 import type { IUserSettingRepository, UserSettingResult } from "@/application/ports/IUserSettingRepository";
-import type { UpdateDefaultWalletCommand, UpdateSelectedChainCommand } from "@/domain/userSetting";
+import type { UpdateDefaultWalletCommand, UpdateDefaultChainCommand } from "@/domain/userSetting";
 import { CustomError } from "@/shared/exceptions";
 
 export const UserSettingService = {
@@ -18,9 +18,9 @@ export const UserSettingService = {
     }
   },
 
-  async updateSelectedChain(
-    userSettingRepository: IUserSettingRepository,
-    command: UpdateSelectedChainCommand
+  async updateDefaultChain(
+    command: UpdateDefaultChainCommand,
+    userSettingRepository: IUserSettingRepository
   ): Promise<void> {
     const { defaultChain } = command;
 
@@ -39,8 +39,8 @@ export const UserSettingService = {
   },
 
   async updateDefaultWallet(
-    userSettingRepository: IUserSettingRepository,
-    command: UpdateDefaultWalletCommand
+    command: UpdateDefaultWalletCommand,
+    userSettingRepository: IUserSettingRepository
   ): Promise<void> {
     const { defaultWallet } = command;
 

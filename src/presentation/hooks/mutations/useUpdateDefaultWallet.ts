@@ -15,7 +15,7 @@ export const useUpdateDefaultWallet = (
     mutationKey: ["UpdateDefaultWallet"],
     mutationFn: command => {
       const userSettingRepository = new SqlUserSettingRepository(db);
-      return UserSettingService.updateDefaultWallet(userSettingRepository, command);
+      return UserSettingService.updateDefaultWallet(command, userSettingRepository);
     }
   });
 };
