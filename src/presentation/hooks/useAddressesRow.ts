@@ -6,8 +6,7 @@ import { useListAddresses } from "@/presentation/hooks/queries/useListAddresses"
 
 import { useShackwWalletContext } from "../providers/ShackwWalletProvider";
 
-export type AddressRow = Pick<AddressModel, "address" | "name">;
-export type AddressRows = AddressRow[] | undefined;
+export type AddressRow = Pick<AddressModel, "address" | "name" | "isMine">;
 
 const useAddressesRow = () => {
   const { account } = useShackwWalletContext();
@@ -20,16 +19,18 @@ const useAddressesRow = () => {
     const mine = addresses && addresses.find(a => a.isMine && a.address === account?.address);
 
     if (!mine) {
-      return { address: account?.address ?? "0x", name: "Mine" };
+      return { address: account?.address ?? "0x", name: "Mine", isMine: true };
     }
 
-    return { address: mine.address, name: mine.name };
+    return { address: mine.address, name: mine.name, isMine: true };
   }, [account?.address, addresses]);
 
-  const addressRows: AddressRows = useMemo(() => {
+  const addressRows: AddressRow[] | undefined = useMemo(() => {
     if (!addresses) return undefined;
 
-    const excludedMine = addresses.filter(a => !a.isMine).map(a => ({ address: a.address, name: a.name }));
+    const excludedMine = addresses
+      .filter(a => a.isMine && a.address !== account?.address)
+      .map(a => ({ address: a.address, name: a.name, isMine: a.isMine }));
 
     if (!searchText) return excludedMine;
 
@@ -39,7 +40,7 @@ const useAddressesRow = () => {
     const searched = excludedMine.filter(a => searchParams.some(s => a.name.includes(s) || a.address.includes(s)));
 
     return searched;
-  }, [addresses, searchText]);
+  }, [account?.address, addresses, searchText]);
 
   const addressToName: Partial<Record<string, string>> = useMemo(() => {
     if (!addresses) return {};

@@ -24,9 +24,9 @@ const useSelectNetworkFormProvider = () => {
     if (isChangeDefault) {
       await updateDefaultChain({ defaultChain: inputChain }).catch(setIsError.on);
       await refetchUserSetting();
-    } else {
-      setCurrentChain(inputChain);
     }
+
+    setCurrentChain(inputChain);
 
     setIsPending.off();
     router.back();

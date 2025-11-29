@@ -3,12 +3,12 @@ import { ScrollView } from "react-native";
 import { Table, TableBody } from "@/presentation/components/gluestack-ui/table";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import TableSuspence from "@/presentation/components/TableSuspence";
-import useAddressesRow, { type AddressRows } from "@/presentation/hooks/useAddressesRow";
+import useAddressesRow, { type AddressRow } from "@/presentation/hooks/useAddressesRow";
 
 import AddressesTableRow from "./AddressesTableRow";
 
 type AddressesTableProps = {
-  rows: AddressRows;
+  rows: AddressRow[] | undefined;
   isError: boolean;
   refetchAddresses: ReturnType<typeof useAddressesRow>["refetch"];
 };
