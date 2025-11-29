@@ -1,26 +1,40 @@
 {
-	"cli": {
-		"version": ">= 9.1.0"
-	},
-	"build": {
-		"local": {
-			"android": {
-				"buildType": "apk"
-			},
-			"ios": {
-				"simulator": true
-			}
-		},
-		"development": {
-			"developmentClient": true,
-			"distribution": "internal"
-		},
-		"preview": {
-			"distribution": "internal"
-		},
-		"production": {}
-	},
-	"submit": {
-		"production": {}
-	}
+  "cli": {
+    "version": ">= 9.1.0"
+  },
+  "build": {
+    "local": {
+      "credentialsSource": "remote",
+      "env": {
+        "EXPO_ROUTER_BASE_PATH": "src/app",
+        "EXPO_PUBLIC_DATABASE_VERSION": "1",
+        "EXPO_PUBLIC_WALLET_PRIVATE_KEY_BASE_NAME": "WALLET_PRIVATE_KEY_BASE_NAME",
+        "EXPO_PUBLIC_RPC_INFURA_ID": "02834402f4c542519e41a81e2e7bba66",
+        "EXPO_PUBLIC_SHACKW_API_URL": "https://api.wallet.shackw.com/v1",
+        "EXPO_PUBLIC_SHACKW_UNIVERSAL_LINK": "https://wallet.shackw.com/"
+      },
+      "android": {
+        "buildType": "apk"
+      },
+      "ios": {
+        "simulator": true
+      }
+    },
+
+    "production": {
+      "credentialsSource": "remote",
+      "env": {
+        "EXPO_ROUTER_BASE_PATH": "src/app",
+        "EXPO_PUBLIC_DATABASE_VERSION": "1",
+        "EXPO_PUBLIC_WALLET_PRIVATE_KEY_BASE_NAME": "WALLET_PRIVATE_KEY_BASE_NAME",
+        "EXPO_PUBLIC_RPC_INFURA_ID": "02834402f4c542519e41a81e2e7bba66",
+        "EXPO_PUBLIC_SHACKW_API_URL": "https://api.wallet.shackw.com/v1",
+        "EXPO_PUBLIC_SHACKW_UNIVERSAL_LINK": "https://wallet.shackw.com/"
+      }
+    }
+  },
+
+  "submit": {
+    "production": {}
+  }
 }
