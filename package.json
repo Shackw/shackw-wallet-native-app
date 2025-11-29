@@ -10,11 +10,10 @@
     "dev:ios": "dotenv -e .env -- expo run:ios",
     "lint": "expo lint --fix && tsc --noEmit",
     "format": "npx prettier --write '**/*.{js,ts,tsx}'",
-    "build:android": "eas-cli build --platform android --profile production",
-    "build:ios": "eas-cli build --platform ios --profile production",
-    "apk:local": "eas-cli build --platform android --profile local --local",
-    "android": "expo run:android",
-    "ios": "expo run:ios"
+    "build:android": "npx eas-cli build --platform android --profile production",
+    "build:ios": "npx eas-cli build --platform ios --profile production",
+    "apk:local": "npx eas-cli build --platform android --profile local --local",
+    "android:creds": "npx eas-cli credentials --platform android"
   },
   "dependencies": {
     "@expo/html-elements": "^0.12.5",

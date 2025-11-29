@@ -46,7 +46,7 @@ export const useInfrastructureRepositories = (
       new RestClient({
         baseURL: ENV.SHACKW_API_URL,
         timeoutMs: 60_000,
-        headers: { "X-APP-CHECK-TOKEN": appCheckToken ?? "" }
+        headers: { "X-App-Check-Token": appCheckToken ?? "" }
       }),
     [appCheckToken]
   );
