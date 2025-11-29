@@ -20,9 +20,10 @@ const useTransferSearchParam = () => {
   const rawParams = useLocalSearchParams<TransferSearchParams>();
   const { form, fee, sendToken, isValid, insuff, setSendToken } = useTransferForm();
 
-  const appliedRef = useRef(false);
+  const initializedRef = useRef(false);
+
   const [isError, setIsError] = useBoolean(false);
-  const [isParsing, setIsParsing] = useBoolean(false);
+  const [isParsing, setIsParsing] = useBoolean(true);
   const [isConfirmed, setIsConfirmed] = useBoolean(false);
   const [isConfirming, setIsConfirming] = useBoolean(false);
 
@@ -34,10 +35,8 @@ const useTransferSearchParam = () => {
   const recipient = useStore(form.baseStore, s => s.values.recipient as Address);
   const webhookUrl = useStore(form.baseStore, s => s.values.webhookUrl);
 
-  const trySubmit = useCallback(
-    async (parsed: ParsedTransferSearchParams) => {
-      const { chain, amount, recipient, feeToken, webhookUrl } = parsed;
-
+  const applyParsedParams = useCallback(
+    async ({ chain, amount, recipient, feeToken, webhookUrl }: ParsedTransferSearchParams) => {
       setCurrentChain(chain);
 
       form.setFieldValue("amount", amount);
@@ -46,56 +45,66 @@ const useTransferSearchParam = () => {
       form.setFieldValue("webhookUrl", webhookUrl);
 
       await form.validateAllFields("change");
-
       setIsParsing.off();
     },
     [form, setIsParsing, setCurrentChain]
   );
 
   useEffect(() => {
-    if (appliedRef.current || isConfirmed) return;
-
-    setIsParsing.on();
+    if (initializedRef.current || isConfirmed) return;
 
     const parsed = v.safeParse(TransferSearchParamsSchema, rawParams);
     if (!parsed.success) {
+      setIsError.on();
       setIsConfirmed.on();
       setIsParsing.off();
-      setIsError.on();
-      appliedRef.current = true;
+      initializedRef.current = true;
       return;
     }
 
     const { chain, amount, feeToken, recipient, sendToken, webhookUrl } = parsed.output;
 
-    if (chain && amount && feeToken && recipient && sendToken) {
-      setSendToken(sendToken);
-
-      const id = requestAnimationFrame(async () => {
-        await trySubmit({ chain, amount, feeToken, recipient, webhookUrl });
-        setIsParsing.off();
-        appliedRef.current = true;
-      });
-
-      return () => cancelAnimationFrame(id);
-    } else {
+    if (!(chain && amount && feeToken && recipient && sendToken)) {
       setIsConfirmed.on();
       setIsParsing.off();
+      initializedRef.current = true;
+      return;
     }
-  }, [isConfirmed, rawParams, setIsConfirmed, setIsError, setIsParsing, setSendToken, trySubmit]);
+
+    setSendToken(sendToken);
+
+    const id = requestAnimationFrame(() => {
+      void (async () => {
+        await applyParsedParams({ chain, amount, feeToken, recipient, webhookUrl });
+        initializedRef.current = true;
+      })();
+    });
+
+    return () => cancelAnimationFrame(id);
+  }, [rawParams, isConfirmed, setIsConfirmed, setIsError, setIsParsing, setSendToken, applyParsedParams]);
 
   useEffect(() => {
-    if (isValid && !insuff.insufficient && !!fee && !isConfirmed) {
-      setIsConfirming.on();
-      setIsConfirmed.on();
-    }
+    if (isConfirmed) return;
+    if (!isValid) return;
+    if (insuff.insufficient) return;
+    if (!fee) return;
+
+    setIsConfirming.on();
+    setIsConfirmed.on();
   }, [fee, insuff.insufficient, isConfirmed, isValid, setIsConfirmed, setIsConfirming]);
 
   return {
     isParsing,
     isConfirming,
     isError,
-    confirmProps: { amount, sendToken, recipient, feeToken, feeDisplyValue: fee?.display ?? 0, webhookUrl },
+    confirmProps: {
+      amount,
+      sendToken,
+      recipient,
+      feeToken,
+      feeDisplyValue: fee?.display ?? 0,
+      webhookUrl
+    },
     setIsConfirming,
     setIsError
   };
