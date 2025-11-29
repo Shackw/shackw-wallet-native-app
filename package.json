@@ -1,6 +1,6 @@
 {
   "name": "shackw-wallet-native-app",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "ShackwWallet is a non-custodial mobile wallet focused on stablecoin with EIP-7702 support.",
   "author": "Shackw",
   "main": "./src/index.ts",
@@ -13,7 +13,9 @@
     "build:android": "npx eas-cli build --platform android --profile production",
     "build:ios": "npx eas-cli build --platform ios --profile production",
     "apk:local": "npx eas-cli build --platform android --profile local --local",
-    "android:creds": "npx eas-cli credentials --platform android"
+    "android:creds": "npx eas-cli credentials --platform android",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "dependencies": {
     "@expo/html-elements": "^0.12.5",
@@ -41,6 +43,7 @@
     "expo-dev-client": "~6.0.16",
     "expo-file-system": "~19.0.19",
     "expo-font": "~14.0.9",
+    "expo-image-picker": "~17.0.8",
     "expo-linear-gradient": "~15.0.7",
     "expo-linking": "~8.0.8",
     "expo-router": "~6.0.14",
