@@ -21,14 +21,14 @@ export const WalletPreferencesProvider = ({ children }: PropsWithChildren) => {
   const [currentChain, setCurrentChain] = useState<Chain>("polygon");
 
   const defaultChain = useMemo(() => {
-    if (!data) return undefined;
+    if (!data?.defaultChain) return undefined;
     return data.defaultChain;
-  }, [data]);
+  }, [data?.defaultChain]);
 
   const defaultWallet = useMemo(() => {
-    if (!data) return undefined;
+    if (!data?.defaultWallet) return undefined;
     return data.defaultWallet;
-  }, [data]);
+  }, [data?.defaultWallet]);
 
   const currentChainSupportedTokens = useMemo(() => {
     return SUPPORT_CHAIN_TO_TOKEN[currentChain].reduce<Partial<Record<Token, string>>>((acc, token) => {
@@ -38,8 +38,9 @@ export const WalletPreferencesProvider = ({ children }: PropsWithChildren) => {
   }, [currentChain]);
 
   useEffect(() => {
-    if (!!data) setCurrentChain(data.defaultChain);
-  }, [data]);
+    if (!defaultChain) return;
+    setCurrentChain(defaultChain);
+  }, [defaultChain]);
 
   return (
     <WalletPreferencesContext.Provider

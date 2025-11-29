@@ -3,8 +3,8 @@ import { useCallback } from "react";
 
 import { Text } from "@/presentation/components/gluestack-ui/text";
 
-import AccountMenuConteiner from "../AccountMenuConteiner";
-import AccountMenuItem from "../AccountMenuItem";
+import AccountMenuConteiner from "./AccountMenuConteiner";
+import AccountMenuItem from "./AccountMenuItem";
 
 const AccountPrivateMenu = () => {
   const router = useRouter();

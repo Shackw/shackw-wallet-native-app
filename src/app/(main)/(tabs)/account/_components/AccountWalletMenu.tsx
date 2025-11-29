@@ -10,8 +10,8 @@ import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletPro
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 import { shortenAddress } from "@/shared/helpers/address";
 
-import AccountMenuConteiner from "../AccountMenuConteiner";
-import AccountMenuItem from "../AccountMenuItem";
+import AccountMenuConteiner from "./AccountMenuConteiner";
+import AccountMenuItem from "./AccountMenuItem";
 
 const AccountWalletMenu = () => {
   const router = useRouter();
@@ -28,7 +28,7 @@ const AccountWalletMenu = () => {
     async (name: string) => {
       await createWallet(name);
       await refetchUserSetting();
-      router.push("/home");
+      router.push("/");
     },
     [router, createWallet, refetchUserSetting]
   );
@@ -37,7 +37,7 @@ const AccountWalletMenu = () => {
     async (name: string, pk: string) => {
       await restoreWallet(name, pk);
       await refetchUserSetting();
-      router.push("/home");
+      router.push("/");
     },
     [router, restoreWallet, refetchUserSetting]
   );

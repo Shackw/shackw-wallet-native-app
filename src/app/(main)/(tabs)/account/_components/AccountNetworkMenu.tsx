@@ -6,8 +6,8 @@ import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Text } from "@/presentation/components/gluestack-ui/text";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 
-import AccountMenuConteiner from "../AccountMenuConteiner";
-import AccountMenuItem from "../AccountMenuItem";
+import AccountMenuConteiner from "./AccountMenuConteiner";
+import AccountMenuItem from "./AccountMenuItem";
 
 const AccountNetworkMenu = () => {
   const router = useRouter();

@@ -1,3 +1,7 @@
+import { useRouter } from "expo-router";
+import { useCallback } from "react";
+import { Pressable } from "react-native";
+
 import { CHAIN_ICONS } from "@/config/chain";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Spinner } from "@/presentation/components/gluestack-ui/spinner";
@@ -7,6 +11,7 @@ import { useWalletPreferencesContext } from "@/presentation/providers/WalletPref
 import { shortenAddress } from "@/shared/helpers/address";
 
 const AppBarDefaultBody = () => {
+  const router = useRouter();
   const { account } = useShackwWalletContext();
   const { currentChain } = useWalletPreferencesContext();
 
@@ -14,12 +19,24 @@ const AppBarDefaultBody = () => {
 
   const ChainIcon = CHAIN_ICONS[currentChain];
 
+  const handlePressNetwork = useCallback(() => {
+    router.push("/network");
+  }, [router]);
+
+  const handlePressWallet = useCallback(() => {
+    router.push("/wallet");
+  }, [router]);
+
   return (
     <HStack className="w-full justify-center">
       {accountAddress ? (
         <HStack className="items-center gap-x-2">
-          <ChainIcon />
-          <Text className="font-bold text-white">{shortenAddress(accountAddress)}</Text>
+          <Pressable onPress={handlePressNetwork}>
+            <ChainIcon />
+          </Pressable>
+          <Pressable onPress={handlePressWallet}>
+            <Text className="font-bold text-white">{shortenAddress(accountAddress)}</Text>
+          </Pressable>
         </HStack>
       ) : (
         <Spinner size="small" color="white" />

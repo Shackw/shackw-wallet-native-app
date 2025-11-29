@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 import { Plus } from "lucide-react-native";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { Address } from "viem";
 
 import AddressMutateField from "@/presentation/components/Addresses/AddressMutateField";
@@ -21,7 +21,10 @@ const AddressesScreen = () => {
   const [isCreating, setIsCreating] = useBoolean(false);
   const params = useLocalSearchParams<{ address?: Address; name?: string }>();
 
-  const { addressRows, mineRow, searchTextRef, isError, handleChangeSearchText, refetch } = useAddressesRow();
+  const { mineRow, addressRows, searchTextRef, isError, handleChangeSearchText, refetch } = useAddressesRow();
+
+  const myAddressRows = useMemo(() => addressRows?.filter(a => a.isMine), [addressRows]);
+  const otherAddressRows = useMemo(() => addressRows?.filter(a => !a.isMine), [addressRows]);
 
   useEffect(() => {
     if (!!params.address && !!params.name) setIsCreating.on();
@@ -36,18 +39,26 @@ const AddressesScreen = () => {
           componetProps={{ className: "w-full mt-3" }}
         />
         <AddressesMine address={mineRow.address} name={mineRow.name} refetchAddresses={refetch} />
-        <VStack className="flex-1 pb-8">
-          <HStack className="items-center justify-between">
-            <Text className="font-bold text-secondary-500">すべてのアドレス</Text>
-            <IconButton
-              action="default"
-              iconSize={28}
-              icon={Plus}
-              iconColor={theme.colors.secondary[700]}
-              onPress={setIsCreating.on}
-            />
-          </HStack>
-          <AddressesTable rows={addressRows} isError={isError} refetchAddresses={refetch} />
+        <VStack className="flex-1 pb-8 gap-y-4">
+          <VStack className="h-[208px]">
+            <HStack className="items-center justify-between">
+              <Text className="font-bold text-secondary-500">自分のウォレット</Text>
+            </HStack>
+            <AddressesTable rows={myAddressRows} isError={isError} refetchAddresses={refetch} />
+          </VStack>
+          <VStack className="flex-1">
+            <HStack className="items-center justify-between">
+              <Text className="font-bold text-secondary-500">すべてのアドレス</Text>
+              <IconButton
+                action="default"
+                iconSize={28}
+                icon={Plus}
+                iconColor={theme.colors.secondary[700]}
+                onPress={setIsCreating.on}
+              />
+            </HStack>
+            <AddressesTable rows={otherAddressRows} isError={isError} refetchAddresses={refetch} />
+          </VStack>
         </VStack>
       </VStack>
 

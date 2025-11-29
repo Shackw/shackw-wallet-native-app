@@ -19,7 +19,7 @@ const AddressesMine = (props: AddressesMineProps) => {
 
   return (
     <VStack>
-      <Text className="font-bold text-secondary-500">プロフィール</Text>
+      <Text className="font-bold text-secondary-500">接続中のウォレット</Text>
       <HStack className="w-full py-3 gap-x-4 items-center">
         <Avatar size="lg">
           <AvatarFallbackText>{name}</AvatarFallbackText>

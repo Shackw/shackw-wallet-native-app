@@ -32,10 +32,10 @@ const PrivateKeyTableRow = (props: PrivateKeyTableRowProps) => {
         >
           <VStack className="gap-y-1">
             <Text className="font-bold text-secondary-500">{row.createdAtStr}</Text>
-            <Text className="font-bold pl-1" size="lg">
+            <Text className="font-bold pl-2" size="lg">
               {row.name}
             </Text>
-            <Text className="ml-auto" size="lg">
+            <Text className="pl-2" size="lg">
               {shortenAddress(row.wallet, 16)}
             </Text>
           </VStack>
