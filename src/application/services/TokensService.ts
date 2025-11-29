@@ -4,9 +4,8 @@ import { CreateQuoteQuery, IQuotesGateway } from "@/application/ports/IQuotesGat
 import { Chain, CHAINS } from "@/config/chain";
 import { VIEM_PUBLIC_CLIENTS } from "@/config/viem";
 import { GetTokenBalanceCommand, TransferTokenCommand } from "@/domain/token";
-import { ShackwApiErrorBody } from "@/infrastructure/clients/restClient";
 import { TOKEN_REGISTRY } from "@/registries/ChainTokenRegistry";
-import { ApiError, CustomError } from "@/shared/exceptions";
+import { ApiError, CustomError, ShackwApiErrorBody } from "@/shared/exceptions";
 import { toDisplyValueStr, toMinUnits } from "@/shared/helpers/tokenUnits";
 
 import { ITokensGateway, TransferTokenQuery } from "../ports/ITokensGateway";

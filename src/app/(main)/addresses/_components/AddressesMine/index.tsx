@@ -5,7 +5,7 @@ import { Avatar, AvatarFallbackText } from "@/presentation/components/gluestack-
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
-import useAddressesRow from "@/presentation/hooks/useAddressesRow";
+import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { shortenAddress } from "@/shared/helpers/address";
 
 import AddressesMineMenu from "./AddressesMineMenu";

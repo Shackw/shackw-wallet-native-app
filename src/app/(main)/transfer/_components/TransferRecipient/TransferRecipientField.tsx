@@ -3,7 +3,7 @@ import React, { useCallback, useState } from "react";
 import { BottomInputDrawer } from "@/presentation/components/Drawer";
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { Tab } from "@/presentation/components/Tab";
-import useAddressesRow from "@/presentation/hooks/useAddressesRow";
+import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 
 import { TransferFormContextType } from "../../_hooks/useTransferForm";
 

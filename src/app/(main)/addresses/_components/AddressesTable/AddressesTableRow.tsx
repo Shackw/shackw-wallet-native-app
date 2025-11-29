@@ -3,7 +3,7 @@ import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { TableRow } from "@/presentation/components/gluestack-ui/table";
 import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
-import useAddressesRow, { type AddressRow } from "@/presentation/hooks/useAddressesRow";
+import { type AddressRow, useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { shortenAddress } from "@/shared/helpers/address";
 
 import AddressesTableRowMenu from "./AddressesTableRowMenu";

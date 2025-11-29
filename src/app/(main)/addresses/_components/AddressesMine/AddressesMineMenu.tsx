@@ -7,7 +7,7 @@ import AddressesDisplayQR from "@/presentation/components/Addresses/AddressesDis
 import { IconButton } from "@/presentation/components/Button";
 import { Icon } from "@/presentation/components/gluestack-ui/icon";
 import { Menu, MenuItem, MenuItemLabel } from "@/presentation/components/gluestack-ui/menu";
-import useAddressesRow from "@/presentation/hooks/useAddressesRow";
+import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { theme } from "@/presentation/styles/theme";
 

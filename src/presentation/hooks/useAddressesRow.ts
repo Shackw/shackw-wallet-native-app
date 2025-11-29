@@ -8,7 +8,7 @@ import { useShackwWalletContext } from "../providers/ShackwWalletProvider";
 
 export type AddressRow = Pick<AddressModel, "address" | "name" | "isMine">;
 
-const useAddressesRow = () => {
+export const useAddressesRow = () => {
   const { account } = useShackwWalletContext();
   const { data: addresses, ...rest } = useListAddresses();
 
@@ -57,5 +57,3 @@ const useAddressesRow = () => {
 
   return { mineRow, addressRows, addressToName, searchText, searchTextRef, handleChangeSearchText, ...rest };
 };
-
-export default useAddressesRow;

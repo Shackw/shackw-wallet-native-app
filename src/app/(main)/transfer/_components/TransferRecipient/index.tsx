@@ -6,7 +6,7 @@ import { Address } from "viem";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
-import useAddressesRow from "@/presentation/hooks/useAddressesRow";
+import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { shortenAddress } from "@/shared/helpers/address";
 

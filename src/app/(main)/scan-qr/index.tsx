@@ -2,13 +2,13 @@ import { CameraView, useCameraPermissions, type BarcodeScanningResult } from "ex
 import { RelativePathString, useRouter } from "expo-router";
 import { useCallback, useEffect } from "react";
 
-import { redirectSystemPath } from "@/app/+native-intent";
 import BackDrop from "@/presentation/components/BackDrop";
 import { ScreenContainer } from "@/presentation/components/Container";
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { redirectSystemPath } from "@/shared/helpers/redirectSystemPath";
 
 export default function ScanQrScreen() {
   const router = useRouter();
@@ -33,7 +33,7 @@ export default function ScanQrScreen() {
 
       try {
         if (/^https?:\/\//i.test(value)) {
-          const href = await redirectSystemPath({ path: value });
+          const href = await redirectSystemPath(value);
           router.replace(href as RelativePathString);
         } else {
           router.replace("/");
