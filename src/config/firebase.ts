@@ -7,8 +7,7 @@ export const initAppCheck = async () => {
     const provider = appCheck.newReactNativeFirebaseAppCheckProvider();
     provider.configure({
       android: {
-        provider: __DEV__ ? "debug" : "playIntegrity",
-        debugToken: process.env.EXPO_PUBLIC_FIREBASE_APP_CHECK_DEBUG_TOKEN
+        provider: "playIntegrity"
       },
       apple: {
         provider: __DEV__ ? "debug" : "appAttestWithDeviceCheckFallback",
