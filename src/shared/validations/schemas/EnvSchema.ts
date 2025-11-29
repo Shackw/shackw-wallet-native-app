@@ -1,6 +1,6 @@
 import * as v from "valibot";
 
-import { addressValidator, hex32Validator } from "../rules/addressValidator";
+import { hex32Validator } from "../rules/addressValidator";
 import { urlValidator } from "../rules/urlValidator";
 
 export const EnvSchema = v.object({
@@ -17,29 +17,7 @@ export const EnvSchema = v.object({
     v.transform(s => s.trim()),
     v.minLength(1, "WALLET_PRIVATE_KEY_BASE_NAME must not be empty.")
   ),
-
   RPC_INFURA_ID: hex32Validator("RPC_INFURA_ID"),
-
   SHACKW_API_URL: urlValidator("SHACKW_API_URL"),
-  SHACKW_UNIVERSAL_LINK: urlValidator("SHACKW_UNIVERSAL_LINK"),
-
-  ETH_MAIN_JPYC_TOKEN_ADDRESS: addressValidator("ETH_MAIN_JPYC_TOKEN_ADDRESS"),
-  ETH_MAIN_USDC_TOKEN_ADDRESS: addressValidator("ETH_MAIN_USDC_TOKEN_ADDRESS"),
-  ETH_MAIN_EURC_TOKEN_ADDRESS: addressValidator("ETH_MAIN_EURC_TOKEN_ADDRESS"),
-
-  ETH_SEPOLIA_JPYC_TOKEN_ADDRESS: addressValidator("ETH_SEPOLIA_JPYC_TOKEN_ADDRESS"),
-  ETH_SEPOLIA_USDC_TOKEN_ADDRESS: addressValidator("ETH_SEPOLIA_USDC_TOKEN_ADDRESS"),
-  ETH_SEPOLIA_EURC_TOKEN_ADDRESS: addressValidator("ETH_SEPOLIA_EURC_TOKEN_ADDRESS"),
-
-  BASE_MAIN_USDC_TOKEN_ADDRESS: addressValidator("BASE_MAIN_USDC_TOKEN_ADDRESS"),
-  BASE_MAIN_EURC_TOKEN_ADDRESS: addressValidator("BASE_MAIN_EURC_TOKEN_ADDRESS"),
-
-  BASE_SEPOLIA_USDC_TOKEN_ADDRESS: addressValidator("BASE_SEPOLIA_USDC_TOKEN_ADDRESS"),
-  BASE_SEPOLIA_EURC_TOKEN_ADDRESS: addressValidator("BASE_SEPOLIA_EURC_TOKEN_ADDRESS"),
-
-  POLYGON_MAIN_JPYC_TOKEN_ADDRESS: addressValidator("POLYGON_MAIN_JPYC_TOKEN_ADDRESS"),
-  POLYGON_MAIN_USDC_TOKEN_ADDRESS: addressValidator("POLYGON_MAIN_USDC_TOKEN_ADDRESS"),
-
-  POLYGON_AMOY_JPYC_TOKEN_ADDRESS: addressValidator("POLYGON_AMOY_JPYC_TOKEN_ADDRESS"),
-  POLYGON_AMOY_USDC_TOKEN_ADDRESS: addressValidator("POLYGON_AMOY_USDC_TOKEN_ADDRESS")
+  SHACKW_UNIVERSAL_LINK: urlValidator("SHACKW_UNIVERSAL_LINK")
 });

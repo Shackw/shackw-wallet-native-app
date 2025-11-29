@@ -7,18 +7,18 @@ import {
 } from "@/application/ports/IRemoteTransactionsGateway";
 import { SearchRemoteTransactionsResultSchema } from "@/shared/validations/schemas/HttpRemoteTransactionsResultSchema";
 
-import { RestClient, shackwRestClient } from "../clients/restClient";
+import { RestClient } from "../clients/restClient";
 
 export class HttpRemoteTransactionsGateway implements IRemoteTransactionsGateway {
-  private baseUrl = "/transactions";
+  private path = "/transactions";
   private client: RestClient;
 
-  constructor() {
-    this.client = shackwRestClient;
+  constructor(client: RestClient) {
+    this.client = client;
   }
 
   async search(query: SearchRemoteTransactionsQuery): Promise<SearchRemoteTransactionsResult> {
-    const searched = await this.client.post(`${this.baseUrl}:search`, query);
+    const searched = await this.client.post(`${this.path}:search`, query);
     const parsed = v.parse(SearchRemoteTransactionsResultSchema, searched);
     return parsed;
   }

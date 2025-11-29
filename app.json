@@ -14,6 +14,7 @@
     },
     "ios": {
       "bundleIdentifier": "com.shackw.wallet",
+      "googleServicesFile": "./GoogleService-Info.plist",
       "associatedDomains": ["applinks:wallet.shackw.com"],
       "entitlements": {
         "com.apple.developer.associated-domains": ["applinks:wallet.shackw.com"]
@@ -22,13 +23,22 @@
     },
     "android": {
       "package": "com.shackw.wallet",
+      "googleServicesFile": "./google-services.json",
       "intentFilters": [
         {
           "action": "VIEW",
           "autoVerify": true,
           "data": [
-            { "scheme": "https", "host": "wallet.shackw.com", "pathPrefix": "/addresses" },
-            { "scheme": "https", "host": "wallet.shackw.com", "pathPrefix": "/transfer" }
+            {
+              "scheme": "https",
+              "host": "wallet.shackw.com",
+              "pathPrefix": "/addresses"
+            },
+            {
+              "scheme": "https",
+              "host": "wallet.shackw.com",
+              "pathPrefix": "/transfer"
+            }
           ],
           "category": ["BROWSABLE", "DEFAULT"]
         }
@@ -40,6 +50,8 @@
       }
     },
     "plugins": [
+      "@react-native-firebase/app",
+      "@react-native-firebase/app-check",
       "expo-router",
       [
         "expo-build-properties",
@@ -48,6 +60,7 @@
             "minSdkVersion": 26
           },
           "ios": {
+            "useFrameworks": "static",
             "extraPods": [
               {
                 "name": "OpenSSL-Universal",
@@ -84,9 +97,9 @@
         "origin": false
       },
       "eas": {
-        "projectId": "d1d7acaf-b44a-4425-af35-620596448499"
+        "projectId": "f1a7dbc6-446b-4efd-aeec-9ce2ad36bac5"
       }
     },
-    "owner": "Shackw"
+    "owner": "shackw"
   }
 }

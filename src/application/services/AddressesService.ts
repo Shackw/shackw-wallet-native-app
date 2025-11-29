@@ -40,7 +40,7 @@ export const AddressesService = {
     }
   },
 
-  async updateAddress(addressesRepository: IAddressesRepository, command: MutateAddressCommand): Promise<void> {
+  async updateAddress(command: MutateAddressCommand, addressesRepository: IAddressesRepository): Promise<void> {
     const { address } = command;
     try {
       const found = await addressesRepository.get(address);

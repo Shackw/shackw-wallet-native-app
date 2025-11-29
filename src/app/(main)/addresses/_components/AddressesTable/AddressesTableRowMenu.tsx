@@ -7,7 +7,7 @@ import AddressMutateField from "@/presentation/components/Addresses/AddressMutat
 import { IconButton } from "@/presentation/components/Button";
 import { Icon } from "@/presentation/components/gluestack-ui/icon";
 import { Menu, MenuItem, MenuItemLabel } from "@/presentation/components/gluestack-ui/menu";
-import useAddressesRow, { AddressRow } from "@/presentation/hooks/useAddressesRow";
+import { type AddressRow, useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { theme } from "@/presentation/styles/theme";
 

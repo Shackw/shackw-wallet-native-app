@@ -74,7 +74,7 @@ const PrivateKeyDisplyField = (props: PrivateKeyDisplyFieldProps) => {
           </Text>
           <VStack className="w-full gap-y-8 border-[0.5px] border-secondary-300 px-4 py-6 bg-secondary-50 rounded-xl">
             <VStack className="w-full gap-y-1.5">
-              <Text className="font-bold text-secondary-600">作成日時</Text>
+              <Text className="font-bold text-secondary-600">作成・復元 日時</Text>
               <Text className="font-bold text-secondary-800 pl-4">{createdAtStr}</Text>
             </VStack>
             <VStack className="w-full gap-y-1.5">

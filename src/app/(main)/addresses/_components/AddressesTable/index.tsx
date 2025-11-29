@@ -3,7 +3,7 @@ import { ScrollView } from "react-native";
 import { Table, TableBody } from "@/presentation/components/gluestack-ui/table";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import TableSuspence from "@/presentation/components/TableSuspence";
-import useAddressesRow, { type AddressRow } from "@/presentation/hooks/useAddressesRow";
+import { type AddressRow, useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 
 import AddressesTableRow from "./AddressesTableRow";
 
