@@ -6,7 +6,7 @@ import { ActionDialog } from "@/presentation/components/Dialog";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { InfoText, ErrorText } from "@/presentation/components/Text";
 import { useDeleteAddress } from "@/presentation/hooks/mutations/useDeleteAddress";
-import useAddressesRow from "@/presentation/hooks/useAddressesRow";
+import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 
 type AddressesTableDeleteDialogProps = {

@@ -9,7 +9,7 @@ import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import Searcher from "@/presentation/components/Searcher";
 import TableSuspence from "@/presentation/components/TableSuspence";
-import useAddressesRow from "@/presentation/hooks/useAddressesRow";
+import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 
 import { TransferFormContextType } from "../../_hooks/useTransferForm";
 

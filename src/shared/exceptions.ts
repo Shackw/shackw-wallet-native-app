@@ -26,3 +26,9 @@ export class ApiError extends Error {
     this.requestId = args.requestId;
   }
 }
+
+export type ShackwApiErrorBody = {
+  statusCode: number;
+  errors: { code: string; message: string }[];
+  timestamp: Date;
+};

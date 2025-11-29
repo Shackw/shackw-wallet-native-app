@@ -4,7 +4,7 @@ import { AlertDialog } from "@/presentation/components/Dialog";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import Loading from "@/presentation/components/Loading";
 import { ErrorText } from "@/presentation/components/Text";
-import useAddressesRow from "@/presentation/hooks/useAddressesRow";
+import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { useTokenBalanceContext } from "@/presentation/providers/TokenBalanceProvider";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 
