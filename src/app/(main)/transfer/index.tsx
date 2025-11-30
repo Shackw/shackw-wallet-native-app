@@ -1,9 +1,9 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 import { ScreenContainer } from "@/presentation/components/Container";
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
-import Loading from "@/presentation/components/Loading";
+import { useLoadingOverlay } from "@/presentation/providers/LoadingOverlayProvider";
 import { useTokenBalanceContext } from "@/presentation/providers/TokenBalanceProvider";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 
@@ -18,6 +18,8 @@ import { TransferFormProvider } from "./_hooks/useTransferForm";
 const TransferScreen = () => {
   const tokenBalances = useTokenBalanceContext();
   const { currentChainSupportedTokens } = useWalletPreferencesContext();
+  const { show, hide } = useLoadingOverlay();
+
   const isBalanceFetched = useMemo(
     () =>
       Object.entries(tokenBalances).every(
@@ -26,7 +28,16 @@ const TransferScreen = () => {
     [tokenBalances, currentChainSupportedTokens]
   );
 
-  if (!isBalanceFetched) return <Loading />;
+  useEffect(() => {
+    if (!isBalanceFetched) {
+      show();
+    } else {
+      hide();
+    }
+  }, [isBalanceFetched, show, hide]);
+
+  if (!isBalanceFetched) return null;
+
   return (
     <ScreenContainer appBarProps={{ title: "送信" }} className="bg-white rounded-t-2xl">
       <Box className="py-[8px] flex-1">
