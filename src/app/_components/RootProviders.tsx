@@ -6,7 +6,7 @@ import { PropsWithChildren, useEffect, useState } from "react";
 import { initAppCheck } from "@/config/firebase";
 import { migrate } from "@/infrastructure/db";
 import { GluestackUIProvider } from "@/presentation/components/gluestack-ui/gluestack-ui-provider";
-import Maintenance from "@/presentation/components/Maintenance";
+import MaintenanceOverlay from "@/presentation/components/Maintenance";
 import { useFonts } from "@/presentation/hooks/useFonts";
 import { DependenciesContainerProvider } from "@/presentation/providers/DependenciesContainerProvider";
 import { useLoadingOverlay } from "@/presentation/providers/LoadingOverlayProvider";
@@ -46,7 +46,7 @@ const RootProviders = ({ children }: PropsWithChildren) => {
 
   if (appCheckToken === null) {
     return (
-      <Maintenance
+      <MaintenanceOverlay
         text={`安全性を確認できなかったため処理を続行できませんでした。少し時間をおいて再度お試しください。`}
       />
     );

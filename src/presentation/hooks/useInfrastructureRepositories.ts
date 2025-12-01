@@ -28,14 +28,12 @@ export type UseInfrastructureRepositoriesResult = {
   transactionsGateway: IRemoteTransactionsGateway;
   tokensGateway: ITokensGateway;
   walletMetaGateway: IWalletMetaGateway;
-  privateKeyRepository: IPrivateKeyRepository | null;
+  privateKeyRepository: IPrivateKeyRepository | null | undefined;
 };
 
-export const useInfrastructureRepositories = (
-  appCheckToken: string | null | undefined
-): UseInfrastructureRepositoriesResult => {
+export const useInfrastructureRepositories = (appCheckToken: string): UseInfrastructureRepositoriesResult => {
   const db = useSQLiteContext();
-  const [privateKeyRepository, setPrivateKeyRepository] = useState<IPrivateKeyRepository | null>(null);
+  const [privateKeyRepository, setPrivateKeyRepository] = useState<IPrivateKeyRepository | null | undefined>(undefined);
 
   const addressesRepository = useMemo(() => new SqlAddressesRepository(db), [db]);
   const transactionsRepository = useMemo(() => new SqlLocalTransactionsRepository(db), [db]);
@@ -46,7 +44,7 @@ export const useInfrastructureRepositories = (
       new RestClient({
         baseURL: ENV.SHACKW_API_URL,
         timeoutMs: 60_000,
-        headers: { "X-App-Check-Token": appCheckToken ?? "" }
+        headers: { "X-App-Check-Token": appCheckToken }
       }),
     [appCheckToken]
   );
@@ -57,8 +55,12 @@ export const useInfrastructureRepositories = (
 
   useEffect(() => {
     const init = async () => {
-      const privateKeyRepository = await SecureStorePrivateKeyRepository.getInstance();
-      setPrivateKeyRepository(privateKeyRepository);
+      try {
+        const privateKeyRepository = await SecureStorePrivateKeyRepository.getInstance();
+        setPrivateKeyRepository(privateKeyRepository);
+      } catch {
+        setPrivateKeyRepository(null);
+      }
     };
 
     init();

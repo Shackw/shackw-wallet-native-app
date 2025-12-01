@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, useCallback, useContext, useRef, useState } from "react";
+import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useRef, useState } from "react";
 
 import Loading from "@/presentation/components/Loading";
 
@@ -15,11 +15,16 @@ export const LoadingOverlayProvider = ({ children }: PropsWithChildren) => {
   const [visible, setVisible] = useState(false);
 
   const shownAtRef = useRef<number | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const show = useCallback(() => {
     setCount(prev => {
       const next = prev + 1;
       if (next === 1) {
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+          timeoutRef.current = null;
+        }
         shownAtRef.current = Date.now();
         setVisible(true);
       }
@@ -29,17 +34,22 @@ export const LoadingOverlayProvider = ({ children }: PropsWithChildren) => {
 
   const hide = useCallback(() => {
     setCount(prev => {
-      const next = Math.max(0, prev - 1);
+      if (prev === 0) return 0;
+
+      const next = prev - 1;
       if (next === 0) {
         const minMs = 500;
         const shown = shownAtRef.current ?? 0;
         const elapsed = Date.now() - shown;
+        const delay = Math.max(0, minMs - elapsed);
 
-        if (elapsed >= minMs) {
-          setVisible(false);
-        } else {
-          setTimeout(() => setVisible(false), minMs - elapsed);
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
         }
+        timeoutRef.current = setTimeout(() => {
+          setVisible(false);
+          timeoutRef.current = null;
+        }, delay);
       }
       return next;
     });
@@ -55,6 +65,15 @@ export const LoadingOverlayProvider = ({ children }: PropsWithChildren) => {
       }
     },
     [show, hide]
+  );
+
+  useEffect(
+    () => () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    },
+    []
   );
 
   return (
