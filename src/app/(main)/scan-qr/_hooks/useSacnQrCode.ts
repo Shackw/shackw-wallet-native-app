@@ -4,7 +4,7 @@ import { RelativePathString, useRouter } from "expo-router";
 import { useCallback, useEffect } from "react";
 
 import { useBoolean } from "@/presentation/hooks/useBoolean";
-import { redirectSystemPath } from "@/shared/helpers/redirectSystemPath";
+import { buildRedirectSystemPath } from "@/shared/helpers/redirectSystemPath";
 
 const useSacnQrCode = () => {
   const router = useRouter();
@@ -21,7 +21,7 @@ const useSacnQrCode = () => {
     async (value: string) => {
       try {
         if (/^https?:\/\//i.test(value)) {
-          const href = await redirectSystemPath(value);
+          const href = await buildRedirectSystemPath(value);
           router.replace(href as RelativePathString);
           return;
         }

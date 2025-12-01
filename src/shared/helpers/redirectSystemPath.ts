@@ -1,7 +1,7 @@
 import { ENV } from "@/config/env";
 import { SecureStorePrivateKeyRepository } from "@/infrastructure/secureStore/SecureStorePrivateKeyRepository";
 
-export const redirectSystemPath = async (path: string): Promise<string> => {
+export const buildRedirectSystemPath = async (path: string): Promise<string> => {
   const privateKeySecureStore = await SecureStorePrivateKeyRepository.getInstance();
   const storeds = privateKeySecureStore.list();
 

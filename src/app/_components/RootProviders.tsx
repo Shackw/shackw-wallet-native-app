@@ -17,8 +17,8 @@ const RootProviders = ({ children }: PropsWithChildren) => {
   const [fontsLoaded] = useFonts();
   const [queryClient] = useState(() => new QueryClient());
 
-  const [appCheckToken, setAppCheckToken] = useState<string | null | undefined>();
   const { show, hide } = useLoadingOverlay();
+  const [appCheckToken, setAppCheckToken] = useState<string | null | undefined>();
 
   useEffect(() => {
     const init = async () => {

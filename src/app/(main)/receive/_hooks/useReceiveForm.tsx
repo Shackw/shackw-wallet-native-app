@@ -35,8 +35,9 @@ export type ReceiveFormContextType = {
 const ReceiveFormContext = createContext<ReceiveFormContextType | undefined>(undefined);
 
 export const ReceiveFormProvider = ({ children }: PropsWithChildren) => {
-  const [sendToken, setSendToken] = useState<Token>("USDC");
-  const { currentChain } = useWalletPreferencesContext();
+  const { currentChain, currentChainDefaultToken } = useWalletPreferencesContext();
+
+  const [sendToken, setSendToken] = useState<Token>(currentChainDefaultToken);
 
   const { meta } = useWalletMetaContext();
   const minTransfer = useMemo(

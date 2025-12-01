@@ -11,13 +11,14 @@ import useTransferSearchParam from "../_hooks/useTransferSearchParam";
 import TransferConfirm from "./TransferConfirm";
 
 const TransferSearchParam = () => {
+  const { show, hide } = useLoadingOverlay();
   const { addressToName } = useAddressesRow();
   const { isParsing, isConfirming, isError, confirmProps, setIsConfirming, setIsError } = useTransferSearchParam();
-  const { show, hide } = useLoadingOverlay();
 
   useEffect(() => {
     if (!isParsing) return;
     show();
+
     return () => {
       hide();
     };
