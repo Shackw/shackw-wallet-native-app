@@ -4476,8 +4476,8 @@ __metadata:
   linkType: hard
 
 "@react-navigation/bottom-tabs@npm:^7.4.0":
-  version: 7.8.7
-  resolution: "@react-navigation/bottom-tabs@npm:7.8.7"
+  version: 7.8.8
+  resolution: "@react-navigation/bottom-tabs@npm:7.8.8"
   dependencies:
     "@react-navigation/elements": "npm:^2.8.4"
     color: "npm:^4.2.3"
@@ -4488,7 +4488,7 @@ __metadata:
     react-native: "*"
     react-native-safe-area-context: ">= 4.0.0"
     react-native-screens: ">= 4.0.0"
-  checksum: 10c0/ed51dc529741777dcd481306cfccfa316c34a6e3d4b5a0b0256d165089ec6de129eac5d5ef691384e39b89acf1d9dc2aeb5b89c861f497fbfc77d5387c075afb
+  checksum: 10c0/897c669bfa1173c27c259f0e0974a6bddc6539db000758ab3fd4f3f4aee7bcaff7545d9f8a99a080ba519637ed5ec77416bd71d5987d3cec0cf96426429fbbb7
   languageName: node
   linkType: hard
 
@@ -4531,8 +4531,8 @@ __metadata:
   linkType: hard
 
 "@react-navigation/native-stack@npm:^7.3.16":
-  version: 7.8.1
-  resolution: "@react-navigation/native-stack@npm:7.8.1"
+  version: 7.8.2
+  resolution: "@react-navigation/native-stack@npm:7.8.2"
   dependencies:
     "@react-navigation/elements": "npm:^2.8.4"
     color: "npm:^4.2.3"
@@ -4544,7 +4544,7 @@ __metadata:
     react-native: "*"
     react-native-safe-area-context: ">= 4.0.0"
     react-native-screens: ">= 4.0.0"
-  checksum: 10c0/18fef1866a068c31097a6b63e27f61d50a0ef54aac7890dc311a3a2b56a99d47ba4f9555273f17dcdf5673a49bdc26daedc4c29822210c0bc1767614d240dde3
+  checksum: 10c0/ed7c956cf7746ace5881707f013f0efe95dfc6c0e34bfe195144db0fb658ba03f4e4e27b5b184021683245c0adc488091cc89e1a0ff01c7e86303e0b7f9a729c
   languageName: node
   linkType: hard
 
@@ -11318,9 +11318,9 @@ __metadata:
   linkType: hard
 
 "lru-cache@npm:^11.0.0, lru-cache@npm:^11.1.0, lru-cache@npm:^11.2.1":
-  version: 11.2.2
-  resolution: "lru-cache@npm:11.2.2"
-  checksum: 10c0/72d7831bbebc85e2bdefe01047ee5584db69d641c48d7a509e86f66f6ee111b30af7ec3bd68a967d47b69a4b1fa8bbf3872630bd06a63b6735e6f0a5f1c8e83d
+  version: 11.2.4
+  resolution: "lru-cache@npm:11.2.4"
+  checksum: 10c0/4a24f9b17537619f9144d7b8e42cd5a225efdfd7076ebe7b5e7dc02b860a818455201e67fbf000765233fe7e339d3c8229fc815e9b58ee6ede511e07608c19b2
   languageName: node
   linkType: hard
 
@@ -12963,11 +12963,11 @@ __metadata:
   linkType: hard
 
 "prettier@npm:^3.6.2":
-  version: 3.7.2
-  resolution: "prettier@npm:3.7.2"
+  version: 3.7.3
+  resolution: "prettier@npm:3.7.3"
   bin:
     prettier: bin/prettier.cjs
-  checksum: 10c0/df3d658df301face0918f8ecbd4354f32e1151d83a3a4720c7f252342baf631466568f708e0e57beea55bbc56415c40208adc76a91d5f1a88f3e743d0d775dc0
+  checksum: 10c0/ee86bb06121c74dadc54f30b6f99aff6288966d9b842ce501d6991e20d20c6ce2d45028651b3b0955ca6e5fa89c1bee1e72b6f810243a93cef8bc69737972ef7
   languageName: node
   linkType: hard
 
@@ -16150,11 +16150,11 @@ __metadata:
   linkType: hard
 
 "yaml@npm:^2.6.1":
-  version: 2.8.1
-  resolution: "yaml@npm:2.8.1"
+  version: 2.8.2
+  resolution: "yaml@npm:2.8.2"
   bin:
     yaml: bin.mjs
-  checksum: 10c0/7c587be00d9303d2ae1566e03bc5bc7fe978ba0d9bf39cc418c3139d37929dfcb93a230d9749f2cb578b6aa5d9ebebc322415e4b653cb83acd8bc0bc321707f3
+  checksum: 10c0/703e4dc1e34b324aa66876d63618dcacb9ed49f7e7fe9b70f1e703645be8d640f68ab84f12b86df8ac960bac37acf5513e115de7c970940617ce0343c8c9cd96
   languageName: node
   linkType: hard
 

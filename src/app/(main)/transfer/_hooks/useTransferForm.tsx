@@ -46,8 +46,9 @@ export type TransferFormContextType = {
 const TransferFormContext = createContext<TransferFormContextType | undefined>(undefined);
 
 export const TransferFormProvider = ({ children }: PropsWithChildren) => {
-  const [sendToken, setSendToken] = useState<Token>("USDC");
-  const { currentChain } = useWalletPreferencesContext();
+  const { currentChain, currentChainDefaultToken } = useWalletPreferencesContext();
+
+  const [sendToken, setSendToken] = useState<Token>(currentChainDefaultToken);
 
   const { meta } = useWalletMetaContext();
 

@@ -9,6 +9,7 @@ type WalletPreferencesContextType = {
   currentChain: Chain;
   defaultChain: Chain | undefined;
   defaultWallet: Address | null | undefined;
+  currentChainDefaultToken: Token;
   currentChainSupportedTokens: Partial<Record<"JPYC" | "USDC" | "EURC", string>>;
   setCurrentChain: React.Dispatch<React.SetStateAction<Chain>>;
   refetchUserSetting: ReturnType<typeof useUserSetting>["refetch"];
@@ -30,6 +31,8 @@ export const WalletPreferencesProvider = ({ children }: PropsWithChildren) => {
     return data.defaultWallet;
   }, [data?.defaultWallet]);
 
+  const currentChainDefaultToken = useMemo(() => SUPPORT_CHAIN_TO_TOKEN[currentChain][0], [currentChain]);
+
   const currentChainSupportedTokens = useMemo(() => {
     return SUPPORT_CHAIN_TO_TOKEN[currentChain].reduce<Partial<Record<Token, string>>>((acc, token) => {
       acc[token] = token;
@@ -48,6 +51,7 @@ export const WalletPreferencesProvider = ({ children }: PropsWithChildren) => {
         currentChain,
         defaultChain,
         defaultWallet,
+        currentChainDefaultToken,
         currentChainSupportedTokens,
         setCurrentChain,
         refetchUserSetting: refetch

@@ -1,5 +1,5 @@
-import { redirectSystemPath } from "@/shared/helpers/redirectSystemPath";
+import { buildRedirectSystemPath } from "@/shared/helpers/redirectSystemPath";
 
-export async function redirectSystemPathNative({ path }: { path: string }) {
-  return redirectSystemPath(path);
+export async function redirectSystemPath({ path }: { path: string }) {
+  return buildRedirectSystemPath(path);
 }

@@ -33,15 +33,12 @@ const DependenciesContainerContext = createContext<Dependencies | undefined>(und
 export const DependenciesContainerProvider = (props: DependenciesContainerProviderProps) => {
   const { appCheckToken, children } = props;
 
-  const { privateKeyRepository, ...rest } = useInfrastructureRepositories(appCheckToken);
   const { show, hide } = useLoadingOverlay();
+  const { privateKeyRepository, ...rest } = useInfrastructureRepositories(appCheckToken);
 
   useEffect(() => {
-    if (!privateKeyRepository) {
-      show();
-    } else {
-      hide();
-    }
+    if (!privateKeyRepository) show();
+    else hide();
   }, [privateKeyRepository, show, hide]);
 
   if (!privateKeyRepository) return null;

@@ -16,9 +16,9 @@ import TransferSubmitButton from "./_components/TransferSubmitButton";
 import { TransferFormProvider } from "./_hooks/useTransferForm";
 
 const TransferScreen = () => {
+  const { show, hide } = useLoadingOverlay();
   const tokenBalances = useTokenBalanceContext();
   const { currentChainSupportedTokens } = useWalletPreferencesContext();
-  const { show, hide } = useLoadingOverlay();
 
   const isBalanceFetched = useMemo(
     () =>
@@ -29,11 +29,8 @@ const TransferScreen = () => {
   );
 
   useEffect(() => {
-    if (!isBalanceFetched) {
-      show();
-    } else {
-      hide();
-    }
+    if (!isBalanceFetched) show();
+    else hide();
   }, [isBalanceFetched, show, hide]);
 
   if (!isBalanceFetched) return null;

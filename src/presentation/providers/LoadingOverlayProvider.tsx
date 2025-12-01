@@ -59,8 +59,8 @@ export const LoadingOverlayProvider = ({ children }: PropsWithChildren) => {
 
   return (
     <LoadingContext.Provider value={{ show, hide, withLoading }}>
-      {children}
       <Loading visible={visible} />
+      {children}
     </LoadingContext.Provider>
   );
 };

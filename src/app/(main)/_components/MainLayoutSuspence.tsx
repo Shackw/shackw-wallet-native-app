@@ -12,13 +12,16 @@ type MainLayoutSuspenceProps = {
 
 const MainLayoutSuspence = (props: MainLayoutSuspenceProps) => {
   const { meta, isError, children } = props;
-  const { show, hide } = useLoadingOverlay();
 
+  const { show, hide } = useLoadingOverlay();
   const isLoading = !meta && !isError;
 
   useEffect(() => {
-    if (isLoading) show();
-    else hide();
+    if (isLoading) {
+      show();
+    } else {
+      hide();
+    }
   }, [isLoading, show, hide]);
 
   if (!meta && isError) return <Maintenance />;

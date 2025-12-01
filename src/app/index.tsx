@@ -5,18 +5,15 @@ import { useLoadingOverlay } from "@/presentation/providers/LoadingOverlayProvid
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 
 const AppIndex = () => {
-  const { account, hasPrivateKey } = useShackwWalletContext();
   const { show, hide } = useLoadingOverlay();
+  const { account, hasPrivateKey } = useShackwWalletContext();
 
   const isLoading = !account && hasPrivateKey;
   const hasWallet = !!account && !!hasPrivateKey;
 
   useEffect(() => {
-    if (isLoading) {
-      show();
-    } else {
-      hide();
-    }
+    if (isLoading) show();
+    else hide();
   }, [isLoading, show, hide]);
 
   if (isLoading) return null;

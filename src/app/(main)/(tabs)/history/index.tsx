@@ -13,8 +13,9 @@ import HistoryTable from "./_components/HistoryTable";
 import type { HistoryYearMonth } from "./_hooks/useHistoryRows";
 
 const HistoryScreen = () => {
-  const { currentChainSupportedTokens } = useWalletPreferencesContext();
-  const [selectedToken, setSelectedToken] = useState<Token>("USDC");
+  const { currentChainDefaultToken, currentChainSupportedTokens } = useWalletPreferencesContext();
+
+  const [selectedToken, setSelectedToken] = useState<Token>(currentChainDefaultToken);
   const [yearMonth, setYearMonth] = useState<HistoryYearMonth>({
     year: new Date().getFullYear(),
     month: new Date().getMonth() + 1
