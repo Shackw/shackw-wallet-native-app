@@ -1,7 +1,7 @@
 import { ReactNode, useEffect } from "react";
 
 import { WalletMetaModel } from "@/domain/walletMeta";
-import Maintenance from "@/presentation/components/Maintenance";
+import MaintenanceOverlay from "@/presentation/components/Maintenance";
 import { useLoadingOverlay } from "@/presentation/providers/LoadingOverlayProvider";
 
 type MainLayoutSuspenceProps = {
@@ -17,14 +17,11 @@ const MainLayoutSuspence = (props: MainLayoutSuspenceProps) => {
   const isLoading = !meta && !isError;
 
   useEffect(() => {
-    if (isLoading) {
-      show();
-    } else {
-      hide();
-    }
+    if (isLoading) show();
+    else hide();
   }, [isLoading, show, hide]);
 
-  if (!meta && isError) return <Maintenance />;
+  if (!meta && isError) return <MaintenanceOverlay />;
 
   if (!meta) return null;
 

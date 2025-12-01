@@ -9,6 +9,7 @@ import { ITokensGateway } from "@/application/ports/ITokensGateway";
 import { IUserSettingRepository } from "@/application/ports/IUserSettingRepository";
 import { IWalletMetaGateway } from "@/application/ports/IWalletMetaGateway";
 
+import MaintenanceOverlay from "../components/Maintenance";
 import { useInfrastructureRepositories } from "../hooks/useInfrastructureRepositories";
 import { useLoadingOverlay } from "../providers/LoadingOverlayProvider";
 
@@ -37,11 +38,14 @@ export const DependenciesContainerProvider = (props: DependenciesContainerProvid
   const { privateKeyRepository, ...rest } = useInfrastructureRepositories(appCheckToken);
 
   useEffect(() => {
-    if (!privateKeyRepository) show();
+    if (privateKeyRepository === undefined) show();
     else hide();
   }, [privateKeyRepository, show, hide]);
 
-  if (!privateKeyRepository) return null;
+  if (privateKeyRepository === null)
+    return <MaintenanceOverlay text={`セキュアストアへのアクセスが拒否されました。\nアプリを再起動してください。`} />;
+
+  if (privateKeyRepository === undefined) return null;
 
   return (
     <DependenciesContainerContext.Provider value={{ ...rest, privateKeyRepository }}>

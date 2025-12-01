@@ -1,10 +1,9 @@
-import { firebase, getToken } from "@react-native-firebase/app-check";
+import { getApp } from "@react-native-firebase/app";
+import { ReactNativeFirebaseAppCheckProvider, getToken, initializeAppCheck } from "@react-native-firebase/app-check";
 
 export const initAppCheck = async () => {
   try {
-    const appCheck = firebase.appCheck();
-
-    const provider = appCheck.newReactNativeFirebaseAppCheckProvider();
+    const provider = new ReactNativeFirebaseAppCheckProvider();
     provider.configure({
       android: {
         provider: "playIntegrity"
@@ -15,12 +14,12 @@ export const initAppCheck = async () => {
       }
     });
 
-    await appCheck.initializeAppCheck({
+    const appCheck = await initializeAppCheck(getApp(), {
       provider,
       isTokenAutoRefreshEnabled: true
     });
 
-    const { token } = await getToken(appCheck);
+    const { token } = await getToken(appCheck, true);
     return token;
   } catch (e) {
     console.error(e);
