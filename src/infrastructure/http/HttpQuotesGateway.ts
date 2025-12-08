@@ -1,6 +1,6 @@
 import * as v from "valibot";
 
-import { RestClient } from "@/infrastructure/clients/restClient";
+import { RestClient } from "@/infrastructure/clients/RestClient";
 
 import { CreateQuoteResultSchema } from "../../shared/validations/schemas/HttpQuoteResultSchema";
 

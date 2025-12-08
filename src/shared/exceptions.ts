@@ -1,4 +1,4 @@
-import { HttpMethod } from "@/infrastructure/clients/restClient";
+import { HttpMethod } from "@/infrastructure/clients/RestClient";
 
 export class CustomError extends Error {}
 

@@ -3,7 +3,7 @@ import * as v from "valibot";
 import { GetWalletSummaryResult, IWalletMetaGateway } from "@/application/ports/IWalletMetaGateway";
 import { WalletApiMetaSchema } from "@/shared/validations/schemas/HttpWalletMetaSchema";
 
-import { RestClient } from "../clients/restClient";
+import { RestClient } from "../clients/RestClient";
 
 export class HttpWalletMetaGateway implements IWalletMetaGateway {
   private path = "/meta";
