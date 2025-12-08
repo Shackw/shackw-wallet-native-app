@@ -7,7 +7,7 @@ import {
 } from "@/application/ports/IRemoteTransactionsGateway";
 import { SearchRemoteTransactionsResultSchema } from "@/shared/validations/schemas/HttpRemoteTransactionsResultSchema";
 
-import { RestClient } from "../clients/restClient";
+import { RestClient } from "../clients/RestClient";
 
 export class HttpRemoteTransactionsGateway implements IRemoteTransactionsGateway {
   private path = "/transactions";

@@ -1,7 +1,7 @@
 import * as v from "valibot";
 
 import { ITokensGateway, TransferTokenQuery, TransferTokenResult } from "@/application/ports/ITokensGateway";
-import { RestClient } from "@/infrastructure/clients/restClient";
+import { RestClient } from "@/infrastructure/clients/RestClient";
 import { TransferTokenResultSchema } from "@/shared/validations/schemas/HttpTokenResultSchema";
 
 export class HttpTokensGateway implements ITokensGateway {
