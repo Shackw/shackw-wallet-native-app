@@ -21,28 +21,23 @@ export const buildApprovedNamespacesForShackw = (
   const required = proposal.requiredNamespaces;
 
   const eip155 = required.eip155;
-  if (!eip155?.chains?.length) throw new CustomError("WalletConnect の要求チェーンが不正です。");
+  if (!eip155?.chains?.length) {
+    throw new CustomError("WalletConnect の要求チェーンが不正です。");
+  }
 
   const requestedChains = eip155.chains;
   const supportedChains = CHAIN_IDS.map(c => `eip155:${c}`);
   const approvedChains = requestedChains.filter(id => supportedChains.includes(id));
-  if (approvedChains.length === 0) throw new CustomError("要求されたチェーンは ShackwWallet では使用できません。");
+
+  if (approvedChains.length === 0) {
+    throw new CustomError("要求されたチェーンは ShackwWallet では使用できません。");
+  }
 
   const accounts = approvedChains.map(chainId => `${chainId}:${account}`);
 
   const supportedNamespaces: BuildApprovedNamespacesParams["supportedNamespaces"] = {
     eip155: {
-      methods: [
-        "eth_sendTransaction",
-        "eth_signTransaction",
-        "eth_sign",
-        "personal_sign",
-        "eth_signTypedData",
-        "eth_signTypedData_v4",
-        "shackw_getAccount",
-        "shackw_getFeeQuote",
-        "shackw_authorizeTransfer"
-      ],
+      methods: ["shackw_signIn", "shackw_getAccount", "shackw_authorizeTransfer"],
       events: ["chainChanged", "accountsChanged"],
       chains: approvedChains,
       accounts

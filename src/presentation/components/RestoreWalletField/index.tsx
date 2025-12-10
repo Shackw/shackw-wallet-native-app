@@ -1,11 +1,11 @@
-import { useCallback } from "react";
+import { ComponentProps, useCallback } from "react";
 
-import { BottomInputDrawer } from "@/presentation/components/Drawer";
+import { BottomActionSheet } from "@/presentation/components/BottomActionSheet";
 
 import RestoreWalletFieldForm from "./RestoreWalletFieldForm";
 
 type RestoreWalletFieldProps = {
-  componentProps: Omit<React.ComponentProps<typeof BottomInputDrawer>, "children">;
+  componentProps: Omit<ComponentProps<typeof BottomActionSheet>, "children">;
   onRestoreWallet: (name: string, pk: string) => Promise<void>;
 };
 
@@ -20,9 +20,9 @@ const RestoreWalletField = (props: RestoreWalletFieldProps) => {
   );
 
   return (
-    <BottomInputDrawer {...componentProps}>
+    <BottomActionSheet {...componentProps}>
       <RestoreWalletFieldForm onClose={componentProps.onClose} onRestore={onRestore} />
-    </BottomInputDrawer>
+    </BottomActionSheet>
   );
 };
 

@@ -6,9 +6,11 @@ import { feesPolicyValidator } from "@/shared/validations/rules/feesPolicyValida
 import { isoDateValidator } from "@/shared/validations/rules/isoDateValidator";
 import { tokenMetaValidator } from "@/shared/validations/rules/tokenMetaValidator";
 
+import { shackwQuoteTokenValidator } from "../rules/shackwQuoteTokenValidator";
+
 export const CreateQuoteResultSchema = v.object(
   {
-    quoteToken: v.string("quoteToken must be a string."),
+    quoteToken: shackwQuoteTokenValidator("quoteToken"),
     expiresAt: isoDateValidator("expiresAt"),
     chainId: v.number("chainId must be a number."),
     sender: addressValidator("sender"),

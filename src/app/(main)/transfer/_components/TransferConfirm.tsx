@@ -3,11 +3,11 @@ import { useCallback } from "react";
 import { Address } from "viem";
 
 import BackDrop from "@/presentation/components/BackDrop";
+import { BottomActionSheet } from "@/presentation/components/BottomActionSheet";
 import { ContainButton, SubContainButton } from "@/presentation/components/Button";
 import ConfirmAmount from "@/presentation/components/Confirm/ConfirmAmount";
 import ConfirmRecipient from "@/presentation/components/Confirm/ConfirmRecipient";
 import { AlertDialog } from "@/presentation/components/Dialog";
-import { BottomInputDrawer } from "@/presentation/components/Drawer";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
@@ -25,31 +25,31 @@ type TransferConfirmProps = {
   feeToken: Token;
   feeDisplyValue: number;
   webhookUrl?: string;
-  componentProps: Omit<React.ComponentProps<typeof BottomInputDrawer>, "children">;
+  componentProps: Omit<React.ComponentProps<typeof BottomActionSheet>, "children">;
 };
 
 const TransferConfirm = (props: TransferConfirmProps) => {
   const { name, recipient, amount, sendToken, feeToken, feeDisplyValue, webhookUrl, componentProps } = props;
 
   const router = useRouter();
-  const { account, client } = useShackwWalletContext();
+  const { account, walletClient } = useShackwWalletContext();
   const [isTransferring, setIsTransferring] = useBoolean(false);
 
   const { mutate, error, isSuccess } = useTransferToken({ onSettled: setIsTransferring.off });
 
   const handleTransfer = useCallback(async () => {
-    if (!account || !client) return;
+    if (!account || !walletClient) return;
     setIsTransferring.on();
     mutate({
       account,
-      client,
+      client: walletClient,
       token: sendToken,
       feeToken: feeToken as Token,
       amountDisplayValue: Number(amount),
       recipient: recipient as Address,
       webhookUrl
     });
-  }, [account, amount, client, feeToken, mutate, recipient, sendToken, setIsTransferring, webhookUrl]);
+  }, [account, amount, walletClient, feeToken, mutate, recipient, sendToken, setIsTransferring, webhookUrl]);
 
   const handleCloseSuccess = useCallback(() => {
     componentProps.onClose();
@@ -59,7 +59,7 @@ const TransferConfirm = (props: TransferConfirmProps) => {
 
   return (
     <>
-      <BottomInputDrawer {...componentProps}>
+      <BottomActionSheet {...componentProps}>
         <VStack className="w-full justify-between flex-1">
           <VStack className="w-full items-center gap-y-7">
             <Text size="md" className="text-center font-bold text-secondary-700">
@@ -86,7 +86,7 @@ const TransferConfirm = (props: TransferConfirmProps) => {
             />
           </HStack>
         </VStack>
-      </BottomInputDrawer>
+      </BottomActionSheet>
 
       <BackDrop visible={isTransferring} />
       <AlertDialog title="送金完了" isOpen={isSuccess && componentProps.isOpen} onClose={handleCloseSuccess} size="lg">

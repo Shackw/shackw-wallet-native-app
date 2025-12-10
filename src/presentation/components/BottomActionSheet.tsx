@@ -11,7 +11,7 @@ import { Text } from "@/presentation/components/gluestack-ui/text";
 
 type DrawerProps = { title: string } & React.ComponentProps<typeof GlueStackUiDrawer>;
 
-export const BottomInputDrawer = (props: Omit<DrawerProps, "anchor">) => {
+export const BottomActionSheet = (props: Omit<DrawerProps, "anchor">) => {
   const { title, children, ...rest } = props;
   return (
     <GlueStackUiDrawer {...rest} anchor="bottom">

@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 
-import { BottomInputDrawer } from "@/presentation/components/Drawer";
+import { BottomActionSheet } from "@/presentation/components/BottomActionSheet";
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { Tab } from "@/presentation/components/Tab";
 import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
@@ -14,7 +14,7 @@ type TransferRecipientFieldProps = {
   prevValue: string;
   transferForm: TransferFormContextType;
   useAddressesRowResult: ReturnType<typeof useAddressesRow>;
-  componentProps: Omit<React.ComponentProps<typeof BottomInputDrawer>, "children">;
+  componentProps: Omit<React.ComponentProps<typeof BottomActionSheet>, "children">;
 };
 
 const INPUT_METHODS = {
@@ -43,7 +43,7 @@ const TransferRecipientField = (props: TransferRecipientFieldProps) => {
   }, [form, handleClose, prevValue]);
 
   return (
-    <BottomInputDrawer {...componentProps} onClose={handleReset}>
+    <BottomActionSheet {...componentProps} onClose={handleReset}>
       <Tab options={INPUT_METHODS} value={currentTab} handleChange={setCurrentTab} />
       <Box className="w-full flex-1 py-4">
         {currentTab === "DIRECT" ? (
@@ -60,7 +60,7 @@ const TransferRecipientField = (props: TransferRecipientFieldProps) => {
           />
         )}
       </Box>
-    </BottomInputDrawer>
+    </BottomActionSheet>
   );
 };
 

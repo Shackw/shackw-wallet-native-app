@@ -5,9 +5,9 @@ import { Address, Hex } from "viem";
 
 import { ListPrivateKeysCommand } from "@/domain/privateKey";
 import BackDrop from "@/presentation/components/BackDrop";
+import { BottomActionSheet } from "@/presentation/components/BottomActionSheet";
 import { ContainButton, SubContainButton, TextButton } from "@/presentation/components/Button";
 import { ActionDialog, AlertDialog } from "@/presentation/components/Dialog";
-import { BottomInputDrawer } from "@/presentation/components/Drawer";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
@@ -21,7 +21,7 @@ type PrivateKeyDisplyFieldProps = {
   wallet: Address;
   privateKey: Hex;
   createdAtStr: string;
-  componentProps: Omit<React.ComponentProps<typeof BottomInputDrawer>, "children">;
+  componentProps: Omit<React.ComponentProps<typeof BottomActionSheet>, "children">;
   fetchPrivateKeys: (variables: ListPrivateKeysCommand) => Promise<void>;
 };
 
@@ -67,7 +67,7 @@ const PrivateKeyDisplyField = (props: PrivateKeyDisplyFieldProps) => {
   return (
     <>
       {isPending && <BackDrop visible />}
-      <BottomInputDrawer {...componentProps}>
+      <BottomActionSheet {...componentProps}>
         <VStack className="flex-1 w-full items-center gap-y-4">
           <Text size="md" className="text-center font-bold text-secondary-700">
             {"プライベートキーは絶対に他人と共有しないでください。\n紛失・漏洩するとウォレットを回復できません。"}
@@ -99,7 +99,7 @@ const PrivateKeyDisplyField = (props: PrivateKeyDisplyFieldProps) => {
             <ContainButton text="削除" size="lg" className="flex-1" onPress={setIsDeleting.on} />
           )}
         </HStack>
-      </BottomInputDrawer>
+      </BottomActionSheet>
 
       <ActionDialog
         title="プライベートキーの削除"
