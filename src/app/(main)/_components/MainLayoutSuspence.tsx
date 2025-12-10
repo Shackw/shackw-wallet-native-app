@@ -1,13 +1,13 @@
 import { ReactNode, useEffect } from "react";
 
-import { WalletMetaModel } from "@/domain/walletMeta";
+import { ShackwApiMetaModel } from "@/domain/shackwApiMeta";
 import MaintenanceOverlay from "@/presentation/components/Maintenance";
 import { useLoadingOverlay } from "@/presentation/providers/LoadingOverlayProvider";
 
 type MainLayoutSuspenceProps = {
-  meta: WalletMetaModel | undefined;
+  meta: ShackwApiMetaModel | undefined;
   isError: boolean;
-  children: (meta: WalletMetaModel) => ReactNode;
+  children: (meta: ShackwApiMetaModel) => ReactNode;
 };
 
 const MainLayoutSuspence = (props: MainLayoutSuspenceProps) => {

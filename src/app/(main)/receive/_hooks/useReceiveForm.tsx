@@ -1,8 +1,8 @@
 import { useForm, useStore } from "@tanstack/react-form";
 import { createContext, PropsWithChildren, useContext, useMemo, useState } from "react";
 
-import { TokenAmountMeta } from "@/domain/walletMeta";
-import { useWalletMetaContext } from "@/presentation/providers/WalletMetaProvider";
+import { TokenAmountMeta } from "@/domain/shackwApiMeta";
+import { useShackwApiMetaContext } from "@/presentation/providers/ShackwApiMetaProvider";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 import { Token } from "@/registries/ChainTokenRegistry";
 
@@ -39,7 +39,7 @@ export const ReceiveFormProvider = ({ children }: PropsWithChildren) => {
 
   const [sendToken, setSendToken] = useState<Token>(currentChainDefaultToken);
 
-  const { meta } = useWalletMetaContext();
+  const { meta } = useShackwApiMetaContext();
   const minTransfer = useMemo(
     () => meta[currentChain][sendToken]?.minTransfer.display ?? 0,
     [currentChain, meta, sendToken]

@@ -1,9 +1,9 @@
 import { useForm, useStore } from "@tanstack/react-form";
 import { createContext, PropsWithChildren, useContext, useMemo, useState } from "react";
 
-import { TokenAmountMeta } from "@/domain/walletMeta";
+import { TokenAmountMeta } from "@/domain/shackwApiMeta";
+import { useShackwApiMetaContext } from "@/presentation/providers/ShackwApiMetaProvider";
 import { useTokenBalanceContext } from "@/presentation/providers/TokenBalanceProvider";
-import { useWalletMetaContext } from "@/presentation/providers/WalletMetaProvider";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 import { Token } from "@/registries/ChainTokenRegistry";
 import { toAllowed } from "@/shared/helpers/tokenUnits";
@@ -50,7 +50,7 @@ export const TransferFormProvider = ({ children }: PropsWithChildren) => {
 
   const [sendToken, setSendToken] = useState<Token>(currentChainDefaultToken);
 
-  const { meta } = useWalletMetaContext();
+  const { meta } = useShackwApiMetaContext();
 
   const tokenBalances = useTokenBalanceContext();
   const maxSendable = useMemo(

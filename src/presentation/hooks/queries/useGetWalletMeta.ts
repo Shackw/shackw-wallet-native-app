@@ -1,12 +1,12 @@
 import { UseQueryOptions, UseQueryResult, useQuery } from "@tanstack/react-query";
 
 import { WalletMetaService } from "@/application/services/WalletMetaService";
-import { WalletMetaModel } from "@/domain/walletMeta";
+import { ShackwApiMetaModel } from "@/domain/shackwApiMeta";
 import { useDependenciesContainerContext } from "@/presentation/providers/DependenciesContainerProvider";
 
 export const useGetWalletMeta = (
-  options?: Partial<UseQueryOptions<WalletMetaModel>>
-): UseQueryResult<WalletMetaModel> => {
+  options?: Partial<UseQueryOptions<ShackwApiMetaModel>>
+): UseQueryResult<ShackwApiMetaModel> => {
   const { walletMetaGateway } = useDependenciesContainerContext();
 
   return useQuery({

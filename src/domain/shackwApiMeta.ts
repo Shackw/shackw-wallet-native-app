@@ -11,4 +11,4 @@ export type WalletMetaItem = {
   fixedFee: TokenAmountMeta;
 };
 
-export type WalletMetaModel = Record<Chain, Partial<Record<Token, WalletMetaItem>>>;
+export type ShackwApiMetaModel = Record<Chain, Partial<Record<Token, WalletMetaItem>>>;
