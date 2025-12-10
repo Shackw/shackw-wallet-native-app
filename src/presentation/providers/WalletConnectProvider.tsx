@@ -1,36 +1,42 @@
-import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState, useCallback } from "react";
+import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from "react";
 
 import { IWalletConnectHandlers } from "@/application/ports/IWalletConnectHandlers";
 import { WalletConnectClient } from "@/infrastructure/clients/WalletConnectClient";
 
+import { useWcAuthorizeTransfer } from "../hooks/walletConnect/useWcAuthorizeTransfer";
+import { useWcGetAccount } from "../hooks/walletConnect/useWcGetAccount";
+import { useWcSessionDelete } from "../hooks/walletConnect/useWcSessionDelete";
+import { useWcSessionProposal } from "../hooks/walletConnect/useWcSessionProposal";
+import { useWcSignIn } from "../hooks/walletConnect/useWcSignIn";
+
 import { useShackwWalletContext } from "./ShackwWalletProvider";
 
 type WalletConnectType = {
-  walletConnectClient: WalletConnectClient | null;
+  wcClient: WalletConnectClient | null;
 };
 
 export const WalletConnectContext = createContext<WalletConnectType | undefined>(undefined);
 
 export const WalletConnectProvider = ({ children }: PropsWithChildren) => {
   const { account } = useShackwWalletContext();
-  const [client, setClient] = useState<WalletConnectClient | null>(null);
+  const [wcClient, setWcClient] = useState<WalletConnectClient | null>(null);
 
-  const onSessionProposal = useCallback<IWalletConnectHandlers["onSessionProposal"]>(async proposal => {
-    console.log("Session proposal:", proposal);
-    return "approve";
-  }, []);
+  const { onSessionProposal } = useWcSessionProposal();
+  const { onSessionDelete } = useWcSessionDelete(wcClient);
+  const { onSignIn } = useWcSignIn();
+  const { onGetAccount } = useWcGetAccount();
+  const { onAuthorizeTransfer } = useWcAuthorizeTransfer();
 
-  const onAuthSignRequest = useCallback<IWalletConnectHandlers["onAuthSignRequest"]>(async payload => {
-    console.log("Auth sign request:", payload);
-    return { approved: false };
-  }, []);
-
-  const handlers: IWalletConnectHandlers = useMemo(() => {
-    return {
+  const handlers: IWalletConnectHandlers = useMemo(
+    () => ({
       onSessionProposal,
-      onAuthSignRequest
-    };
-  }, [onSessionProposal, onAuthSignRequest]);
+      onSessionDelete,
+      onSignIn,
+      onGetAccount,
+      onAuthorizeTransfer
+    }),
+    [onAuthorizeTransfer, onGetAccount, onSessionDelete, onSessionProposal, onSignIn]
+  );
 
   useEffect(() => {
     if (!account) return;
@@ -38,28 +44,25 @@ export const WalletConnectProvider = ({ children }: PropsWithChildren) => {
     let cancelled = false;
 
     (async () => {
-      if (!client) {
+      if (!wcClient) {
         const inst = await WalletConnectClient.create(account.address, handlers);
-        if (!cancelled) setClient(inst);
+        if (!cancelled) setWcClient(inst);
         return;
       }
 
-      client.updateContext(account.address, handlers);
+      wcClient.updateContext(account.address, handlers);
     })();
 
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, handlers]);
+  }, [account, wcClient, handlers]);
 
-  return (
-    <WalletConnectContext.Provider value={{ walletConnectClient: client }}>{children}</WalletConnectContext.Provider>
-  );
+  return <WalletConnectContext.Provider value={{ wcClient }}>{children}</WalletConnectContext.Provider>;
 };
 
 export const useWalletConnectContext = () => {
   const ctx = useContext(WalletConnectContext);
-  if (!ctx) throw new Error("WalletConnectProvider not mounted.");
+  if (!ctx) throw new Error("WalletConnectProvider is not mounted. Wrap your component with <WalletConnectProvider>.");
   return ctx;
 };

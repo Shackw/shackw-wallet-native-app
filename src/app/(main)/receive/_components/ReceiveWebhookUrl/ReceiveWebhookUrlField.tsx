@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+import { BottomActionSheet } from "@/presentation/components/BottomActionSheet";
 import { SubContainButton, ContainButton } from "@/presentation/components/Button";
 import { AlertDialog } from "@/presentation/components/Dialog";
-import { BottomInputDrawer } from "@/presentation/components/Drawer";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Textarea, TextareaInput } from "@/presentation/components/gluestack-ui/textarea";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
@@ -15,7 +15,7 @@ import { ReceiveFormContextType } from "../../_hooks/useReceiveForm";
 type ReceiveWebhookUrlFieldProps = {
   prevValue: string | undefined;
   transferForm: ReceiveFormContextType;
-  componentProps: Omit<React.ComponentProps<typeof BottomInputDrawer>, "children">;
+  componentProps: Omit<React.ComponentProps<typeof BottomActionSheet>, "children">;
 };
 
 const ReceiveWebhookUrlField = (props: ReceiveWebhookUrlFieldProps) => {
@@ -44,7 +44,7 @@ const ReceiveWebhookUrlField = (props: ReceiveWebhookUrlFieldProps) => {
   }, [componentProps, form, setIsShowErrorDialog]);
 
   return (
-    <BottomInputDrawer {...componentProps} onClose={handleClose}>
+    <BottomActionSheet {...componentProps} onClose={handleClose}>
       <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }} enableOnAndroid={true}>
         <form.Field
           name="webhookUrl"
@@ -92,7 +92,7 @@ const ReceiveWebhookUrlField = (props: ReceiveWebhookUrlFieldProps) => {
           )}
         />
       </KeyboardAwareScrollView>
-    </BottomInputDrawer>
+    </BottomActionSheet>
   );
 };
 

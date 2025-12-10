@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import { Address } from "viem";
 
-import { BottomInputDrawer } from "@/presentation/components/Drawer";
+import { BottomActionSheet } from "@/presentation/components/BottomActionSheet";
 import { useUpdateAddress } from "@/presentation/hooks/mutations/useUpdateAddress";
 import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 
@@ -10,7 +10,7 @@ import AddressesMineEditForm from "./AddressesMineEditForm";
 type AddressesMineEditFieldProps = {
   address: Address;
   name: string;
-  componentProps: Omit<React.ComponentProps<typeof BottomInputDrawer>, "children">;
+  componentProps: Omit<React.ComponentProps<typeof BottomActionSheet>, "children">;
   refetchAddresses: ReturnType<typeof useAddressesRow>["refetch"];
 };
 
@@ -27,9 +27,9 @@ const AddressesMineEditField = (props: AddressesMineEditFieldProps) => {
   );
 
   return (
-    <BottomInputDrawer {...componentProps}>
+    <BottomActionSheet {...componentProps}>
       <AddressesMineEditForm initName={name} onClose={componentProps.onClose} onEdit={onEdit} />
-    </BottomInputDrawer>
+    </BottomActionSheet>
   );
 };
 

@@ -3,9 +3,9 @@ import { QueryObserverResult, RefetchOptions } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+import { BottomActionSheet } from "@/presentation/components/BottomActionSheet";
 import { ContainButton } from "@/presentation/components/Button";
 import { AlertDialog } from "@/presentation/components/Dialog";
-import { BottomInputDrawer } from "@/presentation/components/Drawer";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText } from "@/presentation/components/Text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
@@ -14,7 +14,7 @@ import useMutateAddressForm, { type UseMutateAddressFormProps } from "@/presenta
 import AddressMutateFieldForm from "./AddressMutateFieldForm";
 
 type AddressMutateFieldProps = UseMutateAddressFormProps & {
-  componentProps: Omit<React.ComponentProps<typeof BottomInputDrawer>, "children">;
+  componentProps: Omit<React.ComponentProps<typeof BottomActionSheet>, "children">;
   disableFields?: ("name" | "address")[];
   refetch?: (options?: RefetchOptions | undefined) => Promise<QueryObserverResult<any, Error>>;
 };
@@ -67,7 +67,7 @@ const AddressMutateField = (props: AddressMutateFieldProps) => {
 
   return (
     <>
-      <BottomInputDrawer {...componentProps} onClose={handleClose}>
+      <BottomActionSheet {...componentProps} onClose={handleClose}>
         <KeyboardAwareScrollView
           contentContainerStyle={{ flexGrow: 1 }}
           enableOnAndroid
@@ -84,7 +84,7 @@ const AddressMutateField = (props: AddressMutateFieldProps) => {
             />
           </VStack>
         </KeyboardAwareScrollView>
-      </BottomInputDrawer>
+      </BottomActionSheet>
 
       <AlertDialog title="入力不正" isOpen={isShowErrorDialog} onClose={setIsShowErrorDialog.off} size="lg">
         <VStack className="py-4 gap-y-2">

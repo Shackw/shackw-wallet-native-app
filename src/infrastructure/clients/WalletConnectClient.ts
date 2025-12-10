@@ -1,12 +1,15 @@
 import { WalletKit, IWalletKit } from "@reown/walletkit";
 import { Core } from "@walletconnect/core";
 import { getSdkError } from "@walletconnect/utils";
+import * as v from "valibot";
 import { Address } from "viem";
 
 import { IWalletConnectHandlers } from "@/application/ports/IWalletConnectHandlers";
 import { ENV } from "@/config/env";
 import { buildApprovedNamespacesForShackw, WALLETCONNECT_METADATA } from "@/config/walletConnect";
 import { CustomError } from "@/shared/exceptions";
+import { ShackwAuthorizeTransferParamsSchema } from "@/shared/validations/schemas/ShackwAuthorizeTransferParamsSchema";
+import { ShackwSignInParamsSchema } from "@/shared/validations/schemas/ShackwSignInParamsSchema";
 
 const PROJECT_ID = ENV.WALLETCONNECT_PROJECT_ID;
 
@@ -97,7 +100,146 @@ export class WalletConnectClient {
 
     this.walletKit.on("session_request", async event => {
       if (!this.handlers) return;
-      await this.handlers.onSessionRequest(event);
+
+      const { topic, params, id } = event;
+      const { request } = params;
+      const { method } = request;
+
+      try {
+        switch (method) {
+          case "shackw_signIn": {
+            const raw = request.params?.[0];
+
+            const parsed = v.safeParse(ShackwSignInParamsSchema, raw);
+            if (!parsed.success) {
+              await this.walletKit.respondSessionRequest({
+                topic,
+                response: {
+                  id,
+                  jsonrpc: "2.0",
+                  error: {
+                    code: -32000,
+                    message: "Invalid shackw_signIn params"
+                  }
+                }
+              });
+              return;
+            }
+
+            const { message, nonce } = parsed.output;
+
+            const result = await this.handlers.onSignIn({
+              topic,
+              message,
+              nonce
+            });
+
+            await this.walletKit.respondSessionRequest({
+              topic,
+              response: {
+                id,
+                jsonrpc: "2.0",
+                result
+              }
+            });
+            return;
+          }
+
+          case "shackw_getAccount": {
+            const info = await this.handlers.onGetAccount({ topic });
+
+            await this.walletKit.respondSessionRequest({
+              topic,
+              response: {
+                id,
+                jsonrpc: "2.0",
+                result: info
+              }
+            });
+            return;
+          }
+
+          case "shackw_authorizeTransfer": {
+            const raw = request.params?.[0];
+
+            const parsed = v.safeParse(ShackwAuthorizeTransferParamsSchema, raw);
+            if (!parsed.success) {
+              await this.walletKit.respondSessionRequest({
+                topic,
+                response: {
+                  id,
+                  jsonrpc: "2.0",
+                  error: {
+                    code: -32000,
+                    message: "Invalid shackw_authorizeTransfer params"
+                  }
+                }
+              });
+              return;
+            }
+
+            const p = parsed.output;
+            const result = await this.handlers.onAuthorizeTransfer({
+              topic,
+              chain: p.chain,
+              token: p.token,
+              feeToken: p.feeToken,
+              recipient: p.recipient,
+              amountDisplayValue: p.amountDisplayValue,
+              delegate: p.delegate,
+              quoteToken: p.quoteToken
+            });
+
+            if (!result.approved || !result.txHash) {
+              await this.walletKit.respondSessionRequest({
+                topic,
+                response: {
+                  id,
+                  jsonrpc: "2.0",
+                  error: getSdkError("USER_REJECTED")
+                }
+              });
+              return;
+            }
+
+            await this.walletKit.respondSessionRequest({
+              topic,
+              response: {
+                id,
+                jsonrpc: "2.0",
+                result: { txHash: result.txHash }
+              }
+            });
+            return;
+          }
+
+          default: {
+            await this.walletKit.respondSessionRequest({
+              topic,
+              response: {
+                id,
+                jsonrpc: "2.0",
+                error: getSdkError("INVALID_METHOD")
+              }
+            });
+            return;
+          }
+        }
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : "Unexpected error";
+
+        await this.walletKit.respondSessionRequest({
+          topic,
+          response: {
+            id,
+            jsonrpc: "2.0",
+            error: {
+              code: -32000,
+              message: msg
+            }
+          }
+        });
+      }
     });
 
     this.walletKit.on("session_delete", async event => {

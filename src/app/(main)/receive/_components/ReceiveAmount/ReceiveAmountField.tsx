@@ -1,9 +1,9 @@
 import { useCallback } from "react";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+import { BottomActionSheet } from "@/presentation/components/BottomActionSheet";
 import { SubContainButton, ContainButton } from "@/presentation/components/Button";
 import { AlertDialog } from "@/presentation/components/Dialog";
-import { BottomInputDrawer } from "@/presentation/components/Drawer";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Input, InputField, InputSlot } from "@/presentation/components/gluestack-ui/input";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
@@ -19,7 +19,7 @@ import ReceiveAmountSummary from "./ReceiveAmountSummary";
 type ReceiveAmountFieldProps = {
   prevValue: number | undefined;
   transferForm: ReceiveFormContextType;
-  componentProps: Omit<React.ComponentProps<typeof BottomInputDrawer>, "children">;
+  componentProps: Omit<React.ComponentProps<typeof BottomActionSheet>, "children">;
 };
 
 const ReceiveAmountField = (props: ReceiveAmountFieldProps) => {
@@ -49,7 +49,7 @@ const ReceiveAmountField = (props: ReceiveAmountFieldProps) => {
   }, [componentProps, form, setIsShowErrorDialog]);
 
   return (
-    <BottomInputDrawer {...componentProps} onClose={handleClose}>
+    <BottomActionSheet {...componentProps} onClose={handleClose}>
       <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }} enableOnAndroid={true}>
         <form.Field
           name="amount"
@@ -99,7 +99,7 @@ const ReceiveAmountField = (props: ReceiveAmountFieldProps) => {
           )}
         />
       </KeyboardAwareScrollView>
-    </BottomInputDrawer>
+    </BottomActionSheet>
   );
 };
 
