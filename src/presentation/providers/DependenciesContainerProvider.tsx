@@ -9,7 +9,7 @@ import { ITokensGateway } from "@/application/ports/ITokensGateway";
 import { IUserSettingRepository } from "@/application/ports/IUserSettingRepository";
 import { IWalletMetaGateway } from "@/application/ports/IWalletMetaGateway";
 
-import MaintenanceOverlay from "../components/Maintenance";
+import { MaintenanceOverlay } from "../components/Maintenance";
 import { useInfrastructureRepositories } from "../hooks/useInfrastructureRepositories";
 import { useLoadingOverlay } from "../providers/LoadingOverlayProvider";
 

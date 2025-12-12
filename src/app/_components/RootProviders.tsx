@@ -6,11 +6,12 @@ import { PropsWithChildren, useEffect, useState } from "react";
 import { initAppCheck } from "@/config/firebase";
 import { migrate } from "@/infrastructure/db";
 import { GluestackUIProvider } from "@/presentation/components/gluestack-ui/gluestack-ui-provider";
-import MaintenanceOverlay from "@/presentation/components/Maintenance";
+import { MaintenanceOverlay } from "@/presentation/components/Maintenance";
 import { useFonts } from "@/presentation/hooks/useFonts";
 import { DependenciesContainerProvider } from "@/presentation/providers/DependenciesContainerProvider";
 import { useLoadingOverlay } from "@/presentation/providers/LoadingOverlayProvider";
 import { ShackwWalletProvider } from "@/presentation/providers/ShackwWalletProvider";
+import { WalletConnectProvider } from "@/presentation/providers/WalletConnectProvider";
 import { WalletPreferencesProvider } from "@/presentation/providers/WalletPreferencesProvider";
 
 const RootProviders = ({ children }: PropsWithChildren) => {
@@ -37,17 +38,14 @@ const RootProviders = ({ children }: PropsWithChildren) => {
   const isInitializing = !fontsLoaded || appCheckToken === undefined;
 
   useEffect(() => {
-    if (isInitializing) {
-      show();
-    } else {
-      hide();
-    }
+    if (isInitializing) show();
+    else hide();
   }, [isInitializing, show, hide]);
 
   if (appCheckToken === null) {
     return (
       <MaintenanceOverlay
-        text={`安全性を確認できなかったため処理を続行できませんでした。少し時間をおいて再度お試しください。`}
+        text={`安全性を確認できなかったため処理を続行できませんでした。\n少し時間をおいて再度お試しください。`}
       />
     );
   }
@@ -60,7 +58,9 @@ const RootProviders = ({ children }: PropsWithChildren) => {
         <DependenciesContainerProvider appCheckToken={appCheckToken!}>
           <WalletPreferencesProvider>
             <ShackwWalletProvider>
-              <GluestackUIProvider>{children}</GluestackUIProvider>
+              <WalletConnectProvider>
+                <GluestackUIProvider>{children}</GluestackUIProvider>
+              </WalletConnectProvider>
             </ShackwWalletProvider>
           </WalletPreferencesProvider>
         </DependenciesContainerProvider>

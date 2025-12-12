@@ -15,7 +15,7 @@ const PrivateKeyTable = (props: PrivateKeyTableProps) => {
   const { rows, fetchPrivateKeys } = props;
 
   return (
-    <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator>
+    <ScrollView className="flex-1" showsVerticalScrollIndicator>
       <Table className="w-full overflow-y-auto">
         <TableBody className="w-full">
           {rows.map((row, index) => (

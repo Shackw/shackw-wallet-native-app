@@ -25,7 +25,7 @@ const HistoryTable = (props: HistoryTableProps) => {
       loadingMessage={`取引履歴を取得しています。\n取得完了には1~2分程度かかる場合がございます。`}
     >
       {rows => (
-        <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator>
+        <ScrollView className="flex-1" showsVerticalScrollIndicator>
           <Table className="w-full overflow-y-auto">
             <TableBody className="w-full">
               {rows.map((row, index) => (
