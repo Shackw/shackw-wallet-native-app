@@ -63,6 +63,7 @@ export class WalletConnectClient {
     try {
       await this.walletKit.pair({ uri });
     } catch (e) {
+      console.error(e);
       throw new CustomError("WalletConnect の接続に失敗しました。", { cause: e });
     }
   }

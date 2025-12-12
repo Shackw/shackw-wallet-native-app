@@ -21,7 +21,7 @@ const AddressesScreen = () => {
   const [isCreating, setIsCreating] = useBoolean(false);
   const params = useLocalSearchParams<{ address?: Address; name?: string }>();
 
-  const { mineRow, addressRows, searchTextRef, isError, handleChangeSearchText, refetch } = useAddressesRow();
+  const { currentWalletRow, addressRows, searchTextRef, isError, handleChangeSearchText, refetch } = useAddressesRow();
 
   const myAddressRows = useMemo(() => addressRows?.filter(a => a.isMine), [addressRows]);
   const otherAddressRows = useMemo(() => addressRows?.filter(a => !a.isMine), [addressRows]);
@@ -38,7 +38,7 @@ const AddressesScreen = () => {
           handleChange={handleChangeSearchText}
           componetProps={{ className: "w-full mt-3" }}
         />
-        <AddressesMine address={mineRow.address} name={mineRow.name} refetchAddresses={refetch} />
+        <AddressesMine address={currentWalletRow.address} name={currentWalletRow.name} refetchAddresses={refetch} />
         <VStack className="flex-1 pb-8 gap-y-4">
           <VStack className="h-[208px]">
             <HStack className="items-center justify-between">

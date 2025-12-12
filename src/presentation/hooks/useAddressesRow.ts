@@ -15,7 +15,7 @@ export const useAddressesRow = () => {
   const searchTextRef = useRef<RNTextInput | null>(null);
   const [searchText, setSearchText] = useState<string>("");
 
-  const mineRow: AddressRow = useMemo(() => {
+  const currentWalletRow = useMemo(() => {
     const mine = addresses && addresses.find(a => a.isMine && a.address === account?.address);
 
     if (!mine) {
@@ -28,16 +28,16 @@ export const useAddressesRow = () => {
   const addressRows: AddressRow[] | undefined = useMemo(() => {
     if (!addresses) return undefined;
 
-    const excludedMine = addresses
-      .filter(a => a.isMine && a.address !== account?.address)
+    const excludedCurrent = addresses
+      .filter(a => a.address !== account?.address)
       .map(a => ({ address: a.address, name: a.name, isMine: a.isMine }));
 
-    if (!searchText) return excludedMine;
+    if (!searchText) return excludedCurrent;
 
     const searchParams = String(searchText)
       .split(/\p{White_Space}+/u)
       .filter(Boolean);
-    const searched = excludedMine.filter(a => searchParams.some(s => a.name.includes(s) || a.address.includes(s)));
+    const searched = excludedCurrent.filter(a => searchParams.some(s => a.name.includes(s) || a.address.includes(s)));
 
     return searched;
   }, [account?.address, addresses, searchText]);
@@ -55,5 +55,13 @@ export const useAddressesRow = () => {
     setSearchText(t);
   }, []);
 
-  return { mineRow, addressRows, addressToName, searchText, searchTextRef, handleChangeSearchText, ...rest };
+  return {
+    currentWalletRow,
+    addressRows,
+    addressToName,
+    searchText,
+    searchTextRef,
+    handleChangeSearchText,
+    ...rest
+  };
 };

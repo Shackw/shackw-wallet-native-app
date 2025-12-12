@@ -4,7 +4,7 @@ import { IWalletConnectHandlers, SessionProposalDecision } from "@/application/p
 
 import type { SignClientTypes } from "@walletconnect/types";
 
-type PendingSessionProposal = {
+export type PendingSessionProposal = {
   proposal: SignClientTypes.EventArguments["session_proposal"];
   resolve: (decision: SessionProposalDecision) => void;
 };

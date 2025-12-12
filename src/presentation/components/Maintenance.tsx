@@ -8,7 +8,7 @@ type MaintenanceOverlayProps = {
   text?: string;
 };
 
-const MaintenanceOverlay = (props: MaintenanceOverlayProps) => {
+export const MaintenanceOverlay = (props: MaintenanceOverlayProps) => {
   const { text } = props;
 
   return (
@@ -22,5 +22,3 @@ const MaintenanceOverlay = (props: MaintenanceOverlayProps) => {
     </Modal>
   );
 };
-
-export default MaintenanceOverlay;

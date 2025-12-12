@@ -20,6 +20,11 @@ const useSacnQrCode = () => {
   const processValue = useCallback(
     async (value: string) => {
       try {
+        if (value.startsWith("wc:")) {
+          router.replace(`/?wcUri=${encodeURIComponent(value)}`);
+          return;
+        }
+
         if (/^https?:\/\//i.test(value)) {
           const href = await buildRedirectSystemPath(value);
           router.replace(href as RelativePathString);

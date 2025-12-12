@@ -18,7 +18,7 @@ export const buildApprovedNamespacesForShackw = (
   proposal: ProposalTypes.Struct,
   account: Address
 ): SessionTypes.Namespaces => {
-  const required = proposal.requiredNamespaces;
+  const required = proposal.optionalNamespaces;
 
   const eip155 = required.eip155;
   if (!eip155?.chains?.length) {

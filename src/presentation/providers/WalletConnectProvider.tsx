@@ -13,6 +13,11 @@ import { useShackwWalletContext } from "./ShackwWalletProvider";
 
 type WalletConnectType = {
   wcClient: WalletConnectClient | null;
+  sessionProposal: ReturnType<typeof useWcSessionProposal>;
+  sessionDelete: ReturnType<typeof useWcSessionDelete>;
+  signIn: ReturnType<typeof useWcSignIn>;
+  getAccount: ReturnType<typeof useWcGetAccount>;
+  authorizeTransfer: ReturnType<typeof useWcAuthorizeTransfer>;
 };
 
 export const WalletConnectContext = createContext<WalletConnectType | undefined>(undefined);
@@ -21,21 +26,27 @@ export const WalletConnectProvider = ({ children }: PropsWithChildren) => {
   const { account } = useShackwWalletContext();
   const [wcClient, setWcClient] = useState<WalletConnectClient | null>(null);
 
-  const { onSessionProposal } = useWcSessionProposal();
-  const { onSessionDelete } = useWcSessionDelete(wcClient);
-  const { onSignIn } = useWcSignIn();
-  const { onGetAccount } = useWcGetAccount();
-  const { onAuthorizeTransfer } = useWcAuthorizeTransfer();
+  const sessionProposal = useWcSessionProposal();
+  const sessionDelete = useWcSessionDelete(wcClient);
+  const signIn = useWcSignIn();
+  const getAccount = useWcGetAccount();
+  const authorizeTransfer = useWcAuthorizeTransfer();
 
   const handlers: IWalletConnectHandlers = useMemo(
     () => ({
-      onSessionProposal,
-      onSessionDelete,
-      onSignIn,
-      onGetAccount,
-      onAuthorizeTransfer
+      onSessionProposal: sessionProposal.onSessionProposal,
+      onSessionDelete: sessionDelete.onSessionDelete,
+      onSignIn: signIn.onSignIn,
+      onGetAccount: getAccount.onGetAccount,
+      onAuthorizeTransfer: authorizeTransfer.onAuthorizeTransfer
     }),
-    [onAuthorizeTransfer, onGetAccount, onSessionDelete, onSessionProposal, onSignIn]
+    [
+      sessionProposal.onSessionProposal,
+      sessionDelete.onSessionDelete,
+      signIn.onSignIn,
+      getAccount.onGetAccount,
+      authorizeTransfer.onAuthorizeTransfer
+    ]
   );
 
   useEffect(() => {
@@ -58,7 +69,13 @@ export const WalletConnectProvider = ({ children }: PropsWithChildren) => {
     };
   }, [account, wcClient, handlers]);
 
-  return <WalletConnectContext.Provider value={{ wcClient }}>{children}</WalletConnectContext.Provider>;
+  return (
+    <WalletConnectContext.Provider
+      value={{ wcClient, sessionProposal, sessionDelete, signIn, getAccount, authorizeTransfer }}
+    >
+      {children}
+    </WalletConnectContext.Provider>
+  );
 };
 
 export const useWalletConnectContext = () => {

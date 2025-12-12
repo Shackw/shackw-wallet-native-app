@@ -1,7 +1,7 @@
 import { ReactNode, useEffect } from "react";
 
 import { ShackwApiMetaModel } from "@/domain/shackwApiMeta";
-import MaintenanceOverlay from "@/presentation/components/Maintenance";
+import { MaintenanceOverlay } from "@/presentation/components/Maintenance";
 import { useLoadingOverlay } from "@/presentation/providers/LoadingOverlayProvider";
 
 type MainLayoutSuspenceProps = {
