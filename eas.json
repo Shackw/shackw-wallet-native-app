@@ -3,8 +3,9 @@
     "version": ">= 9.1.0"
   },
   "build": {
-    "local": {
+    "android-internal": {
       "credentialsSource": "remote",
+      "android": { "buildType": "apk" },
       "env": {
         "EXPO_ROUTER_BASE_PATH": "src/app",
         "EXPO_PUBLIC_DATABASE_VERSION": "1",
@@ -13,17 +14,13 @@
         "EXPO_PUBLIC_SHACKW_API_URL": "https://api.wallet.shackw.com/v1",
         "EXPO_PUBLIC_SHACKW_UNIVERSAL_LINK": "https://wallet.shackw.com/",
         "EXPO_PUBLIC_WALLETCONNECT_PROJECT_ID": "a1111e8a628fa55f427a0cc491328cb8"
-      },
-      "android": {
-        "buildType": "apk"
-      },
-      "ios": {
-        "simulator": true
       }
     },
 
     "production": {
       "credentialsSource": "remote",
+      "distribution": "store",
+      "android": { "buildType": "app-bundle" },
       "env": {
         "EXPO_ROUTER_BASE_PATH": "src/app",
         "EXPO_PUBLIC_DATABASE_VERSION": "1",

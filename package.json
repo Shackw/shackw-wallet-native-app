@@ -1,21 +1,18 @@
 {
   "name": "shackw-wallet-native-app",
-  "version": "1.0.0",
+  "version": "0.1.1",
   "description": "ShackwWallet is a non-custodial mobile wallet focused on stablecoin with EIP-7702 support.",
   "author": "Shackw",
   "main": "./src/index.ts",
   "scripts": {
-    "start": "expo start",
-    "dev:android": "dotenv -e .env -- expo run:android",
-    "dev:ios": "dotenv -e .env -- expo run:ios",
     "lint": "expo lint --fix && tsc --noEmit",
     "format": "npx prettier --write '**/*.{js,ts,tsx}'",
-    "build:android": "npx eas-cli build --platform android --profile production",
-    "build:ios": "npx eas-cli build --platform ios --profile production",
-    "apk:local": "npx eas-cli build --platform android --profile local --local",
-    "android:creds": "npx eas-cli credentials --platform android",
-    "android": "expo run:android",
-    "ios": "expo run:ios"
+    "check": "yarn format && yarn lint",
+    "dev:android": "dotenv -e .env -- expo run:android",
+    "build:android:apk:local": "yarn check && npx eas-cli build --platform android --profile android-internal --local",
+    "build:android:aab": "yarn check && npx eas-cli build --platform android --profile production",
+    "build:ios:ipa": "yarn check && npx eas-cli build --platform ios --profile production",
+    "creds:android": "npx eas-cli credentials --platform android"
   },
   "dependencies": {
     "@expo/html-elements": "^0.12.5",
