@@ -7,7 +7,7 @@ import {
   Caption as ExpoTCaption
 } from "@expo/html-elements";
 import React, { createContext, useMemo, useContext } from "react";
-import { Text, View } from "react-native";
+import { Text, TextProps, View, ViewProps } from "react-native";
 
 import {
   tableStyle,
@@ -92,9 +92,21 @@ const TableHead = React.forwardRef<React.ComponentRef<typeof View | typeof Text>
   ref
 ) {
   if (useRNView) {
-    return <View ref={ref} className={tableHeadStyle({ class: className })} {...props} />;
+    return (
+      <View
+        ref={ref as React.ForwardedRef<View>}
+        className={tableHeadStyle({ class: className })}
+        {...(props as ViewProps)}
+      />
+    );
   } else {
-    return <Text ref={ref} className={tableHeadStyle({ class: className })} {...props} />;
+    return (
+      <Text
+        ref={ref as React.ForwardedRef<Text>}
+        className={tableHeadStyle({ class: className })}
+        {...(props as TextProps)}
+      />
+    );
   }
 });
 
@@ -123,9 +135,21 @@ const TableData = React.forwardRef<React.ComponentRef<typeof View | typeof Text>
   ref
 ) {
   if (useRNView) {
-    return <View ref={ref} className={tableDataStyle({ class: className })} {...props} />;
+    return (
+      <View
+        ref={ref as React.ForwardedRef<View>}
+        className={tableDataStyle({ class: className })}
+        {...(props as ViewProps)}
+      />
+    );
   } else {
-    return <Text ref={ref} className={tableDataStyle({ class: className })} {...props} />;
+    return (
+      <Text
+        ref={ref as React.ForwardedRef<Text>}
+        className={tableDataStyle({ class: className })}
+        {...(props as TextProps)}
+      />
+    );
   }
 });
 
