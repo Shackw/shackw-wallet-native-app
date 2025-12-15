@@ -8,14 +8,14 @@ import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 const HomeAction = () => {
   // TODO 購入・償還ページへのリンク差し替え
   const handlePress = useCallback(async () => {
-    await Linking.openURL("https://google.com");
+    await Linking.openURL("https://jpyc.co.jp/");
   }, []);
 
   return (
     <VStack className="gap-y-3 items-center w-full">
-      <ContainButton text="購入 ・ 両替" size="md" onPress={handlePress} className="w-[130px]" />
+      <ContainButton text="発行・償還" size="md" onPress={handlePress} className="w-[130px]" />
       <Text size="sm" className="w-full text-center">
-        ※JPYC購入ページへ遷移します。
+        ※JPYC EX ホームページへ遷移します。
       </Text>
     </VStack>
   );

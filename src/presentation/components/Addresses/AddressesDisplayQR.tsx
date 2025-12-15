@@ -5,17 +5,17 @@ import { Address } from "viem";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 
+import { BottomActionSheet } from "../BottomActionSheet";
 import { ContainButton } from "../Button";
 import ConfirmRecipient from "../Confirm/ConfirmRecipient";
 import { AlertDialog } from "../Dialog";
-import { BottomInputDrawer } from "../Drawer";
 import QRCode, { QRCodeHandle } from "../QRCode";
 import { ErrorText } from "../Text";
 
 type AddressesDisplayQRProps = {
   name: string;
   address: Address;
-  componentProps: Omit<React.ComponentProps<typeof BottomInputDrawer>, "children">;
+  componentProps: Omit<React.ComponentProps<typeof BottomActionSheet>, "children">;
 };
 
 const AddressesDisplayQR = (props: AddressesDisplayQRProps) => {
@@ -34,7 +34,7 @@ const AddressesDisplayQR = (props: AddressesDisplayQRProps) => {
 
   return (
     <>
-      <BottomInputDrawer {...componentProps}>
+      <BottomActionSheet {...componentProps}>
         <KeyboardAwareScrollView
           contentContainerStyle={{ flexGrow: 1 }}
           enableOnAndroid
@@ -46,7 +46,7 @@ const AddressesDisplayQR = (props: AddressesDisplayQRProps) => {
             <ContainButton text="共有" size="lg" className="w-full mt-auto" onPress={handleShareAddress} />
           </VStack>
         </KeyboardAwareScrollView>
-      </BottomInputDrawer>
+      </BottomActionSheet>
 
       <AlertDialog title="QRコード共有の失敗" isOpen={isShowErrorDialog} onClose={setIsShowErrorDialog.off} size="lg">
         <VStack className="py-4 gap-y-2">

@@ -4,7 +4,7 @@ import { IPrivateKeyRepository, PrivateKeyResult } from "@/application/ports/IPr
 import { ENV } from "@/config/env";
 import { CustomError } from "@/shared/exceptions";
 
-const STORAGE_KEY = ENV.WALLET_PRIVATE_KEY_BASE_NAME;
+const STORAGE_KEY = ENV.SECURESTORE_WALLET_KEY;
 
 export class SecureStorePrivateKeyRepository implements IPrivateKeyRepository {
   private static instance: IPrivateKeyRepository | null = null;
@@ -19,28 +19,29 @@ export class SecureStorePrivateKeyRepository implements IPrivateKeyRepository {
 
     if (!this.ready) {
       this.ready = (async () => {
-        const inst = new SecureStorePrivateKeyRepository();
-        await inst.load();
-        this.instance = inst;
-        return inst;
+        try {
+          const inst = new SecureStorePrivateKeyRepository();
+          await inst.load();
+          this.instance = inst;
+          return inst;
+        } catch (e) {
+          this.ready = null;
+          throw new CustomError("セキュアストアの読み込みに失敗しました。", { cause: e });
+        }
       })();
     }
-    return this.ready;
+    return await this.ready;
   }
 
   // ---- Persistence ----
   private async load(): Promise<void> {
-    try {
-      const stored = await SecureStore.getItemAsync(STORAGE_KEY, { requireAuthentication: true });
-      if (!stored) {
-        this.items = [];
-        return;
-      }
-      const parsed = JSON.parse(stored) as unknown;
-      this.items = Array.isArray(parsed) ? (parsed as PrivateKeyResult[]) : [];
-    } catch (e) {
-      throw new CustomError("セキュアストアの読み込みに失敗しました。", { cause: e });
+    const stored = await SecureStore.getItemAsync(STORAGE_KEY, { requireAuthentication: true });
+    if (!stored) {
+      this.items = [];
+      return;
     }
+    const parsed = JSON.parse(stored) as unknown;
+    this.items = Array.isArray(parsed) ? (parsed as PrivateKeyResult[]) : [];
   }
 
   private async persist(): Promise<void> {

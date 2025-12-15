@@ -1,12 +1,12 @@
 import { ENV } from "@/config/env";
 import { SecureStorePrivateKeyRepository } from "@/infrastructure/secureStore/SecureStorePrivateKeyRepository";
 
-export const redirectSystemPath = async (path: string): Promise<string> => {
-  const privateKeySecureStore = await SecureStorePrivateKeyRepository.getInstance();
-  const storeds = privateKeySecureStore.list();
+export const buildRedirectSystemPath = async (path: string): Promise<string> => {
+  try {
+    const privateKeySecureStore = await SecureStorePrivateKeyRepository.getInstance();
 
-  if (path.includes(ENV.SHACKW_UNIVERSAL_LINK) && storeds.length > 0) {
-    try {
+    const storeds = privateKeySecureStore.list();
+    if (path.includes(ENV.SHACKW_UNIVERSAL_LINK) && storeds.length > 0) {
       const url = new URL(path);
       const p = url.pathname;
       const q = url.search;
@@ -15,9 +15,9 @@ export const redirectSystemPath = async (path: string): Promise<string> => {
       if (p.startsWith("/transfer")) return `/transfer${q}`;
 
       return "/";
-    } catch {
-      return "/";
     }
+    return "/";
+  } catch {
+    return "/";
   }
-  return "/";
 };

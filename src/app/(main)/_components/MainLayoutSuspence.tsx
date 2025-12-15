@@ -1,21 +1,29 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
-import { WalletMetaModel } from "@/domain/walletMeta";
-import Loading from "@/presentation/components/Loading";
-import Maintenance from "@/presentation/components/Maintenance";
+import { ShackwApiMetaModel } from "@/domain/shackwApiMeta";
+import { MaintenanceOverlay } from "@/presentation/components/Maintenance";
+import { useLoadingOverlay } from "@/presentation/providers/LoadingOverlayProvider";
 
 type MainLayoutSuspenceProps = {
-  meta: WalletMetaModel | undefined;
+  meta: ShackwApiMetaModel | undefined;
   isError: boolean;
-  children: (meta: WalletMetaModel) => ReactNode;
+  children: (meta: ShackwApiMetaModel) => ReactNode;
 };
 
 const MainLayoutSuspence = (props: MainLayoutSuspenceProps) => {
   const { meta, isError, children } = props;
 
-  if (!meta && isError) return <Maintenance />;
+  const { show, hide } = useLoadingOverlay();
+  const isLoading = !meta && !isError;
 
-  if (!meta) return <Loading />;
+  useEffect(() => {
+    if (isLoading) show();
+    else hide();
+  }, [isLoading, show, hide]);
+
+  if (!meta && isError) return <MaintenanceOverlay />;
+
+  if (!meta) return null;
 
   return children(meta);
 };

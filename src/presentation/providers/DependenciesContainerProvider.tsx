@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext, useEffect } from "react";
 
 import { IAddressesRepository } from "@/application/ports/IAddressesRepository";
 import { ILocalTransactionsRepository } from "@/application/ports/ILocalTransactionsRepository";
@@ -9,8 +9,9 @@ import { ITokensGateway } from "@/application/ports/ITokensGateway";
 import { IUserSettingRepository } from "@/application/ports/IUserSettingRepository";
 import { IWalletMetaGateway } from "@/application/ports/IWalletMetaGateway";
 
-import Loading from "../components/Loading";
+import { MaintenanceOverlay } from "../components/Maintenance";
 import { useInfrastructureRepositories } from "../hooks/useInfrastructureRepositories";
+import { useLoadingOverlay } from "../providers/LoadingOverlayProvider";
 
 export type Dependencies = {
   addressesRepository: IAddressesRepository;
@@ -32,9 +33,19 @@ const DependenciesContainerContext = createContext<Dependencies | undefined>(und
 
 export const DependenciesContainerProvider = (props: DependenciesContainerProviderProps) => {
   const { appCheckToken, children } = props;
+
+  const { show, hide } = useLoadingOverlay();
   const { privateKeyRepository, ...rest } = useInfrastructureRepositories(appCheckToken);
 
-  if (!privateKeyRepository) return <Loading />;
+  useEffect(() => {
+    if (privateKeyRepository === undefined) show();
+    else hide();
+  }, [privateKeyRepository, show, hide]);
+
+  if (privateKeyRepository === null)
+    return <MaintenanceOverlay text={`セキュアストアへのアクセスが拒否されました。\nアプリを再起動してください。`} />;
+
+  if (privateKeyRepository === undefined) return null;
 
   return (
     <DependenciesContainerContext.Provider value={{ ...rest, privateKeyRepository }}>

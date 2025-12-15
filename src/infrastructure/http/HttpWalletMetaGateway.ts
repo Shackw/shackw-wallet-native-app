@@ -3,13 +3,13 @@ import * as v from "valibot";
 import { GetWalletSummaryResult, IWalletMetaGateway } from "@/application/ports/IWalletMetaGateway";
 import { WalletApiMetaSchema } from "@/shared/validations/schemas/HttpWalletMetaSchema";
 
-import { RestClient } from "../clients/restClient";
+import { HttpClient } from "../clients/HttpClient";
 
 export class HttpWalletMetaGateway implements IWalletMetaGateway {
   private path = "/meta";
-  private client: RestClient;
+  private client: HttpClient;
 
-  constructor(client: RestClient) {
+  constructor(client: HttpClient) {
     this.client = client;
   }
 

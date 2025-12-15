@@ -1,12 +1,12 @@
 import { Chain } from "@/config/chain";
-import { WalletMetaModel, WalletMetaItem } from "@/domain/walletMeta";
+import { ShackwApiMetaModel, WalletMetaItem } from "@/domain/shackwApiMeta";
 import { isChain, isToken, Token } from "@/registries/ChainTokenRegistry";
 import { CustomError } from "@/shared/exceptions";
 
 import { GetWalletSummaryResult, IWalletMetaGateway } from "../ports/IWalletMetaGateway";
 
 export const WalletMetaService = {
-  async getSummary(walletMetaGateway: IWalletMetaGateway): Promise<WalletMetaModel> {
+  async getSummary(walletMetaGateway: IWalletMetaGateway): Promise<ShackwApiMetaModel> {
     try {
       const meta = await walletMetaGateway.get();
       return buildWalletMetaModel(meta);
@@ -22,7 +22,7 @@ export const WalletMetaService = {
   }
 };
 
-function buildWalletMetaModel(meta: GetWalletSummaryResult): WalletMetaModel {
+function buildWalletMetaModel(meta: GetWalletSummaryResult): ShackwApiMetaModel {
   const result = createInitialWalletMeta();
 
   const ensureTokenMeta = (chain: Chain, token: Token): WalletMetaItem => {
@@ -67,7 +67,7 @@ function buildWalletMetaModel(meta: GetWalletSummaryResult): WalletMetaModel {
   return result;
 }
 
-function createInitialWalletMeta(): WalletMetaModel {
+function createInitialWalletMeta(): ShackwApiMetaModel {
   return {
     mainnet: {
       JPYC: { fixedFee: { display: 0, minUnits: 0n }, minTransfer: { display: 0, minUnits: 0n } },

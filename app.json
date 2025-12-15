@@ -2,10 +2,10 @@
   "expo": {
     "name": "Shackw Wallet",
     "slug": "shackw-wallet",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "orientation": "portrait",
     "icon": "./src/presentation/assets/images/icon.png",
-    "scheme": "com.shackw.wallet",
+    "scheme": "shackw-wallet",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./src/presentation/assets/images/splash.png",
@@ -13,15 +13,20 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
+      "buildNumber": "1",
       "bundleIdentifier": "com.shackw.wallet",
       "googleServicesFile": "./GoogleService-Info.plist",
       "associatedDomains": ["applinks:wallet.shackw.com"],
       "entitlements": {
         "com.apple.developer.associated-domains": ["applinks:wallet.shackw.com"]
       },
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
+      "versionCode": 2,
       "package": "com.shackw.wallet",
       "googleServicesFile": "./google-services.json",
       "intentFilters": [

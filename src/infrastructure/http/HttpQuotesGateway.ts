@@ -1,6 +1,6 @@
 import * as v from "valibot";
 
-import { RestClient } from "@/infrastructure/clients/restClient";
+import { HttpClient } from "@/infrastructure/clients/HttpClient";
 
 import { CreateQuoteResultSchema } from "../../shared/validations/schemas/HttpQuoteResultSchema";
 
@@ -8,9 +8,9 @@ import type { CreateQuoteQuery, CreateQuoteResult, IQuotesGateway } from "../../
 
 export class HttpQuotesGateway implements IQuotesGateway {
   private path = "/quotes";
-  private client: RestClient;
+  private client: HttpClient;
 
-  constructor(client: RestClient) {
+  constructor(client: HttpClient) {
     this.client = client;
   }
 

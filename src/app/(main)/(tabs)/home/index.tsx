@@ -16,8 +16,9 @@ import HomeTokenBalance from "./_components/HomeTokenBalance";
 
 const HomeScreen = () => {
   const router = useRouter();
-  const [currentTab, setCurrentTab] = useState<Token>("USDC");
-  const { currentChainSupportedTokens } = useWalletPreferencesContext();
+  const { currentChainDefaultToken, currentChainSupportedTokens } = useWalletPreferencesContext();
+
+  const [currentTab, setCurrentTab] = useState<Token>(currentChainDefaultToken);
 
   const handlePressScan = useCallback(() => {
     router.replace("/scan-qr");

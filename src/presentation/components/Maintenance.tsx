@@ -4,11 +4,11 @@ import { Image } from "@/presentation/components/gluestack-ui/image";
 import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 
-type MaintenanceProps = {
+type MaintenanceOverlayProps = {
   text?: string;
 };
 
-const Maintenance = (props: MaintenanceProps) => {
+export const MaintenanceOverlay = (props: MaintenanceOverlayProps) => {
   const { text } = props;
 
   return (
@@ -16,11 +16,9 @@ const Maintenance = (props: MaintenanceProps) => {
       <VStack className="flex-1 bg-white items-center justify-center">
         <Image size="lg" source={require("@/presentation/assets/images/splash.png")} alt="image" />
         <Text className="font-bold text-center text-secondary-700">
-          {text ?? `現在メンテナンス中です。\nしばらく時間をおいて再度アクセスしてください。`}
+          {text ?? `サーバーがダウンしている可能性があります。\nしばらく時間をおいてから再度アクセスしてください。`}
         </Text>
       </VStack>
     </Modal>
   );
 };
-
-export default Maintenance;

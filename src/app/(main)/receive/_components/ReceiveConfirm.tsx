@@ -1,10 +1,10 @@
 import { useRef, useCallback } from "react";
 import { Address } from "viem";
 
+import { BottomActionSheet } from "@/presentation/components/BottomActionSheet";
 import { ContainButton, SubContainButton } from "@/presentation/components/Button";
 import ConfirmAmount from "@/presentation/components/Confirm/ConfirmAmount";
 import { AlertDialog } from "@/presentation/components/Dialog";
-import { BottomInputDrawer } from "@/presentation/components/Drawer";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import QRCode, { QRCodeHandle } from "@/presentation/components/QRCode";
@@ -20,7 +20,7 @@ type ReceiveConfirmProps = {
   feeToken: Token;
   feeDisplayValue: number;
   webhookUrl: string | undefined;
-  componentProps: Omit<React.ComponentProps<typeof BottomInputDrawer>, "children">;
+  componentProps: Omit<React.ComponentProps<typeof BottomActionSheet>, "children">;
 };
 
 const ReceiveConfirm = (props: ReceiveConfirmProps) => {
@@ -41,7 +41,7 @@ const ReceiveConfirm = (props: ReceiveConfirmProps) => {
 
   return (
     <>
-      <BottomInputDrawer {...componentProps}>
+      <BottomActionSheet {...componentProps}>
         <VStack className="w-full justify-between flex-1">
           <VStack className="w-full items-center gap-y-7">
             <ConfirmAmount
@@ -63,7 +63,7 @@ const ReceiveConfirm = (props: ReceiveConfirmProps) => {
             <ContainButton text="共有" size="lg" className="flex-1" onPress={handleShareInvoice} />
           </HStack>
         </VStack>
-      </BottomInputDrawer>
+      </BottomActionSheet>
 
       <AlertDialog title="QRコード共有の失敗" isOpen={isShowErrorDialog} onClose={setIsShowErrorDialog.off} size="lg">
         <VStack className="py-4 gap-y-2">

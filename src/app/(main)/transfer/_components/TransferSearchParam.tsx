@@ -1,20 +1,30 @@
-import { memo } from "react";
+import { memo, useEffect } from "react";
 
 import { AlertDialog } from "@/presentation/components/Dialog";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
-import Loading from "@/presentation/components/Loading";
 import { ErrorText } from "@/presentation/components/Text";
 import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
+import { useLoadingOverlay } from "@/presentation/providers/LoadingOverlayProvider";
 
 import useTransferSearchParam from "../_hooks/useTransferSearchParam";
 
 import TransferConfirm from "./TransferConfirm";
 
 const TransferSearchParam = () => {
+  const { show, hide } = useLoadingOverlay();
   const { addressToName } = useAddressesRow();
   const { isParsing, isConfirming, isError, confirmProps, setIsConfirming, setIsError } = useTransferSearchParam();
 
-  if (isParsing) return <Loading />;
+  useEffect(() => {
+    if (!isParsing) return;
+    show();
+
+    return () => {
+      hide();
+    };
+  }, [isParsing, show, hide]);
+
+  if (isParsing) return null;
 
   return (
     <>

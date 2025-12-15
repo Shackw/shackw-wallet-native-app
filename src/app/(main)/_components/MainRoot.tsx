@@ -1,20 +1,20 @@
 import { Stack } from "expo-router";
 import { StatusBar } from "react-native";
 
-import { WalletMetaModel } from "@/domain/walletMeta";
+import { ShackwApiMetaModel } from "@/domain/shackwApiMeta";
 import { RootContainer } from "@/presentation/components/Container";
 import { LastTransactionProvider } from "@/presentation/providers/LastTransactionProvider";
+import { ShackwApiMetaProvider } from "@/presentation/providers/ShackwApiMetaProvider";
 import { TokenBalanceProvider } from "@/presentation/providers/TokenBalanceProvider";
-import { WalletMetaProvider } from "@/presentation/providers/WalletMetaProvider";
 
 type MainRootProps = {
-  meta: WalletMetaModel;
+  meta: ShackwApiMetaModel;
 };
 
 const MainRoot = (props: MainRootProps) => {
   const { meta } = props;
   return (
-    <WalletMetaProvider meta={meta}>
+    <ShackwApiMetaProvider meta={meta}>
       <TokenBalanceProvider>
         <LastTransactionProvider>
           <RootContainer>
@@ -78,7 +78,7 @@ const MainRoot = (props: MainRootProps) => {
           </RootContainer>
         </LastTransactionProvider>
       </TokenBalanceProvider>
-    </WalletMetaProvider>
+    </ShackwApiMetaProvider>
   );
 };
 

@@ -17,7 +17,7 @@ import { useWalletPreferencesContext } from "./WalletPreferencesProvider";
 
 type ShackwWalletContextType = {
   account: Account | undefined;
-  client: WalletClient | undefined;
+  walletClient: WalletClient | undefined;
   hasPrivateKey: boolean;
   createWallet: (name: string) => Promise<void>;
   restoreWallet: (name: string, pk: string) => Promise<void>;
@@ -29,7 +29,7 @@ export const ShackwWalletContext = createContext<ShackwWalletContextType | undef
 export const ShackwWalletProvider = ({ children }: PropsWithChildren) => {
   const [hasPrivateKey, setHasPrivateKey] = useBoolean(true);
   const [account, setAccount] = useState<Account | undefined>(undefined);
-  const [client, setClient] = useState<WalletClient | undefined>(undefined);
+  const [walletClient, setWalletClient] = useState<WalletClient | undefined>(undefined);
 
   const { currentChain, refetchUserSetting } = useWalletPreferencesContext();
   const { mutateAsync: storePrivateKey } = useStorePrivateKey({ retry: 0 });
@@ -46,7 +46,7 @@ export const ShackwWalletProvider = ({ children }: PropsWithChildren) => {
         transport: http(CUSTOM_RPC_URL[currentChain])
       });
 
-      setClient(client);
+      setWalletClient(client);
       setAccount({ ...account, address: account.address.toLowerCase() as Address });
 
       refetchUserSetting();
@@ -120,7 +120,7 @@ export const ShackwWalletProvider = ({ children }: PropsWithChildren) => {
     <ShackwWalletContext.Provider
       value={{
         account,
-        client,
+        walletClient,
         hasPrivateKey,
         createWallet,
         restoreWallet,
