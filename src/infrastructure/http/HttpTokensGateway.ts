@@ -1,14 +1,14 @@
 import * as v from "valibot";
 
 import { ITokensGateway, TransferTokenQuery, TransferTokenResult } from "@/application/ports/ITokensGateway";
-import { RestClient } from "@/infrastructure/clients/RestClient";
+import { HttpClient } from "@/infrastructure/clients/HttpClient";
 import { TransferTokenResultSchema } from "@/shared/validations/schemas/HttpTokenResultSchema";
 
 export class HttpTokensGateway implements ITokensGateway {
   private path = "/tokens";
-  private client: RestClient;
+  private client: HttpClient;
 
-  constructor(client: RestClient) {
+  constructor(client: HttpClient) {
     this.client = client;
   }
 

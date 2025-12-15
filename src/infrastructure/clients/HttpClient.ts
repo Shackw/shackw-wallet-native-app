@@ -2,7 +2,7 @@ import { ApiError } from "@/shared/exceptions";
 
 export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
-export type RestClientConfig = {
+export type HttpClientConfig = {
   baseURL?: string;
   timeoutMs?: number;
   headers?: Record<string, string>;
@@ -17,13 +17,13 @@ export type RequestOptions = {
   idempotencyKey?: string;
 };
 
-export class RestClient {
+export class HttpClient {
   private baseURL?: string;
   private defaultHeaders: Record<string, string>;
   private defaultTimeoutMs?: number;
   private fetchImpl: typeof fetch;
 
-  constructor(cfg: RestClientConfig = {}) {
+  constructor(cfg: HttpClientConfig = {}) {
     this.baseURL = cfg.baseURL;
     this.defaultHeaders = cfg.headers ?? {};
     this.defaultTimeoutMs = cfg.timeoutMs;

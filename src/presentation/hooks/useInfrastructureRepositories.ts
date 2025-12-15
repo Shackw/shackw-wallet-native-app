@@ -10,7 +10,7 @@ import { ITokensGateway } from "@/application/ports/ITokensGateway";
 import { IUserSettingRepository } from "@/application/ports/IUserSettingRepository";
 import { IWalletMetaGateway } from "@/application/ports/IWalletMetaGateway";
 import { ENV } from "@/config/env";
-import { RestClient } from "@/infrastructure/clients/RestClient";
+import { HttpClient } from "@/infrastructure/clients/HttpClient";
 import { HttpQuotesGateway } from "@/infrastructure/http/HttpQuotesGateway";
 import { HttpRemoteTransactionsGateway } from "@/infrastructure/http/HttpRemoteTransactionsGateway";
 import { HttpTokensGateway } from "@/infrastructure/http/HttpTokensGateway";
@@ -41,7 +41,7 @@ export const useInfrastructureRepositories = (appCheckToken: string): UseInfrast
 
   const shackwApiClient = useMemo(
     () =>
-      new RestClient({
+      new HttpClient({
         baseURL: ENV.SHACKW_API_URL,
         timeoutMs: 60_000,
         headers: { "X-App-Check-Token": appCheckToken }
