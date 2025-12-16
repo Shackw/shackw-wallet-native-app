@@ -3,14 +3,19 @@ import { useCallback } from "react";
 import { Pressable } from "react-native";
 
 import { CHAIN_ICONS } from "@/config/chain";
-import { HStack } from "@/presentation/components/gluestack-ui/hstack";
-import { Spinner } from "@/presentation/components/gluestack-ui/spinner";
 import { Text } from "@/presentation/components/gluestack-ui/text";
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 import { shortenAddress } from "@/shared/helpers/address";
 
-const AppBarDefaultBody = () => {
+import { HStack } from "../gluestack-ui/hstack";
+import { Spinner } from "../gluestack-ui/spinner";
+
+import { AppBarProps } from ".";
+
+const AppBarBody = (props: AppBarProps) => {
+  const { title } = props;
+
   const router = useRouter();
   const { account } = useShackwWalletContext();
   const { currentChain } = useWalletPreferencesContext();
@@ -19,25 +24,25 @@ const AppBarDefaultBody = () => {
 
   const ChainIcon = CHAIN_ICONS[currentChain];
 
-  const handlePressNetwork = useCallback(() => {
-    router.push("/network");
-  }, [router]);
-
   const handlePressWallet = useCallback(() => {
     router.push("/wallet");
   }, [router]);
 
+  if (title)
+    return (
+      <HStack className="w-full justify-center">
+        <Text className="text-lg font-bold text-white">{title}</Text>
+      </HStack>
+    );
   return (
     <HStack className="w-full justify-center">
       {accountAddress ? (
-        <HStack className="items-center gap-x-2">
-          <Pressable onPress={handlePressNetwork}>
+        <Pressable onPress={handlePressWallet}>
+          <HStack className="items-center gap-x-2">
             <ChainIcon />
-          </Pressable>
-          <Pressable onPress={handlePressWallet}>
             <Text className="font-bold text-white">{shortenAddress(accountAddress)}</Text>
-          </Pressable>
-        </HStack>
+          </HStack>
+        </Pressable>
       ) : (
         <Spinner size="small" color="white" />
       )}
@@ -45,4 +50,4 @@ const AppBarDefaultBody = () => {
   );
 };
 
-export default AppBarDefaultBody;
+export default AppBarBody;

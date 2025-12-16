@@ -14,16 +14,18 @@ type useTransferFormProviderProps = {
   sendToken: Token;
   maxSendable: number;
   minTransfer: number;
+  currentChainDefaultToken: ReturnType<typeof useWalletPreferencesContext>["currentChainDefaultToken"];
 };
 const useTransferFormProvider = (props: useTransferFormProviderProps) => {
-  const { sendToken, maxSendable, minTransfer } = props;
+  const { sendToken, maxSendable, minTransfer, currentChainDefaultToken } = props;
+
   const schema = useMemo(
     () => buildTransferSchema(sendToken, maxSendable ?? 0, minTransfer),
     [maxSendable, minTransfer, sendToken]
   );
 
   const defaultValues: TransferFormValues = {
-    feeToken: "USDC",
+    feeToken: currentChainDefaultToken,
     recipient: "",
     amount: ""
   };
@@ -46,13 +48,12 @@ export type TransferFormContextType = {
 const TransferFormContext = createContext<TransferFormContextType | undefined>(undefined);
 
 export const TransferFormProvider = ({ children }: PropsWithChildren) => {
+  const { meta } = useShackwApiMetaContext();
+  const tokenBalances = useTokenBalanceContext();
   const { currentChain, currentChainDefaultToken } = useWalletPreferencesContext();
 
   const [sendToken, setSendToken] = useState<Token>(currentChainDefaultToken);
 
-  const { meta } = useShackwApiMetaContext();
-
-  const tokenBalances = useTokenBalanceContext();
   const maxSendable = useMemo(
     () => toAllowed(Number(tokenBalances[sendToken]?.balance ?? 0), sendToken),
     [sendToken, tokenBalances]
@@ -66,7 +67,8 @@ export const TransferFormProvider = ({ children }: PropsWithChildren) => {
   const form = useTransferFormProvider({
     sendToken,
     maxSendable,
-    minTransfer
+    minTransfer,
+    currentChainDefaultToken
   });
 
   const amount = useStore(form.baseStore, s => {

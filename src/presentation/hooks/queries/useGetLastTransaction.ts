@@ -11,12 +11,12 @@ export const useGetLastTransaction = (
   currentChain: Chain,
   options?: Partial<UseQueryOptions<TransactionModel | null>>
 ): UseQueryResult<TransactionModel | null> => {
-  const { transactionsGateway } = useDependenciesContainerContext();
+  const { transactionsRepository } = useDependenciesContainerContext();
 
   return useQuery({
     ...options,
     queryKey: [currentChain, wallet],
-    queryFn: () => TransactionsService.getLastTransaction(currentChain, { wallet }, transactionsGateway),
+    queryFn: () => TransactionsService.getLastTransaction(currentChain, { wallet }, transactionsRepository),
     staleTime: Infinity,
     gcTime: Infinity
   });

@@ -8,13 +8,17 @@ import { Token } from "@/registries/ChainTokenRegistry";
 
 import buildReceiveSchema, { type ReceiveFormValues } from "../_validators/buildReceiveSchema";
 
-type useReceiveFormProviderProps = { sendToken: Token; minTransfer: number };
+type useReceiveFormProviderProps = {
+  sendToken: Token;
+  minTransfer: number;
+  currentChainDefaultToken: ReturnType<typeof useWalletPreferencesContext>["currentChainDefaultToken"];
+};
 const useReceiveFormProvider = (props: useReceiveFormProviderProps) => {
-  const { sendToken, minTransfer } = props;
+  const { sendToken, minTransfer, currentChainDefaultToken } = props;
   const schema = useMemo(() => buildReceiveSchema(sendToken, minTransfer), [minTransfer, sendToken]);
 
   const defaultValues: ReceiveFormValues = {
-    feeToken: "USDC",
+    feeToken: currentChainDefaultToken,
     amount: "",
     webhookUrl: ""
   };
@@ -35,17 +39,17 @@ export type ReceiveFormContextType = {
 const ReceiveFormContext = createContext<ReceiveFormContextType | undefined>(undefined);
 
 export const ReceiveFormProvider = ({ children }: PropsWithChildren) => {
+  const { meta } = useShackwApiMetaContext();
   const { currentChain, currentChainDefaultToken } = useWalletPreferencesContext();
 
   const [sendToken, setSendToken] = useState<Token>(currentChainDefaultToken);
 
-  const { meta } = useShackwApiMetaContext();
   const minTransfer = useMemo(
     () => meta[currentChain][sendToken]?.minTransfer.display ?? 0,
     [currentChain, meta, sendToken]
   );
 
-  const form = useReceiveFormProvider({ sendToken, minTransfer });
+  const form = useReceiveFormProvider({ sendToken, minTransfer, currentChainDefaultToken });
 
   const feeToken = useStore(form.baseStore, s => s.values.feeToken as Token);
   const webhookUrl = useStore(form.baseStore, s => s.values.webhookUrl);

@@ -10,9 +10,8 @@ import { useWalletPreferencesContext } from "@/presentation/providers/WalletPref
 import { Token } from "@/registries/ChainTokenRegistry";
 
 import HomeAction from "./_components/HomeAction";
-import HomeLastTransactionAt from "./_components/HomeLastTransaction";
+import HomeAssetSummary from "./_components/HomeAssetSummary";
 import HomeMainBody from "./_components/HomeMainBody";
-import HomeTokenBalance from "./_components/HomeTokenBalance";
 
 const HomeScreen = () => {
   const router = useRouter();
@@ -21,15 +20,14 @@ const HomeScreen = () => {
   const [currentTab, setCurrentTab] = useState<Token>(currentChainDefaultToken);
 
   const handlePressScan = useCallback(() => {
-    router.replace("/scan-qr");
+    router.push("/scan-qr");
   }, [router]);
 
   return (
     <ScreenContainer className="px-4 items-center">
       <HomeMainBody>
         <Tab options={currentChainSupportedTokens} value={currentTab} handleChange={setCurrentTab} />
-        <HomeTokenBalance token={currentTab} />
-        <HomeLastTransactionAt />
+        <HomeAssetSummary token={currentTab} />
         <Divider className="w-[90%] bg-secondary-50" />
         <HomeAction />
       </HomeMainBody>

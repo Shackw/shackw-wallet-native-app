@@ -1,63 +1,110 @@
-import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useRef, useState } from "react";
+import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 
 import Loading from "@/presentation/components/Loading";
 
+type ShowOptions = {
+  minMs?: number;
+  extendMinDuration?: boolean;
+};
+
+type HideOptions = {
+  immediate?: boolean;
+};
+
 type LoadingContextValue = {
-  show: () => void;
-  hide: () => void;
-  withLoading: <T>(fn: () => Promise<T>) => Promise<T>;
+  show: (opts?: ShowOptions) => void;
+  hide: (opts?: HideOptions) => void;
+  withLoading: <T>(fn: () => T | Promise<T>, opts?: ShowOptions) => Promise<T>;
+  reset: (opts?: { hide?: boolean }) => void;
+  visible: boolean;
 };
 
 const LoadingContext = createContext<LoadingContextValue | null>(null);
 
-export const LoadingOverlayProvider = ({ children }: PropsWithChildren) => {
-  const [, setCount] = useState(0);
+type LoadingOverlayProviderProps = PropsWithChildren<{
+  minMs?: number;
+  extendMinDurationOnShow?: boolean;
+}>;
+
+export const LoadingOverlayProvider = ({
+  children,
+  minMs: defaultMinMs = 750,
+  extendMinDurationOnShow = false
+}: LoadingOverlayProviderProps) => {
   const [visible, setVisible] = useState(false);
+  const [, setCount] = useState(0);
 
+  const countRef = useRef(0);
   const shownAtRef = useRef<number | null>(null);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const show = useCallback(() => {
-    setCount(prev => {
-      const next = prev + 1;
-      if (next === 1) {
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
-          timeoutRef.current = null;
-        }
-        shownAtRef.current = Date.now();
-        setVisible(true);
-      }
-      return next;
-    });
+  const clearHideTimer = useCallback(() => {
+    if (hideTimerRef.current) {
+      clearTimeout(hideTimerRef.current);
+      hideTimerRef.current = null;
+    }
   }, []);
 
-  const hide = useCallback(() => {
-    setCount(prev => {
-      if (prev === 0) return 0;
+  const show = useCallback(
+    (opts?: ShowOptions) => {
+      const extend = opts?.extendMinDuration ?? extendMinDurationOnShow;
 
-      const next = prev - 1;
-      if (next === 0) {
-        const minMs = 500;
-        const shown = shownAtRef.current ?? 0;
-        const elapsed = Date.now() - shown;
-        const delay = Math.max(0, minMs - elapsed);
+      setCount(prev => {
+        const next = prev + 1;
+        countRef.current = next;
 
-        if (timeoutRef.current) {
-          clearTimeout(timeoutRef.current);
+        if (extend) {
+          shownAtRef.current = Date.now();
         }
-        timeoutRef.current = setTimeout(() => {
-          setVisible(false);
-          timeoutRef.current = null;
-        }, delay);
-      }
-      return next;
-    });
-  }, []);
+
+        if (next === 1) {
+          clearHideTimer();
+          shownAtRef.current = Date.now();
+          setVisible(true);
+        }
+
+        return next;
+      });
+    },
+    [clearHideTimer, extendMinDurationOnShow]
+  );
+
+  const hide = useCallback(
+    (opts?: HideOptions) => {
+      setCount(prev => {
+        if (prev === 0) return 0;
+
+        const next = prev - 1;
+        countRef.current = next;
+
+        if (next === 0) {
+          if (opts?.immediate) {
+            clearHideTimer();
+            setVisible(false);
+            return 0;
+          }
+
+          const minMs = defaultMinMs;
+          const shownAt = shownAtRef.current ?? Date.now();
+          const elapsed = Date.now() - shownAt;
+          const delay = Math.max(0, minMs - elapsed);
+
+          clearHideTimer();
+          hideTimerRef.current = setTimeout(() => {
+            if (countRef.current === 0) setVisible(false);
+            hideTimerRef.current = null;
+          }, delay);
+        }
+
+        return next;
+      });
+    },
+    [clearHideTimer, defaultMinMs]
+  );
 
   const withLoading = useCallback(
-    async <T,>(fn: () => Promise<T>) => {
-      show();
+    async <T,>(fn: () => T | Promise<T>, opts?: ShowOptions) => {
+      show(opts);
       try {
         return await fn();
       } finally {
@@ -67,17 +114,36 @@ export const LoadingOverlayProvider = ({ children }: PropsWithChildren) => {
     [show, hide]
   );
 
-  useEffect(
-    () => () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
+  const reset = useCallback(
+    (opts?: { hide?: boolean }) => {
+      clearHideTimer();
+      countRef.current = 0;
+      shownAtRef.current = null;
+      setCount(0);
+      if (opts?.hide ?? true) setVisible(false);
     },
-    []
+    [clearHideTimer]
+  );
+
+  useEffect(() => {
+    return () => {
+      clearHideTimer();
+    };
+  }, [clearHideTimer]);
+
+  const value = useMemo<LoadingContextValue>(
+    () => ({
+      show,
+      hide,
+      withLoading,
+      reset,
+      visible
+    }),
+    [show, hide, withLoading, reset, visible]
   );
 
   return (
-    <LoadingContext.Provider value={{ show, hide, withLoading }}>
+    <LoadingContext.Provider value={value}>
       <Loading visible={visible} />
       {children}
     </LoadingContext.Provider>

@@ -7,7 +7,7 @@ import { theme } from "@/presentation/styles/theme";
 
 const HomeMainBody = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Box className="absolute w-full bg-white rounded-[8px]" style={{ top: "35%" }}>
+    <Box className="w-full bg-white rounded-[8px] my-auto">
       <LinearGradient
         colors={[theme.colors.primary[50], "#ffffff"]}
         start={{ x: 0, y: 0 }}
