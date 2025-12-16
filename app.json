@@ -66,6 +66,7 @@
           },
           "ios": {
             "useFrameworks": "static",
+            "forceStaticLinking": ["RNFBApp"],
             "extraPods": [
               {
                 "name": "OpenSSL-Universal",
@@ -92,7 +93,8 @@
         }
       ],
       "expo-font",
-      "expo-secure-store"
+      "expo-secure-store",
+      "./plugins/withNonModularHeadersFix.cjs"
     ],
     "experiments": {
       "typedRoutes": true
