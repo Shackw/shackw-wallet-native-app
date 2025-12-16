@@ -1,4 +1,4 @@
-import { ScrollView } from "react-native";
+import { RefreshControl, ScrollView } from "react-native";
 
 import { Table, TableBody } from "@/presentation/components/gluestack-ui/table";
 import TableSuspence from "@/presentation/components/TableSuspence";
@@ -12,7 +12,7 @@ type HistoryTableProps = { token: Token; yaerMonth: HistoryYearMonth };
 
 const HistoryTable = (props: HistoryTableProps) => {
   const { token, yaerMonth } = props;
-  const { historyRows, isError, refetch } = useHistoryRows({
+  const { historyRows, isError, isRefetching, refetch } = useHistoryRows({
     token,
     ...yaerMonth
   });
@@ -25,7 +25,11 @@ const HistoryTable = (props: HistoryTableProps) => {
       loadingMessage={`取引履歴を取得しています。\n取得完了には1~2分程度かかる場合がございます。`}
     >
       {rows => (
-        <ScrollView className="flex-1" showsVerticalScrollIndicator>
+        <ScrollView
+          className="flex-1"
+          showsVerticalScrollIndicator
+          refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={refetch} />}
+        >
           <Table className="w-full overflow-y-auto">
             <TableBody className="w-full">
               {rows.map((row, index) => (

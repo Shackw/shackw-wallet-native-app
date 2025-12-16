@@ -37,10 +37,16 @@ const HistoryTableRow = (props: HistoryTableRowProps) => {
               {CHAINS[currentChain].blockExplorers?.default ? (
                 <Anchor
                   href={`${CHAINS[currentChain].blockExplorers.default.url}/tx/${txHash}`}
-                  className="font-bold text-secondary-500"
-                >{`tx: ${shortenAddress(txHash, 5)}`}</Anchor>
+                  numberOfLines={1}
+                  ellipsizeMode="middle"
+                  className="font-bold text-secondary-500 w-32"
+                >{`tx: ${txHash}`}</Anchor>
               ) : (
-                <Text className="font-bold text-secondary-500">{`tx: ${shortenAddress(txHash, 5)}`}</Text>
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  className="font-bold text-secondary-500 w-32"
+                >{`tx: ${txHash}`}</Text>
               )}
             </HStack>
             <>
