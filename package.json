@@ -11,7 +11,7 @@
     "dev:android": "dotenv -e .env -- expo run:android",
     "build:android:apk:local": "yarn check && npx eas-cli build --platform android --profile android-internal --local",
     "build:android:aab": "yarn check && npx eas-cli build --platform android --profile production",
-    "build:ios:ipa": "yarn check && npx eas-cli build --platform ios --profile production",
+    "build:ios:ipa": "yarn check && npx eas-cli build --platform ios --profile production  --auto-submit",
     "creds:android": "npx eas-cli credentials --platform android"
   },
   "dependencies": {
