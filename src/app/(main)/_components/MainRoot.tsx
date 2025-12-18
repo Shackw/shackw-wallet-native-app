@@ -26,31 +26,7 @@ const MainRoot = (props: MainRootProps) => {
               <Stack.Screen
                 name="addresses/index"
                 options={{
-                  presentation: "modal",
-                  animation: "fade",
-                  gestureEnabled: false
-                }}
-              />
-              <Stack.Screen
-                name="receive/index"
-                options={{
-                  presentation: "modal",
-                  animation: "fade",
-                  gestureEnabled: false
-                }}
-              />
-              <Stack.Screen
-                name="scan-qr/index"
-                options={{
-                  presentation: "modal",
-                  animation: "fade",
-                  gestureEnabled: false
-                }}
-              />
-              <Stack.Screen
-                name="transfer/index"
-                options={{
-                  presentation: "modal",
+                  presentation: "card",
                   animation: "fade",
                   gestureEnabled: false
                 }}
@@ -58,15 +34,7 @@ const MainRoot = (props: MainRootProps) => {
               <Stack.Screen
                 name="network/index"
                 options={{
-                  presentation: "modal",
-                  animation: "fade",
-                  gestureEnabled: false
-                }}
-              />
-              <Stack.Screen
-                name="wallet/index"
-                options={{
-                  presentation: "modal",
+                  presentation: "card",
                   animation: "fade",
                   gestureEnabled: false
                 }}
@@ -74,7 +42,39 @@ const MainRoot = (props: MainRootProps) => {
               <Stack.Screen
                 name="privateKey/index"
                 options={{
-                  presentation: "modal",
+                  presentation: "card",
+                  animation: "fade",
+                  gestureEnabled: false
+                }}
+              />
+              <Stack.Screen
+                name="receive/index"
+                options={{
+                  presentation: "card",
+                  animation: "fade",
+                  gestureEnabled: false
+                }}
+              />
+              <Stack.Screen
+                name="scan-qr/index"
+                options={{
+                  presentation: "card",
+                  animation: "fade",
+                  gestureEnabled: false
+                }}
+              />
+              <Stack.Screen
+                name="transfer/index"
+                options={{
+                  presentation: "card",
+                  animation: "fade",
+                  gestureEnabled: false
+                }}
+              />
+              <Stack.Screen
+                name="wallet/index"
+                options={{
+                  presentation: "card",
                   animation: "fade",
                   gestureEnabled: false
                 }}

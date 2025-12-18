@@ -6,7 +6,6 @@ import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
-import { shortenAddress } from "@/shared/helpers/address";
 
 import AddressesMineMenu from "./AddressesMineMenu";
 
@@ -24,14 +23,16 @@ const AddressesMine = (props: AddressesMineProps) => {
         <Avatar size="lg">
           <AvatarFallbackText>{name}</AvatarFallbackText>
         </Avatar>
-        <VStack className="gap-y-1">
+
+        <VStack className="flex-1 gap-y-1">
           <Text size="2xl" className="font-bold">
             {name}
           </Text>
-          <Text size="xl" className="font-bold text-secondary-500">
-            {shortenAddress(address, 12)}
+          <Text size="xl" numberOfLines={1} ellipsizeMode="middle" className="font-bold text-secondary-500 w-full">
+            {address}
           </Text>
         </VStack>
+
         <AddressesMineMenu address={address} name={name} refetchAddresses={refetchAddresses} />
       </HStack>
     </VStack>

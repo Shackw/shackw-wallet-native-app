@@ -49,7 +49,7 @@ export const AddressesService = {
       if (found.isMine && found.address !== address.toLowerCase())
         throw new CustomError("自分のアドレスを変更することはできません。");
 
-      await addressesRepository.update(command);
+      await addressesRepository.update({ ...command, isMine: found.isMine });
     } catch (error: unknown) {
       if (error instanceof CustomError) throw new Error(error.message);
 

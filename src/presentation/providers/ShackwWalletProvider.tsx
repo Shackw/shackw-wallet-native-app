@@ -1,17 +1,18 @@
-import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useRef, useState } from "react";
 import * as v from "valibot";
 import { Address, createWalletClient, Hex, http, WalletClient } from "viem";
 import { Account, generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 
 import { CHAINS } from "@/config/chain";
 import { CUSTOM_RPC_URL } from "@/config/rpcUrls";
-import { useGetDefaultPrivateKey } from "@/presentation/hooks/mutations/useGetDefaultPrivateKey";
-import { useGetPrivateKeyByWallet } from "@/presentation/hooks/mutations/useGetPrivateKeyByWallet";
+import { useFetchPrivateKeyByWallet } from "@/presentation/hooks/mutations/useFetchPrivateKeyByWallet";
 import { useStorePrivateKey } from "@/presentation/hooks/mutations/useStorePrivateKey";
 import { useUpdateDefaultWallet } from "@/presentation/hooks/mutations/useUpdateDefaultWallet";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { nameFormValidator } from "@/shared/validations/forms/nameFormValidator";
 import { hex64Validator } from "@/shared/validations/rules/addressValidator";
+
+import { useExcuteInitializeWallet } from "../hooks/mutations/useExcuteInitializeWallet";
 
 import { useWalletPreferencesContext } from "./WalletPreferencesProvider";
 
@@ -27,16 +28,18 @@ type ShackwWalletContextType = {
 export const ShackwWalletContext = createContext<ShackwWalletContextType | undefined>(undefined);
 
 export const ShackwWalletProvider = ({ children }: PropsWithChildren) => {
+  const initializedRef = useRef(false);
   const [hasPrivateKey, setHasPrivateKey] = useBoolean(true);
   const [account, setAccount] = useState<Account | undefined>(undefined);
   const [walletClient, setWalletClient] = useState<WalletClient | undefined>(undefined);
 
   const { currentChain, refetchUserSetting } = useWalletPreferencesContext();
   const { mutateAsync: storePrivateKey } = useStorePrivateKey({ retry: 0 });
-  const { mutateAsync: getDefaultPrivateKey } = useGetDefaultPrivateKey({ retry: 0 });
-  const { mutateAsync: getPrivateKeyByWallet } = useGetPrivateKeyByWallet({ retry: 0 });
   const { mutateAsync: updateDefaultWallet } = useUpdateDefaultWallet({ retry: 0 });
+  const { mutateAsync: getPrivateKeyByWallet } = useFetchPrivateKeyByWallet({ retry: 0 });
+  const { mutateAsync: excuteInitializeWallet } = useExcuteInitializeWallet({ retry: 0 });
 
+  // === Private Function ===
   const connectWallet = useCallback(
     (pk: Hex) => {
       const account = privateKeyToAccount(pk);
@@ -54,20 +57,17 @@ export const ShackwWalletProvider = ({ children }: PropsWithChildren) => {
     [currentChain, refetchUserSetting]
   );
 
-  const getStoredPrivateKey = useCallback(async (): Promise<Hex | null> => {
-    const storedPk = await getDefaultPrivateKey().catch(() => null);
-    setHasPrivateKey.set(!!storedPk);
-    return storedPk;
-  }, [getDefaultPrivateKey, setHasPrivateKey]);
+  // === Initialize Function ===
+  const initializeWallet = useCallback(async () => {
+    const defaultPk = await excuteInitializeWallet().catch(() => null);
+    setHasPrivateKey.set(!!defaultPk);
 
-  const tryConnectWallet = useCallback(async () => {
-    const storedPk = await getStoredPrivateKey();
+    if (!defaultPk) return;
 
-    if (!storedPk) return;
+    connectWallet(defaultPk);
+  }, [setHasPrivateKey, connectWallet, excuteInitializeWallet]);
 
-    connectWallet(storedPk);
-  }, [connectWallet, getStoredPrivateKey]);
-
+  // === Public Function ===
   const createWallet = useCallback(
     async (name: string) => {
       const validatedName = v.safeParse(nameFormValidator, name);
@@ -113,8 +113,11 @@ export const ShackwWalletProvider = ({ children }: PropsWithChildren) => {
   );
 
   useEffect(() => {
-    tryConnectWallet();
-  }, [tryConnectWallet]);
+    if (initializedRef.current) return;
+    initializedRef.current = true;
+
+    initializeWallet();
+  }, [initializeWallet]);
 
   return (
     <ShackwWalletContext.Provider

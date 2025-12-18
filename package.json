@@ -1,6 +1,6 @@
 {
   "name": "shackw-wallet-native-app",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "ShackwWallet is a non-custodial mobile wallet focused on stablecoin with EIP-7702 support.",
   "author": "Shackw",
   "main": "./src/index.ts",
@@ -47,7 +47,7 @@
     "expo-image-picker": "~17.0.10",
     "expo-linear-gradient": "~15.0.8",
     "expo-linking": "~8.0.10",
-    "expo-router": "~6.0.19",
+    "expo-router": "~6.0.20",
     "expo-secure-store": "~15.0.8",
     "expo-sharing": "~14.0.8",
     "expo-splash-screen": "~31.0.12",

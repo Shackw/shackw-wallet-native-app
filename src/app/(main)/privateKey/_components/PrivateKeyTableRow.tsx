@@ -6,7 +6,6 @@ import { TableRow } from "@/presentation/components/gluestack-ui/table";
 import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
-import { shortenAddress } from "@/shared/helpers/address";
 
 import PrivateKeyDisplyField from "./PrivateKeyDisplyField";
 import { PrivateKeyRows } from "./PrivateKeyScreenSuspence";
@@ -35,8 +34,8 @@ const PrivateKeyTableRow = (props: PrivateKeyTableRowProps) => {
             <Text className="font-bold pl-2" size="lg">
               {row.name}
             </Text>
-            <Text className="pl-2" size="lg">
-              {shortenAddress(row.wallet, 16)}
+            <Text className="pl-2" numberOfLines={1} ellipsizeMode="middle" size="lg">
+              {row.wallet}
             </Text>
           </VStack>
         </Pressable>

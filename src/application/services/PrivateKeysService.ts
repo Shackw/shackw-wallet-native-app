@@ -53,39 +53,6 @@ export const PrivateKeysService = {
     }
   },
 
-  async getDefaultPrivateKey(
-    addressesRepository: IAddressesRepository,
-    userSettingRepository: IUserSettingRepository,
-    privateKeyRepository: IPrivateKeyRepository
-  ): Promise<Hex | null> {
-    try {
-      const userSetting = await userSettingRepository.get();
-      if (!userSetting) throw new CustomError("ユーザの設定情報の取得に失敗しました。");
-
-      const defaultWallet = await (async () => {
-        const defaultWalletBySetting = userSetting.defaultWallet;
-        if (!!defaultWalletBySetting) return defaultWalletBySetting;
-
-        const myAddresses = await addressesRepository.listMine();
-        if (myAddresses.length === 0) return null;
-        return myAddresses[0].address;
-      })();
-
-      if (!defaultWallet) return null;
-
-      const pk = privateKeyRepository.get(defaultWallet.toLowerCase());
-      if (!pk) return null;
-
-      return pk.privateKey;
-    } catch (error: unknown) {
-      console.error(error);
-
-      if (error instanceof CustomError) throw new Error(error.message);
-
-      throw new Error(`不明なエラーによりデフォルトウォレットの取得に失敗しました。`);
-    }
-  },
-
   async storePrivateKey(
     command: StorePrivateKeyCommand,
     addressesRepository: IAddressesRepository,
@@ -97,7 +64,11 @@ export const PrivateKeysService = {
       const stored = privateKeyRepository.get(wallet);
       if (!!stored) throw new CustomError("このプライベートキーは既に登録されています。");
 
-      await privateKeyRepository.upsert({ wallet, privateKey, createdAt: new Date().getTime() });
+      await privateKeyRepository.upsert({
+        wallet: wallet.toLowerCase() as Address,
+        privateKey: privateKey.toLowerCase() as Hex,
+        createdAt: new Date().getTime()
+      });
 
       const found = await addressesRepository.get(wallet);
       if (!!found) return;

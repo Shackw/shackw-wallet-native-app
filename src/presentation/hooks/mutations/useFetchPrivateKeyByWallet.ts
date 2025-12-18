@@ -4,7 +4,7 @@ import { Address, Hex } from "viem";
 import { PrivateKeysService } from "@/application/services/PrivateKeysService";
 import { useDependenciesContainerContext } from "@/presentation/providers/DependenciesContainerProvider";
 
-export const useGetPrivateKeyByWallet = (
+export const useFetchPrivateKeyByWallet = (
   options?: UseMutationOptions<Hex, Error, Address, unknown>
 ): UseMutationResult<Hex, Error, Address, unknown> => {
   const { privateKeyRepository } = useDependenciesContainerContext();

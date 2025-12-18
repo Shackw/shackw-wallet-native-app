@@ -19,4 +19,4 @@ export type AddressesResult = {
 
 export type CreateAddressQuery = Pick<AddressesResult, "address" | "name" | "isMine">;
 
-export type UpdateAddressQuery = Pick<AddressesResult, "address" | "name">;
+export type UpdateAddressQuery = Pick<AddressesResult, "address" | "name" | "isMine">;
