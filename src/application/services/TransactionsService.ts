@@ -5,32 +5,37 @@ import { GetLastTransactionCommand, ListMonthlyTransactionsCommand, TransactionM
 import { SUPPORT_CHAIN_TO_TOKEN } from "@/registries/ChainTokenRegistry";
 import { CustomError } from "@/shared/exceptions";
 
-import { localTransactionToDomain, remoteToLocalTransaction, remoteTransactionToDomain } from "../mappers/transaction";
-import { ILocalTransactionsRepository, LocalTransactionProgress } from "../ports/ILocalTransactionsRepository";
+import { localTransactionToDomain, remoteToLocalTransaction } from "../mappers/transaction";
+import {
+  ILocalTransactionsRepository,
+  LocalTransactionProgress,
+  SearchLocalTransactionQuery
+} from "../ports/ILocalTransactionsRepository";
 import { IRemoteTransactionsGateway, SearchRemoteTransactionsQuery } from "../ports/IRemoteTransactionsGateway";
 
 export const TransactionsService = {
+  // TODO: Moralisに完全移行したらリモートから最新のデータを取得する
   async getLastTransaction(
     chain: Chain,
     command: GetLastTransactionCommand,
-    remoteTransactionsGateway: IRemoteTransactionsGateway
+    localTransactionsRepository: ILocalTransactionsRepository
   ): Promise<TransactionModel | null> {
     const { wallet } = command;
 
     const now = new Date();
-    const query: SearchRemoteTransactionsQuery = {
+    const query: SearchLocalTransactionQuery = {
       chain,
       tokens: [...SUPPORT_CHAIN_TO_TOKEN[chain].map(t => ({ symbol: t }))],
       wallet,
-      timestampGte: getUnixTime(subYears(now, 1)),
-      timestampLte: getUnixTime(subMinutes(now, 1)),
+      timeFrom: subYears(now, 5),
+      timeTo: subMinutes(now, 1),
       direction: "both",
       limit: 1
     };
     try {
-      const searched = await remoteTransactionsGateway.search(query);
-      if (searched.count === 0) return null;
-      return remoteTransactionToDomain(searched.items[0]);
+      const searched = await localTransactionsRepository.search(query);
+      if (searched.length === 0) return null;
+      return localTransactionToDomain(chain, wallet, searched[0]);
     } catch (error: unknown) {
       console.error(error);
 

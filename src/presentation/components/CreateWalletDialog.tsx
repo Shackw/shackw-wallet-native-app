@@ -50,7 +50,7 @@ const CreateWalletDialog = (props: CreateWalletDialogProps) => {
       >
         <VStack className="py-4 gap-y-1 h-20 justify-center">
           {!error ? (
-            <InfoText>すでにウォレットをお持ちの方は「復元」をご利用ください</InfoText>
+            <InfoText>{`すでにウォレットをお持ちの方は「復元」をご利用ください`}</InfoText>
           ) : (
             <ErrorText>{error}</ErrorText>
           )}

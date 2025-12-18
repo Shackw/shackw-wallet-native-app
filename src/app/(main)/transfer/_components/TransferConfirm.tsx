@@ -1,5 +1,5 @@
-import { useRouter } from "expo-router";
 import { useCallback } from "react";
+import { ScrollView } from "react-native";
 import { Address } from "viem";
 
 import BackDrop from "@/presentation/components/BackDrop";
@@ -14,6 +14,7 @@ import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText, InfoText } from "@/presentation/components/Text";
 import { useTransferToken } from "@/presentation/hooks/mutations/useTransferToken";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { useSafeCloseToHome } from "@/presentation/hooks/useSafeCloseToHome";
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 import { Token } from "@/registries/ChainTokenRegistry";
 
@@ -31,7 +32,7 @@ type TransferConfirmProps = {
 const TransferConfirm = (props: TransferConfirmProps) => {
   const { name, recipient, amount, sendToken, feeToken, feeDisplyValue, webhookUrl, componentProps } = props;
 
-  const router = useRouter();
+  const { close } = useSafeCloseToHome({ delayMs: 500 });
   const { account, walletClient } = useShackwWalletContext();
   const [isTransferring, setIsTransferring] = useBoolean(false);
 
@@ -54,26 +55,32 @@ const TransferConfirm = (props: TransferConfirmProps) => {
   const handleCloseSuccess = useCallback(() => {
     componentProps.onClose();
     setIsTransferring.off();
-    router.push("/");
-  }, [componentProps, router, setIsTransferring]);
+
+    close();
+  }, [close, componentProps, setIsTransferring]);
 
   return (
     <>
       <BottomActionSheet {...componentProps}>
-        <VStack className="w-full justify-between flex-1">
-          <VStack className="w-full items-center gap-y-7">
+        <VStack className="w-full h-full justify-between gap-y-7">
+          <VStack className="w-full flex-1 gap-y-7">
             <Text size="md" className="text-center font-bold text-secondary-700">
               {"以下の内容で送金します。\n問題なければ送金ボタンを押してください。"}
             </Text>
-            <ConfirmRecipient title="振込先情報" name={name} address={recipient} />
-            <ConfirmAmount
-              title="送金額・手数料"
-              amount={amount}
-              sendToken={sendToken}
-              feeToken={feeToken}
-              feeDisplayValue={feeDisplyValue}
-            />
-            {error && <ErrorText>{error.message}</ErrorText>}
+
+            <ScrollView className="w-full flex-1" showsVerticalScrollIndicator>
+              <VStack className="w-full flex-1 gap-y-7">
+                <ConfirmRecipient title="振込先情報" name={name} address={recipient} />
+                <ConfirmAmount
+                  title="送金額・手数料"
+                  amount={amount}
+                  sendToken={sendToken}
+                  feeToken={feeToken}
+                  feeDisplayValue={feeDisplyValue}
+                />
+                {error && <ErrorText>{error.message}</ErrorText>}
+              </VStack>
+            </ScrollView>
           </VStack>
           <HStack className="gap-x-4">
             <SubContainButton text="戻る" size="lg" className="flex-1" onPress={componentProps.onClose} />

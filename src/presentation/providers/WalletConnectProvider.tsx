@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useRef, useState } from "react";
 
 import { IWalletConnectHandlers } from "@/application/ports/IWalletConnectHandlers";
 import { WalletConnectClient } from "@/infrastructure/clients/WalletConnectClient";
@@ -24,6 +24,7 @@ export const WalletConnectContext = createContext<WalletConnectType | undefined>
 
 export const WalletConnectProvider = ({ children }: PropsWithChildren) => {
   const { account } = useShackwWalletContext();
+
   const [wcClient, setWcClient] = useState<WalletConnectClient | null>(null);
 
   const sessionProposal = useWcSessionProposal();
@@ -49,25 +50,39 @@ export const WalletConnectProvider = ({ children }: PropsWithChildren) => {
     ]
   );
 
+  const handlersRef = useRef<IWalletConnectHandlers>(handlers);
   useEffect(() => {
-    if (!account) return;
+    handlersRef.current = handlers;
+  }, [handlers]);
+
+  const creatingRef = useRef<Promise<WalletConnectClient> | null>(null);
+
+  useEffect(() => {
+    const wallet = account?.address;
+    if (!wallet) return;
 
     let cancelled = false;
 
     (async () => {
       if (!wcClient) {
-        const inst = await WalletConnectClient.create(account.address, handlers);
-        if (!cancelled) setWcClient(inst);
+        if (!creatingRef.current) {
+          creatingRef.current = WalletConnectClient.create(wallet, handlersRef.current);
+        }
+        const inst = await creatingRef.current;
+        if (cancelled) return;
+
+        inst.updateContext(wallet, handlersRef.current);
+        setWcClient(inst);
         return;
       }
 
-      wcClient.updateContext(account.address, handlers);
+      wcClient.updateContext(wallet, handlersRef.current);
     })();
 
     return () => {
       cancelled = true;
     };
-  }, [account, wcClient, handlers]);
+  }, [account?.address, wcClient]);
 
   return (
     <WalletConnectContext.Provider

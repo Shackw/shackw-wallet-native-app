@@ -21,13 +21,17 @@ const ConfirmRecipient = (props: ConfirmAddressProps) => {
         <Text className="font-bold">{title}</Text>
       </HStack>
       <VStack className="border-[0.5px] border-secondary-300 p-4 bg-secondary-50 rounded-xl">
-        <VStack className="gap-y-1">
-          <Text className="font-bold text-secondary-600">名前</Text>
-          <Text className="font-bold text-secondary-800 text-right">{name}</Text>
-        </VStack>
+        {name && (
+          <VStack className="gap-y-1">
+            <Text className="font-bold text-secondary-600">名前</Text>
+            <Text className="font-bold text-secondary-800 text-right">{name}</Text>
+          </VStack>
+        )}
         <VStack className="gap-y-1">
           <Text className="font-bold text-secondary-600">アドレス</Text>
-          <Text className="font-bold text-secondary-800 text-right">{address}</Text>
+          <Text className="font-bold text-secondary-800 text-right" numberOfLines={1} ellipsizeMode="middle">
+            {address}
+          </Text>
         </VStack>
       </VStack>
     </VStack>

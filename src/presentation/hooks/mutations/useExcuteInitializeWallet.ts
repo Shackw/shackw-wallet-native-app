@@ -1,18 +1,18 @@
 import { UseMutationOptions, UseMutationResult, useMutation } from "@tanstack/react-query";
 import { Hex } from "viem";
 
-import { PrivateKeysService } from "@/application/services/PrivateKeysService";
+import { InitializeWalletUseCase } from "@/application/useCase/InitializeWalletUseCase";
 import { useDependenciesContainerContext } from "@/presentation/providers/DependenciesContainerProvider";
 
-export const useGetDefaultPrivateKey = (
-  options?: UseMutationOptions<Hex | null, Error, void, unknown>
-): UseMutationResult<Hex | null, Error, void, unknown> => {
+export const useExcuteInitializeWallet = (
+  options?: UseMutationOptions<Hex | null, Error, void>
+): UseMutationResult<Hex | null, Error, void> => {
   const { addressesRepository, userSettingRepository, privateKeyRepository } = useDependenciesContainerContext();
 
   return useMutation<Hex | null, Error, void>({
     ...options,
-    mutationKey: ["GetDefaultPrivateKey"],
+    mutationKey: ["ExcuteInitializeWallet"],
     mutationFn: async () =>
-      PrivateKeysService.getDefaultPrivateKey(addressesRepository, userSettingRepository, privateKeyRepository)
+      InitializeWalletUseCase.execute(addressesRepository, userSettingRepository, privateKeyRepository)
   });
 };

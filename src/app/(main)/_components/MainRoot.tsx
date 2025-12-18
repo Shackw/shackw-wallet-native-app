@@ -1,5 +1,4 @@
 import { Stack } from "expo-router";
-import { StatusBar } from "react-native";
 
 import { ShackwApiMetaModel } from "@/domain/shackwApiMeta";
 import { RootContainer } from "@/presentation/components/Container";
@@ -18,7 +17,6 @@ const MainRoot = (props: MainRootProps) => {
       <TokenBalanceProvider>
         <LastTransactionProvider>
           <RootContainer>
-            <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
             <Stack
               screenOptions={{
                 headerShown: false,
@@ -28,50 +26,57 @@ const MainRoot = (props: MainRootProps) => {
               <Stack.Screen
                 name="addresses/index"
                 options={{
-                  presentation: "modal",
-                  animation: "fade"
-                }}
-              />
-              <Stack.Screen
-                name="receive/index"
-                options={{
-                  presentation: "modal",
-                  animation: "fade"
-                }}
-              />
-              <Stack.Screen
-                name="scan-qr/index"
-                options={{
-                  presentation: "fullScreenModal",
-                  animation: "fade"
-                }}
-              />
-              <Stack.Screen
-                name="transfer/index"
-                options={{
-                  presentation: "modal",
-                  animation: "fade"
+                  presentation: "card",
+                  animation: "fade",
+                  gestureEnabled: false
                 }}
               />
               <Stack.Screen
                 name="network/index"
                 options={{
-                  presentation: "modal",
-                  animation: "fade"
-                }}
-              />
-              <Stack.Screen
-                name="wallet/index"
-                options={{
-                  presentation: "modal",
-                  animation: "fade"
+                  presentation: "card",
+                  animation: "fade",
+                  gestureEnabled: false
                 }}
               />
               <Stack.Screen
                 name="privateKey/index"
                 options={{
-                  presentation: "modal",
-                  animation: "fade"
+                  presentation: "card",
+                  animation: "fade",
+                  gestureEnabled: false
+                }}
+              />
+              <Stack.Screen
+                name="receive/index"
+                options={{
+                  presentation: "card",
+                  animation: "fade",
+                  gestureEnabled: false
+                }}
+              />
+              <Stack.Screen
+                name="scan-qr/index"
+                options={{
+                  presentation: "card",
+                  animation: "fade",
+                  gestureEnabled: false
+                }}
+              />
+              <Stack.Screen
+                name="transfer/index"
+                options={{
+                  presentation: "card",
+                  animation: "fade",
+                  gestureEnabled: false
+                }}
+              />
+              <Stack.Screen
+                name="wallet/index"
+                options={{
+                  presentation: "card",
+                  animation: "fade",
+                  gestureEnabled: false
                 }}
               />
             </Stack>

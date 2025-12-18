@@ -9,7 +9,6 @@ import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
-import { shortenAddress } from "@/shared/helpers/address";
 import { formatIsoString } from "@/shared/helpers/datetime";
 
 import useHistoryRows, { HistoryViewModel } from "../_hooks/useHistoryRows";
@@ -37,10 +36,16 @@ const HistoryTableRow = (props: HistoryTableRowProps) => {
               {CHAINS[currentChain].blockExplorers?.default ? (
                 <Anchor
                   href={`${CHAINS[currentChain].blockExplorers.default.url}/tx/${txHash}`}
-                  className="font-bold text-secondary-500"
-                >{`tx: ${shortenAddress(txHash, 5)}`}</Anchor>
+                  numberOfLines={1}
+                  ellipsizeMode="middle"
+                  className="font-bold text-secondary-500 w-32"
+                >{`tx: ${txHash}`}</Anchor>
               ) : (
-                <Text className="font-bold text-secondary-500">{`tx: ${shortenAddress(txHash, 5)}`}</Text>
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode="middle"
+                  className="font-bold text-secondary-500 w-32"
+                >{`tx: ${txHash}`}</Text>
               )}
             </HStack>
             <>
@@ -50,10 +55,15 @@ const HistoryTableRow = (props: HistoryTableRowProps) => {
                 </Text>
               ) : (
                 <TextButton
-                  textProps={{ className: "font-bold text-secondary-800", size: "lg" }}
+                  textProps={{
+                    className: "font-bold text-secondary-800 w-[65%]",
+                    size: "lg",
+                    numberOfLines: 1,
+                    ellipsizeMode: "middle"
+                  }}
                   onPress={setIsAddingAddress.on}
                 >
-                  {shortenAddress(counterparty.address, 12)}
+                  {counterparty.address}
                 </TextButton>
               )}
             </>

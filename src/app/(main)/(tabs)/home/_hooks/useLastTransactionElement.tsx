@@ -17,7 +17,7 @@ type LastTransactionElementProps = {
 const useLastTransactionElement = (
   lastTransactionResult: UseQueryResult<TransactionModel | null | undefined>
 ): LastTransactionElementProps => {
-  const { data: lastTransaction, isLoading, isError, refetch } = lastTransactionResult;
+  const { data: lastTransaction, isFetching, isError, refetch } = lastTransactionResult;
 
   const handleRefetch = useCallback(() => {
     refetch();
@@ -38,7 +38,7 @@ const useLastTransactionElement = (
       };
     }
 
-    if (lastTransaction === undefined || isLoading) {
+    if (lastTransaction === undefined || isFetching) {
       return {
         element: <Spinner size={16} color={theme.colors.secondary[500]} />,
         pl: 20
@@ -56,7 +56,7 @@ const useLastTransactionElement = (
       element: formatIsoString(lastTransaction.transferredAt),
       pl: 0
     };
-  }, [handleRefetch, isError, isLoading, lastTransaction]);
+  }, [handleRefetch, isError, isFetching, lastTransaction]);
 
   return lastTransactionElement;
 };

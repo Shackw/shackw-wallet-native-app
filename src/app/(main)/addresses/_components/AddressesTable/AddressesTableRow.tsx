@@ -4,7 +4,6 @@ import { TableRow } from "@/presentation/components/gluestack-ui/table";
 import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { type AddressRow, useAddressesRow } from "@/presentation/hooks/useAddressesRow";
-import { shortenAddress } from "@/shared/helpers/address";
 
 import AddressesTableRowMenu from "./AddressesTableRowMenu";
 
@@ -22,15 +21,20 @@ const AddressesTableRow = (props: AddressesTableRowProps) => {
         <Avatar size="md" className="mx-2">
           <AvatarFallbackText>{row.name}</AvatarFallbackText>
         </Avatar>
-        <VStack className="gap-y-1">
-          <Text size="lg" className="font-bold">
+
+        <VStack className="flex-1 gap-y-1">
+          <Text size="lg" className="font-bold" numberOfLines={1}>
             {row.name}
           </Text>
-          <Text size="md" className="font-bold text-secondary-500">
-            {shortenAddress(row.address, 15)}
+
+          <Text size="md" numberOfLines={1} ellipsizeMode="middle" className="font-bold text-secondary-500 w-full">
+            {row.address}
           </Text>
         </VStack>
-        <AddressesTableRowMenu row={row} refetchAddresses={refetchAddresses} />
+
+        <VStack className="shrink-0">
+          <AddressesTableRowMenu row={row} refetchAddresses={refetchAddresses} />
+        </VStack>
       </HStack>
     </TableRow>
   );

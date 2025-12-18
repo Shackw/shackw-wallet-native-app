@@ -4,7 +4,7 @@ import { Chain, CHAINS } from "@/config/chain";
 
 import { CUSTOM_RPC_URL } from "./rpcUrls";
 
-export const VIEM_PUBLIC_CLIENTS: Record<Chain, PublicClient<Transport, ViemChain | undefined>> = {
+export const VIEM_PUBLIC_CLIENTS: Record<Chain, PublicClient<Transport, ViemChain>> = {
   mainnet: createPublicClient({
     chain: CHAINS.mainnet,
     transport: http(CUSTOM_RPC_URL.mainnet)
