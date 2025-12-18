@@ -4,7 +4,7 @@ import { PrivateKeysService } from "@/application/services/PrivateKeysService";
 import { ListPrivateKeysCommand, PrivateKeyModel } from "@/domain/privateKey";
 import { useDependenciesContainerContext } from "@/presentation/providers/DependenciesContainerProvider";
 
-export const useListPrivateKeys = (
+export const useFetchPrivateKeys = (
   options?: UseMutationOptions<PrivateKeyModel[], Error, ListPrivateKeysCommand, unknown>
 ): UseMutationResult<PrivateKeyModel[], Error, ListPrivateKeysCommand, unknown> => {
   const { addressesRepository, privateKeyRepository } = useDependenciesContainerContext();

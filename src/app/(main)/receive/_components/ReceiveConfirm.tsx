@@ -1,4 +1,5 @@
 import { useRef, useCallback } from "react";
+import { ScrollView } from "react-native";
 import { Address } from "viem";
 
 import { BottomActionSheet } from "@/presentation/components/BottomActionSheet";
@@ -42,22 +43,24 @@ const ReceiveConfirm = (props: ReceiveConfirmProps) => {
   return (
     <>
       <BottomActionSheet {...componentProps}>
-        <VStack className="w-full justify-between flex-1">
-          <VStack className="w-full items-center gap-y-7">
-            <ConfirmAmount
-              title="請求額・手数料"
-              amount={amount}
-              sendToken={sendToken}
-              feeToken={feeToken}
-              feeDisplayValue={feeDisplayValue}
-            />
-            <QRCode
-              ref={qrCodeRef}
-              path="transfer"
-              query={{ chain, sendToken, feeToken, recipient, amount, webhookUrl }}
-              size={275}
-            />
-          </VStack>
+        <VStack className="w-full flex-1 gap-y-7">
+          <ScrollView className="w-full flex-1" showsVerticalScrollIndicator>
+            <VStack className="w-full flex-1 items-center gap-y-7">
+              <ConfirmAmount
+                title="請求額・手数料"
+                amount={amount}
+                sendToken={sendToken}
+                feeToken={feeToken}
+                feeDisplayValue={feeDisplayValue}
+              />
+              <QRCode
+                ref={qrCodeRef}
+                path="transfer"
+                query={{ chain, sendToken, feeToken, recipient, amount, webhookUrl }}
+                size={275}
+              />
+            </VStack>
+          </ScrollView>
           <HStack className="gap-x-4">
             <SubContainButton text="戻る" size="lg" className="flex-1" onPress={componentProps.onClose} />
             <ContainButton text="共有" size="lg" className="flex-1" onPress={handleShareInvoice} />

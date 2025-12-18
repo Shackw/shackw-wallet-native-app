@@ -85,14 +85,14 @@ export class SqlAddressesRepository implements IAddressesRepository {
   }
 
   async update(query: UpdateAddressQuery): Promise<void> {
-    const { address, name } = query;
+    const { address, name, isMine } = query;
     const stmt = await this.db.prepareAsync(`
       UPDATE addresses
-      SET name = $name, updated_at = strftime('%s','now')
+      SET name = $name, is_mine = $isMine, updated_at = strftime('%s','now')
       WHERE address = $address
     `);
     try {
-      await stmt.executeAsync({ $address: address.toLowerCase(), $name: name });
+      await stmt.executeAsync({ $address: address.toLowerCase(), $name: name, $isMine: isMine });
     } finally {
       await stmt.finalizeAsync();
     }

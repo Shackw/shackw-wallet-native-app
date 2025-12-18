@@ -8,6 +8,7 @@ import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletPro
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 import { shortenAddress } from "@/shared/helpers/address";
 
+import { Box } from "../gluestack-ui/box";
 import { HStack } from "../gluestack-ui/hstack";
 import { Spinner } from "../gluestack-ui/spinner";
 
@@ -38,8 +39,10 @@ const AppBarBody = (props: AppBarProps) => {
     <HStack className="w-full justify-center">
       {accountAddress ? (
         <Pressable onPress={handlePressWallet}>
-          <HStack className="items-center gap-x-2">
-            <ChainIcon />
+          <HStack className="items-center relative">
+            <Box className="absolute left-[-25px]">
+              <ChainIcon />
+            </Box>
             <Text className="font-bold text-white">{shortenAddress(accountAddress)}</Text>
           </HStack>
         </Pressable>

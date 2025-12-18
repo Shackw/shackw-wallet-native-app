@@ -20,9 +20,11 @@ const AccountNetworkMenu = () => {
   return (
     <AccountMenuConteiner title="ネットワーク設定">
       <AccountMenuItem onPress={handlePressChangeNetwork}>
-        <HStack className="justify-between">
+        <HStack className="justify-between gap-x-6">
           <Text className="font-bold">接続中のネットワーク</Text>
-          <Text size="xl">{CHAIN_KEY_TO_DISPLAY_NAME[currentChain]}</Text>
+          <Text size="md" numberOfLines={1} ellipsizeMode="tail">
+            {CHAIN_KEY_TO_DISPLAY_NAME[currentChain]}
+          </Text>
         </HStack>
       </AccountMenuItem>
     </AccountMenuConteiner>

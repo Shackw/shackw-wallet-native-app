@@ -8,7 +8,6 @@ import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
-import { shortenAddress } from "@/shared/helpers/address";
 
 import useTransferForm from "../../_hooks/useTransferForm";
 
@@ -33,7 +32,7 @@ const TransferRecipient = () => {
 
   return (
     <>
-      <HStack className="w-full px-4 py-3 h-[90px] bg-white items-center justify-between gap-x-5">
+      <HStack className="w-full px-4 py-3 h-[90px] bg-white items-center justify-between gap-x-10">
         <Text size="xl" className="font-bold text-secondary-700 ">
           振込先
         </Text>
@@ -41,12 +40,17 @@ const TransferRecipient = () => {
           {(isEditing && prevValue) || (!isEditing && recipient) ? (
             <VStack className="gap-y-2">
               {addressToName[isEditing ? prevValue.toLowerCase() : recipient.toLowerCase()] && (
-                <Text size="xl" className="font-bold text-right">
+                <Text size="xl" numberOfLines={1} ellipsizeMode="middle" className="font-bold text-right">
                   {addressToName[isEditing ? prevValue.toLowerCase() : recipient.toLowerCase()]}
                 </Text>
               )}
-              <Text size="lg" className="font-bold text-right text-secondary-600">
-                {shortenAddress((isEditing ? prevValue : recipient) as Address, 14)}
+              <Text
+                size="lg"
+                numberOfLines={1}
+                ellipsizeMode="middle"
+                className="font-bold text-right text-secondary-600"
+              >
+                {(isEditing ? prevValue : recipient) as Address}
               </Text>
             </VStack>
           ) : (

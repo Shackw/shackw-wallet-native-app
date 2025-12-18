@@ -2,7 +2,7 @@ import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useSt
 import { Address } from "viem";
 
 import { Chain } from "@/config/chain";
-import { useUserSetting } from "@/presentation/hooks/queries/useUserSetting";
+import { useGetUserSetting } from "@/presentation/hooks/queries/useGetUserSetting";
 import { SUPPORT_CHAIN_TO_TOKEN, Token } from "@/registries/ChainTokenRegistry";
 
 type WalletPreferencesContextType = {
@@ -12,13 +12,13 @@ type WalletPreferencesContextType = {
   currentChainDefaultToken: Token;
   currentChainSupportedTokens: Partial<Record<"JPYC" | "USDC" | "EURC", string>>;
   setCurrentChain: React.Dispatch<React.SetStateAction<Chain>>;
-  refetchUserSetting: ReturnType<typeof useUserSetting>["refetch"];
+  refetchUserSetting: ReturnType<typeof useGetUserSetting>["refetch"];
 };
 
 export const WalletPreferencesContext = createContext<WalletPreferencesContextType | undefined>(undefined);
 
 export const WalletPreferencesProvider = ({ children }: PropsWithChildren) => {
-  const { data, refetch } = useUserSetting();
+  const { data, refetch } = useGetUserSetting();
   const [currentChain, setCurrentChain] = useState<Chain>("polygon");
 
   const defaultChain = useMemo(() => {

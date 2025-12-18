@@ -4,7 +4,6 @@ import { Box } from "@/presentation/components/gluestack-ui/box";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
-import { shortenAddress } from "@/shared/helpers/address";
 
 type ConfirmAddressProps = {
   title: string;
@@ -30,7 +29,9 @@ const ConfirmRecipient = (props: ConfirmAddressProps) => {
         )}
         <VStack className="gap-y-1">
           <Text className="font-bold text-secondary-600">アドレス</Text>
-          <Text className="font-bold text-secondary-800 text-right">{shortenAddress(address, 12)}</Text>
+          <Text className="font-bold text-secondary-800 text-right" numberOfLines={1} ellipsizeMode="middle">
+            {address}
+          </Text>
         </VStack>
       </VStack>
     </VStack>

@@ -7,7 +7,7 @@ import { AlertDialog } from "@/presentation/components/Dialog";
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText, InfoText } from "@/presentation/components/Text";
-import { useListPrivateKeys } from "@/presentation/hooks/mutations/useListPrivateKeys";
+import { useFetchPrivateKeys } from "@/presentation/hooks/mutations/useFetchPrivateKeys";
 
 import PrivateKeyScreenSuspence from "./_components/PrivateKeyScreenSuspence";
 import PrivateKeyTable from "./_components/PrivateKeyTable";
@@ -16,7 +16,7 @@ const PrivateKeyScreen = () => {
   const router = useRouter();
   const [privateKeys, setPrivateKeys] = useState<PrivateKeyModel[] | undefined>(undefined);
 
-  const { mutateAsync: listPrivateKeys, error } = useListPrivateKeys({ retry: 0 });
+  const { mutateAsync: listPrivateKeys, error } = useFetchPrivateKeys({ retry: 0 });
 
   const errorMes = useMemo(() => {
     if (!error) return undefined;

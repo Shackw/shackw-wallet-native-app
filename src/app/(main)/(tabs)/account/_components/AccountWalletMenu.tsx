@@ -8,7 +8,6 @@ import RestoreWalletField from "@/presentation/components/RestoreWalletField";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
-import { shortenAddress } from "@/shared/helpers/address";
 
 import AccountMenuConteiner from "./AccountMenuConteiner";
 import AccountMenuItem from "./AccountMenuItem";
@@ -45,9 +44,11 @@ const AccountWalletMenu = () => {
   return (
     <AccountMenuConteiner title="ウォレット設定">
       <AccountMenuItem onPress={handlePressChangeWallet}>
-        <HStack className="justify-between">
+        <HStack className="justify-between gap-x-10">
           <Text className="font-bold">接続中のウォレット</Text>
-          <Text size="lg">{shortenAddress(account?.address ?? "0x00", 8)}</Text>
+          <Text className="flex-1 text-right" size="md" numberOfLines={1} ellipsizeMode="middle">
+            {account?.address ?? "0x00"}
+          </Text>
         </HStack>
       </AccountMenuItem>
 
