@@ -68,7 +68,7 @@ const TransferConfirm = (props: TransferConfirmProps) => {
               {"以下の内容で送金します。\n問題なければ送金ボタンを押してください。"}
             </Text>
 
-            <ScrollView className="w-full flex-1" showsVerticalScrollIndicator>
+            <ScrollView className="w-full flex-1" showsVerticalScrollIndicator={false}>
               <VStack className="w-full flex-1 gap-y-7">
                 <ConfirmRecipient title="振込先情報" name={name} address={recipient} />
                 <ConfirmAmount

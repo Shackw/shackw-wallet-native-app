@@ -75,6 +75,7 @@ const HistoryTableRow = (props: HistoryTableRowProps) => {
       </TableRow>
 
       <AddressMutateField
+        key={`create:${counterparty.address}`}
         mode="create"
         initName={counterparty.name ?? ""}
         initAddress={counterparty.address}

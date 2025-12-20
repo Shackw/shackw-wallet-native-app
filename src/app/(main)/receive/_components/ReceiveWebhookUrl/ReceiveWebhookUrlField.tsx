@@ -45,7 +45,12 @@ const ReceiveWebhookUrlField = (props: ReceiveWebhookUrlFieldProps) => {
 
   return (
     <BottomActionSheet {...componentProps} onClose={handleClose}>
-      <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }} enableOnAndroid={true}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        enableOnAndroid={true}
+        showsVerticalScrollIndicator={false}
+        extraScrollHeight={30}
+      >
         <form.Field
           name="webhookUrl"
           children={field => (

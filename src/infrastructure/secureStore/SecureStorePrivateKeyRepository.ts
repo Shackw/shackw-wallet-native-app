@@ -1,4 +1,5 @@
 import * as SecureStore from "expo-secure-store";
+import { Address, Hex } from "viem";
 
 import { IPrivateKeyRepository, PrivateKeyResult } from "@/application/ports/IPrivateKeyRepository";
 import { ENV } from "@/config/env";
@@ -41,7 +42,12 @@ export class SecureStorePrivateKeyRepository implements IPrivateKeyRepository {
       return;
     }
     const parsed = JSON.parse(stored) as unknown;
-    this.items = Array.isArray(parsed) ? (parsed as PrivateKeyResult[]) : [];
+    const asserted = Array.isArray(parsed) ? (parsed as PrivateKeyResult[]) : [];
+    this.items = asserted.map(i => ({
+      wallet: i.wallet.toLowerCase() as Address,
+      privateKey: i.privateKey.toLowerCase() as Hex,
+      createdAt: i.createdAt
+    }));
   }
 
   private async persist(): Promise<void> {

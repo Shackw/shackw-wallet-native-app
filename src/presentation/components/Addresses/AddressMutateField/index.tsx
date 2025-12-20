@@ -72,8 +72,10 @@ const AddressMutateField = (props: AddressMutateFieldProps) => {
           contentContainerStyle={{ flexGrow: 1 }}
           enableOnAndroid
           keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+          extraScrollHeight={30}
         >
-          <VStack className="flex-1 w-full justify-between py-4">
+          <VStack className="flex-1 w-full justify-between py-4 gap-y-8">
             <AddressMutateFieldForm form={form} disableFields={disableFields} />
             <ContainButton
               text="確定"

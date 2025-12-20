@@ -1,6 +1,7 @@
 import { setStringAsync } from "expo-clipboard";
 import { useRouter } from "expo-router";
 import { useCallback, useMemo } from "react";
+import { ScrollView } from "react-native";
 import { Address, Hex } from "viem";
 
 import { ListPrivateKeysCommand } from "@/domain/privateKey";
@@ -68,37 +69,47 @@ const PrivateKeyDisplyField = (props: PrivateKeyDisplyFieldProps) => {
     <>
       {isPending && <BackDrop visible />}
       <BottomActionSheet {...componentProps}>
-        <VStack className="flex-1 w-full items-center gap-y-4">
-          <Text size="md" className="text-center font-bold text-secondary-700">
-            {"プライベートキーは絶対に他人と共有しないでください。\n紛失・漏洩するとウォレットを回復できません。"}
-          </Text>
-          <VStack className="w-full gap-y-8 border-[0.5px] border-secondary-300 px-4 py-6 bg-secondary-50 rounded-xl">
-            <VStack className="w-full gap-y-1.5">
-              <Text className="font-bold text-secondary-600">作成・復元 日時</Text>
-              <Text className="font-bold text-secondary-800 pl-4">{createdAtStr}</Text>
-            </VStack>
-            <VStack className="w-full gap-y-1.5">
-              <Text className="font-bold text-secondary-600">ウォレットアドレス</Text>
-              <Text className="font-bold text-secondary-800 pl-4">{wallet}</Text>
-            </VStack>
-            <VStack className="w-full gap-y-1.5">
-              <Text className="font-bold text-secondary-600">プライベートキー</Text>
-              <TextButton textProps={{ className: "font-bold text-secondary-800 pl-4" }} onPress={handleCopyPrivateKey}>
-                {privateKey}
-              </TextButton>
-            </VStack>
-          </VStack>
-          <InfoText>プライベートキーを押すとコピーできます。</InfoText>
-          {isCurrentWallet && <InfoText>現在選択中のウォレットのため削除できません。</InfoText>}
-          {isDefaultWallet && <InfoText>デフォルトに設定されているウォレットため削除できません。</InfoText>}
-        </VStack>
+        <VStack className="w-full h-full justify-between gap-y-7">
+          <VStack className="w-full flex-1 gap-y-4">
+            <Text size="md" className="text-center font-bold text-secondary-700">
+              {"プライベートキーは絶対に他人と共有しないでください。\n紛失・漏洩するとウォレットを回復できません。"}
+            </Text>
 
-        <HStack className="gap-x-4">
-          <SubContainButton text="戻る" size="lg" className="flex-1" onPress={componentProps.onClose} />
-          {!isCurrentWallet && !isDefaultWallet && (
-            <ContainButton text="削除" size="lg" className="flex-1" onPress={setIsDeleting.on} />
-          )}
-        </HStack>
+            <ScrollView className="w-full flex-1" showsVerticalScrollIndicator={false}>
+              <VStack className="w-full flex-1 gap-y-2">
+                <VStack className="w-full gap-y-8 border-[0.5px] border-secondary-300 px-4 py-6 bg-secondary-50 rounded-xl">
+                  <VStack className="w-full gap-y-1.5">
+                    <Text className="font-bold text-secondary-600">作成・復元 日時</Text>
+                    <Text className="font-bold text-secondary-800 pl-4">{createdAtStr}</Text>
+                  </VStack>
+                  <VStack className="w-full gap-y-1.5">
+                    <Text className="font-bold text-secondary-600">ウォレットアドレス</Text>
+                    <Text className="font-bold text-secondary-800 pl-4">{wallet}</Text>
+                  </VStack>
+                  <VStack className="w-full gap-y-1.5">
+                    <Text className="font-bold text-secondary-600">プライベートキー</Text>
+                    <TextButton
+                      textProps={{ className: "font-bold text-secondary-800 pl-4" }}
+                      onPress={handleCopyPrivateKey}
+                    >
+                      {privateKey}
+                    </TextButton>
+                  </VStack>
+                </VStack>
+                <InfoText>プライベートキーを押すとコピーできます。</InfoText>
+                {isCurrentWallet && <InfoText>現在選択中のウォレットのため削除できません。</InfoText>}
+                {isDefaultWallet && <InfoText>デフォルトに設定されているウォレットため削除できません。</InfoText>}
+              </VStack>
+            </ScrollView>
+          </VStack>
+
+          <HStack className="gap-x-4">
+            <SubContainButton text="戻る" size="lg" className="flex-1" onPress={componentProps.onClose} />
+            {!isCurrentWallet && !isDefaultWallet && (
+              <ContainButton text="削除" size="lg" className="flex-1" onPress={setIsDeleting.on} />
+            )}
+          </HStack>
+        </VStack>
       </BottomActionSheet>
 
       <ActionDialog

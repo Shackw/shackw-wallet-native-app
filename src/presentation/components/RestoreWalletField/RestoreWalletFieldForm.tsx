@@ -25,6 +25,8 @@ const RestoreWalletFieldForm = (props: RestoreWalletFieldFormProps) => {
         contentContainerStyle={{ flexGrow: 1 }}
         enableOnAndroid
         keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        extraScrollHeight={30}
       >
         <VStack className="flex-1 items-center justify-between py-4">
           <VStack className="w-full gap-y-6">

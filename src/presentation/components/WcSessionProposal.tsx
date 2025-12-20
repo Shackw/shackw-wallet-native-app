@@ -36,7 +36,7 @@ export const WcSessionProposal = (props: WcSessionProposalProps) => {
             {"以下のアプリから接続のリクエストがあります。\n内容を確認し、問題なければ「許可」を押してください。"}
           </Text>
 
-          <ScrollView className="w-full flex-1" showsVerticalScrollIndicator>
+          <ScrollView className="w-full flex-1" showsVerticalScrollIndicator={false}>
             <VStack className="gap-y-5">
               <VStack className="w-full gap-y-2">
                 <HStack className="gap-x-2">

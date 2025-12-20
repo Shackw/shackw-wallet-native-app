@@ -1,5 +1,5 @@
 import { useCallback, useRef } from "react";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { ScrollView } from "react-native";
 import { Address } from "viem";
 
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
@@ -35,17 +35,15 @@ const AddressesDisplayQR = (props: AddressesDisplayQRProps) => {
   return (
     <>
       <BottomActionSheet {...componentProps}>
-        <KeyboardAwareScrollView
-          contentContainerStyle={{ flexGrow: 1 }}
-          enableOnAndroid
-          keyboardShouldPersistTaps="handled"
-        >
-          <VStack className="flex-1 w-full items-center py-4 gap-y-6">
-            <ConfirmRecipient title="アドレス情報" name={name} address={address} />
-            <QRCode ref={qrCodeRef} path="addresses" query={{ name, address }} size={275} />
-            <ContainButton text="共有" size="lg" className="w-full mt-auto" onPress={handleShareAddress} />
-          </VStack>
-        </KeyboardAwareScrollView>
+        <VStack className="flex-1 w-full justify-between py-4 gap-y-7">
+          <ScrollView className="w-full flex-1" showsVerticalScrollIndicator={false}>
+            <VStack className="w-full flex-1 items-center gap-y-7">
+              <ConfirmRecipient title="アドレス情報" name={name} address={address} />
+              <QRCode ref={qrCodeRef} path="addresses" query={{ name, address }} size={275} />
+            </VStack>
+          </ScrollView>
+          <ContainButton text="共有" size="lg" className="w-full mt-auto" onPress={handleShareAddress} />
+        </VStack>
       </BottomActionSheet>
 
       <AlertDialog title="QRコード共有の失敗" isOpen={isShowErrorDialog} onClose={setIsShowErrorDialog.off} size="lg">

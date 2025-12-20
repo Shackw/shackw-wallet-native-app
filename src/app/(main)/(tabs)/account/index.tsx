@@ -11,7 +11,7 @@ import AccountWalletMenu from "./_components/AccountWalletMenu";
 const AccountScreen = () => {
   return (
     <ScreenContainer className="bg-white rounded-t-2xl px-[12px] py-[8px]">
-      <ScrollView className="flex-1" showsVerticalScrollIndicator>
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         <VStack className="w-full px-2 py-4 gap-y-8">
           <AccountAddressMenu />
           <AccountNetworkMenu />
