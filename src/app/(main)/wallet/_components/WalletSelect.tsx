@@ -13,7 +13,8 @@ import {
   SelectContent,
   SelectDragIndicatorWrapper,
   SelectDragIndicator,
-  SelectItem
+  SelectItem,
+  SelectScrollView
 } from "@/presentation/components/gluestack-ui/select";
 import { Text } from "@/presentation/components/gluestack-ui/text";
 
@@ -47,6 +48,7 @@ const WalletSelect = (props: WalletSelectProps) => {
       <Text size="xl" className="font-bold text-secondary-700 ">
         ウォレット
       </Text>
+
       <Select initialLabel={label} selectedValue={inputWallet} onValueChange={handleChange}>
         <SelectTrigger variant="underlined" size="lg">
           <SelectInput placeholder="Select option" className="w-[240px] text-center px-1" />
@@ -54,19 +56,21 @@ const WalletSelect = (props: WalletSelectProps) => {
         </SelectTrigger>
         <SelectPortal>
           <SelectBackdrop />
-          <SelectContent>
+          <SelectContent className="max-h-[420px]">
             <SelectDragIndicatorWrapper>
               <SelectDragIndicator />
             </SelectDragIndicatorWrapper>
-            {options.map(o => (
-              <SelectItem
-                key={o.value}
-                label={o.label}
-                value={o.value}
-                className="py-6"
-                textStyle={{ bold: true, size: "lg" }}
-              />
-            ))}
+            <SelectScrollView showsVerticalScrollIndicator={false}>
+              {options.map(o => (
+                <SelectItem
+                  key={o.value}
+                  label={o.label}
+                  value={o.value}
+                  className="py-6"
+                  textStyle={{ bold: true, size: "lg" }}
+                />
+              ))}
+            </SelectScrollView>
           </SelectContent>
         </SelectPortal>
       </Select>

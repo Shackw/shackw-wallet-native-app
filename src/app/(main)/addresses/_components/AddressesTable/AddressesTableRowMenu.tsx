@@ -76,6 +76,7 @@ const AddressesTableRowMenu = (props: AddressesTableRowMenuProps) => {
       </Menu>
 
       <AddressMutateField
+        key={`edit:${row.address}`}
         mode="edit"
         initName={row.name}
         initAddress={row.address}
@@ -85,6 +86,7 @@ const AddressesTableRowMenu = (props: AddressesTableRowMenuProps) => {
       />
 
       <AddressesTableDeleteDialog
+        key={`delete:${row.address}`}
         address={row.address}
         isOpen={isDeleting}
         handleClose={setIsDeleting.off}
@@ -92,6 +94,7 @@ const AddressesTableRowMenu = (props: AddressesTableRowMenuProps) => {
       />
 
       <AddressesDisplayQR
+        key={`qr:${row.address}`}
         name={row.name}
         address={row.address}
         componentProps={{

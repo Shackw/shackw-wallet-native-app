@@ -68,6 +68,7 @@ const AddressesMineMenu = (props: AddressesMineMenuProps) => {
       </Menu>
 
       <AddressesMineEditField
+        key={`edit-mine:${address}`}
         address={address}
         name={name}
         refetchAddresses={refetchAddresses}
@@ -80,6 +81,7 @@ const AddressesMineMenu = (props: AddressesMineMenuProps) => {
       />
 
       <AddressesDisplayQR
+        key={`qr-mine:${address}`}
         address={address}
         name={name}
         componentProps={{

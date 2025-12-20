@@ -44,7 +44,7 @@ const ReceiveConfirm = (props: ReceiveConfirmProps) => {
     <>
       <BottomActionSheet {...componentProps}>
         <VStack className="w-full flex-1 gap-y-7">
-          <ScrollView className="w-full flex-1" showsVerticalScrollIndicator>
+          <ScrollView className="w-full flex-1" showsVerticalScrollIndicator={false}>
             <VStack className="w-full flex-1 items-center gap-y-7">
               <ConfirmAmount
                 title="請求額・手数料"

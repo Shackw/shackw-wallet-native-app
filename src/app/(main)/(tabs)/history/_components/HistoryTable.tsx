@@ -27,7 +27,7 @@ const HistoryTable = (props: HistoryTableProps) => {
       {rows => (
         <ScrollView
           className="flex-1"
-          showsVerticalScrollIndicator
+          showsVerticalScrollIndicator={false}
           refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={refetch} />}
         >
           <Table className="w-full overflow-y-auto">

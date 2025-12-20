@@ -20,7 +20,7 @@ const AddressesTable = (props: AddressesTableProps) => {
     <TableSuspence title="アドレス" rows={rows} isError={isError}>
       {rows => (
         <VStack className="flex-1">
-          <ScrollView className="flex-1" showsVerticalScrollIndicator>
+          <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
             <Table className="w-full overflow-y-auto">
               <TableBody className="w-full">
                 {rows.map((row, index) => (
