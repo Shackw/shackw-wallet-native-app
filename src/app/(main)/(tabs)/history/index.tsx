@@ -1,12 +1,12 @@
 import { useCallback, useState } from "react";
 
-import { ScreenContainer } from "@/presentation/components/Container";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { Tab } from "@/presentation/components/Tab";
 import YearMonthPicker from "@/presentation/components/YearMonthTermPicker";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 import { Token } from "@/registries/ChainTokenRegistry";
+import ScreenContainer from "@mainc/ScreenContainer";
 
 import HistoryTable from "./_components/HistoryTable";
 

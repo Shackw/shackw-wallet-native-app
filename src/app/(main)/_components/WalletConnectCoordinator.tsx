@@ -1,8 +1,9 @@
 import { useSearchParams } from "expo-router/build/hooks";
 import { useRef, useEffect } from "react";
 
-import { WcSessionProposal } from "@/presentation/components/WcSessionProposal";
 import { useWalletConnectContext } from "@/presentation/providers/WalletConnectProvider";
+
+import WcSessionProposal from "./wc/WcSessionProposal";
 
 const WalletConnectCoordinator = () => {
   const searchParams = useSearchParams();

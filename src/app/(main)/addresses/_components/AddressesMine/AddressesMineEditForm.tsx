@@ -54,7 +54,7 @@ const AddressesMineEditForm = (props: AddressesMineEditFormProps) => {
                 />
               </Input>
             </FormControl>
-            <InfoText>QRコードでアドレスを共有した際に、登録されている名前が相手のアドレス帳に反映されます。</InfoText>
+            <InfoText>{`QRコードでアドレスを共有した際に、登録されている名前が相手のアドレス帳に反映されます。`}</InfoText>
           </VStack>
 
           <HStack className="gap-x-4">

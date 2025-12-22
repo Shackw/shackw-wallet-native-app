@@ -2,15 +2,15 @@ import { useCallback, useRef } from "react";
 import { ScrollView } from "react-native";
 import { Address } from "viem";
 
+import { BottomActionSheet } from "@/presentation/components/BottomActionSheet";
+import { ContainButton } from "@/presentation/components/Button";
+import { AlertDialog } from "@/presentation/components/Dialog";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import QRCode, { QRCodeHandle } from "@/presentation/components/QRCode";
+import { ErrorText } from "@/presentation/components/Text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 
-import { BottomActionSheet } from "../BottomActionSheet";
-import { ContainButton } from "../Button";
-import ConfirmRecipient from "../Confirm/ConfirmRecipient";
-import { AlertDialog } from "../Dialog";
-import QRCode, { QRCodeHandle } from "../QRCode";
-import { ErrorText } from "../Text";
+import ConfirmRecipient from "../confirm/ConfirmRecipient";
 
 type AddressesDisplayQRProps = {
   name: string;

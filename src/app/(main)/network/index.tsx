@@ -1,6 +1,7 @@
-import { ScreenContainer } from "@/presentation/components/Container";
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+
+import ScreenContainer from "../_components/ScreenContainer";
 
 import NetworkDefault from "./_components/NetworkDefault";
 import NetworkSelect from "./_components/NetworkSelect";

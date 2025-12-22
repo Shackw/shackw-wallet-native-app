@@ -20,9 +20,11 @@ type ShackwWalletContextType = {
   account: Account | undefined;
   walletClient: WalletClient | undefined;
   hasPrivateKey: boolean;
+  walletEnabled: boolean;
   createWallet: (name: string) => Promise<void>;
   restoreWallet: (name: string, pk: string) => Promise<void>;
   changeWallet: (wallet: Address, isChangeDefault: boolean) => Promise<void>;
+  enableWallet: () => void;
 };
 
 export const ShackwWalletContext = createContext<ShackwWalletContextType | undefined>(undefined);
@@ -30,6 +32,7 @@ export const ShackwWalletContext = createContext<ShackwWalletContextType | undef
 export const ShackwWalletProvider = ({ children }: PropsWithChildren) => {
   const initializedRef = useRef(false);
   const [hasPrivateKey, setHasPrivateKey] = useBoolean(true);
+  const [walletEnabled, setWalletEnabled] = useBoolean(false);
   const [account, setAccount] = useState<Account | undefined>(undefined);
   const [walletClient, setWalletClient] = useState<WalletClient | undefined>(undefined);
 
@@ -61,11 +64,12 @@ export const ShackwWalletProvider = ({ children }: PropsWithChildren) => {
   const initializeWallet = useCallback(async () => {
     const defaultPk = await excuteInitializeWallet().catch(() => null);
     setHasPrivateKey.set(!!defaultPk);
+    setWalletEnabled.set(!!defaultPk?.enabled);
 
     if (!defaultPk) return;
 
-    connectWallet(defaultPk);
-  }, [setHasPrivateKey, connectWallet, excuteInitializeWallet]);
+    connectWallet(defaultPk.privateKey);
+  }, [excuteInitializeWallet, setHasPrivateKey, setWalletEnabled, connectWallet]);
 
   // === Public Function ===
   const createWallet = useCallback(
@@ -75,13 +79,14 @@ export const ShackwWalletProvider = ({ children }: PropsWithChildren) => {
 
       const privateKey = generatePrivateKey();
       const { address } = privateKeyToAccount(privateKey);
-      await storePrivateKey({ name: validatedName.output, wallet: address, privateKey });
+      await storePrivateKey({ name: validatedName.output, wallet: address, privateKey, enabled: false });
 
+      setWalletEnabled.off();
       connectWallet(privateKey);
 
       setHasPrivateKey.on();
     },
-    [connectWallet, storePrivateKey, setHasPrivateKey]
+    [connectWallet, setHasPrivateKey, setWalletEnabled, storePrivateKey]
   );
 
   const restoreWallet = useCallback(
@@ -93,23 +98,31 @@ export const ShackwWalletProvider = ({ children }: PropsWithChildren) => {
       if (!validatedName.success) throw new Error(validatedName.issues[0].message);
 
       const { address } = privateKeyToAccount(validatedPk.output);
-      await storePrivateKey({ name: validatedName.output, wallet: address, privateKey: validatedPk.output });
+      await storePrivateKey({
+        name: validatedName.output,
+        wallet: address,
+        privateKey: validatedPk.output,
+        enabled: true
+      });
 
+      setWalletEnabled.on();
       connectWallet(validatedPk.output);
 
       setHasPrivateKey.on();
     },
-    [connectWallet, storePrivateKey, setHasPrivateKey]
+    [connectWallet, setHasPrivateKey, setWalletEnabled, storePrivateKey]
   );
 
   const changeWallet = useCallback(
     async (wallet: Address, isChangeDefault: boolean) => {
-      const privateKey = await getPrivateKeyByWallet(wallet);
-      connectWallet(privateKey);
+      const pk = await getPrivateKeyByWallet({ wallet, isAuthRequired: false });
+
+      setWalletEnabled.set(pk.enabled);
+      connectWallet(pk.privateKey);
 
       if (isChangeDefault) await updateDefaultWallet({ defaultWallet: wallet });
     },
-    [connectWallet, getPrivateKeyByWallet, updateDefaultWallet]
+    [connectWallet, getPrivateKeyByWallet, setWalletEnabled, updateDefaultWallet]
   );
 
   useEffect(() => {
@@ -125,9 +138,11 @@ export const ShackwWalletProvider = ({ children }: PropsWithChildren) => {
         account,
         walletClient,
         hasPrivateKey,
+        walletEnabled,
         createWallet,
         restoreWallet,
-        changeWallet
+        changeWallet,
+        enableWallet: setWalletEnabled.on
       }}
     >
       {children}

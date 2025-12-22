@@ -36,18 +36,23 @@ export class SecureStorePrivateKeyRepository implements IPrivateKeyRepository {
 
   // ---- Persistence ----
   private async load(): Promise<void> {
-    const stored = await SecureStore.getItemAsync(STORAGE_KEY, { requireAuthentication: true });
-    if (!stored) {
-      this.items = [];
-      return;
+    try {
+      const stored = await SecureStore.getItemAsync(STORAGE_KEY, { requireAuthentication: true });
+      if (!stored) {
+        this.items = [];
+        return;
+      }
+      const parsed = JSON.parse(stored) as unknown;
+      const asserted = Array.isArray(parsed) ? (parsed as PrivateKeyResult[]) : [];
+      this.items = asserted.map(i => ({
+        wallet: i.wallet.toLowerCase() as Address,
+        privateKey: i.privateKey.toLowerCase() as Hex,
+        enabled: !!i.enabled,
+        createdAt: i.createdAt
+      }));
+    } catch (e) {
+      throw new CustomError("セキュアストアにアクセスできませんでした。", { cause: e });
     }
-    const parsed = JSON.parse(stored) as unknown;
-    const asserted = Array.isArray(parsed) ? (parsed as PrivateKeyResult[]) : [];
-    this.items = asserted.map(i => ({
-      wallet: i.wallet.toLowerCase() as Address,
-      privateKey: i.privateKey.toLowerCase() as Hex,
-      createdAt: i.createdAt
-    }));
   }
 
   private async persist(): Promise<void> {

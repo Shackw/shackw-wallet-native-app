@@ -18,7 +18,7 @@ const AddressesMineEditField = (props: AddressesMineEditFieldProps) => {
   const { address, name, componentProps, refetchAddresses } = props;
   const { mutateAsync: updateAddress } = useUpdateAddress();
 
-  const onEdit = useCallback(
+  const handleEdit = useCallback(
     async (name: string) => {
       await updateAddress({ address, name });
       await refetchAddresses();
@@ -28,7 +28,7 @@ const AddressesMineEditField = (props: AddressesMineEditFieldProps) => {
 
   return (
     <BottomActionSheet {...componentProps}>
-      <AddressesMineEditForm initName={name} onClose={componentProps.onClose} onEdit={onEdit} />
+      <AddressesMineEditForm initName={name} onClose={componentProps.onClose} onEdit={handleEdit} />
     </BottomActionSheet>
   );
 };

@@ -68,7 +68,7 @@ const ReceiveWebhookUrlField = (props: ReceiveWebhookUrlFieldProps) => {
                       onBlur={field.handleBlur}
                     />
                   </Textarea>
-                  <InfoText>通知用URLを設定することで支払い完了通知を受け取ることができます。</InfoText>
+                  <InfoText>{`通知用URLを設定することで支払い完了通知を受け取ることができます。`}</InfoText>
                 </VStack>
                 <HStack className="gap-x-4">
                   <SubContainButton

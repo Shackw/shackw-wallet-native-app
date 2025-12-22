@@ -3,6 +3,8 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
+      "@appc/*": ["./src/app/_components/*"],
+      "@mainc/*": ["./src/app/(main)/_components/*"],
       "@/*": ["./src/*"],
       "tailwind.config": ["./tailwind.config.js"]
     }

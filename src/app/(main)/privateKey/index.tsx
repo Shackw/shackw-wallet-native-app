@@ -2,12 +2,13 @@ import { useRouter } from "expo-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { ListPrivateKeysCommand, PrivateKeyModel } from "@/domain/privateKey";
-import { ScreenContainer } from "@/presentation/components/Container";
 import { AlertDialog } from "@/presentation/components/Dialog";
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText, InfoText } from "@/presentation/components/Text";
 import { useFetchPrivateKeys } from "@/presentation/hooks/mutations/useFetchPrivateKeys";
+
+import ScreenContainer from "../_components/ScreenContainer";
 
 import PrivateKeyScreenSuspence from "./_components/PrivateKeyScreenSuspence";
 import PrivateKeyTable from "./_components/PrivateKeyTable";
@@ -25,7 +26,7 @@ const PrivateKeyScreen = () => {
   }, [error]);
 
   const handleCloseErrorDialog = useCallback(() => {
-    router.back();
+    router.dismiss();
   }, [router]);
 
   const fetchPrivateKeys = useCallback(
@@ -47,7 +48,7 @@ const PrivateKeyScreen = () => {
         <PrivateKeyScreenSuspence privateKeys={privateKeys}>
           {rows => (
             <VStack className="w-full flex-1 gap-y-6">
-              <InfoText>長押しすることでプライベートキーが表示されます。</InfoText>
+              <InfoText>{`長押しすることでプライベートキーが表示されます。`}</InfoText>
               <PrivateKeyTable rows={rows} fetchPrivateKeys={fetchPrivateKeys} />
             </VStack>
           )}

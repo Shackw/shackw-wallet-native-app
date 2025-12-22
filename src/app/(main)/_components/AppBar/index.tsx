@@ -8,7 +8,7 @@ export type AppBarProps = {
   title?: string;
 };
 
-export const AppBar = (props: AppBarProps) => {
+const AppBar = (props: AppBarProps) => {
   const { title } = props;
 
   const isDefault = !title;
@@ -22,3 +22,5 @@ export const AppBar = (props: AppBarProps) => {
     </Box>
   );
 };
+
+export default AppBar;
