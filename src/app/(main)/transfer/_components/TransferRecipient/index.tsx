@@ -40,7 +40,7 @@ const TransferRecipient = () => {
           {(isEditing && prevValue) || (!isEditing && recipient) ? (
             <VStack className="gap-y-2">
               {addressToName[isEditing ? prevValue.toLowerCase() : recipient.toLowerCase()] && (
-                <Text size="xl" numberOfLines={1} ellipsizeMode="middle" className="font-bold text-right">
+                <Text size="lg" numberOfLines={1} ellipsizeMode="middle" className="font-bold text-right">
                   {addressToName[isEditing ? prevValue.toLowerCase() : recipient.toLowerCase()]}
                 </Text>
               )}
