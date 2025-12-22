@@ -23,7 +23,7 @@ const AddressesTableRow = (props: AddressesTableRowProps) => {
         </Avatar>
 
         <VStack className="flex-1 gap-y-1">
-          <Text size="lg" className="font-bold" numberOfLines={1}>
+          <Text size="lg" numberOfLines={1} ellipsizeMode="middle" className="font-bold w-full">
             {row.name}
           </Text>
 

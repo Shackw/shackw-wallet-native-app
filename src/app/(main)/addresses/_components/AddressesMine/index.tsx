@@ -25,10 +25,10 @@ const AddressesMine = (props: AddressesMineProps) => {
         </Avatar>
 
         <VStack className="flex-1 gap-y-1">
-          <Text size="2xl" className="font-bold">
+          <Text size="lg" numberOfLines={1} ellipsizeMode="middle" className="font-bold w-full">
             {name}
           </Text>
-          <Text size="xl" numberOfLines={1} ellipsizeMode="middle" className="font-bold text-secondary-500 w-full">
+          <Text size="lg" numberOfLines={1} ellipsizeMode="middle" className="font-bold text-secondary-500 w-full">
             {address}
           </Text>
         </VStack>
