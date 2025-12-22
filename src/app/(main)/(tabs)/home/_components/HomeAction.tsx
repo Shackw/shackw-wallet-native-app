@@ -6,7 +6,6 @@ import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 
 const HomeAction = () => {
-  // TODO 購入・償還ページへのリンク差し替え
   const handlePress = useCallback(async () => {
     await Linking.openURL("https://jpyc.co.jp/");
   }, []);

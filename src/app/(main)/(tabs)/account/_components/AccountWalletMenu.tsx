@@ -1,13 +1,13 @@
 import { useRouter } from "expo-router";
 import { useCallback } from "react";
 
-import CreateWalletDialog from "@/presentation/components/CreateWalletDialog";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Text } from "@/presentation/components/gluestack-ui/text";
-import RestoreWalletField from "@/presentation/components/RestoreWalletField";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
+import CreateWalletDialog from "@appc/CreateWalletDialog";
+import RestoreWalletField from "@appc/RestoreWalletField";
 
 import AccountMenuConteiner from "./AccountMenuConteiner";
 import AccountMenuItem from "./AccountMenuItem";
@@ -27,7 +27,7 @@ const AccountWalletMenu = () => {
     async (name: string) => {
       await createWallet(name);
       await refetchUserSetting();
-      router.push("/");
+      router.dismissTo("/");
     },
     [router, createWallet, refetchUserSetting]
   );
@@ -36,7 +36,7 @@ const AccountWalletMenu = () => {
     async (name: string, pk: string) => {
       await restoreWallet(name, pk);
       await refetchUserSetting();
-      router.push("/");
+      router.dismissTo("/");
     },
     [router, restoreWallet, refetchUserSetting]
   );

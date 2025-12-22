@@ -1,10 +1,10 @@
 import { Hammer } from "lucide-react-native";
 
-import { ScreenContainer } from "@/presentation/components/Container";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Icon } from "@/presentation/components/gluestack-ui/icon";
 import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import ScreenContainer from "@mainc/ScreenContainer";
 
 const DepositScreen = () => {
   return (

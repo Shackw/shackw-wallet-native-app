@@ -8,6 +8,13 @@ export default [
     plugins: {
       prettier: pluginPrettier
     },
+    settings: {
+      "import/resolver": {
+        typescript: {
+          project: "./tsconfig.json"
+        }
+      }
+    },
     rules: {
       "prettier/prettier": "error",
       "react/no-children-prop": "off",

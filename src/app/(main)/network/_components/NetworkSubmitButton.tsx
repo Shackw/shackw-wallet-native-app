@@ -14,9 +14,9 @@ const NetworkSubmitButton = () => {
     <>
       <VStack className="px-4 pt-5 gap-y-5">
         {isError ? (
-          <ErrorText>ネットワークの切り替えに失敗しました。</ErrorText>
+          <ErrorText>{`ネットワークの切り替えに失敗しました。`}</ErrorText>
         ) : (
-          <InfoText>デフォルトに設定すると起動時に自動で接続されます。</InfoText>
+          <InfoText>{`デフォルトに設定すると起動時に自動で接続されます。`}</InfoText>
         )}
         <ContainButton
           text="ネットワークを変更"

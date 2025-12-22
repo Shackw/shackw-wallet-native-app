@@ -1,10 +1,8 @@
 import * as v from "valibot";
 
+import { IQuotesGateway, CreateQuoteQuery, CreateQuoteResult } from "@/application/ports/IQuotesGateway";
 import { HttpClient } from "@/infrastructure/clients/HttpClient";
-
-import { CreateQuoteResultSchema } from "../../shared/validations/schemas/HttpQuoteResultSchema";
-
-import type { CreateQuoteQuery, CreateQuoteResult, IQuotesGateway } from "../../application/ports/IQuotesGateway";
+import { CreateQuoteResultSchema } from "@/shared/validations/schemas/HttpQuoteResultSchema";
 
 export class HttpQuotesGateway implements IQuotesGateway {
   private path = "/quotes";

@@ -40,7 +40,7 @@ const RestoreWalletFieldForm = (props: RestoreWalletFieldFormProps) => {
                 onBlur={handleBlur}
               />
             </Textarea>
-            <InfoText>SHACKW WALLET以外で作成された秘密鍵を使用して復元することが可能です。</InfoText>
+            <InfoText>{`SHACKW WALLET以外で作成された秘密鍵を使用して復元することが可能です。`}</InfoText>
           </VStack>
 
           <HStack className="gap-x-4">

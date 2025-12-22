@@ -4,7 +4,6 @@ import { Address } from "viem";
 
 import { BottomActionSheet } from "@/presentation/components/BottomActionSheet";
 import { ContainButton, SubContainButton } from "@/presentation/components/Button";
-import ConfirmAmount from "@/presentation/components/Confirm/ConfirmAmount";
 import { AlertDialog } from "@/presentation/components/Dialog";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
@@ -13,6 +12,7 @@ import { ErrorText } from "@/presentation/components/Text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 import { Token } from "@/registries/ChainTokenRegistry";
+import ConfirmAmount from "@mainc/confirm/ConfirmAmount";
 
 type ReceiveConfirmProps = {
   recipient: Address;

@@ -1,11 +1,17 @@
 import { Address, Hex } from "viem";
 
-import { ListPrivateKeysCommand, PrivateKeyModel, StorePrivateKeyCommand } from "@/domain/privateKey";
+import {
+  EnablePrivateKeyCommand,
+  GetPrivateKeyByWalletCommand,
+  ListPrivateKeysCommand,
+  PrivateKeyModel,
+  StorePrivateKeyCommand
+} from "@/domain/privateKey";
 import { CustomError } from "@/shared/exceptions";
 
 import { privateKeyResultToDomain } from "../mappers/privateKey";
 import { IAddressesRepository } from "../ports/IAddressesRepository";
-import { IPrivateKeyRepository } from "../ports/IPrivateKeyRepository";
+import { IPrivateKeyRepository, PrivateKeyResult } from "../ports/IPrivateKeyRepository";
 import { IUserSettingRepository } from "../ports/IUserSettingRepository";
 
 export const PrivateKeysService = {
@@ -38,12 +44,22 @@ export const PrivateKeysService = {
     }
   },
 
-  async getPrivateKeyByWallet(wallet: Address, privateKeyRepository: IPrivateKeyRepository): Promise<Hex> {
+  async getPrivateKeyByWallet(
+    command: GetPrivateKeyByWalletCommand,
+    addressesRepository: IAddressesRepository,
+    privateKeyRepository: IPrivateKeyRepository
+  ): Promise<PrivateKeyModel> {
+    const { wallet, isAuthRequired } = command;
+
     try {
+      if (isAuthRequired) await privateKeyRepository.reload();
+
       const stored = privateKeyRepository.get(wallet);
       if (!stored) throw new CustomError("指定されたウォレットに紐づくプライベートキーがありません。");
 
-      return stored.privateKey;
+      const addr = await addressesRepository.get(stored.wallet);
+
+      return privateKeyResultToDomain(addr?.name ?? "", stored);
     } catch (error: unknown) {
       console.error(error);
 
@@ -59,7 +75,7 @@ export const PrivateKeysService = {
     userSettingRepository: IUserSettingRepository,
     privateKeyRepository: IPrivateKeyRepository
   ): Promise<void> {
-    const { name, wallet, privateKey } = command;
+    const { name, wallet, privateKey, enabled } = command;
     try {
       const stored = privateKeyRepository.get(wallet);
       if (!!stored) throw new CustomError("このプライベートキーは既に登録されています。");
@@ -67,6 +83,7 @@ export const PrivateKeysService = {
       await privateKeyRepository.upsert({
         wallet: wallet.toLowerCase() as Address,
         privateKey: privateKey.toLowerCase() as Hex,
+        enabled,
         createdAt: new Date().getTime()
       });
 
@@ -82,6 +99,37 @@ export const PrivateKeysService = {
       if (error instanceof CustomError) throw new Error(error.message);
 
       throw new Error(`不明なエラーによりプライベートキーの作成に失敗しました。`);
+    }
+  },
+
+  async enablePrivateKeyByWallet(
+    command: EnablePrivateKeyCommand,
+    privateKeyRepository: IPrivateKeyRepository
+  ): Promise<void> {
+    const { wallet, segments } = command;
+    try {
+      const storeds = privateKeyRepository.list();
+      const target = storeds.find(s => s.wallet === wallet.toLowerCase());
+      if (!target) throw new CustomError("指定されたウォレットに紐づくプライベートキーがありません。");
+
+      for (const seg of segments) {
+        const { startIndex, endIndex, value } = seg;
+
+        const expectedSlice = target.privateKey.slice(startIndex, endIndex + 1).toLowerCase();
+        const actualValue = value.toLowerCase().trim();
+
+        if (expectedSlice !== actualValue)
+          throw new CustomError("プライベートキーの一部が一致しません。入力した文字列をご確認ください。");
+      }
+
+      const next: PrivateKeyResult = { ...target, enabled: true };
+      await privateKeyRepository.upsert(next);
+    } catch (error: unknown) {
+      console.error(error);
+
+      if (error instanceof CustomError) throw new Error(error.message);
+
+      throw new Error(`不明なエラーによりプライベートキーの取得に失敗しました。`);
     }
   },
 

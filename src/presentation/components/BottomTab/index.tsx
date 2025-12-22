@@ -3,14 +3,21 @@ import { usePathname, useRouter } from "expo-router";
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
-import { BOTTOM_TAB_ITEMS } from "@/registries/BottomTabRegistry";
+import { BOTTOM_TAB_ITEMS, BottomTabName } from "@/registries/BottomTabRegistry";
 
 import BottomTabActionSheet from "./BottomTabActionSheet";
 import BottomTabItem from "./BottomTabItem";
 
-const BottomTab = () => {
-  const pathname = usePathname();
+export type BottomTabProps = {
+  disables?: BottomTabName[];
+};
+
+const BottomTab = (props: BottomTabProps) => {
+  const { disables } = props;
+
   const router = useRouter();
+  const pathname = usePathname();
+
   const [isOpenActionSheet, setIsOpenActionSheet] = useBoolean(false);
 
   return (
@@ -23,9 +30,10 @@ const BottomTab = () => {
             <BottomTabItem
               key={name}
               label={label}
-              icon={icon}
+              Icon={icon}
               isFocused={pathname === path}
               width={itemWidth}
+              isDisabled={!!disables?.includes(name)}
               handlePress={handlePress}
             />
           );

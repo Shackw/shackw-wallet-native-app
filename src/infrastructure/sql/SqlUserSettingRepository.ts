@@ -1,14 +1,13 @@
 import { SQLiteDatabase } from "expo-sqlite";
 
-import type { UserSettingWithAddressNameRow } from "@/infrastructure/db/schema";
-
-import { userSettingRowToResult } from "../mappers/userSettingRowToResult";
-
-import type {
+import {
   IUserSettingRepository,
   UserSettingResult,
   PatchUserSettingQuery
-} from "../../application/ports/IUserSettingRepository";
+} from "@/application/ports/IUserSettingRepository";
+import type { UserSettingWithAddressNameRow } from "@/infrastructure/db/schema";
+
+import { userSettingRowToResult } from "../mappers/userSettingRowToResult";
 
 export class SqlUserSettingRepository implements IUserSettingRepository {
   private db: SQLiteDatabase;

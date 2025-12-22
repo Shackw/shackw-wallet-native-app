@@ -9,10 +9,12 @@ type BottomTabItemType = {
 
 type BottomTabActionSheetItemType = BottomTabItemType & { description: string };
 
+export type BottomTabName = (typeof BOTTOM_TAB_ITEMS)[number]["name"];
+
 export const BOTTOM_TAB_ITEMS = [
   { name: "home", icon: Home, label: "ホーム", path: "/" },
   { name: "history", icon: History, label: "利用明細", path: "/history" },
-  { name: "transfer", icon: ArrowUpDown, label: "送金支払", path: "/transfer" },
+  { name: "transfer", icon: ArrowUpDown, label: "送金支払", path: undefined },
   { name: "deposit", icon: Wallet, label: "預け入れ", path: "/deposit" },
   { name: "account", icon: UserRoundCog, label: "アカウント", path: "/account" }
 ] as const satisfies BottomTabItemType[];

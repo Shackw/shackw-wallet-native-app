@@ -3,9 +3,7 @@ import { Plus } from "lucide-react-native";
 import { useEffect, useMemo } from "react";
 import { Address } from "viem";
 
-import AddressMutateField from "@/presentation/components/Addresses/AddressMutateField";
 import { IconButton } from "@/presentation/components/Button";
-import { ScreenContainer } from "@/presentation/components/Container";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
@@ -13,6 +11,9 @@ import Searcher from "@/presentation/components/Searcher";
 import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { theme } from "@/presentation/styles/theme";
+
+import AddressMutateField from "../_components/addresses/AddressMutateField";
+import ScreenContainer from "../_components/ScreenContainer";
 
 import AddressesMine from "./_components/AddressesMine";
 import AddressesTable from "./_components/AddressesTable";

@@ -1,12 +1,12 @@
 import { SignClientTypes } from "@walletconnect/types";
 import { ScrollView } from "react-native";
 
-import { BottomActionSheet } from "./BottomActionSheet";
-import { SubContainButton, ContainButton } from "./Button";
-import { Box } from "./gluestack-ui/box";
-import { HStack } from "./gluestack-ui/hstack";
-import { Text } from "./gluestack-ui/text";
-import { VStack } from "./gluestack-ui/vstack";
+import { BottomActionSheet } from "@/presentation/components/BottomActionSheet";
+import { SubContainButton, ContainButton } from "@/presentation/components/Button";
+import { Box } from "@/presentation/components/gluestack-ui/box";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { Text } from "@/presentation/components/gluestack-ui/text";
+import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 
 type WcSessionProposalProps = {
   proposal?: SignClientTypes.EventArguments["session_proposal"];
@@ -15,7 +15,7 @@ type WcSessionProposalProps = {
   handleRejectProposal: () => void;
 };
 
-export const WcSessionProposal = (props: WcSessionProposalProps) => {
+const WcSessionProposal = (props: WcSessionProposalProps) => {
   const { proposal, componentProps, handleApproveProposal, handleRejectProposal } = props;
 
   const meta = proposal?.params?.proposer?.metadata;
@@ -109,3 +109,5 @@ export const WcSessionProposal = (props: WcSessionProposalProps) => {
     </BottomActionSheet>
   );
 };
+
+export default WcSessionProposal;

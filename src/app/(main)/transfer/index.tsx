@@ -1,11 +1,14 @@
+import { Redirect } from "expo-router";
 import { useEffect, useMemo } from "react";
 
-import { ScreenContainer } from "@/presentation/components/Container";
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { useLoadingOverlay } from "@/presentation/providers/LoadingOverlayProvider";
+import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 import { useTokenBalanceContext } from "@/presentation/providers/TokenBalanceProvider";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
+
+import ScreenContainer from "../_components/ScreenContainer";
 
 import TransferAmount from "./_components/TransferAmount";
 import TransferFeeToken from "./_components/TransferFeeToken";
@@ -18,6 +21,7 @@ import { TransferFormProvider } from "./_hooks/useTransferForm";
 const TransferScreen = () => {
   const { show, hide } = useLoadingOverlay();
   const tokenBalances = useTokenBalanceContext();
+  const { walletEnabled } = useShackwWalletContext();
   const { currentChainSupportedTokens } = useWalletPreferencesContext();
 
   const isBalanceFetched = useMemo(
@@ -34,6 +38,8 @@ const TransferScreen = () => {
   }, [isBalanceFetched, show, hide]);
 
   if (!isBalanceFetched) return null;
+
+  if (!walletEnabled) return <Redirect href="/(main)/(tabs)" />;
 
   return (
     <ScreenContainer appBarProps={{ title: "送信" }} className="bg-white rounded-t-2xl">
