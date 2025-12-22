@@ -27,7 +27,7 @@ const useSelectWalletFormProvider = (initialValue: AddressOption) => {
     await refetch();
 
     setIsPending.off();
-    router.back();
+    router.dismissTo("/");
   }, [changeWallet, inputWallet, isChangeDefault, refetch, router, setIsError, setIsPending]);
 
   return {

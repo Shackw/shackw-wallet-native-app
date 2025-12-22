@@ -25,6 +25,8 @@ const RestoreWalletFieldForm = (props: RestoreWalletFieldFormProps) => {
         contentContainerStyle={{ flexGrow: 1 }}
         enableOnAndroid
         keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        extraScrollHeight={30}
       >
         <VStack className="flex-1 items-center justify-between py-4">
           <VStack className="w-full gap-y-6">
@@ -38,7 +40,7 @@ const RestoreWalletFieldForm = (props: RestoreWalletFieldFormProps) => {
                 onBlur={handleBlur}
               />
             </Textarea>
-            <InfoText>SHACKW WALLET以外で作成された秘密鍵を使用して復元することが可能です。</InfoText>
+            <InfoText>{`SHACKW WALLET以外で作成された秘密鍵を使用して復元することが可能です。`}</InfoText>
           </VStack>
 
           <HStack className="gap-x-4">

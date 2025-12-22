@@ -1,5 +1,4 @@
 import { CHAINS } from "@/config/chain";
-import AddressMutateField from "@/presentation/components/Addresses/AddressMutateField";
 import Anchor from "@/presentation/components/Anchor";
 import { TextButton } from "@/presentation/components/Button";
 import { Box } from "@/presentation/components/gluestack-ui/box";
@@ -10,6 +9,7 @@ import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 import { formatIsoString } from "@/shared/helpers/datetime";
+import AddressMutateField from "@mainc/addresses/AddressMutateField";
 
 import useHistoryRows, { HistoryViewModel } from "../_hooks/useHistoryRows";
 
@@ -75,6 +75,7 @@ const HistoryTableRow = (props: HistoryTableRowProps) => {
       </TableRow>
 
       <AddressMutateField
+        key={`create:${counterparty.address}`}
         mode="create"
         initName={counterparty.name ?? ""}
         initAddress={counterparty.address}

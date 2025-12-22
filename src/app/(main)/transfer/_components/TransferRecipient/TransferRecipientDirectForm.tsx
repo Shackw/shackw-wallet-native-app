@@ -33,7 +33,12 @@ const TransferRecipientDirectForm = (props: TransferRecipientDirectFormProps) =>
   }, [form, handleClose, setIsShowErrorDialog]);
 
   return (
-    <KeyboardAwareScrollView contentContainerStyle={{ flex: 1 }} enableOnAndroid={true}>
+    <KeyboardAwareScrollView
+      contentContainerStyle={{ flex: 1 }}
+      enableOnAndroid={true}
+      showsVerticalScrollIndicator={false}
+      extraScrollHeight={30}
+    >
       <VStack className="w-full flex-1 items-center justify-between">
         <form.Field
           name="recipient"

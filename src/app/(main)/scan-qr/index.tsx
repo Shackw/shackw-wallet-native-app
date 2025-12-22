@@ -2,13 +2,14 @@ import { CameraView } from "expo-camera";
 import { Image } from "lucide-react-native";
 
 import BackDrop from "@/presentation/components/BackDrop";
-import { ScreenContainer } from "@/presentation/components/Container";
 import { AlertDialog } from "@/presentation/components/Dialog";
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { Fab, FabIcon } from "@/presentation/components/gluestack-ui/fab";
 import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText } from "@/presentation/components/Text";
+
+import ScreenContainer from "../_components/ScreenContainer";
 
 import useSacnQrCode from "./_hooks/useSacnQrCode";
 

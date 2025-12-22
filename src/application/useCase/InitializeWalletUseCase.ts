@@ -1,7 +1,8 @@
-import { Hex } from "viem";
+import { PrivateKeyModel } from "@/domain/privateKey";
 
+import { privateKeyResultToDomain } from "../mappers/privateKey";
 import { IAddressesRepository } from "../ports/IAddressesRepository";
-import { IPrivateKeyRepository } from "../ports/IPrivateKeyRepository";
+import { IPrivateKeyRepository, PrivateKeyResult } from "../ports/IPrivateKeyRepository";
 import { IUserSettingRepository } from "../ports/IUserSettingRepository";
 
 export const InitializeWalletUseCase = {
@@ -9,7 +10,7 @@ export const InitializeWalletUseCase = {
     addressesRepository: IAddressesRepository,
     userSettingRepository: IUserSettingRepository,
     privateKeyRepository: IPrivateKeyRepository
-  ): Promise<Hex | null> {
+  ): Promise<PrivateKeyModel | null> {
     try {
       // Fetch all persisted states in parallel
       const [sqlMyAddresses, userSetting, storedPrivateKeys] = await Promise.all([
@@ -63,17 +64,15 @@ export const InitializeWalletUseCase = {
       // Resolve default wallet & private key consistency
       // =========================================================
 
-      let defaultPrivateKey: Hex | null = null;
+      let defPkResult: PrivateKeyResult | null = null;
       const configuredDefaultWallet = userSetting?.defaultWallet ?? null;
 
       if (configuredDefaultWallet) {
         // A default wallet is configured in SQLite
-        defaultPrivateKey = storedPrivateKeys.find(pk => pk.wallet === configuredDefaultWallet)?.privateKey ?? null;
+        defPkResult = storedPrivateKeys.find(pk => pk.wallet === configuredDefaultWallet) ?? null;
 
         // If the private key is missing from SecureStore, clear the setting
-        if (!defaultPrivateKey) {
-          await userSettingRepository.patch({ defaultWallet: null });
-        }
+        if (!defPkResult) await userSettingRepository.patch({ defaultWallet: null });
       }
 
       // If no default wallet is configured but private keys exist,
@@ -81,11 +80,12 @@ export const InitializeWalletUseCase = {
       if (!configuredDefaultWallet && storedPrivateKeys.length > 0) {
         const firstKey = storedPrivateKeys[0];
 
-        defaultPrivateKey = firstKey.privateKey;
+        defPkResult = firstKey;
         await userSettingRepository.patch({ defaultWallet: firstKey.wallet });
       }
 
-      return defaultPrivateKey;
+      const name = sqlMyAddresses.find(addr => addr.address === defPkResult?.wallet)?.name ?? "";
+      return defPkResult ? privateKeyResultToDomain(name, defPkResult) : null;
     } catch (e) {
       console.error(e);
       throw new Error("アプリ起動時のウォレット初期化に失敗しました。");

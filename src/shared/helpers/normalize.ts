@@ -15,3 +15,6 @@ export const normalizeAddressInput = (s: string): string => {
     return t;
   }
 };
+
+export const normalizeAlphanumericInput = (value: string): string =>
+  value.trim().replace(/[Ａ-Ｚａ-ｚ０-９]/g, s => String.fromCharCode(s.charCodeAt(0) - 0xfee0));

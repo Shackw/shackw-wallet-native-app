@@ -2,14 +2,14 @@ import { setStringAsync } from "expo-clipboard";
 import { Copy, EllipsisVertical, QrCode, SquarePen } from "lucide-react-native";
 import { useCallback } from "react";
 
-import AddressesDisplayQR from "@/presentation/components/Addresses/AddressesDisplayQR";
-import AddressMutateField from "@/presentation/components/Addresses/AddressMutateField";
 import { IconButton } from "@/presentation/components/Button";
 import { Icon } from "@/presentation/components/gluestack-ui/icon";
 import { Menu, MenuItem, MenuItemLabel } from "@/presentation/components/gluestack-ui/menu";
 import { type AddressRow, useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { theme } from "@/presentation/styles/theme";
+import AddressesDisplayQR from "@mainc/addresses/AddressesDisplayQR";
+import AddressMutateField from "@mainc/addresses/AddressMutateField";
 
 import AddressesTableDeleteDialog from "./AddressesTableDeleteDialog";
 
@@ -76,6 +76,7 @@ const AddressesTableRowMenu = (props: AddressesTableRowMenuProps) => {
       </Menu>
 
       <AddressMutateField
+        key={`edit:${row.address}`}
         mode="edit"
         initName={row.name}
         initAddress={row.address}
@@ -85,6 +86,7 @@ const AddressesTableRowMenu = (props: AddressesTableRowMenuProps) => {
       />
 
       <AddressesTableDeleteDialog
+        key={`delete:${row.address}`}
         address={row.address}
         isOpen={isDeleting}
         handleClose={setIsDeleting.off}
@@ -92,6 +94,7 @@ const AddressesTableRowMenu = (props: AddressesTableRowMenuProps) => {
       />
 
       <AddressesDisplayQR
+        key={`qr:${row.address}`}
         name={row.name}
         address={row.address}
         componentProps={{

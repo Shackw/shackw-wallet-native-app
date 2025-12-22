@@ -39,7 +39,7 @@ const TransferRecipientSelector = (props: TransferRecipientSelectorProps) => {
       />
       <TableSuspence title="アドレス" rows={addressRows} isError={isError}>
         {rows => (
-          <ScrollView className="flex-1" showsVerticalScrollIndicator>
+          <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
             <Table className="w-full overflow-y-auto">
               <TableBody className="w-full">
                 {rows.map(({ name, address }, index) => (

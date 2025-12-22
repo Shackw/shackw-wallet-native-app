@@ -1,15 +1,15 @@
 import { Address } from "viem";
 
+import {
+  IAddressesRepository,
+  AddressesResult,
+  CreateAddressQuery,
+  UpdateAddressQuery
+} from "@/application/ports/IAddressesRepository";
 import { AddressRow } from "@/infrastructure/db/schema";
 
 import { addressRowToResult } from "../mappers/addressRowToResult";
 
-import type {
-  AddressesResult,
-  CreateAddressQuery,
-  IAddressesRepository,
-  UpdateAddressQuery
-} from "../../application/ports/IAddressesRepository";
 import type { SQLiteDatabase } from "expo-sqlite";
 
 export class SqlAddressesRepository implements IAddressesRepository {

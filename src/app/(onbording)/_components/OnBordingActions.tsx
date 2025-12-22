@@ -1,9 +1,9 @@
 import { ContainButton, OutlineButton } from "@/presentation/components/Button";
-import CreateWalletDialog from "@/presentation/components/CreateWalletDialog";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
-import RestoreWalletField from "@/presentation/components/RestoreWalletField";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
+import CreateWalletDialog from "@appc/CreateWalletDialog";
+import RestoreWalletField from "@appc/RestoreWalletField";
 
 const OnBordingActions = () => {
   const [isCreating, setIsCreating] = useBoolean(false);

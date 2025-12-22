@@ -34,7 +34,7 @@ const TransferSubmitButton = () => {
           <ErrorText>{insuff.message}</ErrorText>
         ) : (
           <InfoText>
-            手数料は、取引が実行されるチェーンと、手数料として使用する通貨によって自動的に決まります。
+            {`手数料は、取引が実行されるチェーンと、手数料として使用する通貨によって自動的に決まります。`}
           </InfoText>
         )}
         <ContainButton

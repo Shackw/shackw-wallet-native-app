@@ -3,14 +3,13 @@ import { useCallback } from "react";
 import { Pressable } from "react-native";
 
 import { CHAIN_ICONS } from "@/config/chain";
+import { Box } from "@/presentation/components/gluestack-ui/box";
+import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { Spinner } from "@/presentation/components/gluestack-ui/spinner";
 import { Text } from "@/presentation/components/gluestack-ui/text";
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 import { shortenAddress } from "@/shared/helpers/address";
-
-import { Box } from "../gluestack-ui/box";
-import { HStack } from "../gluestack-ui/hstack";
-import { Spinner } from "../gluestack-ui/spinner";
 
 import { AppBarProps } from ".";
 

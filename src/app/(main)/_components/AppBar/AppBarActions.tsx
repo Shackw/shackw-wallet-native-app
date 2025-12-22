@@ -3,11 +3,10 @@ import { useRouter } from "expo-router";
 import { Copy, BookUser, X } from "lucide-react-native";
 import { useCallback } from "react";
 
+import { IconButton } from "@/presentation/components/Button";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { useSafeCloseToHome } from "@/presentation/hooks/useSafeCloseToHome";
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
-
-import { IconButton } from "../Button";
 
 type AppBarActionsProps = {
   isDefault: boolean;
@@ -17,7 +16,7 @@ const AppBarActions = (props: AppBarActionsProps) => {
   const { isDefault } = props;
 
   const router = useRouter();
-  const { close } = useSafeCloseToHome();
+  const { safeClose } = useSafeCloseToHome();
   const { account } = useShackwWalletContext();
 
   const handleForwardAddresses = useCallback(() => {
@@ -32,7 +31,7 @@ const AppBarActions = (props: AppBarActionsProps) => {
           <IconButton icon={BookUser} iconSize={24} onPress={handleForwardAddresses} />
         </HStack>
       ) : (
-        <IconButton icon={X} iconSize={22} onPress={close} />
+        <IconButton icon={X} iconSize={22} onPress={safeClose} />
       )}
     </HStack>
   );

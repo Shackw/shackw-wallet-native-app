@@ -11,5 +11,6 @@ export interface IPrivateKeyRepository {
 export type PrivateKeyResult = {
   wallet: Address;
   privateKey: Hex;
+  enabled: boolean;
   createdAt: number;
 };

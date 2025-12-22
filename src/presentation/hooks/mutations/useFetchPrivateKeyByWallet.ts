@@ -1,17 +1,18 @@
 import { UseMutationOptions, UseMutationResult, useMutation } from "@tanstack/react-query";
-import { Address, Hex } from "viem";
 
 import { PrivateKeysService } from "@/application/services/PrivateKeysService";
+import { GetPrivateKeyByWalletCommand, PrivateKeyModel } from "@/domain/privateKey";
 import { useDependenciesContainerContext } from "@/presentation/providers/DependenciesContainerProvider";
 
 export const useFetchPrivateKeyByWallet = (
-  options?: UseMutationOptions<Hex, Error, Address, unknown>
-): UseMutationResult<Hex, Error, Address, unknown> => {
-  const { privateKeyRepository } = useDependenciesContainerContext();
+  options?: UseMutationOptions<PrivateKeyModel, Error, GetPrivateKeyByWalletCommand, unknown>
+): UseMutationResult<PrivateKeyModel, Error, GetPrivateKeyByWalletCommand, unknown> => {
+  const { addressesRepository, privateKeyRepository } = useDependenciesContainerContext();
 
-  return useMutation<Hex, Error, Address>({
+  return useMutation<PrivateKeyModel, Error, GetPrivateKeyByWalletCommand>({
     ...options,
-    mutationKey: ["GetPrivateKeyByWallet"],
-    mutationFn: async wallet => PrivateKeysService.getPrivateKeyByWallet(wallet, privateKeyRepository)
+    mutationKey: ["FetchPrivateKeyByWallet"],
+    mutationFn: async command =>
+      PrivateKeysService.getPrivateKeyByWallet(command, addressesRepository, privateKeyRepository)
   });
 };

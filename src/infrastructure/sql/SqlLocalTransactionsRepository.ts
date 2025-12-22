@@ -1,3 +1,11 @@
+import {
+  ILocalTransactionsRepository,
+  SearchLocalTransactionQuery,
+  SearchLocalTransactionsResult,
+  LocalTransactionProgress,
+  SearchLocalTransactionItem,
+  GetTransactionProgressQuery
+} from "@/application/ports/ILocalTransactionsRepository";
 import { chunk, withBusyRetry, execWithRetry } from "@/infrastructure/db/libs";
 import type { TransactionProgressRow, TransactionWithAddressRow } from "@/infrastructure/db/schema";
 import { TOKEN_REGISTRY } from "@/registries/ChainTokenRegistry";
@@ -5,14 +13,6 @@ import { CustomError } from "@/shared/exceptions";
 
 import { transactionProgressRowToResult, transactionWithAddressRowToResult } from "../mappers/transactionRowToResult";
 
-import type {
-  SearchLocalTransactionQuery,
-  SearchLocalTransactionsResult,
-  ILocalTransactionsRepository,
-  GetTransactionProgressQuery,
-  LocalTransactionProgress,
-  SearchLocalTransactionItem
-} from "../../application/ports/ILocalTransactionsRepository";
 import type { SQLiteDatabase } from "expo-sqlite";
 
 export class SqlLocalTransactionsRepository implements ILocalTransactionsRepository {

@@ -1,8 +1,9 @@
 import BackDrop from "@/presentation/components/BackDrop";
-import { ScreenContainer } from "@/presentation/components/Container";
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
+
+import ScreenContainer from "../_components/ScreenContainer";
 
 import ReceiveAmount from "./_components/ReceiveAmount";
 import ReceiveFeeToken from "./_components/ReceiveFeeToken";

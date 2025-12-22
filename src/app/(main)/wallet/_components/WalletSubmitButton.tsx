@@ -14,9 +14,9 @@ const WalletSubmitButton = () => {
     <>
       <VStack className="px-4 pt-5 gap-y-5">
         {isError ? (
-          <ErrorText>ウォレットの切り替えに失敗しました。</ErrorText>
+          <ErrorText>{`ウォレットの切り替えに失敗しました。`}</ErrorText>
         ) : (
-          <InfoText>デフォルトに設定すると起動時に自動で接続されます。</InfoText>
+          <InfoText>{`デフォルトに設定すると起動時に自動で接続されます。`}</InfoText>
         )}
         <ContainButton
           text="ウォレットを変更"
