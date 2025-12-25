@@ -9,6 +9,8 @@ import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import QRCode, { QRCodeHandle } from "@/presentation/components/QRCode";
 import { ErrorText } from "@/presentation/components/Text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 import ConfirmRecipient from "../confirm/ConfirmRecipient";
 
@@ -21,6 +23,8 @@ type AddressesDisplayQRProps = {
 const AddressesDisplayQR = (props: AddressesDisplayQRProps) => {
   const { name, address, componentProps } = props;
   const [isShowErrorDialog, setIsShowErrorDialog] = useBoolean(false);
+
+  const tw = useTw();
 
   const qrCodeRef = useRef<QRCodeHandle | null>(null);
 
@@ -35,19 +39,19 @@ const AddressesDisplayQR = (props: AddressesDisplayQRProps) => {
   return (
     <>
       <BottomActionSheet {...componentProps}>
-        <VStack className="flex-1 w-full justify-between py-4 gap-y-7">
+        <VStack className={cn("flex-1 w-full justify-between", tw.py(4), tw.gapY(7))}>
           <ScrollView className="w-full flex-1" showsVerticalScrollIndicator={false}>
-            <VStack className="w-full flex-1 items-center gap-y-7">
+            <VStack className={cn("w-full flex-1 items-center", tw.gapY(7))}>
               <ConfirmRecipient title="アドレス情報" name={name} address={address} />
-              <QRCode ref={qrCodeRef} path="addresses" query={{ name, address }} size={275} />
+              <QRCode ref={qrCodeRef} path="addresses" query={{ name, address }} size={tw.scaleNum(275)} />
             </VStack>
           </ScrollView>
-          <ContainButton text="共有" size="lg" className="w-full mt-auto" onPress={handleShareAddress} />
+          <ContainButton text="共有" size="lg" className={cn("w-full mt-auto")} onPress={handleShareAddress} />
         </VStack>
       </BottomActionSheet>
 
       <AlertDialog title="QRコード共有の失敗" isOpen={isShowErrorDialog} onClose={setIsShowErrorDialog.off} size="lg">
-        <VStack className="py-4 gap-y-2">
+        <VStack className={cn(tw.py(4), tw.gapY(2))}>
           <ErrorText>不明なエラーによりQRコードの共有に失敗しました。</ErrorText>
         </VStack>
       </AlertDialog>

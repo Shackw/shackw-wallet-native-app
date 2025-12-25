@@ -2,35 +2,19 @@ import { createContext, PropsWithChildren, useCallback, useContext, useEffect, u
 
 import Loading from "@/presentation/components/Loading";
 
-type ShowOptions = {
-  minMs?: number;
-  extendMinDuration?: boolean;
-};
-
-type HideOptions = {
-  immediate?: boolean;
-};
+const MIN_MS = 750;
 
 type LoadingContextValue = {
-  show: (opts?: ShowOptions) => void;
-  hide: (opts?: HideOptions) => void;
-  withLoading: <T>(fn: () => T | Promise<T>, opts?: ShowOptions) => Promise<T>;
-  reset: (opts?: { hide?: boolean }) => void;
+  show: () => void;
+  hide: () => void;
+  withLoading: <T>(fn: () => T | Promise<T>) => Promise<T>;
+  reset: (hide?: boolean) => void;
   visible: boolean;
 };
 
 const LoadingContext = createContext<LoadingContextValue | null>(null);
 
-type LoadingOverlayProviderProps = PropsWithChildren<{
-  minMs?: number;
-  extendMinDurationOnShow?: boolean;
-}>;
-
-export const LoadingOverlayProvider = ({
-  children,
-  minMs: defaultMinMs = 750,
-  extendMinDurationOnShow = false
-}: LoadingOverlayProviderProps) => {
+export const LoadingOverlayProvider = ({ children }: PropsWithChildren) => {
   const [visible, setVisible] = useState(false);
   const [, setCount] = useState(0);
 
@@ -45,66 +29,48 @@ export const LoadingOverlayProvider = ({
     }
   }, []);
 
-  const show = useCallback(
-    (opts?: ShowOptions) => {
-      const extend = opts?.extendMinDuration ?? extendMinDurationOnShow;
+  const show = useCallback(() => {
+    setCount(prev => {
+      const next = prev + 1;
+      countRef.current = next;
 
-      setCount(prev => {
-        const next = prev + 1;
-        countRef.current = next;
+      shownAtRef.current = Date.now();
 
-        if (extend) {
-          shownAtRef.current = Date.now();
-        }
+      if (next === 1) {
+        clearHideTimer();
+        setVisible(true);
+      }
 
-        if (next === 1) {
-          clearHideTimer();
-          shownAtRef.current = Date.now();
-          setVisible(true);
-        }
+      return next;
+    });
+  }, [clearHideTimer]);
 
-        return next;
-      });
-    },
-    [clearHideTimer, extendMinDurationOnShow]
-  );
+  const hide = useCallback(() => {
+    setCount(prev => {
+      if (prev === 0) return 0;
 
-  const hide = useCallback(
-    (opts?: HideOptions) => {
-      setCount(prev => {
-        if (prev === 0) return 0;
+      const next = prev - 1;
+      countRef.current = next;
 
-        const next = prev - 1;
-        countRef.current = next;
+      if (next === 0) {
+        const shownAt = shownAtRef.current ?? Date.now();
+        const elapsed = Date.now() - shownAt;
+        const delay = Math.max(0, MIN_MS - elapsed);
 
-        if (next === 0) {
-          if (opts?.immediate) {
-            clearHideTimer();
-            setVisible(false);
-            return 0;
-          }
+        clearHideTimer();
+        hideTimerRef.current = setTimeout(() => {
+          if (countRef.current === 0) setVisible(false);
+          hideTimerRef.current = null;
+        }, delay);
+      }
 
-          const minMs = defaultMinMs;
-          const shownAt = shownAtRef.current ?? Date.now();
-          const elapsed = Date.now() - shownAt;
-          const delay = Math.max(0, minMs - elapsed);
-
-          clearHideTimer();
-          hideTimerRef.current = setTimeout(() => {
-            if (countRef.current === 0) setVisible(false);
-            hideTimerRef.current = null;
-          }, delay);
-        }
-
-        return next;
-      });
-    },
-    [clearHideTimer, defaultMinMs]
-  );
+      return next;
+    });
+  }, [clearHideTimer]);
 
   const withLoading = useCallback(
-    async <T,>(fn: () => T | Promise<T>, opts?: ShowOptions) => {
-      show(opts);
+    async <T,>(fn: () => T | Promise<T>) => {
+      show();
       try {
         return await fn();
       } finally {
@@ -115,20 +81,18 @@ export const LoadingOverlayProvider = ({
   );
 
   const reset = useCallback(
-    (opts?: { hide?: boolean }) => {
+    (hideNow: boolean = true) => {
       clearHideTimer();
       countRef.current = 0;
       shownAtRef.current = null;
       setCount(0);
-      if (opts?.hide ?? true) setVisible(false);
+      if (hideNow) setVisible(false);
     },
     [clearHideTimer]
   );
 
   useEffect(() => {
-    return () => {
-      clearHideTimer();
-    };
+    return () => clearHideTimer();
   }, [clearHideTimer]);
 
   const value = useMemo<LoadingContextValue>(

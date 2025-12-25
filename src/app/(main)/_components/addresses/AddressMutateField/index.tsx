@@ -10,6 +10,8 @@ import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText } from "@/presentation/components/Text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import useMutateAddressForm, { type UseMutateAddressFormProps } from "@/presentation/hooks/useMutateAddressForm";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 import AddressMutateFieldForm from "./AddressMutateFieldForm";
 
@@ -22,6 +24,8 @@ type AddressMutateFieldProps = UseMutateAddressFormProps & {
 const AddressMutateField = (props: AddressMutateFieldProps) => {
   const { componentProps, disableFields, refetch: refetchAddresses, ...rest } = props;
   const { form, defaultValues } = useMutateAddressForm(rest);
+
+  const tw = useTw();
 
   const errors = useStore(form.store, s =>
     s.errors
@@ -75,7 +79,7 @@ const AddressMutateField = (props: AddressMutateFieldProps) => {
           showsVerticalScrollIndicator={false}
           extraScrollHeight={30}
         >
-          <VStack className="flex-1 w-full justify-between py-4 gap-y-8">
+          <VStack className={cn("flex-1 w-full justify-between", tw.py(4), tw.gapY(8))}>
             <AddressMutateFieldForm form={form} disableFields={disableFields} />
             <ContainButton
               text="確定"
@@ -89,7 +93,7 @@ const AddressMutateField = (props: AddressMutateFieldProps) => {
       </BottomActionSheet>
 
       <AlertDialog title="入力不正" isOpen={isShowErrorDialog} onClose={setIsShowErrorDialog.off} size="lg">
-        <VStack className="py-4 gap-y-2">
+        <VStack className={cn(tw.py(4), tw.gapY(2))}>
           {errors.map((error, index) => (
             <ErrorText key={`recipient-error-${index}`}>{error}</ErrorText>
           ))}

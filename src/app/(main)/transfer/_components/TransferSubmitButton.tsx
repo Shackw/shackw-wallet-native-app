@@ -6,13 +6,16 @@ import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText, InfoText } from "@/presentation/components/Text";
 import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { useTw } from "@/presentation/styles/tw";
 import { Token } from "@/registries/ChainTokenRegistry";
+import { cn } from "@/shared/helpers/cn";
 
 import useTransferForm from "../_hooks/useTransferForm";
 
 import TransferConfirm from "./TransferConfirm";
 
 const TransferSubmitButton = () => {
+  const tw = useTw();
   const transferForm = useTransferForm();
   const { form, sendToken, fee, isValid, insuff } = transferForm;
 
@@ -29,7 +32,7 @@ const TransferSubmitButton = () => {
 
   return (
     <>
-      <VStack className="px-4 pt-5 gap-y-5">
+      <VStack className={cn(tw.px(4), tw.pt(5), tw.gapY(5))}>
         {insuff.insufficient && insuff.message ? (
           <ErrorText>{insuff.message}</ErrorText>
         ) : (
@@ -37,15 +40,17 @@ const TransferSubmitButton = () => {
             {`手数料は、取引が実行されるチェーンと、手数料として使用する通貨によって自動的に決まります。`}
           </InfoText>
         )}
+
         <ContainButton
           text="確認画面へ"
           size="lg"
           isLoading={isValid && !fee}
           isDisabled={!isValid || insuff.insufficient}
           onPress={setIsConfirming.on}
-          className="w-full mx-auto"
+          className={cn("w-full", "mx-auto")}
         />
       </VStack>
+
       <TransferConfirm
         name={addressToName[recipient.toLowerCase()]}
         recipient={recipient}

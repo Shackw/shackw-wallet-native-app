@@ -1,9 +1,11 @@
 import { useStore } from "@tanstack/react-form";
 import { ViewProps } from "react-native";
 
+import { AppText } from "@/presentation/components/AppText";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
-import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 import { toAllowedStr } from "@/shared/helpers/tokenUnits";
 
 import { TransferFormContextType } from "../../_hooks/useTransferForm";
@@ -15,30 +17,31 @@ type TransferAmountSummaryProps = {
 };
 
 const TransferAmountSummary = (props: TransferAmountSummaryProps) => {
+  const tw = useTw();
   const { display, transferForm, className } = props;
   const { form, sendToken, maxSendable, fee } = transferForm;
   const feeToken = useStore(form.baseStore, s => s.values.feeToken);
 
   return (
-    <VStack className={`w-full bg-white ${className}`}>
+    <VStack className={cn("w-full", "bg-white", className)}>
       {["sendable", "both"].includes(display) && (
-        <HStack className="w-full h-[50px] items-center justify-between gap-x-5">
-          <Text size="md" className="font-bold text-secondary-600 ">
+        <HStack className={cn("w-full", tw.h(12), "items-center", "justify-between", tw.gapX(5))}>
+          <AppText t="md" className="font-bold text-secondary-600">
             送金可能額
-          </Text>
-          <Text size="lg" className="flex-1 font-bold text-right">
+          </AppText>
+          <AppText t="lg" className="flex-1 font-bold text-right">
             {`${toAllowedStr(maxSendable, sendToken)} ${sendToken}`}
-          </Text>
+          </AppText>
         </HStack>
       )}
       {["fee", "both"].includes(display) && (
-        <HStack className="w-full h-[50px] items-center justify-between gap-x-5">
-          <Text size="md" className="font-bold text-secondary-600 ">
+        <HStack className={cn("w-full", tw.h(12), "items-center", "justify-between", tw.gapX(5))}>
+          <AppText t="md" className="font-bold text-secondary-600">
             手数料
-          </Text>
-          <Text size="lg" className="flex-1 font-bold text-right">
+          </AppText>
+          <AppText t="lg" className="flex-1 font-bold text-right">
             {fee ? `${fee.display} ${feeToken}` : "ー"}
-          </Text>
+          </AppText>
         </HStack>
       )}
     </VStack>

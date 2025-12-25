@@ -1,7 +1,10 @@
+import { cn } from "tailwind-variants";
+
 import BackDrop from "@/presentation/components/BackDrop";
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
+import { useTw } from "@/presentation/styles/tw";
 
 import ScreenContainer from "../_components/ScreenContainer";
 
@@ -15,11 +18,13 @@ import { ReceiveFormProvider } from "./_hooks/useReceiveForm";
 const ReceiveScreen = () => {
   const { account } = useShackwWalletContext();
 
+  const tw = useTw();
+
   if (!account) return <BackDrop visible />;
 
   return (
     <ScreenContainer appBarProps={{ title: "受け取り" }} className="bg-white rounded-t-2xl">
-      <Box className="py-[8px] flex-1">
+      <Box className={cn("flex-1", tw.py(2))}>
         <ReceiveFormProvider>
           <ReceiveSendToken />
           <VStack className="flex-1 bg-secondary-100">

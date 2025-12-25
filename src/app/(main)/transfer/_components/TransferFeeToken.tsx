@@ -1,5 +1,6 @@
 import { ChevronDownIcon } from "lucide-react-native";
 
+import { AppText } from "@/presentation/components/AppText";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import {
   Select,
@@ -13,42 +14,49 @@ import {
   SelectDragIndicator,
   SelectItem
 } from "@/presentation/components/gluestack-ui/select";
-import { Text } from "@/presentation/components/gluestack-ui/text";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
+import { useTw } from "@/presentation/styles/tw";
 import { SUPPORT_CHAIN_TO_TOKEN } from "@/registries/ChainTokenRegistry";
+import { cn } from "@/shared/helpers/cn";
 
 import useTransferForm from "../_hooks/useTransferForm";
 
 const TransferFeeToken = () => {
+  const tw = useTw();
   const { form } = useTransferForm();
   const { currentChain } = useWalletPreferencesContext();
 
   return (
-    <HStack className="w-full px-4 py-3 h-[90px] bg-white items-center justify-between gap-x-5">
-      <Text size="xl" className="font-bold text-secondary-700 ">
+    <HStack
+      className={cn("w-full", tw.px(4), tw.py(3), tw.h(24), "bg-white", "items-center", "justify-between", tw.gapX(5))}
+    >
+      <AppText t="lg" className="font-bold text-secondary-700">
         手数料通貨
-      </Text>
+      </AppText>
+
       <form.Field
         name="feeToken"
         children={field => (
           <Select selectedValue={field.state.value} onValueChange={field.handleChange}>
-            <SelectTrigger variant="underlined" size="xl">
-              <SelectInput placeholder="Select option" className="w-[100px] text-center" />
-              <SelectIcon className="mr-3" as={ChevronDownIcon} />
+            <SelectTrigger variant="underlined" size={tw.input("lg")}>
+              <SelectInput placeholder="Select option" className={cn(tw.w(32), "text-center")} />
+              <SelectIcon className={cn(tw.mr(3))} as={ChevronDownIcon} />
             </SelectTrigger>
+
             <SelectPortal>
               <SelectBackdrop />
               <SelectContent>
                 <SelectDragIndicatorWrapper>
                   <SelectDragIndicator />
                 </SelectDragIndicatorWrapper>
+
                 {SUPPORT_CHAIN_TO_TOKEN[currentChain].map(token => (
                   <SelectItem
                     key={token}
                     label={token}
                     value={token}
-                    className="py-6"
-                    textStyle={{ bold: true, size: "xl" }}
+                    className={tw.py(6)}
+                    textStyle={{ bold: true, className: tw.text("lg") }}
                   />
                 ))}
               </SelectContent>

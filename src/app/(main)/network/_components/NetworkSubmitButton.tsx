@@ -1,10 +1,13 @@
 import { ContainButton } from "@/presentation/components/Button";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText, InfoText } from "@/presentation/components/Text";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 import useSelectNetworkForm from "../_hooks/useSelectNetworkForm";
 
 const NetworkSubmitButton = () => {
+  const tw = useTw();
   const {
     fieldMeta: { isError, isPending, isValid },
     handleConfirm
@@ -12,7 +15,7 @@ const NetworkSubmitButton = () => {
 
   return (
     <>
-      <VStack className="px-4 pt-5 gap-y-5">
+      <VStack className={cn(tw.px(4), tw.pt(5), tw.gapY(5))}>
         {isError ? (
           <ErrorText>{`ネットワークの切り替えに失敗しました。`}</ErrorText>
         ) : (

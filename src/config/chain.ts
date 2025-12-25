@@ -9,7 +9,7 @@ import {
   PolygonAmoyIcon,
   PolygonIcon,
   SepoliaIcon
-} from "@/presentation/components/icons/ChainIcons";
+} from "@/presentation/components/icons/chain";
 
 // === Chain Definitions ===
 const mainnet = defineChain({

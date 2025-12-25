@@ -8,6 +8,8 @@ import {
 import { Input, InputField } from "@/presentation/components/gluestack-ui/input";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import useMutateAddressForm from "@/presentation/hooks/useMutateAddressForm";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 import { normalizeNameInput, normalizeAddressInput } from "@/shared/helpers/normalize";
 
 type AddressMutateFieldFormProps = {
@@ -17,17 +19,24 @@ type AddressMutateFieldFormProps = {
 
 const AddressMutateFieldForm = (props: AddressMutateFieldFormProps) => {
   const { form, disableFields = [] } = props;
+
+  const tw = useTw();
+
   return (
-    <VStack className="gap-y-5">
+    <VStack className={cn(tw.gapY(5))}>
       <form.Field
         name="address"
         children={field => (
           <VStack className="w-full">
             <FormControl>
               <FormControlLabel>
-                <FormControlLabelText>アドレス</FormControlLabelText>
+                <FormControlLabelText className={tw.text("md")}>アドレス</FormControlLabelText>
               </FormControlLabel>
-              <Input size="lg" className="px-2 rounded-xl h-14" isDisabled={disableFields.includes("address")}>
+              <Input
+                size={tw.input("lg")}
+                className={cn(tw.px(2), "rounded-xl", tw.h(14))}
+                isDisabled={disableFields.includes("address")}
+              >
                 <InputField
                   inputMode="text"
                   autoCapitalize="none"
@@ -56,9 +65,13 @@ const AddressMutateFieldForm = (props: AddressMutateFieldFormProps) => {
           <VStack className="w-full">
             <FormControl>
               <FormControlLabel>
-                <FormControlLabelText>名前</FormControlLabelText>
+                <FormControlLabelText className={`${tw.text("md")}`}>名前</FormControlLabelText>
               </FormControlLabel>
-              <Input size="lg" className="px-2 rounded-xl h-14" isDisabled={disableFields.includes("name")}>
+              <Input
+                size={tw.input("lg")}
+                className={cn(tw.px(2), "rounded-xl", tw.h(14))}
+                isDisabled={disableFields.includes("name")}
+              >
                 <InputField
                   inputMode="text"
                   autoCapitalize="none"

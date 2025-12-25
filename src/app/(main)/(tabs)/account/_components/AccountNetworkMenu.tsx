@@ -2,9 +2,11 @@ import { useRouter } from "expo-router";
 import { useCallback } from "react";
 
 import { CHAIN_KEY_TO_DISPLAY_NAME } from "@/config/chain";
+import { AppText } from "@/presentation/components/AppText";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
-import { Text } from "@/presentation/components/gluestack-ui/text";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 import AccountMenuConteiner from "./AccountMenuConteiner";
 import AccountMenuItem from "./AccountMenuItem";
@@ -13,6 +15,8 @@ const AccountNetworkMenu = () => {
   const router = useRouter();
   const { currentChain } = useWalletPreferencesContext();
 
+  const tw = useTw();
+
   const handlePressChangeNetwork = useCallback(() => {
     router.push("/network");
   }, [router]);
@@ -20,11 +24,13 @@ const AccountNetworkMenu = () => {
   return (
     <AccountMenuConteiner title="ネットワーク設定">
       <AccountMenuItem onPress={handlePressChangeNetwork}>
-        <HStack className="justify-between gap-x-6">
-          <Text className="font-bold">接続中のネットワーク</Text>
-          <Text size="md" numberOfLines={1} ellipsizeMode="tail">
+        <HStack className={cn("justify-between", tw.gapX(6))}>
+          <AppText t="md" className="font-bold">
+            接続中のネットワーク
+          </AppText>
+          <AppText t="md" oneLine>
             {CHAIN_KEY_TO_DISPLAY_NAME[currentChain]}
-          </Text>
+          </AppText>
         </HStack>
       </AccountMenuItem>
     </AccountMenuConteiner>

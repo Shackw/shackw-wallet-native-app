@@ -4,6 +4,8 @@ import { TextInput } from "react-native";
 
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { Input, InputSlot, InputIcon, InputField } from "@/presentation/components/gluestack-ui/input";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 type SearcherProps = {
   defaultValue?: string;
@@ -13,10 +15,12 @@ type SearcherProps = {
 };
 
 const Searcher = (props: SearcherProps) => {
+  const tw = useTw();
   const { defaultValue = "", inputRef, handleChange, componetProps } = props;
+
   return (
     <Box {...componetProps}>
-      <Input size="lg" className="px-2 rounded-xl h-14">
+      <Input size={tw.input("lg")} className={cn(tw.px(2), "rounded-xl", tw.h(14))}>
         <InputSlot>
           <InputIcon as={SearchIcon} />
         </InputSlot>

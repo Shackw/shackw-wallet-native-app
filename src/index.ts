@@ -12,4 +12,15 @@ if (typeof global.Buffer === "undefined") {
   global.Buffer = NodeBuffer;
 }
 
+import { Text, TextInput } from "react-native";
+
+const AnyText = Text as any;
+const AnyTextInput = TextInput as any;
+
+AnyText.defaultProps ??= {};
+AnyTextInput.defaultProps ??= {};
+
+AnyText.defaultProps.allowFontScaling = false;
+AnyTextInput.defaultProps.allowFontScaling = false;
+
 import "expo-router/entry";

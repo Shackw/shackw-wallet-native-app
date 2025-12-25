@@ -9,6 +9,16 @@ module.exports = {
     "./src/presentation/components/gluestack-ui/**/*.{js,jsx,ts,tsx}"
   ],
   presets: [require("nativewind/preset")],
+  safelist: [
+    {
+      pattern:
+        /^(p|px|py|pt|pb|pl|pr|m|mx|my|mt|mb|ml|mr|gap|gap-x|gap-y)-(0|0\.5|1|1\.5|2|2\.5|3|3\.5|4|5|6|7|8|9|10|11|12|14|16|20|24|28|32|36|40|44|48|52|56|60|64|72|80|96)$/
+    },
+    {
+      pattern:
+        /^(w|h|min-w|max-w|min-h|max-h)-(0|0\.5|1|1\.5|2|2\.5|3|3\.5|4|5|6|7|8|9|10|11|12|14|16|20|24|28|32|36|40|44|48|52|56|60|64|72|80|96)$/
+    }
+  ],
   theme: {
     extend: {
       colors: {
@@ -142,16 +152,25 @@ module.exports = {
         }
       },
       fontFamily: {
-        sans: ["NotoSans", "NotoSansJP"],
-        body: ["NotoSans", "NotoSansJP"],
-        heading: ["NotoSans", "NotoSansJP"],
-        mono: ["NotoSans", "NotoSansJP"]
+        sans: ["NotoSansJP-Regular"],
+        body: ["NotoSansJP-Regular"],
+        heading: ["NotoSansJP-Bold"],
+        mono: ["NotoSansJP-Regular"]
       },
       fontWeight: {
-        extrablack: "950"
+        thin: "100",
+        extralight: "200",
+        light: "300",
+        normal: "400",
+        medium: "500",
+        semibold: "600",
+        bold: "700",
+        extrabold: "800",
+        black: "900"
       },
       fontSize: {
-        "2xs": "10px"
+        "2xs": "10px",
+        md: "16px"
       },
       boxShadow: {
         "hard-1": "-2px 2px 8px 0px rgba(38, 38, 38, 0.20)",

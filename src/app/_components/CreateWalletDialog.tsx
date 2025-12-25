@@ -5,6 +5,8 @@ import { ActionDialog } from "@/presentation/components/Dialog";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText, InfoText } from "@/presentation/components/Text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 type CreateWalletDialogProps = {
   isOpen: boolean;
@@ -17,6 +19,8 @@ const CreateWalletDialog = (props: CreateWalletDialogProps) => {
 
   const [isCreating, setIsCreating] = useBoolean(false);
   const [error, setError] = useState<string | undefined>(undefined);
+
+  const tw = useTw();
 
   const handleClose = useCallback(() => {
     onClose();
@@ -48,7 +52,7 @@ const CreateWalletDialog = (props: CreateWalletDialogProps) => {
         size="lg"
         buttonProps={{ text: "作成", isLoading: isCreating, onPress: handleCreate }}
       >
-        <VStack className="py-4 gap-y-1 h-20 justify-center">
+        <VStack className={cn(tw.py(4), tw.gapY(1), tw.h(20), "justify-center")}>
           {!error ? (
             <InfoText>{`すでにウォレットをお持ちの方は「復元」をご利用ください`}</InfoText>
           ) : (

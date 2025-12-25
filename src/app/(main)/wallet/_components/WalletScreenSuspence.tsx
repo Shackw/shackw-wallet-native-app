@@ -1,9 +1,11 @@
 import { ReactNode } from "react";
 
+import { AppText } from "@/presentation/components/AppText";
 import { Spinner } from "@/presentation/components/gluestack-ui/spinner";
-import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { theme } from "@/presentation/styles/theme";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 import useMyAddressOptions, { type AddressOption } from "../_hooks/useMyAddressOptions";
 
@@ -15,18 +17,21 @@ type WalletScreenSuspenceProps = {
 };
 
 const WalletScreenSuspence = (props: WalletScreenSuspenceProps) => {
+  const tw = useTw();
   const { initialValue, addressOptions, error, children } = props;
 
   if (!!error || initialValue === null)
     return (
-      <VStack className="flex-1 justify-center items-center pb-32">
-        <Text className="font-bold text-secondary-500">ウォレット一覧の取得に失敗しました。</Text>
+      <VStack className={cn("flex-1", "justify-center", "items-center", tw.pb(32))}>
+        <AppText t="md" className="font-bold text-secondary-500">
+          ウォレット一覧の取得に失敗しました。
+        </AppText>
       </VStack>
     );
 
   if (initialValue === undefined || !addressOptions)
     return (
-      <VStack className="flex-1 justify-center items-center pb-32">
+      <VStack className={cn("flex-1", "justify-center", "items-center", tw.pb(32))}>
         <Spinner color={theme.colors.primary[400]} size={34.3} />
       </VStack>
     );

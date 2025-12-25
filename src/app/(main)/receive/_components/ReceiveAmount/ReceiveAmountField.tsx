@@ -10,7 +10,9 @@ import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText } from "@/presentation/components/Text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { theme } from "@/presentation/styles/theme";
+import { useTw } from "@/presentation/styles/tw";
 import { TOKEN_REGISTRY } from "@/registries/ChainTokenRegistry";
+import { cn } from "@/shared/helpers/cn";
 
 import { ReceiveFormContextType } from "../../_hooks/useReceiveForm";
 
@@ -23,6 +25,7 @@ type ReceiveAmountFieldProps = {
 };
 
 const ReceiveAmountField = (props: ReceiveAmountFieldProps) => {
+  const tw = useTw();
   const { prevValue, transferForm, componentProps } = props;
   const { form, sendToken } = transferForm;
   const [isShowErrorDialog, setIsShowErrorDialog] = useBoolean(false);
@@ -60,9 +63,9 @@ const ReceiveAmountField = (props: ReceiveAmountFieldProps) => {
           name="amount"
           children={field => (
             <>
-              <VStack className="justify-between flex-1 py-4">
-                <VStack className="w-full items-center gap-y-4">
-                  <Input size="lg" className="px-2 rounded-xl h-14">
+              <VStack className={cn("justify-between", "flex-1", tw.py(4))}>
+                <VStack className={cn("w-full", "items-center", tw.gapY(4))}>
+                  <Input size={tw.input("lg")} className={cn(tw.px(2), "rounded-xl", tw.h(14))}>
                     <InputSlot>
                       <TokenSymboIcon size={20} color={theme.colors.secondary[700]} />
                     </InputSlot>
@@ -78,7 +81,7 @@ const ReceiveAmountField = (props: ReceiveAmountFieldProps) => {
                   </Input>
                   <ReceiveAmountSummary transferForm={transferForm} display="sendable" />
                 </VStack>
-                <HStack className="gap-x-4">
+                <HStack className={tw.gapX(4)}>
                   <SubContainButton
                     text={field.state.meta.isDefaultValue ? "閉じる" : "クリア"}
                     size="lg"
@@ -94,7 +97,7 @@ const ReceiveAmountField = (props: ReceiveAmountFieldProps) => {
                 onClose={setIsShowErrorDialog.off}
                 size="lg"
               >
-                <VStack className="py-4 gap-y-1">
+                <VStack className={cn(tw.py(4), tw.gapY(1))}>
                   {field.state.meta.errors.map((error, index) => (
                     <ErrorText key={`amount-error-${index}`}>{error?.message}</ErrorText>
                   ))}

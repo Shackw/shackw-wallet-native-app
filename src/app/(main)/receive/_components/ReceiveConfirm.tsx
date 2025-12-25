@@ -11,7 +11,9 @@ import QRCode, { QRCodeHandle } from "@/presentation/components/QRCode";
 import { ErrorText } from "@/presentation/components/Text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
+import { useTw } from "@/presentation/styles/tw";
 import { Token } from "@/registries/ChainTokenRegistry";
+import { cn } from "@/shared/helpers/cn";
 import ConfirmAmount from "@mainc/confirm/ConfirmAmount";
 
 type ReceiveConfirmProps = {
@@ -25,6 +27,7 @@ type ReceiveConfirmProps = {
 };
 
 const ReceiveConfirm = (props: ReceiveConfirmProps) => {
+  const tw = useTw();
   const { recipient, amount, sendToken, feeToken, feeDisplayValue, webhookUrl, componentProps } = props;
 
   const { currentChain: chain } = useWalletPreferencesContext();
@@ -43,9 +46,9 @@ const ReceiveConfirm = (props: ReceiveConfirmProps) => {
   return (
     <>
       <BottomActionSheet {...componentProps}>
-        <VStack className="w-full flex-1 gap-y-7">
-          <ScrollView className="w-full flex-1" showsVerticalScrollIndicator={false}>
-            <VStack className="w-full flex-1 items-center gap-y-7">
+        <VStack className={cn("w-full", "flex-1", tw.gapY(7))}>
+          <ScrollView className={cn("w-full", "flex-1")} showsVerticalScrollIndicator={false}>
+            <VStack className={cn("w-full", "flex-1", "items-center", tw.gapY(7))}>
               <ConfirmAmount
                 title="請求額・手数料"
                 amount={amount}
@@ -57,11 +60,11 @@ const ReceiveConfirm = (props: ReceiveConfirmProps) => {
                 ref={qrCodeRef}
                 path="transfer"
                 query={{ chain, sendToken, feeToken, recipient, amount, webhookUrl }}
-                size={275}
+                size={tw.scaleNum(275)}
               />
             </VStack>
           </ScrollView>
-          <HStack className="gap-x-4">
+          <HStack className={tw.gapX(4)}>
             <SubContainButton text="戻る" size="lg" className="flex-1" onPress={componentProps.onClose} />
             <ContainButton text="共有" size="lg" className="flex-1" onPress={handleShareInvoice} />
           </HStack>
@@ -69,7 +72,7 @@ const ReceiveConfirm = (props: ReceiveConfirmProps) => {
       </BottomActionSheet>
 
       <AlertDialog title="QRコード共有の失敗" isOpen={isShowErrorDialog} onClose={setIsShowErrorDialog.off} size="lg">
-        <VStack className="py-4 gap-y-2">
+        <VStack className={cn(tw.py(4), tw.gapY(2))}>
           <ErrorText>不明なエラーによりQRコードの共有に失敗しました。</ErrorText>
         </VStack>
       </AlertDialog>

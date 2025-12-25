@@ -7,6 +7,8 @@ import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Input, InputField } from "@/presentation/components/gluestack-ui/input";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { InfoText } from "@/presentation/components/Text";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 type PrivateKeySegmentFormProps = {
   initValue: string;
@@ -18,6 +20,7 @@ type PrivateKeySegmentFormProps = {
 };
 
 const PrivateKeySegmentForm = (props: PrivateKeySegmentFormProps) => {
+  const tw = useTw();
   const { initValue, placeholder, maxLength, onClose, onReset, onEdit } = props;
 
   const [input, setInput] = useState<string>(initValue);
@@ -39,10 +42,10 @@ const PrivateKeySegmentForm = (props: PrivateKeySegmentFormProps) => {
       showsVerticalScrollIndicator={false}
       extraScrollHeight={30}
     >
-      <VStack className="flex-1 items-center justify-between py-4">
-        <VStack className="w-full gap-y-6">
+      <VStack className={cn("flex-1", "items-center", "justify-between", tw.py(4))}>
+        <VStack className={cn("w-full", tw.gapY(6))}>
           <FormControl>
-            <Input size="lg" className="px-2 rounded-xl h-14">
+            <Input size={tw.input("lg")} className={cn(tw.px(2), "rounded-xl", tw.h(14))}>
               <InputField
                 defaultValue={initValue}
                 inputMode="text"
@@ -56,7 +59,7 @@ const PrivateKeySegmentForm = (props: PrivateKeySegmentFormProps) => {
           <InfoText>{`プライベートキーの${placeholder}`}</InfoText>
         </VStack>
 
-        <HStack className="gap-x-4">
+        <HStack className={tw.gapX(4)}>
           <SubContainButton text={!input ? "閉じる" : "クリア"} size="lg" className="flex-1" onPress={handleClose} />
           <ContainButton
             text="確定"

@@ -5,7 +5,6 @@ import { PropsWithChildren, useEffect, useState } from "react";
 
 import { initAppCheck } from "@/config/firebase";
 import { migrate } from "@/infrastructure/db";
-import { GluestackUIProvider } from "@/presentation/components/gluestack-ui/gluestack-ui-provider";
 import { MaintenanceOverlay } from "@/presentation/components/Maintenance";
 import { useFonts } from "@/presentation/hooks/useFonts";
 import { DependenciesContainerProvider } from "@/presentation/providers/DependenciesContainerProvider";
@@ -58,9 +57,7 @@ const RootProviders = ({ children }: PropsWithChildren) => {
         <DependenciesContainerProvider appCheckToken={appCheckToken!}>
           <WalletPreferencesProvider>
             <ShackwWalletProvider>
-              <WalletConnectProvider>
-                <GluestackUIProvider>{children}</GluestackUIProvider>
-              </WalletConnectProvider>
+              <WalletConnectProvider>{children}</WalletConnectProvider>
             </ShackwWalletProvider>
           </WalletPreferencesProvider>
         </DependenciesContainerProvider>

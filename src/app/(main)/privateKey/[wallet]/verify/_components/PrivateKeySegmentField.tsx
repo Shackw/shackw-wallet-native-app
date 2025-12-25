@@ -4,6 +4,8 @@ import { BottomActionSheet } from "@/presentation/components/BottomActionSheet";
 import { AlertDialog } from "@/presentation/components/Dialog";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText } from "@/presentation/components/Text";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 import usePrivateKeyVerifyForm, { VerifySegmentKey, VerifySegmentValue } from "../_hooks/usePrivateKeyVerifyForm";
 
@@ -18,6 +20,7 @@ type PrivateKeySegmentFieldProps = {
 };
 
 const PrivateKeySegmentField = (props: PrivateKeySegmentFieldProps) => {
+  const tw = useTw();
   const { initValue, placeholder, segmentKey: key, segmentSpec: spec, componentProps } = props;
 
   const [error, setError] = useState<string | undefined>(undefined);
@@ -59,7 +62,7 @@ const PrivateKeySegmentField = (props: PrivateKeySegmentFieldProps) => {
         onClose={() => setError(undefined)}
         size="lg"
       >
-        <VStack className="py-4 gap-y-1">
+        <VStack className={cn(tw.py(4), tw.gapY(1))}>
           <ErrorText>{error}</ErrorText>
         </VStack>
       </AlertDialog>

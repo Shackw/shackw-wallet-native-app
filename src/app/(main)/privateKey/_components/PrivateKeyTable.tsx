@@ -2,6 +2,7 @@ import { ScrollView } from "react-native";
 
 import { ListPrivateKeysCommand } from "@/domain/privateKey";
 import { Table, TableBody } from "@/presentation/components/gluestack-ui/table";
+import { cn } from "@/shared/helpers/cn";
 
 import { PrivateKeyRows } from "./PrivateKeyScreenSuspence";
 import PrivateKeyTableRow from "./PrivateKeyTableRow";
@@ -16,7 +17,7 @@ const PrivateKeyTable = (props: PrivateKeyTableProps) => {
 
   return (
     <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-      <Table className="w-full overflow-y-auto">
+      <Table className={cn("w-full", "overflow-y-auto")}>
         <TableBody className="w-full">
           {rows.map((row, index) => (
             <PrivateKeyTableRow
