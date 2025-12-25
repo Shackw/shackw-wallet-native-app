@@ -2,17 +2,19 @@ import { useCallback } from "react";
 import { Pressable } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
+import { AppText } from "@/presentation/components/AppText";
 import { BottomActionSheet } from "@/presentation/components/BottomActionSheet";
 import { SubContainButton, ContainButton } from "@/presentation/components/Button";
 import { AlertDialog } from "@/presentation/components/Dialog";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Input, InputField, InputSlot } from "@/presentation/components/gluestack-ui/input";
-import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText } from "@/presentation/components/Text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { theme } from "@/presentation/styles/theme";
+import { useTw } from "@/presentation/styles/tw";
 import { TOKEN_REGISTRY } from "@/registries/ChainTokenRegistry";
+import { cn } from "@/shared/helpers/cn";
 
 import { TransferFormContextType } from "../../_hooks/useTransferForm";
 
@@ -25,6 +27,7 @@ type TransferAmountFieldProps = {
 };
 
 const TransferAmountField = (props: TransferAmountFieldProps) => {
+  const tw = useTw();
   const { prevValue, transferForm, componentProps } = props;
 
   const { form, maxSendable, sendToken } = transferForm;
@@ -67,12 +70,14 @@ const TransferAmountField = (props: TransferAmountFieldProps) => {
           name="amount"
           children={field => (
             <>
-              <VStack className="justify-between flex-1 py-4">
-                <VStack className="w-full items-center gap-y-4">
+              <VStack className={cn("justify-between", "flex-1", tw.py(4))}>
+                <VStack className={cn("w-full", "items-center", tw.gapY(4))}>
                   <Pressable onPress={handleSetMaxSendable} className="w-full">
-                    <Text className="text-right text-lg font-bold text-primary-500">最大額を使用</Text>
+                    <AppText className={cn("text-right", tw.text("md"), "font-bold", "text-primary-500")}>
+                      最大額を使用
+                    </AppText>
                   </Pressable>
-                  <Input size="lg" className="px-2 rounded-xl h-14">
+                  <Input size={tw.input("lg")} className={cn(tw.px(2), "rounded-xl", tw.h(14))}>
                     <InputSlot>
                       <TokenSymboIcon size={20} color={theme.colors.secondary[700]} />
                     </InputSlot>
@@ -88,7 +93,7 @@ const TransferAmountField = (props: TransferAmountFieldProps) => {
                   </Input>
                   <TransferAmountSummary transferForm={transferForm} display="sendable" />
                 </VStack>
-                <HStack className="gap-x-4">
+                <HStack className={tw.gapX(4)}>
                   <SubContainButton
                     text={field.state.meta.isDefaultValue ? "閉じる" : "クリア"}
                     size="lg"
@@ -104,7 +109,7 @@ const TransferAmountField = (props: TransferAmountFieldProps) => {
                 onClose={setIsShowErrorDialog.off}
                 size="lg"
               >
-                <VStack className="py-4 gap-y-1">
+                <VStack className={cn(tw.py(4), tw.gapY(1))}>
                   {field.state.meta.errors.map((error, index) => (
                     <ErrorText key={`amount-error-${index}`}>{error?.message}</ErrorText>
                   ))}

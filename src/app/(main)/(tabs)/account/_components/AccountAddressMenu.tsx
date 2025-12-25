@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { useCallback } from "react";
 
-import { Text } from "@/presentation/components/gluestack-ui/text";
+import { AppText } from "@/presentation/components/AppText";
 
 import AccountMenuConteiner from "./AccountMenuConteiner";
 import AccountMenuItem from "./AccountMenuItem";
@@ -16,7 +16,7 @@ const AccountAddressMenu = () => {
   return (
     <AccountMenuConteiner title="アドレス設定">
       <AccountMenuItem onPress={handlePressAdresses}>
-        <Text className="font-bold">アドレス帳</Text>
+        <AppText className="font-bold">アドレス帳</AppText>
       </AccountMenuItem>
     </AccountMenuConteiner>
   );

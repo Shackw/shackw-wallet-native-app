@@ -1,5 +1,7 @@
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 import AppBarActions from "./AppBarActions";
 import AppBarBody from "./AppBarBody";
@@ -12,9 +14,10 @@ const AppBar = (props: AppBarProps) => {
   const { title } = props;
 
   const isDefault = !title;
+  const tw = useTw();
 
   return (
-    <Box className="px-4 py-5 h-16">
+    <Box className={cn(tw.px(4), tw.py(5), tw.h(16))}>
       <HStack className="flex-row items-center justify-between">
         <AppBarBody title={title} />
         <AppBarActions isDefault={isDefault} />

@@ -2,13 +2,12 @@ import { ReactNode } from "react";
 
 import { Button, ButtonText } from "@/presentation/components/gluestack-ui/button";
 import { Spinner } from "@/presentation/components/gluestack-ui/spinner";
-import { buttonSizeToStyleMap } from "@/presentation/styles/button";
+import { ButtonSize, useButtonStyleConfig } from "@/presentation/styles/button";
 import { theme } from "@/presentation/styles/theme";
+import { cn } from "@/shared/helpers/cn";
 
 import type { LucideIcon } from "lucide-react-native";
 import type { ViewStyle } from "react-native";
-
-type ButtonSize = keyof typeof buttonSizeToStyleMap;
 
 type ButtonProps = React.ComponentProps<typeof Button>;
 
@@ -22,37 +21,6 @@ type CommonProps = {
   className?: string;
   style?: ViewStyle;
   testID?: string;
-};
-
-const heightClass: Record<number, string> = {
-  32: "h-8",
-  36: "h-9",
-  44: "h-11",
-  52: "h-[52px]",
-  60: "h-[60px]"
-};
-
-const minWClass: Record<number, string> = {
-  64: "min-w-16",
-  80: "min-w-20",
-  96: "min-w-24",
-  112: "min-w-28",
-  128: "min-w-32"
-};
-
-const radiusClass: Record<number, string> = {
-  6: "rounded-[6px]",
-  8: "rounded-[8px]",
-  10: "rounded-[10px]",
-  12: "rounded-[12px]"
-};
-
-const fontClass: Record<number, string> = {
-  10: "text-[10px]",
-  12: "text-sm",
-  14: "text-base",
-  16: "text-lg",
-  18: "text-xl"
 };
 
 function BaseButton({
@@ -72,10 +40,7 @@ function BaseButton({
   onPress?: () => void;
   testID?: string;
 }) {
-  const cfg = buttonSizeToStyleMap[size];
-  const h = heightClass[cfg.height];
-  const minW = minWClass[cfg.minWidth];
-  const rounded = radiusClass[cfg.rounded];
+  const cfg = useButtonStyleConfig(size);
 
   return (
     <Button
@@ -84,14 +49,15 @@ function BaseButton({
       disabled={!!disabled}
       accessibilityRole="button"
       accessibilityState={{ disabled: !!disabled }}
-      className={[
-        minW,
-        h,
-        rounded,
-        "px-2 flex-row items-center justify-center gap-1",
-        disabled ? "opacity-disabled" : "",
-        className ?? ""
-      ].join(" ")}
+      className={cn(
+        cfg.minWClass,
+        cfg.hClass,
+        cfg.roundedClass,
+        cfg.pxClass,
+        "flex-row items-center justify-center gap-1",
+        disabled && "opacity-disabled",
+        className
+      )}
       testID={testID}
     >
       {children}
@@ -111,7 +77,7 @@ export const ContainButton = ({
   className,
   testID
 }: CommonProps) => {
-  const cfg = buttonSizeToStyleMap[size];
+  const cfg = useButtonStyleConfig(size);
   const disabled = isLoading || isDisabled;
 
   return (
@@ -120,17 +86,15 @@ export const ContainButton = ({
       action="primary"
       disabled={disabled}
       onPress={onPress}
-      className={[disabled ? "bg-secondary-500" : "bg-primary-500", className ?? ""].join(" ")}
+      className={cn(disabled ? "bg-secondary-500" : "bg-primary-500", className)}
       testID={testID}
     >
       {isLoading ? (
-        <Spinner color="#ffffff" size={20} />
+        <Spinner color="#ffffff" size={cfg.spinnerSize} />
       ) : (
         <>
           {icon && <IconLeft Icon={icon} color="#ffffff" />}
-          <ButtonText className={["font-heading font-bold", fontClass[cfg.fontSize], "text-white"].join(" ")}>
-            {text}
-          </ButtonText>
+          <ButtonText className={cn("font-heading font-bold", cfg.fontClass, "text-white")}>{text}</ButtonText>
         </>
       )}
     </BaseButton>
@@ -147,7 +111,7 @@ export const SubContainButton = ({
   className,
   testID
 }: CommonProps) => {
-  const cfg = buttonSizeToStyleMap[size];
+  const cfg = useButtonStyleConfig(size);
   const disabled = isLoading || isDisabled;
 
   return (
@@ -156,21 +120,19 @@ export const SubContainButton = ({
       action="secondary"
       disabled={disabled}
       onPress={onPress}
-      className={[
+      className={cn(
         disabled ? "bg-secondary-700" : "bg-secondary-200",
         "data-[active=true]:bg-secondary-300",
-        className ?? ""
-      ].join(" ")}
+        className
+      )}
       testID={testID}
     >
       {isLoading ? (
-        <Spinner color={theme.colors.secondary[800]} size={20} />
+        <Spinner color={theme.colors.secondary[800]} size={cfg.spinnerSize} />
       ) : (
         <>
           {icon && <IconLeft Icon={icon} color={theme.colors.secondary[800]} />}
-          <ButtonText className={["font-heading font-bold", fontClass[cfg.fontSize], "text-secondary-800"].join(" ")}>
-            {text}
-          </ButtonText>
+          <ButtonText className={cn("font-heading font-bold", cfg.fontClass, "text-secondary-800")}>{text}</ButtonText>
         </>
       )}
     </BaseButton>
@@ -187,7 +149,7 @@ export const OutlineButton = ({
   className,
   testID
 }: CommonProps) => {
-  const cfg = buttonSizeToStyleMap[size];
+  const cfg = useButtonStyleConfig(size);
   const disabled = isLoading || isDisabled;
 
   return (
@@ -196,27 +158,27 @@ export const OutlineButton = ({
       action="primary"
       disabled={disabled}
       onPress={onPress}
-      className={[
+      className={cn(
         "border border-primary-400",
         disabled ? "bg-primary-200" : "bg-transparent",
         "border-[2.3px]",
         "data-[active=true]:bg-primary-100",
-        className ?? ""
-      ].join(" ")}
+        className
+      )}
       testID={testID}
     >
       {isLoading ? (
-        <Spinner color="#f94c4c" size={20} />
+        <Spinner color="#f94c4c" size={cfg.spinnerSize} />
       ) : (
         <>
           {icon && <IconLeft Icon={icon} color="#f94c4c" />}
           <ButtonText
-            className={[
+            className={cn(
               "font-heading font-bold",
-              fontClass[cfg.fontSize],
+              cfg.fontClass,
               "data-[active=true]:text-primary-500",
               "text-primary-400"
-            ].join(" ")}
+            )}
           >
             {text}
           </ButtonText>
@@ -255,11 +217,7 @@ export const IconButton = ({
     <Button
       action={action}
       onPress={onPress}
-      className={[
-        "w-0 h-0 px-[18px] py-[18px] rounded-[32px] items-center justify-center",
-        bgClassName,
-        className ?? ""
-      ].join(" ")}
+      className={cn("w-0 h-0 px-[18px] py-[18px] rounded-[32px] items-center justify-center", bgClassName, className)}
       style={({ pressed }) => (pressed ? [{ opacity: 0.85 } as ViewStyle, style] : style)}
       testID={testID}
       accessibilityRole="button"
@@ -274,12 +232,14 @@ type TextButtonProps = Pick<React.ComponentProps<typeof Button>, "onPress"> & {
   children: ReactNode;
   textProps: Omit<React.ComponentProps<typeof ButtonText>, "children">;
 };
+
 export const TextButton = (props: TextButtonProps) => {
   const { textProps, children, onPress } = props;
   const { className, ...rest } = textProps;
+
   return (
     <Button variant="link" action="secondary" className="justify-start p-0 h-auto" onPress={onPress}>
-      <ButtonText {...rest} className={`${className} underline`}>
+      <ButtonText {...rest} className={cn(className, "underline")}>
         {children}
       </ButtonText>
     </Button>

@@ -1,5 +1,7 @@
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 import ScreenContainer from "../_components/ScreenContainer";
 
@@ -9,12 +11,14 @@ import NetworkSubmitButton from "./_components/NetworkSubmitButton";
 import { SelectNetworkFormProvider } from "./_hooks/useSelectNetworkForm";
 
 const NetworkScreen = () => {
+  const tw = useTw();
+
   return (
     <ScreenContainer appBarProps={{ title: "ネットワーク設定" }} className="bg-white rounded-t-2xl">
-      <Box className="py-[8px] flex-1">
+      <Box className={cn(tw.py(5), "flex-1")}>
         <SelectNetworkFormProvider>
-          <VStack className="flex-1 bg-secondary-100">
-            <VStack className="gap-y-8">
+          <VStack className={cn("flex-1", "bg-secondary-100")}>
+            <VStack className={cn(tw.gapY(8))}>
               <NetworkSelect />
               <NetworkDefault />
             </VStack>

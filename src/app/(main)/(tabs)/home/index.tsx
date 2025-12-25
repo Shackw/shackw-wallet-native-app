@@ -7,7 +7,9 @@ import { Fab, FabIcon } from "@/presentation/components/gluestack-ui/fab";
 import { Tab } from "@/presentation/components/Tab";
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
+import { useTw } from "@/presentation/styles/tw";
 import { Token } from "@/registries/ChainTokenRegistry";
+import { cn } from "@/shared/helpers/cn";
 import ScreenContainer from "@mainc/ScreenContainer";
 
 import HomeAction from "./_components/HomeAction";
@@ -20,6 +22,8 @@ const HomeScreen = () => {
   const { walletEnabled, account } = useShackwWalletContext();
   const { currentChainDefaultToken, currentChainSupportedTokens } = useWalletPreferencesContext();
 
+  const tw = useTw();
+
   const [currentTab, setCurrentTab] = useState<Token>(currentChainDefaultToken);
 
   const handlePressScan = useCallback(() => {
@@ -27,13 +31,13 @@ const HomeScreen = () => {
   }, [router]);
 
   return (
-    <ScreenContainer className="px-4 items-center">
+    <ScreenContainer className={cn("items-center", tw.px(4))}>
       {account && !walletEnabled && <HomePkBackupReminder wallet={account.address} />}
 
       <HomeMainBody>
         <Tab options={currentChainSupportedTokens} value={currentTab} handleChange={setCurrentTab} />
         <HomeAssetSummary token={currentTab} />
-        <Divider className="w-[90%] bg-secondary-50" />
+        <Divider className="w-[90%] bg-secondary-100" />
         <HomeAction />
       </HomeMainBody>
 
@@ -44,7 +48,7 @@ const HomeScreen = () => {
           className="bg-primary-400 rounded-3xl bottom-7"
           onPress={handlePressScan}
         >
-          <FabIcon as={Scan} className="p-5" />
+          <FabIcon as={Scan} className={tw.p(5)} />
         </Fab>
       )}
     </ScreenContainer>

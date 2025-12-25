@@ -1,19 +1,22 @@
 import { CameraView } from "expo-camera";
 import { Image } from "lucide-react-native";
 
+import { AppText } from "@/presentation/components/AppText";
 import BackDrop from "@/presentation/components/BackDrop";
 import { AlertDialog } from "@/presentation/components/Dialog";
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { Fab, FabIcon } from "@/presentation/components/gluestack-ui/fab";
-import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText } from "@/presentation/components/Text";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 import ScreenContainer from "../_components/ScreenContainer";
 
 import useSacnQrCode from "./_hooks/useSacnQrCode";
 
 export const ScanQrScreen = () => {
+  const tw = useTw();
   const { permission, isScanning, isError, setIsError, onBarcodeScanned, handlePickImageAndScan } = useSacnQrCode();
 
   if (!permission) return <BackDrop visible />;
@@ -31,7 +34,7 @@ export const ScanQrScreen = () => {
             />
 
             <AlertDialog title="読み取り失敗" isOpen={isError} onClose={setIsError.off} size="lg">
-              <VStack className="py-4 gap-y-1">
+              <VStack className={cn(tw.py(4), tw.gapY(1))}>
                 <ErrorText>QRコードの読み取りに失敗しました。</ErrorText>
               </VStack>
             </AlertDialog>
@@ -39,15 +42,15 @@ export const ScanQrScreen = () => {
             <Fab
               size="lg"
               placement="bottom right"
-              className="bg-primary-400 rounded-3xl bottom-7"
+              className={cn("bg-primary-400", "rounded-3xl", "bottom-7")}
               onPress={handlePickImageAndScan}
             >
-              <FabIcon as={Image} className="p-5" />
+              <FabIcon as={Image} className={tw.p(5)} />
             </Fab>
           </>
         ) : (
-          <VStack className="flex-1 justify-center items-center pb-32">
-            <Text className="font-bold text-secondary-500">カメラ権限が必要です。</Text>
+          <VStack className={cn("flex-1", "justify-center", "items-center", tw.pb(32))}>
+            <AppText className="font-bold text-secondary-500">カメラ権限が必要です。</AppText>
           </VStack>
         )}
       </Box>

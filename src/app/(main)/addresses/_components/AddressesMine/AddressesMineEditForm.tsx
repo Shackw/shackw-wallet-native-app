@@ -13,6 +13,8 @@ import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Input, InputField } from "@/presentation/components/gluestack-ui/input";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText, InfoText } from "@/presentation/components/Text";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 import useEditProfileForm from "./_hooks/useEditProfileForm";
 
@@ -27,6 +29,8 @@ const AddressesMineEditForm = (props: AddressesMineEditFormProps) => {
   const { inputRef, hasValue, isEditing, error, handleEdit, handleChange, handleBlur, handleClear, closeError } =
     useEditProfileForm(props);
 
+  const tw = useTw();
+
   return (
     <>
       <BackDrop visible={isEditing} />
@@ -37,13 +41,13 @@ const AddressesMineEditForm = (props: AddressesMineEditFormProps) => {
         showsVerticalScrollIndicator={false}
         extraScrollHeight={30}
       >
-        <VStack className="flex-1 items-center justify-between py-4">
-          <VStack className="w-full gap-y-6">
+        <VStack className={cn("flex-1 items-center justify-between", tw.py(4), tw.gapY(5))}>
+          <VStack className={cn("w-full", tw.gapY(6))}>
             <FormControl>
               <FormControlLabel>
-                <FormControlLabelText>名前</FormControlLabelText>
+                <FormControlLabelText className={tw.text("md")}>名前</FormControlLabelText>
               </FormControlLabel>
-              <Input size="lg" className="px-2 rounded-xl h-14">
+              <Input size={tw.input("lg")} className={cn(tw.px(2), "rounded-xl h-14")}>
                 <InputField
                   defaultValue={initName}
                   inputMode="text"
@@ -57,7 +61,7 @@ const AddressesMineEditForm = (props: AddressesMineEditFormProps) => {
             <InfoText>{`QRコードでアドレスを共有した際に、登録されている名前が相手のアドレス帳に反映されます。`}</InfoText>
           </VStack>
 
-          <HStack className="gap-x-4">
+          <HStack className={cn(tw.gapX(4))}>
             <SubContainButton
               text={!hasValue ? "閉じる" : "クリア"}
               size="lg"
@@ -76,8 +80,8 @@ const AddressesMineEditForm = (props: AddressesMineEditFormProps) => {
         </VStack>
       </KeyboardAwareScrollView>
 
-      <AlertDialog title="秘密鍵入力不正" isOpen={!!error} onClose={closeError} size="lg">
-        <VStack className="py-4 gap-y-1">
+      <AlertDialog title="入力不正" isOpen={!!error} onClose={closeError} size="lg">
+        <VStack className={cn(tw.py(4), tw.gapY(1))}>
           <ErrorText>{error}</ErrorText>
         </VStack>
       </AlertDialog>

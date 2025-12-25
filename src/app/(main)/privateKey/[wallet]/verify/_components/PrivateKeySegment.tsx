@@ -1,11 +1,13 @@
 import { useCallback, useMemo, useState } from "react";
 import { Pressable } from "react-native";
 
+import { AppText } from "@/presentation/components/AppText";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
-import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { InfoText } from "@/presentation/components/Text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 import usePrivateKeyVerifyForm, { VerifySegmentKey, VerifySegmentValue } from "../_hooks/usePrivateKeyVerifyForm";
 
@@ -19,6 +21,7 @@ type PrivateKeySegmentProps = {
 const PrivateKeySegment = (props: PrivateKeySegmentProps) => {
   const { segmentKey: key, segmentSpec: spec } = props;
 
+  const tw = useTw();
   const [isEditing, setIsEditing] = useBoolean(false);
   const [prevValue, setPrevValue] = useState<string | undefined>(undefined);
 
@@ -53,28 +56,23 @@ const PrivateKeySegment = (props: PrivateKeySegmentProps) => {
 
   return (
     <>
-      <VStack className="w-full px-4 py-3 h-[100px] bg-white justify-center gap-y-4">
+      <VStack className={cn("w-full", tw.px(4), tw.py(3), tw.h(28), "bg-white", "justify-center", tw.gapY(4))}>
         <InfoText>{placeholder}</InfoText>
-        <HStack className="items-center justify-between gap-x-10">
-          <Text size="xl" className="font-bold text-secondary-700 ">
+        <HStack className={cn("items-center", "justify-between", tw.gapX(10))}>
+          <AppText t="xl" className="font-bold text-secondary-700">
             {title}
-          </Text>
+          </AppText>
           <Pressable className="flex-1" onPress={handleEdit}>
             {(isEditing && prevValue) || (!isEditing && inputs[key]) ? (
-              <VStack className="gap-y-2">
-                <Text
-                  size="lg"
-                  numberOfLines={1}
-                  ellipsizeMode="middle"
-                  className="font-bold text-center text-secondary-800"
-                >
+              <VStack className={tw.gapY(2)}>
+                <AppText t="lg" oneLine className="font-bold text-center text-secondary-800">
                   {isEditing ? prevValue : inputs[key]}
-                </Text>
+                </AppText>
               </VStack>
             ) : (
-              <Text size="md" className="text-primary-600 font-bold text-center">
+              <AppText t="md" className="text-primary-600 font-bold text-center">
                 {`入力してください`}
-              </Text>
+              </AppText>
             )}
           </Pressable>
         </HStack>

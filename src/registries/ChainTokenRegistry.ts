@@ -11,7 +11,7 @@ import {
 
 import { Chain, CHAIN_KEYS, CHAINS } from "@/config/chain";
 import { VIEM_PUBLIC_CLIENTS } from "@/config/viem";
-import { TokenSymbolIconProps, JpycIcon, UsdcIcon, EurcIcon } from "@/presentation/components/icons/TokenSymbolIcons";
+import { TokenSymbolIconProps, JpycIcon, UsdcIcon, EurcIcon } from "@/presentation/components/icons/token";
 
 /** TYPES */
 type Erc20Instance = GetContractReturnType<typeof erc20Abi, PublicClient<Transport, ViemChain | undefined>>;

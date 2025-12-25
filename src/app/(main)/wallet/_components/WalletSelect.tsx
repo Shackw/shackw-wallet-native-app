@@ -2,6 +2,7 @@ import { ChevronDownIcon } from "lucide-react-native";
 import { useCallback } from "react";
 import { Address } from "viem";
 
+import { AppText } from "@/presentation/components/AppText";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import {
   Select,
@@ -16,7 +17,8 @@ import {
   SelectItem,
   SelectScrollView
 } from "@/presentation/components/gluestack-ui/select";
-import { Text } from "@/presentation/components/gluestack-ui/text";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 import { AddressOption } from "../_hooks/useMyAddressOptions";
 import useSelectNetworkForm from "../_hooks/useSelectWalletForm";
@@ -27,6 +29,7 @@ type WalletSelectProps = {
 };
 
 const WalletSelect = (props: WalletSelectProps) => {
+  const tw = useTw();
   const {
     initialValue: { label },
     options
@@ -44,30 +47,34 @@ const WalletSelect = (props: WalletSelectProps) => {
   );
 
   return (
-    <HStack className="w-full px-4 py-3 h-[90px] bg-white items-center justify-between gap-x-5">
-      <Text size="xl" className="font-bold text-secondary-700 ">
+    <HStack
+      className={cn("w-full", tw.px(4), tw.py(3), tw.h(24), "bg-white", "items-center", "justify-between", tw.gapX(5))}
+    >
+      <AppText t="lg" className="font-bold text-secondary-700">
         ウォレット
-      </Text>
+      </AppText>
 
       <Select initialLabel={label} selectedValue={inputWallet} onValueChange={handleChange}>
-        <SelectTrigger variant="underlined" size="lg">
-          <SelectInput placeholder="Select option" className="w-[240px] text-center px-1" />
-          <SelectIcon className="mr-3" as={ChevronDownIcon} />
+        <SelectTrigger variant="underlined" size={tw.input("lg")}>
+          <SelectInput placeholder="Select option" className={cn(tw.w(60), "text-center", tw.px(1))} />
+          <SelectIcon className={cn(tw.mr(3))} as={ChevronDownIcon} />
         </SelectTrigger>
+
         <SelectPortal>
           <SelectBackdrop />
-          <SelectContent className="max-h-[420px]">
+          <SelectContent className={cn(tw.maxH(96))}>
             <SelectDragIndicatorWrapper>
               <SelectDragIndicator />
             </SelectDragIndicatorWrapper>
+
             <SelectScrollView showsVerticalScrollIndicator={false}>
               {options.map(o => (
                 <SelectItem
                   key={o.value}
                   label={o.label}
                   value={o.value}
-                  className="py-6"
-                  textStyle={{ bold: true, size: "lg" }}
+                  className={tw.py(6)}
+                  textStyle={{ bold: true, className: tw.text("lg") }}
                 />
               ))}
             </SelectScrollView>

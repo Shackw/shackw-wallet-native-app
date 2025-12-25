@@ -1,14 +1,16 @@
 import { ScrollView } from "react-native";
 import { Address, Hex } from "viem";
 
+import { AppText } from "@/presentation/components/AppText";
 import { BottomActionSheet } from "@/presentation/components/BottomActionSheet";
 import { ContainButton, SubContainButton } from "@/presentation/components/Button";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
-import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { InfoText } from "@/presentation/components/Text";
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 type PrivateKeyConfirmCommonProps = {
   wallet: Address;
@@ -32,6 +34,8 @@ type PrivateKeyConfirmSheetProps = PrivateKeyDisplayProps | PrivateKeyVerifyProp
 const PrivateKeyConfirmSheet = (props: PrivateKeyConfirmSheetProps) => {
   const { mode, wallet, privateKey, createdAtStr, componentProps } = props;
 
+  const tw = useTw();
+
   const { account } = useShackwWalletContext();
   const { defaultWallet } = useWalletPreferencesContext();
 
@@ -47,38 +51,61 @@ const PrivateKeyConfirmSheet = (props: PrivateKeyConfirmSheetProps) => {
   return (
     <>
       <BottomActionSheet {...componentProps}>
-        <VStack className="w-full h-full justify-between gap-y-7">
-          <VStack className="w-full flex-1 gap-y-4">
-            <Text size="md" className="text-center font-bold text-secondary-700">
+        <VStack className={cn("w-full h-full justify-between", tw.gapY(7))}>
+          <VStack className={cn("w-full flex-1", tw.gapY(4))}>
+            <AppText t="md" className="text-center font-bold text-secondary-700">
               {MESSAGE_BY_MODE[mode]}
-            </Text>
+            </AppText>
 
             <ScrollView className="w-full flex-1" showsVerticalScrollIndicator={false}>
-              <VStack className="w-full flex-1 gap-y-3">
-                <VStack className="w-full gap-y-6 border-[0.5px] border-secondary-300 px-4 py-6 bg-secondary-50 rounded-xl">
-                  <VStack className="w-full gap-y-1.5">
-                    <Text className="font-bold text-secondary-600">作成・復元 日時</Text>
-                    <Text className="font-bold text-secondary-800 pl-4">{createdAtStr}</Text>
+              <VStack className={cn("w-full flex-1", tw.gapY(3))}>
+                <VStack
+                  className={cn(
+                    "w-full bg-secondary-50 rounded-xl border-secondary-300 border-[0.5px]",
+                    tw.px(4),
+                    tw.py(6),
+                    tw.gapY(6)
+                  )}
+                >
+                  <VStack className={cn("w-full", tw.gapY(1.5))}>
+                    <AppText t="sm" className="font-bold text-secondary-600">
+                      作成・復元 日時
+                    </AppText>
+                    <AppText t="md" className={cn("font-bold text-secondary-800", tw.pl(4))}>
+                      {createdAtStr}
+                    </AppText>
                   </VStack>
-                  <VStack className="w-full gap-y-1.5">
-                    <Text className="font-bold text-secondary-600">ウォレットアドレス</Text>
-                    <Text className="font-bold text-secondary-800 pl-4">{wallet}</Text>
+
+                  <VStack className={cn("w-full", tw.gapY(1.5))}>
+                    <AppText t="sm" className="font-bold text-secondary-600">
+                      ウォレットアドレス
+                    </AppText>
+                    <AppText t="md" className={cn("font-bold text-secondary-800", tw.pl(4))}>
+                      {wallet}
+                    </AppText>
                   </VStack>
-                  <VStack className="w-full gap-y-1.5">
-                    <Text className="font-bold text-secondary-600">プライベートキー</Text>
-                    <Text className="font-bold text-secondary-800 pl-4">{privateKey}</Text>
+
+                  <VStack className={cn("w-full", tw.gapY(1.5))}>
+                    <AppText t="sm" className="font-bold text-secondary-600">
+                      プライベートキー
+                    </AppText>
+                    <AppText t="md" className={cn("font-bold text-secondary-800", tw.pl(4))}>
+                      {privateKey}
+                    </AppText>
                   </VStack>
                 </VStack>
+
                 {mode === "display" && (
-                  <VStack className="w-full gap-y-3">
+                  <VStack className={cn("w-full", tw.gapY(3))}>
                     {isCurrentWallet && <InfoText>{`現在選択中のウォレットのため削除できません。`}</InfoText>}
                     {isDefaultWallet && (
                       <InfoText>{`デフォルトに設定されているウォレットため削除できません。`}</InfoText>
                     )}
                   </VStack>
                 )}
+
                 {mode === "verify" && (
-                  <VStack className="w-full gap-y-3">
+                  <VStack className={cn("w-full", tw.gapY(3))}>
                     <InfoText>{`次画面で、バックアップが正しく行われているかを確認します。`}</InfoText>
                     <InfoText>{`安全にご利用いただくため、この確認が完了するまで機能を制限しています。`}</InfoText>
                   </VStack>
@@ -87,7 +114,7 @@ const PrivateKeyConfirmSheet = (props: PrivateKeyConfirmSheetProps) => {
             </ScrollView>
           </VStack>
 
-          <HStack className="gap-x-4">
+          <HStack className={cn(tw.gapX(4))}>
             <SubContainButton text="戻る" size="lg" className="flex-1" onPress={componentProps.onClose} />
 
             {canDelete && <ContainButton text="削除" size="lg" className="flex-1" onPress={props.onDelete} />}

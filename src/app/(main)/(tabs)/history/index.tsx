@@ -5,7 +5,9 @@ import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { Tab } from "@/presentation/components/Tab";
 import YearMonthPicker from "@/presentation/components/YearMonthTermPicker";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
+import { useTw } from "@/presentation/styles/tw";
 import { Token } from "@/registries/ChainTokenRegistry";
+import { cn } from "@/shared/helpers/cn";
 import ScreenContainer from "@mainc/ScreenContainer";
 
 import HistoryTable from "./_components/HistoryTable";
@@ -14,6 +16,8 @@ import type { HistoryYearMonth } from "./_hooks/useHistoryRows";
 
 const HistoryScreen = () => {
   const { currentChainDefaultToken, currentChainSupportedTokens } = useWalletPreferencesContext();
+
+  const tw = useTw();
 
   const [selectedToken, setSelectedToken] = useState<Token>(currentChainDefaultToken);
   const [yearMonth, setYearMonth] = useState<HistoryYearMonth>({
@@ -26,8 +30,8 @@ const HistoryScreen = () => {
   }, []);
 
   return (
-    <ScreenContainer className="bg-white rounded-t-2xl px-[12px] py-[8px]">
-      <VStack className="gap-y-5 items-center flex-1">
+    <ScreenContainer className={cn("bg-white rounded-t-2xl", tw.px(3), tw.py(2))}>
+      <VStack className={cn("items-center flex-1", tw.gapY(5))}>
         <Tab options={currentChainSupportedTokens} value={selectedToken} handleChange={setSelectedToken} />
         <YearMonthPicker onChange={handleChangeYearMonth} />
         <HStack className="w-full flex-1 justify-center">

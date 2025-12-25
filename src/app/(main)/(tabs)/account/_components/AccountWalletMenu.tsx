@@ -1,11 +1,13 @@
 import { useRouter } from "expo-router";
 import { useCallback } from "react";
 
+import { AppText } from "@/presentation/components/AppText";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
-import { Text } from "@/presentation/components/gluestack-ui/text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 import CreateWalletDialog from "@appc/CreateWalletDialog";
 import RestoreWalletField from "@appc/RestoreWalletField";
 
@@ -13,6 +15,7 @@ import AccountMenuConteiner from "./AccountMenuConteiner";
 import AccountMenuItem from "./AccountMenuItem";
 
 const AccountWalletMenu = () => {
+  const tw = useTw();
   const router = useRouter();
   const [isCreating, setIsCreating] = useBoolean(false);
   const [isRestoring, setIsRestoring] = useBoolean(false);
@@ -44,20 +47,26 @@ const AccountWalletMenu = () => {
   return (
     <AccountMenuConteiner title="ウォレット設定">
       <AccountMenuItem onPress={handlePressChangeWallet}>
-        <HStack className="justify-between gap-x-10">
-          <Text className="font-bold">接続中のウォレット</Text>
-          <Text className="flex-1 text-right" size="md" numberOfLines={1} ellipsizeMode="middle">
+        <HStack className={cn("justify-between", tw.gapX(10))}>
+          <AppText t="md" className="font-bold">
+            接続中のウォレット
+          </AppText>
+          <AppText t="md" className="flex-1 text-right" oneLine ellipsizeMode="middle">
             {account?.address ?? "0x00"}
-          </Text>
+          </AppText>
         </HStack>
       </AccountMenuItem>
 
       <AccountMenuItem onPress={setIsCreating.on}>
-        <Text className="font-bold">ウォレットの新規作成</Text>
+        <AppText t="md" className="font-bold">
+          ウォレットの新規作成
+        </AppText>
       </AccountMenuItem>
 
       <AccountMenuItem onPress={setIsRestoring.on}>
-        <Text className="font-bold">ウォレットの復元</Text>
+        <AppText t="md" className="font-bold">
+          ウォレットの復元
+        </AppText>
       </AccountMenuItem>
 
       <CreateWalletDialog isOpen={isCreating} onClose={setIsCreating.off} onCreateWallet={handlePressCreateWallet} />

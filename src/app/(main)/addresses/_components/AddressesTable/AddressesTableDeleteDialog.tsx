@@ -8,6 +8,8 @@ import { InfoText, ErrorText } from "@/presentation/components/Text";
 import { useDeleteAddress } from "@/presentation/hooks/mutations/useDeleteAddress";
 import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 type AddressesTableDeleteDialogProps = {
   address: Address;
@@ -19,6 +21,8 @@ type AddressesTableDeleteDialogProps = {
 const AddressesTableDeleteDialog = (props: AddressesTableDeleteDialogProps) => {
   const { address, isOpen, handleClose, refetchAddresses } = props;
   const { mutateAsync: deleteAddress } = useDeleteAddress();
+
+  const tw = useTw();
 
   const [isDeleting, setIsDeleting] = useBoolean(false);
   const [error, setError] = useState<string | undefined>(undefined);
@@ -52,7 +56,7 @@ const AddressesTableDeleteDialog = (props: AddressesTableDeleteDialogProps) => {
         size="lg"
         buttonProps={{ text: "削除", isLoading: isDeleting, onPress: handleDelete }}
       >
-        <VStack className="py-4 gap-y-1">
+        <VStack className={cn(tw.py(4), tw.gapY(1))}>
           {!error ? (
             <InfoText>{`削除したアドレスを復元することはできません。`}</InfoText>
           ) : (

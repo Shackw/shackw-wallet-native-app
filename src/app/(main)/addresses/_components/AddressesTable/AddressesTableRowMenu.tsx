@@ -8,6 +8,8 @@ import { Menu, MenuItem, MenuItemLabel } from "@/presentation/components/gluesta
 import { type AddressRow, useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { theme } from "@/presentation/styles/theme";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 import AddressesDisplayQR from "@mainc/addresses/AddressesDisplayQR";
 import AddressMutateField from "@mainc/addresses/AddressMutateField";
 
@@ -23,6 +25,8 @@ const AddressesTableRowMenu = (props: AddressesTableRowMenuProps) => {
   const [isEditing, setIsEditing] = useBoolean(false);
   const [isDeleting, setIsDeleting] = useBoolean(false);
   const [isDisplayQr, setIsDisplayQr] = useBoolean(false);
+
+  const tw = useTw();
 
   const handleCopy = useCallback(() => {
     setStringAsync(row.address);
@@ -40,7 +44,7 @@ const AddressesTableRowMenu = (props: AddressesTableRowMenuProps) => {
               defaultProps={triggerProps}
               action="default"
               className="ml-auto"
-              iconSize={22}
+              iconSize={tw.scaleNum(22)}
               icon={EllipsisVertical}
               iconColor={theme.colors.secondary[700]}
             />
@@ -48,26 +52,20 @@ const AddressesTableRowMenu = (props: AddressesTableRowMenuProps) => {
         }}
       >
         <MenuItem key="Edit Profile" textValue="編集" onPress={setIsEditing.on}>
-          <Icon as={SquarePen} size="md" className="mr-2" />
-          <MenuItemLabel size="md" className="font-bold">
-            編集
-          </MenuItemLabel>
+          <Icon as={SquarePen} size="md" className={tw.mr(2)} />
+          <MenuItemLabel className={cn(["font-bold", tw.text("md")])}>編集</MenuItemLabel>
         </MenuItem>
         <MenuItem key="Disply QR" textValue="QRコードを表示" onPress={setIsDisplayQr.on}>
-          <Icon as={QrCode} size="md" className="mr-2" />
-          <MenuItemLabel size="md" className="font-bold">
-            QRコードを表示
-          </MenuItemLabel>
+          <Icon as={QrCode} size="md" className={tw.mr(2)} />
+          <MenuItemLabel className={cn(["font-bold", tw.text("md")])}>QRコードを表示</MenuItemLabel>
         </MenuItem>
         <MenuItem key="Copy Address" textValue="アドレスをコピー" onPress={handleCopy}>
-          <Icon as={Copy} size="md" className="mr-2" />
-          <MenuItemLabel size="md" className="font-bold">
-            アドレスをコピー
-          </MenuItemLabel>
+          <Icon as={Copy} size="md" className={tw.mr(2)} />
+          <MenuItemLabel className={cn(["font-bold", tw.text("md")])}>アドレスをコピー</MenuItemLabel>
         </MenuItem>
         {!row.isMine && (
           <MenuItem key="Delete Address" textValue="削除" onPress={setIsDeleting.on}>
-            <Icon as={Copy} size="md" className="mr-2" />
+            <Icon as={Copy} size="md" className={tw.mr(2)} />
             <MenuItemLabel size="md" className="font-bold">
               削除
             </MenuItemLabel>

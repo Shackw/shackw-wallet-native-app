@@ -7,6 +7,8 @@ import { useLoadingOverlay } from "@/presentation/providers/LoadingOverlayProvid
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 import { useTokenBalanceContext } from "@/presentation/providers/TokenBalanceProvider";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 import ScreenContainer from "../_components/ScreenContainer";
 
@@ -19,6 +21,7 @@ import TransferSubmitButton from "./_components/TransferSubmitButton";
 import { TransferFormProvider } from "./_hooks/useTransferForm";
 
 const TransferScreen = () => {
+  const tw = useTw();
   const { show, hide } = useLoadingOverlay();
   const tokenBalances = useTokenBalanceContext();
   const { walletEnabled } = useShackwWalletContext();
@@ -42,14 +45,14 @@ const TransferScreen = () => {
   if (!walletEnabled) return <Redirect href="/(main)/(tabs)" />;
 
   return (
-    <ScreenContainer appBarProps={{ title: "送信" }} className="bg-white rounded-t-2xl">
-      <Box className="py-[8px] flex-1">
+    <ScreenContainer appBarProps={{ title: "送信" }} className={cn("bg-white", "rounded-t-2xl")}>
+      <Box className={cn(tw.py(2), "flex-1")}>
         <TransferFormProvider>
           <TransferSearchParam />
 
           <TransferSendToken />
-          <VStack className="flex-1 bg-secondary-100">
-            <VStack className="gap-y-8">
+          <VStack className={cn("flex-1", "bg-secondary-100")}>
+            <VStack className={cn(tw.gapY(8))}>
               <TransferRecipient />
               <TransferFeeToken />
               <TransferAmount />

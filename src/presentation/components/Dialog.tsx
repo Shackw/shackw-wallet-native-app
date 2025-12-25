@@ -1,3 +1,4 @@
+import { AppText } from "@/presentation/components/AppText";
 import {
   AlertDialog as GlueStackUiAlertDialog,
   AlertDialogBackdrop,
@@ -6,24 +7,29 @@ import {
   AlertDialogBody,
   AlertDialogFooter
 } from "@/presentation/components/gluestack-ui/alert-dialog";
-import { Text } from "@/presentation/components/gluestack-ui/text";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 import { ContainButton, SubContainButton } from "./Button";
 
 type DialogProps = { title: string; onClose: () => void } & React.ComponentProps<typeof GlueStackUiAlertDialog>;
 
 export const AlertDialog = (props: DialogProps) => {
+  const tw = useTw();
   const { title, children, onClose, ...rest } = props;
+
   return (
     <GlueStackUiAlertDialog {...rest} onClose={onClose}>
       <AlertDialogBackdrop />
       <AlertDialogContent>
         <AlertDialogHeader>
-          <Text className="text-secondary-700 font-bold" size="lg">
+          <AppText t="lg" className="text-secondary-700 font-bold">
             {title}
-          </Text>
+          </AppText>
         </AlertDialogHeader>
-        <AlertDialogBody className="mt-3 mb-4">{children}</AlertDialogBody>
+
+        <AlertDialogBody className={cn(tw.mt(3), tw.mb(4))}>{children}</AlertDialogBody>
+
         <AlertDialogFooter>
           <SubContainButton text="閉じる" size="md" onPress={onClose} />
         </AlertDialogFooter>
@@ -36,18 +42,23 @@ type ActionDialogProps = DialogProps & {
   action: "primary" | "secondary";
   buttonProps: Omit<React.ComponentProps<typeof ContainButton>, "size">;
 };
+
 export const ActionDialog = (props: ActionDialogProps) => {
+  const tw = useTw();
   const { title, children, action, buttonProps, ...rest } = props;
+
   return (
     <GlueStackUiAlertDialog {...rest}>
       <AlertDialogBackdrop />
       <AlertDialogContent>
         <AlertDialogHeader>
-          <Text className="text-secondary-700 font-bold" size="lg">
+          <AppText t="lg" className="text-secondary-700 font-bold">
             {title}
-          </Text>
+          </AppText>
         </AlertDialogHeader>
-        <AlertDialogBody className="mt-3 mb-4">{children}</AlertDialogBody>
+
+        <AlertDialogBody className={cn(tw.mt(3), tw.mb(4))}>{children}</AlertDialogBody>
+
         <AlertDialogFooter>
           {action === "primary" ? (
             <ContainButton {...buttonProps} size="md" />
