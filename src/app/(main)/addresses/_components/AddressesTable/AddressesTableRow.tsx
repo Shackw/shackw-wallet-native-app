@@ -1,9 +1,11 @@
+import { AppText } from "@/presentation/components/AppText";
 import { Avatar, AvatarFallbackText } from "@/presentation/components/gluestack-ui/avatar";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { TableRow } from "@/presentation/components/gluestack-ui/table";
-import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { type AddressRow, useAddressesRow } from "@/presentation/hooks/useAddressesRow";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 import AddressesTableRowMenu from "./AddressesTableRowMenu";
 
@@ -15,21 +17,23 @@ type AddressesTableRowProps = {
 const AddressesTableRow = (props: AddressesTableRowProps) => {
   const { row, refetchAddresses } = props;
 
+  const tw = useTw();
+
   return (
-    <TableRow className="w-full py-3">
-      <HStack className="w-full gap-x-4 items-center">
-        <Avatar size="md" className="mx-2">
+    <TableRow className={cn("w-full", tw.py(3))}>
+      <HStack className={cn("w-full items-center", tw.gapX(4))}>
+        <Avatar size={tw.input("md")} className={tw.mx(2)}>
           <AvatarFallbackText>{row.name}</AvatarFallbackText>
         </Avatar>
 
-        <VStack className="flex-1 gap-y-1">
-          <Text size="lg" numberOfLines={1} ellipsizeMode="middle" className="font-bold w-full">
+        <VStack className={cn("flex-1", tw.gapY(1))}>
+          <AppText t="lg" oneLine className="font-bold w-full">
             {row.name}
-          </Text>
+          </AppText>
 
-          <Text size="md" numberOfLines={1} ellipsizeMode="middle" className="font-bold text-secondary-500 w-full">
+          <AppText t="md" oneLine className="font-bold text-secondary-500 w-full">
             {row.address}
-          </Text>
+          </AppText>
         </VStack>
 
         <VStack className="shrink-0">

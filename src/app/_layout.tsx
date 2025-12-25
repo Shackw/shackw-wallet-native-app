@@ -1,6 +1,7 @@
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 
+import { GluestackUIProvider } from "@/presentation/components/gluestack-ui/gluestack-ui-provider";
 import { LoadingOverlayProvider } from "@/presentation/providers/LoadingOverlayProvider";
 
 import RootProviders from "./_components/RootProviders";
@@ -11,16 +12,18 @@ SplashScreen.preventAutoHideAsync();
 
 const RootLayout = () => {
   return (
-    <LoadingOverlayProvider>
-      <RootProviders>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            contentStyle: { backgroundColor: "transparent" }
-          }}
-        />
-      </RootProviders>
-    </LoadingOverlayProvider>
+    <GluestackUIProvider>
+      <LoadingOverlayProvider>
+        <RootProviders>
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              contentStyle: { backgroundColor: "transparent" }
+            }}
+          />
+        </RootProviders>
+      </LoadingOverlayProvider>
+    </GluestackUIProvider>
   );
 };
 

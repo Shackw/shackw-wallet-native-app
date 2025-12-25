@@ -3,15 +3,17 @@ import { Pressable } from "react-native";
 import { Address } from "viem";
 
 import { PrivateKeyModel } from "@/domain/privateKey";
+import { AppText } from "@/presentation/components/AppText";
 import BackDrop from "@/presentation/components/BackDrop";
 import { AlertDialog } from "@/presentation/components/Dialog";
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
-import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText } from "@/presentation/components/Text";
 import { useFetchPrivateKeyByWallet } from "@/presentation/hooks/mutations/useFetchPrivateKeyByWallet";
 import { useSafeTransition } from "@/presentation/hooks/useSafeTransition";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 import { formatIsoString } from "@/shared/helpers/datetime";
 import PrivateKeyConfirmSheet from "@mainc/PrivateKeyConfirmSheet";
 
@@ -21,6 +23,8 @@ type HomePkBackupReminderProps = {
 
 const HomePkBackupReminder = (props: HomePkBackupReminderProps) => {
   const { wallet } = props;
+
+  const tw = useTw();
 
   const { safeTransition } = useSafeTransition();
   const [verifingPk, setVerifingPk] = useState<PrivateKeyModel | undefined>(undefined);
@@ -58,11 +62,11 @@ const HomePkBackupReminder = (props: HomePkBackupReminderProps) => {
         className="absolute w-full rounded-xl bg-secondary-900 border-primary-900 border-2 active:bg-secondary-800"
         onPress={handlePressReminder}
       >
-        <HStack className="p-3 gap-x-4">
+        <HStack className={cn(tw.p(3), tw.gapX(3))}>
           <Box className="w-1 h-full bg-primary-700" />
-          <VStack className="w-full gap-y-1">
-            <Text size="md" className="text-primary-100 font-bold">{`バックアップ未完了`}</Text>
-            <ErrorText className="text-sm">{`端末を失うと資産が永久に失われます。\nバックアップ完了まで全機能が制限されます。`}</ErrorText>
+          <VStack className={cn("w-full", tw.gapY(1))}>
+            <AppText t="md" className="text-primary-100 font-bold">{`バックアップ未完了`}</AppText>
+            <ErrorText t="sm">{`端末を失うと資産が永久に失われます。\nバックアップ完了まで全機能が制限されます。`}</ErrorText>
           </VStack>
         </HStack>
       </Pressable>
@@ -89,7 +93,7 @@ const HomePkBackupReminder = (props: HomePkBackupReminderProps) => {
         onClose={handleCloseErrorDialog}
         size="lg"
       >
-        <VStack className="py-4 gap-y-1">
+        <VStack className={cn(tw.py(4), tw.gapY(1))}>
           <ErrorText>{errorMes}</ErrorText>
         </VStack>
       </AlertDialog>

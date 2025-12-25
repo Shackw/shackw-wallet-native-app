@@ -1,22 +1,27 @@
+import { AppText } from "@/presentation/components/AppText";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Switch } from "@/presentation/components/gluestack-ui/switch";
-import { Text } from "@/presentation/components/gluestack-ui/text";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 import useSelectNetworkForm from "../_hooks/useSelectNetworkForm";
 
 const NetworkDefault = () => {
+  const tw = useTw();
   const {
     form: { isChangeDefault, setIsChangeDefault },
     fieldMeta: { isSwitchDisabled }
   } = useSelectNetworkForm();
 
   return (
-    <HStack className="w-full px-4 py-3 h-[90px] bg-white items-center justify-between gap-x-5">
-      <Text size="xl" className="font-bold text-secondary-700 ">
+    <HStack
+      className={cn("w-full", tw.px(4), tw.py(3), tw.h(24), "bg-white", "items-center", "justify-between", tw.gapX(5))}
+    >
+      <AppText t="lg" className="font-bold text-secondary-700">
         デフォルト設定
-      </Text>
+      </AppText>
 
-      <HStack className="items-center gap-x-2">
+      <HStack className={cn("items-center", tw.gapX(2))}>
         {!isSwitchDisabled ? (
           <Switch
             size="lg"
@@ -27,7 +32,7 @@ const NetworkDefault = () => {
             onToggle={setIsChangeDefault.toggle}
           />
         ) : (
-          <Text className="font-bold">デフォルトに設定されています</Text>
+          <AppText className="font-bold">デフォルトに設定されています</AppText>
         )}
       </HStack>
     </HStack>

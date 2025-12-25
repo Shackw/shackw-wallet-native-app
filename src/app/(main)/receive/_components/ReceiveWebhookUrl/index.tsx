@@ -2,16 +2,19 @@ import { useStore } from "@tanstack/react-form";
 import { useState, useCallback } from "react";
 import { Pressable } from "react-native";
 
+import { AppText } from "@/presentation/components/AppText";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
-import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 import useReceiveForm from "../../_hooks/useReceiveForm";
 
 import ReceiveWebhookUrlField from "./ReceiveWebhookUrlField";
 
 const ReceiveWebhookUrl = () => {
+  const tw = useTw();
   const receiveForm = useReceiveForm();
 
   const { form } = receiveForm;
@@ -28,14 +31,25 @@ const ReceiveWebhookUrl = () => {
   return (
     <>
       <VStack className="w-full">
-        <HStack className="w-full px-4 py-3 h-[90px] bg-white items-center justify-between gap-x-5">
-          <Text size="xl" className="font-bold text-secondary-700 ">
+        <HStack
+          className={cn(
+            "w-full",
+            tw.px(4),
+            tw.py(3),
+            tw.h(24),
+            "bg-white",
+            "items-center",
+            "justify-between",
+            tw.gapX(5)
+          )}
+        >
+          <AppText t="lg" className="font-bold text-secondary-700">
             通知設定
-          </Text>
+          </AppText>
           <Pressable className="flex-1" onPress={handleEdit}>
-            <Text size="lg" className="font-bold text-right">
+            <AppText t="lg" className="font-bold text-right">
               {(isEditing && prevValue) || (!isEditing && webhookUrl) ? "通知する" : "通知しない"}
-            </Text>
+            </AppText>
           </Pressable>
         </HStack>
       </VStack>

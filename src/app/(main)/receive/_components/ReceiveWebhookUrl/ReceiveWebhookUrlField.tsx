@@ -9,6 +9,8 @@ import { Textarea, TextareaInput } from "@/presentation/components/gluestack-ui/
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText, InfoText } from "@/presentation/components/Text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 import { ReceiveFormContextType } from "../../_hooks/useReceiveForm";
 
@@ -19,6 +21,7 @@ type ReceiveWebhookUrlFieldProps = {
 };
 
 const ReceiveWebhookUrlField = (props: ReceiveWebhookUrlFieldProps) => {
+  const tw = useTw();
   const { prevValue, transferForm, componentProps } = props;
 
   const { form } = transferForm;
@@ -55,9 +58,9 @@ const ReceiveWebhookUrlField = (props: ReceiveWebhookUrlFieldProps) => {
           name="webhookUrl"
           children={field => (
             <>
-              <VStack className="justify-between flex-1 py-4">
-                <VStack className="w-full items-center gap-y-4">
-                  <Textarea size="lg" className="p-2 rounded-xl h-32">
+              <VStack className={cn("justify-between", "flex-1", tw.py(4))}>
+                <VStack className={cn("w-full", "items-center", tw.gapY(4))}>
+                  <Textarea size={tw.input("lg")} className={cn(tw.p(2), "rounded-xl", tw.h(32))}>
                     <TextareaInput
                       inputMode="text"
                       autoCapitalize="none"
@@ -70,7 +73,7 @@ const ReceiveWebhookUrlField = (props: ReceiveWebhookUrlFieldProps) => {
                   </Textarea>
                   <InfoText>{`通知用URLを設定することで支払い完了通知を受け取ることができます。`}</InfoText>
                 </VStack>
-                <HStack className="gap-x-4">
+                <HStack className={tw.gapX(4)}>
                   <SubContainButton
                     text={field.state.meta.isDefaultValue ? "閉じる" : "クリア"}
                     size="lg"
@@ -87,7 +90,7 @@ const ReceiveWebhookUrlField = (props: ReceiveWebhookUrlFieldProps) => {
                 onClose={setIsShowErrorDialog.off}
                 size="lg"
               >
-                <VStack className="py-4 gap-y-1">
+                <VStack className={cn(tw.py(4), tw.gapY(1))}>
                   {field.state.meta.errors.map((error, index) => (
                     <ErrorText key={`amount-error-${index}`}>{error?.message}</ErrorText>
                   ))}

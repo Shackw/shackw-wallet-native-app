@@ -5,7 +5,9 @@ import { ContainButton } from "@/presentation/components/Button";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { InfoText } from "@/presentation/components/Text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { useTw } from "@/presentation/styles/tw";
 import { Token } from "@/registries/ChainTokenRegistry";
+import { cn } from "@/shared/helpers/cn";
 
 import useReceiveForm from "../_hooks/useReceiveForm";
 
@@ -14,6 +16,7 @@ import ReceiveConfirm from "./ReceiveConfirm";
 type ReceiveSubmitButtonProps = { recipient: Address };
 
 const ReceiveSubmitButton = (props: ReceiveSubmitButtonProps) => {
+  const tw = useTw();
   const { recipient } = props;
   const receiveForm = useReceiveForm();
   const { form, sendToken, fee, isValid } = receiveForm;
@@ -29,7 +32,7 @@ const ReceiveSubmitButton = (props: ReceiveSubmitButtonProps) => {
 
   return (
     <>
-      <VStack className="px-4 pt-5 gap-y-5">
+      <VStack className={cn(tw.px(4), tw.pt(5), tw.gapY(5))}>
         <InfoText>{`手数料は、取引が実行されるチェーンと、手数料として使用する通貨によって自動的に決まります。`}</InfoText>
         <ContainButton
           text="QRコードを作成"

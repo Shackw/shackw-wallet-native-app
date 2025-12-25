@@ -3,13 +3,15 @@ import { useCallback } from "react";
 import { Pressable } from "react-native";
 
 import { CHAIN_ICONS } from "@/config/chain";
+import { AppText } from "@/presentation/components/AppText";
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Spinner } from "@/presentation/components/gluestack-ui/spinner";
-import { Text } from "@/presentation/components/gluestack-ui/text";
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
+import { useTw } from "@/presentation/styles/tw";
 import { shortenAddress } from "@/shared/helpers/address";
+import { cn } from "@/shared/helpers/cn";
 
 import { AppBarProps } from ".";
 
@@ -19,6 +21,8 @@ const AppBarBody = (props: AppBarProps) => {
   const router = useRouter();
   const { account } = useShackwWalletContext();
   const { currentChain } = useWalletPreferencesContext();
+
+  const tw = useTw();
 
   const accountAddress = account?.address;
 
@@ -31,7 +35,9 @@ const AppBarBody = (props: AppBarProps) => {
   if (title)
     return (
       <HStack className="w-full justify-center">
-        <Text className="text-lg font-bold text-white">{title}</Text>
+        <AppText t="lg" className="font-bold text-white">
+          {title}
+        </AppText>
       </HStack>
     );
   return (
@@ -39,14 +45,14 @@ const AppBarBody = (props: AppBarProps) => {
       {accountAddress ? (
         <Pressable onPress={handlePressWallet}>
           <HStack className="items-center relative">
-            <Box className="absolute left-[-25px]">
+            <Box className={cn("absolute", "ml-[-22px]")}>
               <ChainIcon />
             </Box>
-            <Text className="font-bold text-white">{shortenAddress(accountAddress)}</Text>
+            <AppText className="font-bold text-white">{shortenAddress(accountAddress)}</AppText>
           </HStack>
         </Pressable>
       ) : (
-        <Spinner size="small" color="white" />
+        <Spinner size={tw.scaleNum(18)} color="white" />
       )}
     </HStack>
   );

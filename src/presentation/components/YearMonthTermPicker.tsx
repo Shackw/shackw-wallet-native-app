@@ -3,15 +3,18 @@ import { ChevronLeft, ChevronRight, CalendarDays } from "lucide-react-native";
 import { useCallback, useState } from "react";
 import { Pressable } from "react-native";
 
+import { AppText } from "@/presentation/components/AppText";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Icon } from "@/presentation/components/gluestack-ui/icon";
-import { Text } from "@/presentation/components/gluestack-ui/text";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 type YearMonthPickerProps = {
   onChange: (year: number, month: number) => void;
 };
 
 const YearMonthPicker = (props: YearMonthPickerProps) => {
+  const tw = useTw();
   const { onChange } = props;
 
   const [date, setDate] = useState(startOfMonth(new Date()));
@@ -34,33 +37,33 @@ const YearMonthPicker = (props: YearMonthPickerProps) => {
   const thisMonthStart = startOfMonth(new Date());
 
   return (
-    <HStack className="w-full justify-center items-center py-1 relative">
+    <HStack className={cn("w-full", "justify-center", "items-center", tw.py(1), "relative")}>
       <Pressable
         onPress={handlePrev}
-        className="items-center flex-row gap-x-2 left-0 absolute"
+        className={cn("items-center", "flex-row", tw.gapX(2), "left-0", "absolute")}
         accessibilityRole="button"
       >
         <Icon as={ChevronLeft} size="xl" className="color-primary-300 bg-red-50 rounded-full" />
-        <Text size="md" className="text-secondary-700 font-bold">
+        <AppText t="md" className="text-secondary-700 font-bold">
           前の月
-        </Text>
+        </AppText>
       </Pressable>
 
-      <HStack className="items-center gap-x-1">
+      <HStack className={cn("items-center", tw.gapX(1))}>
         <Icon as={CalendarDays} size="xl" className="color-primary-500" />
-        <Text size="xl" className="text-primary-500 font-bold">{`${year}年`}</Text>
-        <Text size="xl" className="text-primary-500 font-bold">{`${month}月`}</Text>
+        <AppText t="xl" className="text-primary-500 font-bold">{`${year}年`}</AppText>
+        <AppText t="xl" className="text-primary-500 font-bold">{`${month}月`}</AppText>
       </HStack>
 
       {isBefore(date, thisMonthStart) && (
         <Pressable
           onPress={handleNext}
-          className="items-center flex-row gap-x-2 right-0 absolute"
+          className={cn("items-center", "flex-row", tw.gapX(2), "right-0", "absolute")}
           accessibilityRole="button"
         >
-          <Text size="md" className="text-secondary-700 font-bold">
+          <AppText t="md" className="text-secondary-700 font-bold">
             次の月
-          </Text>
+          </AppText>
           <Icon as={ChevronRight} size="xl" className="color-primary-300 bg-red-50 rounded-full" />
         </Pressable>
       )}

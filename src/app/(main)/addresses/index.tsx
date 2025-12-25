@@ -3,14 +3,16 @@ import { Plus } from "lucide-react-native";
 import { useEffect, useMemo } from "react";
 import { Address } from "viem";
 
+import { AppText } from "@/presentation/components/AppText";
 import { IconButton } from "@/presentation/components/Button";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
-import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import Searcher from "@/presentation/components/Searcher";
 import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { theme } from "@/presentation/styles/theme";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 import AddressMutateField from "../_components/addresses/AddressMutateField";
 import ScreenContainer from "../_components/ScreenContainer";
@@ -19,6 +21,7 @@ import AddressesMine from "./_components/AddressesMine";
 import AddressesTable from "./_components/AddressesTable";
 
 const AddressesScreen = () => {
+  const tw = useTw();
   const [isCreating, setIsCreating] = useBoolean(false);
   const params = useLocalSearchParams<{ address?: Address; name?: string }>();
 
@@ -33,26 +36,28 @@ const AddressesScreen = () => {
 
   return (
     <ScreenContainer appBarProps={{ title: "アドレス帳" }} className="bg-white rounded-t-2xl">
-      <VStack className="p-3 gap-y-4 flex-1">
+      <VStack className={cn(tw.p(3), tw.gapY(4), "flex-1")}>
         <Searcher
           inputRef={searchTextRef}
           handleChange={handleChangeSearchText}
-          componetProps={{ className: "w-full mt-3" }}
+          componetProps={{
+            className: cn("w-full", tw.mt(3))
+          }}
         />
         <AddressesMine address={currentWalletRow.address} name={currentWalletRow.name} refetchAddresses={refetch} />
-        <VStack className="flex-1 pb-8 gap-y-4">
-          <VStack className="h-[208px]">
+        <VStack className={cn("flex-1", tw.pb(8), tw.gapY(4))}>
+          <VStack className={tw.h(52)}>
             <HStack className="items-center justify-between">
-              <Text className="font-bold text-secondary-500">自分のウォレット</Text>
+              <AppText className="font-bold text-secondary-500">自分のウォレット</AppText>
             </HStack>
             <AddressesTable rows={myAddressRows} isError={isError} refetchAddresses={refetch} />
           </VStack>
           <VStack className="flex-1">
             <HStack className="items-center justify-between">
-              <Text className="font-bold text-secondary-500">すべてのアドレス</Text>
+              <AppText className="font-bold text-secondary-500">すべてのアドレス</AppText>
               <IconButton
                 action="default"
-                iconSize={28}
+                iconSize={tw.scaleNum(28)}
                 icon={Plus}
                 iconColor={theme.colors.secondary[700]}
                 onPress={setIsCreating.on}

@@ -2,19 +2,21 @@ import { useCallback } from "react";
 import { ScrollView } from "react-native";
 import { Address } from "viem";
 
+import { AppText } from "@/presentation/components/AppText";
 import BackDrop from "@/presentation/components/BackDrop";
 import { BottomActionSheet } from "@/presentation/components/BottomActionSheet";
 import { ContainButton, SubContainButton } from "@/presentation/components/Button";
 import { AlertDialog } from "@/presentation/components/Dialog";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
-import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText, InfoText } from "@/presentation/components/Text";
 import { useTransferToken } from "@/presentation/hooks/mutations/useTransferToken";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { useSafeCloseToHome } from "@/presentation/hooks/useSafeCloseToHome";
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
+import { useTw } from "@/presentation/styles/tw";
 import { Token } from "@/registries/ChainTokenRegistry";
+import { cn } from "@/shared/helpers/cn";
 import ConfirmAmount from "@mainc/confirm/ConfirmAmount";
 import ConfirmRecipient from "@mainc/confirm/ConfirmRecipient";
 
@@ -30,6 +32,7 @@ type TransferConfirmProps = {
 };
 
 const TransferConfirm = (props: TransferConfirmProps) => {
+  const tw = useTw();
   const { name, recipient, amount, sendToken, feeToken, feeDisplyValue, webhookUrl, componentProps } = props;
 
   const { safeClose } = useSafeCloseToHome();
@@ -55,21 +58,20 @@ const TransferConfirm = (props: TransferConfirmProps) => {
   const handleCloseSuccess = useCallback(() => {
     componentProps.onClose();
     setIsTransferring.off();
-
     safeClose();
   }, [safeClose, componentProps, setIsTransferring]);
 
   return (
     <>
       <BottomActionSheet {...componentProps}>
-        <VStack className="w-full h-full justify-between gap-y-7">
-          <VStack className="w-full flex-1 gap-y-7">
-            <Text size="md" className="text-center font-bold text-secondary-700">
+        <VStack className={cn("w-full", "h-full", "justify-between", tw.gapY(7))}>
+          <VStack className={cn("w-full", "flex-1", tw.gapY(7))}>
+            <AppText t="md" className="text-center font-bold text-secondary-700">
               {"以下の内容で送金します。\n問題なければ送金ボタンを押してください。"}
-            </Text>
+            </AppText>
 
-            <ScrollView className="w-full flex-1" showsVerticalScrollIndicator={false}>
-              <VStack className="w-full flex-1 gap-y-7">
+            <ScrollView className={cn("w-full", "flex-1")} showsVerticalScrollIndicator={false}>
+              <VStack className={cn("w-full", "flex-1", tw.gapY(7))}>
                 <ConfirmRecipient title="振込先情報" name={name} address={recipient} />
                 <ConfirmAmount
                   title="送金額・手数料"
@@ -82,7 +84,8 @@ const TransferConfirm = (props: TransferConfirmProps) => {
               </VStack>
             </ScrollView>
           </VStack>
-          <HStack className="gap-x-4">
+
+          <HStack className={tw.gapX(4)}>
             <SubContainButton text="戻る" size="lg" className="flex-1" onPress={componentProps.onClose} />
             <ContainButton
               text="送金"
@@ -97,7 +100,7 @@ const TransferConfirm = (props: TransferConfirmProps) => {
 
       <BackDrop visible={isTransferring} />
       <AlertDialog title="送金完了" isOpen={isSuccess && componentProps.isOpen} onClose={handleCloseSuccess} size="lg">
-        <VStack className="py-4 gap-y-1">
+        <VStack className={cn(tw.py(4), tw.gapY(1))}>
           <InfoText>{`送金が完了しました。`}</InfoText>
         </VStack>
       </AlertDialog>

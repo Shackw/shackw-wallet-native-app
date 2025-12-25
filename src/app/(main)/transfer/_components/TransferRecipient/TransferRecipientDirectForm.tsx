@@ -9,12 +9,15 @@ import { Input, InputSlot, InputIcon, InputField } from "@/presentation/componen
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText } from "@/presentation/components/Text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 import { TransferFormContextType } from "../../_hooks/useTransferForm";
 
 type TransferRecipientDirectFormProps = { form: TransferFormContextType["form"]; handleClose: () => void };
 
 const TransferRecipientDirectForm = (props: TransferRecipientDirectFormProps) => {
+  const tw = useTw();
   const { form, handleClose } = props;
   const [isShowErrorDialog, setIsShowErrorDialog] = useBoolean(false);
 
@@ -39,13 +42,13 @@ const TransferRecipientDirectForm = (props: TransferRecipientDirectFormProps) =>
       showsVerticalScrollIndicator={false}
       extraScrollHeight={30}
     >
-      <VStack className="w-full flex-1 items-center justify-between">
+      <VStack className={cn(["w-full flex-1 items-center justify-between"])}>
         <form.Field
           name="recipient"
           children={field => (
             <>
-              <VStack className="w-full flex-1 justify-between">
-                <Input size="lg" className="px-2 rounded-xl h-14">
+              <VStack className={cn("w-full", "flex-1", "justify-between", tw.gapY(5))}>
+                <Input size={tw.input("lg")} className={cn(tw.px(2), "rounded-xl", tw.h(14))}>
                   <InputSlot>
                     <InputIcon as={NotepadText} />
                   </InputSlot>
@@ -59,7 +62,7 @@ const TransferRecipientDirectForm = (props: TransferRecipientDirectFormProps) =>
                     onBlur={field.handleBlur}
                   />
                 </Input>
-                <HStack className="gap-x-4">
+                <HStack className={tw.gapX(4)}>
                   <SubContainButton
                     text={field.state.meta.isDefaultValue ? "閉じる" : "クリア"}
                     size="lg"
@@ -71,7 +74,7 @@ const TransferRecipientDirectForm = (props: TransferRecipientDirectFormProps) =>
               </VStack>
 
               <AlertDialog title="宛先入力不正" isOpen={isShowErrorDialog} onClose={setIsShowErrorDialog.off} size="lg">
-                <VStack className="py-4 gap-y-1">
+                <VStack className={cn(tw.py(4), tw.gapY(1))}>
                   {field.state.meta.errors.map((error, index) => (
                     <ErrorText key={`recipient-error-${index}`}>{error?.message}</ErrorText>
                   ))}

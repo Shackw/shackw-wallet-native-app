@@ -1,13 +1,15 @@
 import { CHAINS } from "@/config/chain";
 import Anchor from "@/presentation/components/Anchor";
+import { AppText } from "@/presentation/components/AppText";
 import { TextButton } from "@/presentation/components/Button";
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { TableRow } from "@/presentation/components/gluestack-ui/table";
-import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 import { formatIsoString } from "@/shared/helpers/datetime";
 import AddressMutateField from "@mainc/addresses/AddressMutateField";
 
@@ -23,16 +25,20 @@ const HistoryTableRow = (props: HistoryTableRowProps) => {
   const { currentChain } = useWalletPreferencesContext();
   const { txHash, displayValue, counterparty, anchorColor, transferredAt } = row;
 
+  const tw = useTw();
+
   const [isAddingAddress, setIsAddingAddress] = useBoolean(false);
 
   return (
     <>
       <TableRow className="w-full">
-        <HStack className="w-full py-2">
+        <HStack className={cn("w-full", tw.py(2))}>
           <Box className="h-full w-1.5 rounded-full" style={{ backgroundColor: anchorColor }} />
-          <VStack className="w-full py-1 pl-3 pr-6 gap-y-1">
+          <VStack className={cn("w-full", tw.py(1), tw.pl(3), tw.pr(6), tw.gapY(1))}>
             <HStack className="justify-between">
-              <Text className="font-bold text-secondary-500">{formatIsoString(transferredAt)}</Text>
+              <AppText t="md" className="font-bold text-secondary-500">
+                {formatIsoString(transferredAt)}
+              </AppText>
               {CHAINS[currentChain].blockExplorers?.default ? (
                 <Anchor
                   href={`${CHAINS[currentChain].blockExplorers.default.url}/tx/${txHash}`}
@@ -41,23 +47,20 @@ const HistoryTableRow = (props: HistoryTableRowProps) => {
                   className="font-bold text-secondary-500 w-32"
                 >{`tx: ${txHash}`}</Anchor>
               ) : (
-                <Text
-                  numberOfLines={1}
-                  ellipsizeMode="middle"
-                  className="font-bold text-secondary-500 w-32"
-                >{`tx: ${txHash}`}</Text>
+                <AppText t="md" className="font-bold text-secondary-500 w-32" oneLine>
+                  {`tx: ${txHash}`}
+                </AppText>
               )}
             </HStack>
             <>
               {counterparty.name ? (
-                <Text className="font-bold" size="lg">
+                <AppText t="lg" className="font-bold">
                   {counterparty.name}
-                </Text>
+                </AppText>
               ) : (
                 <TextButton
                   textProps={{
                     className: "font-bold text-secondary-800 w-[65%]",
-                    size: "lg",
                     numberOfLines: 1,
                     ellipsizeMode: "middle"
                   }}
@@ -67,9 +70,9 @@ const HistoryTableRow = (props: HistoryTableRowProps) => {
                 </TextButton>
               )}
             </>
-            <Text className="font-bold text-right" size="xl">
+            <AppText t="xl" className="font-bold text-right">
               {displayValue}
-            </Text>
+            </AppText>
           </VStack>
         </HStack>
       </TableRow>

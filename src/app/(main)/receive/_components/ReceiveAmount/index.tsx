@@ -2,10 +2,12 @@ import { useStore } from "@tanstack/react-form";
 import { useCallback, useEffect, useState } from "react";
 import { Pressable } from "react-native";
 
+import { AppText } from "@/presentation/components/AppText";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
-import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 import { toAllowedStr } from "@/shared/helpers/tokenUnits";
 
 import useReceiveForm from "../../_hooks/useReceiveForm";
@@ -14,6 +16,7 @@ import ReceiveAmountField from "./ReceiveAmountField";
 import ReceiveAmountSummary from "./ReceiveAmountSummary";
 
 const ReceiveAmount = () => {
+  const tw = useTw();
   const receiveForm = useReceiveForm();
 
   const { form, sendToken } = receiveForm;
@@ -37,23 +40,34 @@ const ReceiveAmount = () => {
   return (
     <>
       <VStack className="w-full">
-        <HStack className="w-full px-4 py-3 h-[90px] bg-white items-center justify-between gap-x-5">
-          <Text size="xl" className="font-bold text-secondary-700 ">
+        <HStack
+          className={cn(
+            "w-full",
+            tw.px(4),
+            tw.py(3),
+            tw.h(24),
+            "bg-white",
+            "items-center",
+            "justify-between",
+            tw.gapX(5)
+          )}
+        >
+          <AppText t="lg" className="font-bold text-secondary-700">
             請求額
-          </Text>
+          </AppText>
           <Pressable className="flex-1" onPress={handleEdit}>
             {(isEditing && prevValue) || (!isEditing && amount) ? (
-              <Text size="2xl" className="font-bold text-right">
+              <AppText t="2xl" className="font-bold text-right">
                 {`${toAllowedStr(amount ?? 0, sendToken)} ${sendToken}`}
-              </Text>
+              </AppText>
             ) : (
-              <Text size="lg" className="text-primary-600 font-bold text-center">
+              <AppText t="lg" className="text-primary-600 font-bold text-center">
                 金額を入力
-              </Text>
+              </AppText>
             )}
           </Pressable>
         </HStack>
-        <ReceiveAmountSummary transferForm={receiveForm} display="both" className="px-4" />
+        <ReceiveAmountSummary transferForm={receiveForm} display="both" className={tw.px(4)} />
       </VStack>
       <ReceiveAmountField
         prevValue={prevValue}

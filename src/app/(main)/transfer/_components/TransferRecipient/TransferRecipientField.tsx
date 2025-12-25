@@ -4,6 +4,8 @@ import { BottomActionSheet } from "@/presentation/components/BottomActionSheet";
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { Tab } from "@/presentation/components/Tab";
 import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 import { TransferFormContextType } from "../../_hooks/useTransferForm";
 
@@ -24,6 +26,7 @@ const INPUT_METHODS = {
 type InputMethods = keyof typeof INPUT_METHODS;
 
 const TransferRecipientField = (props: TransferRecipientFieldProps) => {
+  const tw = useTw();
   const { prevValue, transferForm, useAddressesRowResult, componentProps } = props;
 
   const { form } = transferForm;
@@ -45,7 +48,7 @@ const TransferRecipientField = (props: TransferRecipientFieldProps) => {
   return (
     <BottomActionSheet {...componentProps} onClose={handleReset}>
       <Tab options={INPUT_METHODS} value={currentTab} handleChange={setCurrentTab} />
-      <Box className="w-full flex-1 py-4">
+      <Box className={cn("w-full", "flex-1", tw.py(4))}>
         {currentTab === "DIRECT" ? (
           <TransferRecipientDirectForm form={form} handleClose={handleClose} />
         ) : (

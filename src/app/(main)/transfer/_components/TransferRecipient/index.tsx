@@ -3,17 +3,20 @@ import { useCallback, useState } from "react";
 import { Pressable } from "react-native";
 import { Address } from "viem";
 
+import { AppText } from "@/presentation/components/AppText";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
-import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 import useTransferForm from "../../_hooks/useTransferForm";
 
 import TransferRecipientField from "./TransferRecipientField";
 
 const TransferRecipient = () => {
+  const tw = useTw();
   const transferForm = useTransferForm();
 
   const { form } = transferForm;
@@ -32,31 +35,37 @@ const TransferRecipient = () => {
 
   return (
     <>
-      <HStack className="w-full px-4 py-3 h-[90px] bg-white items-center justify-between gap-x-10">
-        <Text size="xl" className="font-bold text-secondary-700 ">
+      <HStack
+        className={cn(
+          "w-full",
+          tw.px(4),
+          tw.py(3),
+          tw.h(24),
+          "bg-white",
+          "items-center",
+          "justify-between",
+          tw.gapX(10)
+        )}
+      >
+        <AppText t="lg" className="font-bold text-secondary-700">
           振込先
-        </Text>
+        </AppText>
         <Pressable className="flex-1" onPress={handleEdit}>
           {(isEditing && prevValue) || (!isEditing && recipient) ? (
-            <VStack className="gap-y-2">
-              {addressToName[isEditing ? prevValue.toLowerCase() : recipient.toLowerCase()] && (
-                <Text size="lg" numberOfLines={1} ellipsizeMode="middle" className="font-bold text-right">
-                  {addressToName[isEditing ? prevValue.toLowerCase() : recipient.toLowerCase()]}
-                </Text>
+            <VStack className={tw.gapY(2)}>
+              {addressToName[(isEditing ? prevValue : recipient).toLowerCase()] && (
+                <AppText t="lg" oneLine ellipsizeMode="middle" className="font-bold text-right">
+                  {addressToName[(isEditing ? prevValue : recipient).toLowerCase()]}
+                </AppText>
               )}
-              <Text
-                size="lg"
-                numberOfLines={1}
-                ellipsizeMode="middle"
-                className="font-bold text-right text-secondary-600"
-              >
+              <AppText t="lg" oneLine ellipsizeMode="middle" className="font-bold text-right text-secondary-600">
                 {(isEditing ? prevValue : recipient) as Address}
-              </Text>
+              </AppText>
             </VStack>
           ) : (
-            <Text size="lg" className="text-primary-600 font-bold text-center">
+            <AppText t="lg" className="text-primary-600 font-bold text-center">
               振込先を入力
-            </Text>
+            </AppText>
           )}
         </Pressable>
       </HStack>

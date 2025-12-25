@@ -3,14 +3,16 @@ import { useCallback, useMemo } from "react";
 import { Pressable } from "react-native";
 
 import { ListPrivateKeysCommand } from "@/domain/privateKey";
+import { AppText } from "@/presentation/components/AppText";
 import BackDrop from "@/presentation/components/BackDrop";
 import { ActionDialog, AlertDialog } from "@/presentation/components/Dialog";
 import { TableRow } from "@/presentation/components/gluestack-ui/table";
-import { Text } from "@/presentation/components/gluestack-ui/text";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { InfoText, ErrorText } from "@/presentation/components/Text";
 import { useDeletePrivateKey } from "@/presentation/hooks/mutations/useDeletePrivateKey";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 import PrivateKeyConfirmSheet from "@mainc/PrivateKeyConfirmSheet";
 
 import { PrivateKeyRows } from "./PrivateKeyScreenSuspence";
@@ -24,6 +26,7 @@ type PrivateKeyTableRowProps = {
 const PrivateKeyTableRow = (props: PrivateKeyTableRowProps) => {
   const { row, index, fetchPrivateKeys } = props;
 
+  const tw = useTw();
   const router = useRouter();
   const [isDeleting, setIsDeleting] = useBoolean(false);
   const [isDisplaying, setIsDisplaying] = useBoolean(false);
@@ -55,17 +58,17 @@ const PrivateKeyTableRow = (props: PrivateKeyTableRowProps) => {
 
       <TableRow className="w-full">
         <Pressable
-          className={`w-full px-3 py-2 active:bg-secondary-100 ${index % 2 === 0 ? "bg-secondary-50" : ""}`}
+          className={cn("w-full", tw.px(3), tw.py(2), "active:bg-secondary-100", index % 2 === 0 && "bg-secondary-50")}
           onLongPress={setIsDisplaying.on}
         >
-          <VStack className="gap-y-1">
-            <Text className="font-bold text-secondary-500">{row.createdAtStr}</Text>
-            <Text className="font-bold pl-2" size="lg">
+          <VStack className={tw.gapY(1)}>
+            <AppText className="font-bold text-secondary-500">{row.createdAtStr}</AppText>
+            <AppText t="lg" className={cn("font-bold", tw.pl(2))}>
               {row.name}
-            </Text>
-            <Text className="pl-2" numberOfLines={1} ellipsizeMode="middle" size="lg">
+            </AppText>
+            <AppText t="md" className={tw.pl(2)} oneLine ellipsizeMode="middle">
               {row.wallet}
-            </Text>
+            </AppText>
           </VStack>
         </Pressable>
       </TableRow>
@@ -94,7 +97,7 @@ const PrivateKeyTableRow = (props: PrivateKeyTableRowProps) => {
         size="lg"
         buttonProps={{ text: "削除", isLoading: isPending, onPress: handleDeletePrivateKey }}
       >
-        <VStack className="py-4 gap-y-2">
+        <VStack className={cn(tw.py(4), tw.gapY(2))}>
           <InfoText>{`プライベートキーを削除します。\n削除後は回復することができません。`}</InfoText>
         </VStack>
       </ActionDialog>
@@ -106,7 +109,7 @@ const PrivateKeyTableRow = (props: PrivateKeyTableRowProps) => {
         onClose={handleCloseErrorDialog}
         size="lg"
       >
-        <VStack className="py-4 gap-y-1">
+        <VStack className={cn(tw.py(4), tw.gapY(1))}>
           <ErrorText>{errorMes}</ErrorText>
         </VStack>
       </AlertDialog>

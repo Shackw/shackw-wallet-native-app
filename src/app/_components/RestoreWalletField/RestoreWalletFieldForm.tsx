@@ -9,6 +9,8 @@ import { Textarea, TextareaInput } from "@/presentation/components/gluestack-ui/
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText, InfoText } from "@/presentation/components/Text";
 import useRestoreWalletByPkForm from "@/presentation/hooks/useRestoreWalletByPkForm";
+import { useTw } from "@/presentation/styles/tw";
+import { cn } from "@/shared/helpers/cn";
 
 type RestoreWalletFieldFormProps = {
   onClose: () => void;
@@ -18,6 +20,9 @@ type RestoreWalletFieldFormProps = {
 const RestoreWalletFieldForm = (props: RestoreWalletFieldFormProps) => {
   const { inputRef, hasValue, isRestoring, error, handleRestore, handleChange, handleBlur, handleClear, closeError } =
     useRestoreWalletByPkForm(props);
+
+  const tw = useTw();
+
   return (
     <>
       <BackDrop visible={isRestoring} />
@@ -28,9 +33,9 @@ const RestoreWalletFieldForm = (props: RestoreWalletFieldFormProps) => {
         showsVerticalScrollIndicator={false}
         extraScrollHeight={30}
       >
-        <VStack className="flex-1 items-center justify-between py-4">
-          <VStack className="w-full gap-y-6">
-            <Textarea size="lg" className="p-2 rounded-xl h-20">
+        <VStack className={cn("flex-1 items-center justify-between", tw.py(4), tw.gapY(5))}>
+          <VStack className={cn("w-full", tw.gapY(6))}>
+            <Textarea size={tw.input("lg")} className={cn(tw.p(2), "rounded-xl", tw.h(20))}>
               <TextareaInput
                 defaultValue=""
                 inputMode="text"
@@ -43,7 +48,7 @@ const RestoreWalletFieldForm = (props: RestoreWalletFieldFormProps) => {
             <InfoText>{`SHACKW WALLET以外で作成された秘密鍵を使用して復元することが可能です。`}</InfoText>
           </VStack>
 
-          <HStack className="gap-x-4">
+          <HStack className={cn(tw.gapX(4))}>
             <SubContainButton
               text={!hasValue ? "閉じる" : "クリア"}
               size="lg"
@@ -63,7 +68,7 @@ const RestoreWalletFieldForm = (props: RestoreWalletFieldFormProps) => {
       </KeyboardAwareScrollView>
 
       <AlertDialog title="秘密鍵入力不正" isOpen={!!error} onClose={closeError} size="lg">
-        <VStack className="py-4 gap-y-1">
+        <VStack className={cn(tw.py(4), tw.gapY(1))}>
           <ErrorText>{error}</ErrorText>
         </VStack>
       </AlertDialog>
