@@ -24,7 +24,7 @@ export const DENSITY = {
   sm: {
     spaceScale: 0.9,
     numScale: 0.93,
-    textShift: -2,
+    textShift: -1,
     inputShift: -1
   },
   md: {
@@ -44,8 +44,11 @@ export const DENSITY = {
   { spaceScale: number; numScale: number; textShift: number; inputShift: number }
 >;
 
-export type TextToken = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
-export const TEXT_ORDER: TextToken[] = ["xs", "sm", "md", "lg", "xl", "2xl"];
+export const TEXT_SCALE_ORDER = ["xs", "sm", "md", "lg", "xl", "2xl"] as const;
+export type TextToken = (typeof TEXT_SCALE_ORDER)[number];
 
-export type InputToken = "sm" | "md" | "lg" | "xl";
-export const INPUT_ORDER: InputToken[] = ["sm", "md", "lg", "xl"];
+export const INPUT_SCALE_ORDER = ["sm", "md", "lg", "xl"] as const;
+export type InputToken = (typeof INPUT_SCALE_ORDER)[number];
+
+export const INPUT_SCALE_ORDER_NO_XL = ["sm", "md", "lg"] as const;
+export type InputTokenNoXl = (typeof INPUT_SCALE_ORDER_NO_XL)[number];

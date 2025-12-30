@@ -25,10 +25,10 @@ const AccountNetworkMenu = () => {
     <AccountMenuConteiner title="ネットワーク設定">
       <AccountMenuItem onPress={handlePressChangeNetwork}>
         <HStack className={cn("justify-between", tw.gapX(6))}>
-          <AppText t="md" className="font-bold">
+          <AppText t="sm" className="font-bold">
             接続中のネットワーク
           </AppText>
-          <AppText t="md" oneLine>
+          <AppText className="leading-none" oneLine>
             {CHAIN_KEY_TO_DISPLAY_NAME[currentChain]}
           </AppText>
         </HStack>
