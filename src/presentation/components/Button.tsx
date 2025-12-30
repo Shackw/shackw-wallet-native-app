@@ -1,17 +1,21 @@
-import { ReactNode } from "react";
+import { ReactNode, ComponentProps } from "react";
 
 import { Button, ButtonText } from "@/presentation/components/gluestack-ui/button";
 import { Spinner } from "@/presentation/components/gluestack-ui/spinner";
-import { ButtonSize, useButtonStyleConfig } from "@/presentation/styles/button";
+import { ButtonSize, ButtonStyleConfig, modeToButtonStyles } from "@/presentation/styles/button";
 import { theme } from "@/presentation/styles/theme";
 import { cn } from "@/shared/helpers/cn";
+
+import { useDensity } from "../hooks/useDensity";
+
+import { AppText } from "./AppText";
 
 import type { LucideIcon } from "lucide-react-native";
 import type { ViewStyle } from "react-native";
 
-type ButtonProps = React.ComponentProps<typeof Button>;
+type ButtonProps = ComponentProps<typeof Button>;
 
-type CommonProps = {
+type CommonButtonProps = {
   text: string;
   size: ButtonSize;
   icon?: LucideIcon;
@@ -23,25 +27,18 @@ type CommonProps = {
   testID?: string;
 };
 
-function BaseButton({
-  children,
-  size,
-  disabled,
-  className,
-  action,
-  onPress,
-  testID
-}: {
-  children: React.ReactNode;
+type BaseButtonProps = {
+  cfg: ButtonStyleConfig;
+  children: ReactNode;
   size: ButtonSize;
   disabled?: boolean;
   className?: string;
   action?: ButtonProps["action"];
   onPress?: () => void;
   testID?: string;
-}) {
-  const cfg = useButtonStyleConfig(size);
+};
 
+const BaseButton = ({ cfg, children, disabled, className, action, onPress, testID }: BaseButtonProps) => {
   return (
     <Button
       action={action}
@@ -63,7 +60,7 @@ function BaseButton({
       {children}
     </Button>
   );
-}
+};
 
 const IconLeft = ({ Icon, color }: { Icon: LucideIcon; color: string }) => <Icon size={20} color={color} />;
 
@@ -76,12 +73,14 @@ export const ContainButton = ({
   onPress,
   className,
   testID
-}: CommonProps) => {
-  const cfg = useButtonStyleConfig(size);
+}: CommonButtonProps) => {
+  const { mode } = useDensity();
+  const cfg = modeToButtonStyles[mode][size];
   const disabled = isLoading || isDisabled;
 
   return (
     <BaseButton
+      cfg={cfg}
       size={size}
       action="primary"
       disabled={disabled}
@@ -110,12 +109,14 @@ export const SubContainButton = ({
   onPress,
   className,
   testID
-}: CommonProps) => {
-  const cfg = useButtonStyleConfig(size);
+}: CommonButtonProps) => {
+  const { mode } = useDensity();
+  const cfg = modeToButtonStyles[mode][size];
   const disabled = isLoading || isDisabled;
 
   return (
     <BaseButton
+      cfg={cfg}
       size={size}
       action="secondary"
       disabled={disabled}
@@ -148,12 +149,14 @@ export const OutlineButton = ({
   onPress,
   className,
   testID
-}: CommonProps) => {
-  const cfg = useButtonStyleConfig(size);
+}: CommonButtonProps) => {
+  const { mode } = useDensity();
+  const cfg = modeToButtonStyles[mode][size];
   const disabled = isLoading || isDisabled;
 
   return (
     <BaseButton
+      cfg={cfg}
       size={size}
       action="primary"
       disabled={disabled}
@@ -230,7 +233,7 @@ export const IconButton = ({
 
 type TextButtonProps = Pick<React.ComponentProps<typeof Button>, "onPress"> & {
   children: ReactNode;
-  textProps: Omit<React.ComponentProps<typeof ButtonText>, "children">;
+  textProps: Omit<React.ComponentProps<typeof AppText>, "children">;
 };
 
 export const TextButton = (props: TextButtonProps) => {
@@ -239,9 +242,9 @@ export const TextButton = (props: TextButtonProps) => {
 
   return (
     <Button variant="link" action="secondary" className="justify-start p-0 h-auto" onPress={onPress}>
-      <ButtonText {...rest} className={cn(className, "underline")}>
+      <AppText {...rest} className={cn(className, "underline")}>
         {children}
-      </ButtonText>
+      </AppText>
     </Button>
   );
 };

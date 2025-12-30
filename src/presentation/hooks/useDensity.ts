@@ -11,16 +11,14 @@ export const useDensity = () => {
     const mode = getLayoutMode(width);
     const cfg = DENSITY[mode];
 
-    console.log(mode);
-
     const baseWidth = 420;
     const rawRatio = width / baseWidth;
 
     const ratio = clamp(rawRatio, 0.85, 1.15);
 
-    const scale = (n: number) => n * ratio;
-    const scaleNum = (n: number) => n * cfg.numScale * ratio;
-    const scaleSpace = (n: number) => n * cfg.spaceScale * ratio;
+    const scale = (n: number) => Math.round(n * ratio);
+    const scaleNum = (n: number) => Math.round(n * cfg.numScale * ratio);
+    const scaleSpace = (n: number) => Math.round(n * cfg.spaceScale * ratio);
 
     return {
       width,

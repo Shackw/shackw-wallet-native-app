@@ -1,10 +1,8 @@
-import { useMemo } from "react";
-
-import { useDensity } from "@/presentation/hooks/useDensity";
-
 import { LayoutMode } from "./density";
 
-export type ButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type ButtonSize = "sm" | "md" | "lg";
+
+export type ButtonSizeConfig = "xs" | "sm" | "md" | "lg" | "xl";
 
 export type ButtonStyleConfig = {
   minWClass: string;
@@ -15,7 +13,7 @@ export type ButtonStyleConfig = {
   spinnerSize: number;
 };
 
-export const buttonSizeToStyleMap = {
+const buttonSizeToStyles = {
   xs: {
     minWClass: "min-w-16",
     hClass: "h-8",
@@ -26,7 +24,7 @@ export const buttonSizeToStyleMap = {
   },
   sm: {
     minWClass: "min-w-20",
-    hClass: "h-9",
+    hClass: "h-10",
     roundedClass: "rounded-lg",
     fontClass: "text-xs",
     pxClass: "px-3.5",
@@ -34,46 +32,33 @@ export const buttonSizeToStyleMap = {
   },
   md: {
     minWClass: "min-w-24",
-    hClass: "h-14",
+    hClass: "h-12",
     roundedClass: "rounded-lg",
     fontClass: "text-sm",
-    pxClass: "px-4",
+    pxClass: "px-7",
     spinnerSize: 19
   },
   lg: {
     minWClass: "min-w-28",
-    hClass: "h-16",
+    hClass: "h-14",
     roundedClass: "rounded-xl",
     fontClass: "text-base",
-    pxClass: "px-5",
+    pxClass: "px-9",
     spinnerSize: 21
   },
   xl: {
     minWClass: "min-w-32",
-    hClass: "h-18",
+    hClass: "h-16",
     roundedClass: "rounded-2xl",
     fontClass: "text-lg",
-    pxClass: "px-6",
+    pxClass: "px-12",
     spinnerSize: 23
   }
-} as const satisfies Record<ButtonSize, ButtonStyleConfig>;
+} as const satisfies Record<ButtonSizeConfig, ButtonStyleConfig>;
 
-export const MD_BY_MODE: Record<LayoutMode, ButtonSize> = {
-  xs: "sm",
-  sm: "md",
-  md: "md",
-  lg: "lg"
-} as const;
-
-export const resolveButtonSize = (mode: LayoutMode, size: ButtonSize): ButtonSize => {
-  if (size !== "md") return size;
-  return MD_BY_MODE[mode];
-};
-
-export const useButtonStyleConfig = (size: ButtonSize) => {
-  const { mode } = useDensity();
-  return useMemo(() => {
-    const resolved = resolveButtonSize(mode, size);
-    return buttonSizeToStyleMap[resolved];
-  }, [mode, size]);
-};
+export const modeToButtonStyles = {
+  xs: { sm: buttonSizeToStyles.xs, md: buttonSizeToStyles.sm, lg: buttonSizeToStyles.md },
+  sm: { sm: buttonSizeToStyles.sm, md: buttonSizeToStyles.md, lg: buttonSizeToStyles.lg },
+  md: { sm: buttonSizeToStyles.sm, md: buttonSizeToStyles.md, lg: buttonSizeToStyles.lg },
+  lg: { sm: buttonSizeToStyles.md, md: buttonSizeToStyles.lg, lg: buttonSizeToStyles.xl }
+} as const satisfies Record<LayoutMode, Record<ButtonSize, ButtonStyleConfig>>;

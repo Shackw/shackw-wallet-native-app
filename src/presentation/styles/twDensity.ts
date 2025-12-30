@@ -1,6 +1,12 @@
 // src/presentation/styles/twDensity.ts
-import type { InputToken, LayoutMode, TextToken, TwSpace } from "@/presentation/styles/density";
-import { DENSITY, INPUT_ORDER, TEXT_ORDER, TW_SPACE } from "@/presentation/styles/density";
+import type { InputToken, InputTokenNoXl, LayoutMode, TextToken, TwSpace } from "@/presentation/styles/density";
+import {
+  DENSITY,
+  INPUT_SCALE_ORDER,
+  INPUT_SCALE_ORDER_NO_XL,
+  TEXT_SCALE_ORDER,
+  TW_SPACE
+} from "@/presentation/styles/density";
 
 // ---------- internal utils ----------
 const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
@@ -29,18 +35,25 @@ const scaleSpace = (mode: LayoutMode, base: number) => {
   return nearestTwSpace(scaled);
 };
 
-const shiftText = (mode: LayoutMode, token: TextToken): TextToken => {
+const shiftTextToken = (mode: LayoutMode, token: TextToken): TextToken => {
   const shift = DENSITY[mode].textShift;
-  const idx = TEXT_ORDER.indexOf(token);
-  const next = clamp(idx + shift, 0, TEXT_ORDER.length - 1);
-  return TEXT_ORDER[next]!;
+  const idx = TEXT_SCALE_ORDER.indexOf(token);
+  const next = clamp(idx + shift, 0, TEXT_SCALE_ORDER.length - 1);
+  return TEXT_SCALE_ORDER[next]!;
 };
 
-export const shiftInputSize = (mode: LayoutMode, token: InputToken): InputToken => {
+const shiftInputToken = (mode: LayoutMode, token: InputToken): InputToken => {
   const shift = DENSITY[mode].inputShift;
-  const idx = INPUT_ORDER.indexOf(token);
-  const next = clamp(idx + shift, 0, INPUT_ORDER.length - 1);
-  return INPUT_ORDER[next]!;
+  const idx = INPUT_SCALE_ORDER.indexOf(token);
+  const next = clamp(idx + shift, 0, INPUT_SCALE_ORDER.length - 1);
+  return INPUT_SCALE_ORDER[next]!;
+};
+
+const shiftInputTokenNoXl = (mode: LayoutMode, token: InputTokenNoXl): InputTokenNoXl => {
+  const shift = DENSITY[mode].inputShift;
+  const idx = INPUT_SCALE_ORDER_NO_XL.indexOf(token);
+  const next = clamp(idx + shift, 0, INPUT_SCALE_ORDER_NO_XL.length - 1);
+  return INPUT_SCALE_ORDER_NO_XL[next]!;
 };
 
 const textClass = (token: TextToken) => {
@@ -75,6 +88,8 @@ export const maxW = (mode: LayoutMode, n: number) => twNumToClass("max-w", scale
 export const minH = (mode: LayoutMode, n: number) => twNumToClass("min-h", scaleSpace(mode, n));
 export const maxH = (mode: LayoutMode, n: number) => twNumToClass("max-h", scaleSpace(mode, n));
 
-export const text = (mode: LayoutMode, token: TextToken) => textClass(shiftText(mode, token));
+export const text = (mode: LayoutMode, token: TextToken) => textClass(shiftTextToken(mode, token));
 
-export const input = (mode: LayoutMode, token: InputToken) => shiftInputSize(mode, token);
+export const input = (mode: LayoutMode, token: InputToken) => shiftInputToken(mode, token);
+
+export const inputNoXl = (mode: LayoutMode, token: InputTokenNoXl) => shiftInputTokenNoXl(mode, token);

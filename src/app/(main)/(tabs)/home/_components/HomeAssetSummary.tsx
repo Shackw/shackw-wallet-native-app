@@ -37,7 +37,7 @@ const HomeAssetSummary = (props: HomeAssetSummaryProps) => {
 
   return (
     <>
-      <VStack className={cn("items-center relative w-full", "justify-between", tw.gapY(4), tw.h(26))}>
+      <VStack className={cn("items-center relative w-full justify-between", tw.gapY(4), tw.h(22))}>
         <AppText t="md" className="text-primary-500 font-bold">
           現在高
         </AppText>
@@ -45,8 +45,11 @@ const HomeAssetSummary = (props: HomeAssetSummaryProps) => {
         {balance && !isFetching ? (
           <>
             <HStack className={cn("flex-row items-center", tw.gapX(2))}>
-              <TokenSymboIcon size={28} color={theme.colors.primary[500]} />
-              <AppText className="font-heading font-bold text-primary-500 text-[32px] leading-[40px]">
+              <TokenSymboIcon size={tw.scaleNum(26)} color={theme.colors.primary[500]} />
+              <AppText
+                style={{ fontSize: tw.scaleNum(28) }}
+                className={cn("font-heading font-bold text-primary-500 leading-none", tw.pb(0.5))}
+              >
                 {toAllowedStr(Number(balance), token)}
               </AppText>
             </HStack>
@@ -66,10 +69,8 @@ const HomeAssetSummary = (props: HomeAssetSummaryProps) => {
       </VStack>
 
       <HStack className={cn("flex-row items-center", tw.gapX(0.5))}>
-        <AppText t="md" className="leading-5 text-secondary-800">
-          最終取引日時：
-        </AppText>
-        <AppText t="md" className="leading-5 text-secondary-800 w-[103px]" style={{ paddingLeft: pl }}>
+        <AppText className="leading-5 text-secondary-800">最終取引日時：</AppText>
+        <AppText className={cn("leading-5 text-secondary-800", tw.w(35))} style={{ paddingLeft: pl }}>
           {element}
           {optinalElement}
         </AppText>
