@@ -3,6 +3,8 @@ import { useMemo } from "react";
 import { useDensity } from "@/presentation/hooks/useDensity";
 import * as D from "@/presentation/styles/twDensity";
 
+import { InputToken, InputTokenNoXl, TextToken } from "./density";
+
 export const useTw = () => {
   const { mode, width, height, ratio, scaleNum } = useDensity();
 
@@ -47,10 +49,11 @@ export const useTw = () => {
       maxH: (n: number) => D.maxH(mode, n),
 
       // text token -> class
-      text: (t: Parameters<typeof D.text>[1]) => D.text(mode, t),
+      text: (t: TextToken) => D.text(mode, t),
 
       // input
-      input: (t: Parameters<typeof D.input>[1]) => D.input(mode, t)
+      input: (t: InputToken) => D.input(mode, t),
+      inputNoXl: (t: InputTokenNoXl) => D.inputNoXl(mode, t)
     };
   }, [mode, width, height, ratio, scaleNum]);
 };

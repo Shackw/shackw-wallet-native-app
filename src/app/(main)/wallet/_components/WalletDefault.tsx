@@ -24,7 +24,7 @@ const WalletDefault = () => {
       <HStack className={cn("items-center", tw.gapX(2))}>
         {!isSwitchDisabled ? (
           <Switch
-            size="lg"
+            size={tw.inputNoXl("lg")}
             value={isChangeDefault}
             trackColor={{ false: "#d4d4d4", true: "#525252" }}
             thumbColor="#fafafa"

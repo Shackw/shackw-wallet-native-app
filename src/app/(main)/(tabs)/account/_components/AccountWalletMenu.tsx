@@ -47,24 +47,24 @@ const AccountWalletMenu = () => {
   return (
     <AccountMenuConteiner title="ウォレット設定">
       <AccountMenuItem onPress={handlePressChangeWallet}>
-        <HStack className={cn("justify-between", tw.gapX(10))}>
-          <AppText t="md" className="font-bold">
+        <HStack className={cn("justify-between", tw.gapX(12))}>
+          <AppText t="sm" className="font-bold">
             接続中のウォレット
           </AppText>
-          <AppText t="md" className="flex-1 text-right" oneLine ellipsizeMode="middle">
+          <AppText className={cn("flex-1 leading-none", tw.ml(4))} oneLine ellipsizeMode="middle">
             {account?.address ?? "0x00"}
           </AppText>
         </HStack>
       </AccountMenuItem>
 
       <AccountMenuItem onPress={setIsCreating.on}>
-        <AppText t="md" className="font-bold">
+        <AppText t="sm" className="font-bold">
           ウォレットの新規作成
         </AppText>
       </AccountMenuItem>
 
       <AccountMenuItem onPress={setIsRestoring.on}>
-        <AppText t="md" className="font-bold">
+        <AppText t="sm" className="font-bold">
           ウォレットの復元
         </AppText>
       </AccountMenuItem>

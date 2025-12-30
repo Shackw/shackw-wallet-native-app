@@ -16,7 +16,7 @@ const AccountPrivateMenu = () => {
   return (
     <AccountMenuConteiner title="プライベート設定">
       <AccountMenuItem onPress={handlePressManagePrivateKey}>
-        <AppText t="md" className="font-bold">
+        <AppText t="sm" className="font-bold">
           プライベートキーの管理
         </AppText>
       </AccountMenuItem>

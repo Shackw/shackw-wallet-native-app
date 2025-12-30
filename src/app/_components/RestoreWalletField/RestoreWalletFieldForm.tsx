@@ -35,7 +35,7 @@ const RestoreWalletFieldForm = (props: RestoreWalletFieldFormProps) => {
       >
         <VStack className={cn("flex-1 items-center justify-between", tw.py(4), tw.gapY(5))}>
           <VStack className={cn("w-full", tw.gapY(6))}>
-            <Textarea size={tw.input("lg")} className={cn(tw.p(2), "rounded-xl", tw.h(20))}>
+            <Textarea size={tw.input("lg")} className={cn(tw.p(2), "rounded-xl", tw.h(24))}>
               <TextareaInput
                 defaultValue=""
                 inputMode="text"

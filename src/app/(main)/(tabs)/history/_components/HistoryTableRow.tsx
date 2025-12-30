@@ -44,10 +44,10 @@ const HistoryTableRow = (props: HistoryTableRowProps) => {
                   href={`${CHAINS[currentChain].blockExplorers.default.url}/tx/${txHash}`}
                   numberOfLines={1}
                   ellipsizeMode="middle"
-                  className="font-bold text-secondary-500 w-32"
+                  className={cn("font-bold text-secondary-500", tw.w(32), tw.text("md"))}
                 >{`tx: ${txHash}`}</Anchor>
               ) : (
-                <AppText t="md" className="font-bold text-secondary-500 w-32" oneLine>
+                <AppText t="md" className={cn("font-bold text-secondary-500", tw.w(32))} oneLine>
                   {`tx: ${txHash}`}
                 </AppText>
               )}
@@ -60,8 +60,9 @@ const HistoryTableRow = (props: HistoryTableRowProps) => {
               ) : (
                 <TextButton
                   textProps={{
+                    t: "lg",
+                    oneLine: true,
                     className: "font-bold text-secondary-800 w-[65%]",
-                    numberOfLines: 1,
                     ellipsizeMode: "middle"
                   }}
                   onPress={setIsAddingAddress.on}

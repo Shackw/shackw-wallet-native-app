@@ -16,7 +16,9 @@ const AccountAddressMenu = () => {
   return (
     <AccountMenuConteiner title="アドレス設定">
       <AccountMenuItem onPress={handlePressAdresses}>
-        <AppText className="font-bold">アドレス帳</AppText>
+        <AppText t="sm" className="font-bold">
+          アドレス帳
+        </AppText>
       </AccountMenuItem>
     </AccountMenuConteiner>
   );

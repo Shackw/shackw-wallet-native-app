@@ -23,7 +23,7 @@ const TransferAmountSummary = (props: TransferAmountSummaryProps) => {
   const feeToken = useStore(form.baseStore, s => s.values.feeToken);
 
   return (
-    <VStack className={cn("w-full", "bg-white", className)}>
+    <VStack className={cn("w-full bg-white", tw.pt(3), className)}>
       {["sendable", "both"].includes(display) && (
         <HStack className={cn("w-full", tw.h(12), "items-center", "justify-between", tw.gapX(5))}>
           <AppText t="md" className="font-bold text-secondary-600">

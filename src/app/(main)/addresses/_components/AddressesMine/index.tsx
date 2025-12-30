@@ -25,7 +25,7 @@ const AddressesMine = (props: AddressesMineProps) => {
         接続中のウォレット
       </AppText>
       <HStack className={cn("w-full items-center", tw.py(3), tw.gapX(4))}>
-        <Avatar size={tw.input("xl")}>
+        <Avatar size={tw.input("lg")}>
           <AvatarFallbackText>{name}</AvatarFallbackText>
         </Avatar>
 
