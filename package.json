@@ -1,6 +1,6 @@
 {
   "name": "shackw-wallet-native-app",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "ShackwWallet is a non-custodial mobile wallet focused on stablecoin with EIP-7702 support.",
   "author": "Shackw",
   "main": "./src/index.ts",
