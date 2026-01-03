@@ -2,7 +2,7 @@
   "expo": {
     "name": "Shackw Wallet",
     "slug": "shackw-wallet",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "orientation": "portrait",
     "icon": "./src/presentation/assets/images/icon.png",
     "scheme": "shackw-wallet",
@@ -13,7 +13,7 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "buildNumber": "8",
+      "buildNumber": "9",
       "bundleIdentifier": "com.shackw.wallet",
       "googleServicesFile": "./GoogleService-Info.plist",
       "associatedDomains": ["applinks:wallet.shackw.com"],
@@ -26,7 +26,7 @@
       }
     },
     "android": {
-      "versionCode": 8,
+      "versionCode": 9,
       "package": "com.shackw.wallet",
       "googleServicesFile": "./google-services.json",
       "intentFilters": [
