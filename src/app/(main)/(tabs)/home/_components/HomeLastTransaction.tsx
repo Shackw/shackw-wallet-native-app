@@ -16,7 +16,7 @@ const HomeLastTransaction = (props: HomeLastTransactionProps) => {
 
   const tw = useTw();
 
-  if (isError) return <AppText className={cn("leading-none", tw.pl(2), tw.minW(24))}>{`取得失敗`}</AppText>;
+  if (isError) return <AppText className={cn(tw.pl(2), tw.minW(24))}>{`取得失敗`}</AppText>;
 
   if (lastTransaction === undefined || isFetching)
     return (
@@ -25,9 +25,9 @@ const HomeLastTransaction = (props: HomeLastTransactionProps) => {
       </HStack>
     );
 
-  if (lastTransaction === null) return <AppText className={cn("leading-none", tw.pl(6), tw.minW(24))}>{`ー`}</AppText>;
+  if (lastTransaction === null) return <AppText className={cn(tw.pl(6), tw.minW(24))}>{`ー`}</AppText>;
 
-  return <AppText className={cn("leading-none", tw.pl(1))}>{formatIsoString(lastTransaction.transferredAt)}</AppText>;
+  return <AppText className={cn(tw.pl(1))}>{formatIsoString(lastTransaction.transferredAt)}</AppText>;
 };
 
 export default HomeLastTransaction;
