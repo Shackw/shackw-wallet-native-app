@@ -45,12 +45,12 @@ const HomeAssetSummary = (props: HomeAssetSummaryProps) => {
         {balance && !isFetching ? (
           <>
             <HStack className={cn("relative flex-row items-center", tw.gapX(2))}>
-              <Box className="absolute" style={{ left: -tw.scaleNum(32) }}>
+              <Box className={cn("absolute", tw.pb(1))} style={{ left: -tw.scaleNum(32) }}>
                 <TokenSymboIcon size={tw.scaleNum(24)} color={theme.colors.primary[500]} />
               </Box>
               <AppText
-                style={{ fontSize: tw.scaleNum(32) }}
-                className="font-heading font-bold text-primary-500 leading-none"
+                style={{ fontSize: tw.scaleNum(32), lineHeight: tw.scaleNum(34) }}
+                className="font-heading font-bold text-primary-500 align-middle"
               >
                 {toAllowedStr(Number(balance), token)}
               </AppText>
@@ -71,7 +71,7 @@ const HomeAssetSummary = (props: HomeAssetSummaryProps) => {
       </VStack>
 
       <HStack className={cn("flex-row items-center justify-between", tw.gapX(0.5))}>
-        <AppText className="leading-5 text-secondary-800">最終取引日時：</AppText>
+        <AppText className="text-secondary-800">最終取引日時：</AppText>
         <HomeLastTransaction lastTranResult={lastTranResult} />
       </HStack>
     </>

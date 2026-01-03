@@ -27,7 +27,7 @@ const MainRoot = (props: MainRootProps) => {
                 name="addresses/index"
                 options={{
                   presentation: "card",
-                  animation: "fade",
+                  animation: "default",
                   gestureEnabled: false
                 }}
               />
@@ -35,7 +35,7 @@ const MainRoot = (props: MainRootProps) => {
                 name="network/index"
                 options={{
                   presentation: "card",
-                  animation: "fade",
+                  animation: "default",
                   gestureEnabled: false
                 }}
               />
@@ -43,7 +43,7 @@ const MainRoot = (props: MainRootProps) => {
                 name="privateKey/index"
                 options={{
                   presentation: "card",
-                  animation: "fade",
+                  animation: "default",
                   gestureEnabled: false
                 }}
               />
@@ -51,7 +51,7 @@ const MainRoot = (props: MainRootProps) => {
                 name="receive/index"
                 options={{
                   presentation: "card",
-                  animation: "fade",
+                  animation: "default",
                   gestureEnabled: false
                 }}
               />
@@ -59,7 +59,7 @@ const MainRoot = (props: MainRootProps) => {
                 name="scan-qr/index"
                 options={{
                   presentation: "card",
-                  animation: "fade",
+                  animation: "default",
                   gestureEnabled: false
                 }}
               />
@@ -67,7 +67,7 @@ const MainRoot = (props: MainRootProps) => {
                 name="transfer/index"
                 options={{
                   presentation: "card",
-                  animation: "fade",
+                  animation: "default",
                   gestureEnabled: false
                 }}
               />
@@ -75,7 +75,7 @@ const MainRoot = (props: MainRootProps) => {
                 name="wallet/index"
                 options={{
                   presentation: "card",
-                  animation: "fade",
+                  animation: "default",
                   gestureEnabled: false
                 }}
               />
