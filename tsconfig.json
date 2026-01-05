@@ -4,7 +4,9 @@
     "strict": true,
     "paths": {
       "@appc/*": ["./src/app/_components/*"],
+      "@apph/*": ["./src/app/_hooks/*"],
       "@mainc/*": ["./src/app/(main)/_components/*"],
+      "@mainh/*": ["./src/app/(main)/_hooks/*"],
       "@/*": ["./src/*"],
       "tailwind.config": ["./tailwind.config.js"]
     }

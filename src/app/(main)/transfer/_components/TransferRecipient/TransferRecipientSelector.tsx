@@ -9,9 +9,9 @@ import { Table, TableBody, TableRow } from "@/presentation/components/gluestack-
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import Searcher from "@/presentation/components/Searcher";
 import TableSuspence from "@/presentation/components/TableSuspence";
-import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { useTw } from "@/presentation/styles/tw";
 import { cn } from "@/shared/helpers/cn";
+import { useAddressesRow } from "@mainh/useAddressesRow";
 
 import { TransferFormContextType } from "../../_hooks/useTransferForm";
 

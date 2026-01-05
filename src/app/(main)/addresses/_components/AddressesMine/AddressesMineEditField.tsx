@@ -3,7 +3,7 @@ import { Address } from "viem";
 
 import { BottomActionSheet } from "@/presentation/components/BottomActionSheet";
 import { useUpdateAddress } from "@/presentation/hooks/mutations/useUpdateAddress";
-import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
+import { useAddressesRow } from "@mainh/useAddressesRow";
 
 import AddressesMineEditForm from "./AddressesMineEditForm";
 

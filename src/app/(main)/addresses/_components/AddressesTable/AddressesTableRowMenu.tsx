@@ -2,10 +2,10 @@ import { setStringAsync } from "expo-clipboard";
 import { Copy, EllipsisVertical, QrCode, SquarePen } from "lucide-react-native";
 import { useCallback } from "react";
 
+import { type AddressRow, useAddressesRow } from "@/app/(main)/_hooks/useAddressesRow";
 import { IconButton } from "@/presentation/components/Button";
 import { Icon } from "@/presentation/components/gluestack-ui/icon";
 import { Menu, MenuItem, MenuItemLabel } from "@/presentation/components/gluestack-ui/menu";
-import { type AddressRow, useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { theme } from "@/presentation/styles/theme";
 import { useTw } from "@/presentation/styles/tw";
