@@ -78,7 +78,7 @@ export const PrivateKeysService = {
     const { name, wallet, privateKey, enabled } = command;
     try {
       const stored = privateKeyRepository.get(wallet);
-      if (!!stored) throw new CustomError("このプライベートキーは既に登録されています。");
+      if (!!stored) throw new CustomError("このプライベートキーはすでに登録されています。");
 
       await privateKeyRepository.upsert({
         wallet: wallet.toLowerCase() as Address,

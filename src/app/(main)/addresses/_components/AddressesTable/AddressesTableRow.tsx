@@ -1,9 +1,9 @@
+import { type AddressRow, useAddressesRow } from "@/app/(main)/_hooks/useAddressesRow";
 import { AppText } from "@/presentation/components/AppText";
 import { Avatar, AvatarFallbackText } from "@/presentation/components/gluestack-ui/avatar";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { TableRow } from "@/presentation/components/gluestack-ui/table";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
-import { type AddressRow, useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { useTw } from "@/presentation/styles/tw";
 import { cn } from "@/shared/helpers/cn";
 

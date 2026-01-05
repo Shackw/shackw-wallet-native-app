@@ -28,7 +28,7 @@ export const AddressesService = {
     const { address } = command;
     try {
       const found = await addressesRepository.get(address);
-      if (!!found) throw new CustomError("このアドレスは既に登録されています。");
+      if (!!found) throw new CustomError("このアドレスはすでに登録されています。");
 
       await addressesRepository.create({ ...command, isMine: false });
     } catch (error: unknown) {

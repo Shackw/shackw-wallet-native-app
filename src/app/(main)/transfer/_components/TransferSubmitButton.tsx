@@ -4,11 +4,11 @@ import { Address } from "viem";
 import { ContainButton } from "@/presentation/components/Button";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText, InfoText } from "@/presentation/components/Text";
-import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { useTw } from "@/presentation/styles/tw";
 import { Token } from "@/registries/ChainTokenRegistry";
 import { cn } from "@/shared/helpers/cn";
+import { useAddressesRow } from "@mainh/useAddressesRow";
 
 import useTransferForm from "../_hooks/useTransferForm";
 

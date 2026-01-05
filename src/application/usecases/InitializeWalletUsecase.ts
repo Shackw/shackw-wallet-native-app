@@ -5,7 +5,7 @@ import { IAddressesRepository } from "../ports/IAddressesRepository";
 import { IPrivateKeyRepository, PrivateKeyResult } from "../ports/IPrivateKeyRepository";
 import { IUserSettingRepository } from "../ports/IUserSettingRepository";
 
-export const InitializeWalletUseCase = {
+export const InitializeWalletUsecase = {
   async execute(
     addressesRepository: IAddressesRepository,
     userSettingRepository: IUserSettingRepository,

@@ -9,9 +9,9 @@ import { AlertDialog } from "@/presentation/components/Dialog";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText } from "@/presentation/components/Text";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
-import useMutateAddressForm, { type UseMutateAddressFormProps } from "@/presentation/hooks/useMutateAddressForm";
 import { useTw } from "@/presentation/styles/tw";
 import { cn } from "@/shared/helpers/cn";
+import useMutateAddressForm, { type UseMutateAddressFormProps } from "@mainh/useMutateAddressForm";
 
 import AddressMutateFieldForm from "./AddressMutateFieldForm";
 

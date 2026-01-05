@@ -1,9 +1,9 @@
 import { ScrollView } from "react-native";
 
+import { type AddressRow, useAddressesRow } from "@/app/(main)/_hooks/useAddressesRow";
 import { Table, TableBody } from "@/presentation/components/gluestack-ui/table";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import TableSuspence from "@/presentation/components/TableSuspence";
-import { type AddressRow, useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 
 import AddressesTableRow from "./AddressesTableRow";
 
