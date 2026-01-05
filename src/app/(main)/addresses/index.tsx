@@ -8,11 +8,11 @@ import { IconButton } from "@/presentation/components/Button";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import Searcher from "@/presentation/components/Searcher";
-import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { theme } from "@/presentation/styles/theme";
 import { useTw } from "@/presentation/styles/tw";
 import { cn } from "@/shared/helpers/cn";
+import { useAddressesRow } from "@mainh/useAddressesRow";
 
 import AddressMutateField from "../_components/addresses/AddressMutateField";
 import ScreenContainer from "../_components/ScreenContainer";

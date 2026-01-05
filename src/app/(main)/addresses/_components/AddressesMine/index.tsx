@@ -5,9 +5,9 @@ import { AppText } from "@/presentation/components/AppText";
 import { Avatar, AvatarFallbackText } from "@/presentation/components/gluestack-ui/avatar";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
-import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { useTw } from "@/presentation/styles/tw";
 import { cn } from "@/shared/helpers/cn";
+import { useAddressesRow } from "@mainh/useAddressesRow";
 
 import AddressesMineMenu from "./AddressesMineMenu";
 

@@ -20,7 +20,9 @@ module.exports = function (api) {
           alias: {
             "@": "./src",
             "@appc": "./src/app/_components",
+            "@apph": "./src/app/_hooks",
             "@mainc": "./src/app/(main)/_components",
+            "@mainh": "./src/app/(main)/_hooks",
             "tailwind.config": "./tailwind.config.js"
           },
           extensions: [".ts", ".tsx", ".js", ".json"]

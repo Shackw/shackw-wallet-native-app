@@ -6,10 +6,10 @@ import { Address } from "viem";
 import { AppText } from "@/presentation/components/AppText";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
-import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { useTw } from "@/presentation/styles/tw";
 import { cn } from "@/shared/helpers/cn";
+import { useAddressesRow } from "@mainh/useAddressesRow";
 
 import useTransferForm from "../../_hooks/useTransferForm";
 

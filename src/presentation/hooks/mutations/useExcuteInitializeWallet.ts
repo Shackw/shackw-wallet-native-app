@@ -1,6 +1,6 @@
 import { UseMutationOptions, UseMutationResult, useMutation } from "@tanstack/react-query";
 
-import { InitializeWalletUseCase } from "@/application/useCase/InitializeWalletUseCase";
+import { InitializeWalletUsecase } from "@/application/usecases/InitializeWalletUsecase";
 import { PrivateKeyModel } from "@/domain/privateKey";
 import { useDependenciesContainerContext } from "@/presentation/providers/DependenciesContainerProvider";
 
@@ -13,6 +13,6 @@ export const useExcuteInitializeWallet = (
     ...options,
     mutationKey: ["ExcuteInitializeWallet"],
     mutationFn: async () =>
-      InitializeWalletUseCase.execute(addressesRepository, userSettingRepository, privateKeyRepository)
+      InitializeWalletUsecase.execute(addressesRepository, userSettingRepository, privateKeyRepository)
   });
 };

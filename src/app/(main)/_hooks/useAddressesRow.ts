@@ -3,8 +3,7 @@ import { TextInput as RNTextInput } from "react-native";
 
 import { AddressModel } from "@/domain/address";
 import { useListAddresses } from "@/presentation/hooks/queries/useListAddresses";
-
-import { useShackwWalletContext } from "../providers/ShackwWalletProvider";
+import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 
 export type AddressRow = Pick<AddressModel, "address" | "name" | "isMine">;
 

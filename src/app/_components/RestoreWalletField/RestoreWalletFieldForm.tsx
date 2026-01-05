@@ -8,9 +8,9 @@ import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { Textarea, TextareaInput } from "@/presentation/components/gluestack-ui/textarea";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { ErrorText, InfoText } from "@/presentation/components/Text";
-import useRestoreWalletByPkForm from "@/presentation/hooks/useRestoreWalletByPkForm";
 import { useTw } from "@/presentation/styles/tw";
 import { cn } from "@/shared/helpers/cn";
+import useRestoreWalletByPkForm from "@apph/useRestoreWalletByPkForm";
 
 type RestoreWalletFieldFormProps = {
   onClose: () => void;

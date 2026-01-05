@@ -3,9 +3,9 @@ import React, { useCallback, useState } from "react";
 import { BottomActionSheet } from "@/presentation/components/BottomActionSheet";
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { Tab } from "@/presentation/components/Tab";
-import { useAddressesRow } from "@/presentation/hooks/useAddressesRow";
 import { useTw } from "@/presentation/styles/tw";
 import { cn } from "@/shared/helpers/cn";
+import { useAddressesRow } from "@mainh/useAddressesRow";
 
 import { TransferFormContextType } from "../../_hooks/useTransferForm";
 

@@ -1,4 +1,5 @@
 import { Stack } from "expo-router";
+import { Platform } from "react-native";
 
 import { ShackwApiMetaModel } from "@/domain/shackwApiMeta";
 import { RootContainer } from "@/presentation/components/Container";
@@ -10,8 +11,19 @@ type MainRootProps = {
   meta: ShackwApiMetaModel;
 };
 
-const MainRoot = (props: MainRootProps) => {
-  const { meta } = props;
+const animation = Platform.select<"default" | "fade">({
+  ios: "default",
+  android: "fade",
+  default: "default"
+});
+
+const screenOptions = {
+  presentation: "card" as const,
+  animation,
+  gestureEnabled: false
+};
+
+const MainRoot = ({ meta }: MainRootProps) => {
   return (
     <ShackwApiMetaProvider meta={meta}>
       <TokenBalanceProvider>
@@ -23,62 +35,13 @@ const MainRoot = (props: MainRootProps) => {
                 contentStyle: { backgroundColor: "transparent" }
               }}
             >
-              <Stack.Screen
-                name="addresses/index"
-                options={{
-                  presentation: "card",
-                  animation: "default",
-                  gestureEnabled: false
-                }}
-              />
-              <Stack.Screen
-                name="network/index"
-                options={{
-                  presentation: "card",
-                  animation: "default",
-                  gestureEnabled: false
-                }}
-              />
-              <Stack.Screen
-                name="privateKey/index"
-                options={{
-                  presentation: "card",
-                  animation: "default",
-                  gestureEnabled: false
-                }}
-              />
-              <Stack.Screen
-                name="receive/index"
-                options={{
-                  presentation: "card",
-                  animation: "default",
-                  gestureEnabled: false
-                }}
-              />
-              <Stack.Screen
-                name="scan-qr/index"
-                options={{
-                  presentation: "card",
-                  animation: "default",
-                  gestureEnabled: false
-                }}
-              />
-              <Stack.Screen
-                name="transfer/index"
-                options={{
-                  presentation: "card",
-                  animation: "default",
-                  gestureEnabled: false
-                }}
-              />
-              <Stack.Screen
-                name="wallet/index"
-                options={{
-                  presentation: "card",
-                  animation: "default",
-                  gestureEnabled: false
-                }}
-              />
+              <Stack.Screen name="addresses/index" options={screenOptions} />
+              <Stack.Screen name="network/index" options={screenOptions} />
+              <Stack.Screen name="privateKey/index" options={screenOptions} />
+              <Stack.Screen name="receive/index" options={screenOptions} />
+              <Stack.Screen name="scan-qr/index" options={screenOptions} />
+              <Stack.Screen name="transfer/index" options={screenOptions} />
+              <Stack.Screen name="wallet/index" options={screenOptions} />
             </Stack>
           </RootContainer>
         </LastTransactionProvider>
