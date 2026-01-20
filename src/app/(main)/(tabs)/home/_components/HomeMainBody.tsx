@@ -18,7 +18,7 @@ const HomeMainBody = ({ children }: { children: React.ReactNode }) => {
         end={{ x: 0, y: 1 }}
         style={{ borderRadius: 8 }}
       >
-        <VStack className={cn("items-center", tw.gapY(4), tw.px(2), tw.pt(2), tw.pb(4))}>{children}</VStack>
+        <VStack className={cn("items-center", tw.gapY(4), tw.px(2), tw.pt(2), tw.pb(16))}>{children}</VStack>
       </LinearGradient>
     </Box>
   );

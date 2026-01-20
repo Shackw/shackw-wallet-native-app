@@ -45,7 +45,7 @@ const HomeAssetSummary = (props: HomeAssetSummaryProps) => {
         {balance && !isFetching ? (
           <>
             <HStack className={cn("relative flex-row items-center", tw.gapX(2))}>
-              <Box className={cn("absolute", tw.pb(1))} style={{ left: -tw.scaleNum(32) }}>
+              <Box className={cn("absolute")} style={{ left: -tw.scaleNum(32) }}>
                 <TokenSymboIcon size={tw.scaleNum(24)} color={theme.colors.primary[500]} />
               </Box>
               <AppText
