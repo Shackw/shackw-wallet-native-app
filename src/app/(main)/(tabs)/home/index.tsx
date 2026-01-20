@@ -2,7 +2,6 @@ import { useRouter } from "expo-router";
 import { Scan } from "lucide-react-native";
 import { useCallback, useState } from "react";
 
-import { Divider } from "@/presentation/components/gluestack-ui/divider";
 import { Fab, FabIcon } from "@/presentation/components/gluestack-ui/fab";
 import { Tab } from "@/presentation/components/Tab";
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
@@ -12,7 +11,6 @@ import { Token } from "@/registries/ChainTokenRegistry";
 import { cn } from "@/shared/helpers/cn";
 import ScreenContainer from "@mainc/ScreenContainer";
 
-import HomeAction from "./_components/HomeAction";
 import HomeAssetSummary from "./_components/HomeAssetSummary";
 import HomeMainBody from "./_components/HomeMainBody";
 import HomePkBackupReminder from "./_components/HomePkBackupReminder";
@@ -37,8 +35,6 @@ const HomeScreen = () => {
       <HomeMainBody>
         <Tab options={currentChainSupportedTokens} value={currentTab} handleChange={setCurrentTab} />
         <HomeAssetSummary token={currentTab} />
-        <Divider className="w-[90%] bg-secondary-100" />
-        <HomeAction />
       </HomeMainBody>
 
       {walletEnabled && (
