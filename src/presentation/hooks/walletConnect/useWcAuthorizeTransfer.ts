@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-import {
+import type {
   IWalletConnectHandlers,
   ShackwAuthorizeTransferParams,
   ShackwAuthorizeTransferResult

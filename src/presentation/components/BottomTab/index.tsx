@@ -4,7 +4,8 @@ import { Box } from "@/presentation/components/gluestack-ui/box";
 import { HStack } from "@/presentation/components/gluestack-ui/hstack";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
 import { useTw } from "@/presentation/styles/tw";
-import { BOTTOM_TAB_ITEMS, BottomTabName } from "@/registries/BottomTabRegistry";
+import type { BottomTabName } from "@/registries/BottomTabRegistry";
+import { BOTTOM_TAB_ITEMS } from "@/registries/BottomTabRegistry";
 import { cn } from "@/shared/helpers/cn";
 
 import BottomTabActionSheet from "./BottomTabActionSheet";

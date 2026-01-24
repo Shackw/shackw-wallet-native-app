@@ -19,10 +19,12 @@ module.exports = function (api) {
           root: ["./"],
           alias: {
             "@": "./src",
-            "@appc": "./src/app/_components",
-            "@apph": "./src/app/_hooks",
-            "@mainc": "./src/app/(main)/_components",
-            "@mainh": "./src/app/(main)/_hooks",
+            "@routes": "./src/routes",
+            "@routesc": "./src/routes/_components",
+            "@routesh": "./src/routes/_hooks",
+            "@mainc": "./src/routes/(main)/_components",
+            "@mainh": "./src/routes/(main)/_hooks",
+
             "tailwind.config": "./tailwind.config.js"
           },
           extensions: [".ts", ".tsx", ".js", ".json"]

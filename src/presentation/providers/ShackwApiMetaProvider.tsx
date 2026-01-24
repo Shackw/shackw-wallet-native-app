@@ -1,6 +1,8 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, useContext } from "react";
 
-import { ShackwApiMetaModel } from "@/domain/shackwApiMeta";
+import type { ShackwApiMetaModel } from "@/domain/shackwApiMeta";
+
+import type { ReactNode } from "react";
 
 type ShackwApiMetaProviderProps = {
   meta: ShackwApiMetaModel;

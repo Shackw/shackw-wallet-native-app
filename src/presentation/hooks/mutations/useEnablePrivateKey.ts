@@ -1,8 +1,10 @@
-import { UseMutationOptions, UseMutationResult, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 import { PrivateKeysService } from "@/application/services/PrivateKeysService";
-import { EnablePrivateKeyCommand } from "@/domain/privateKey";
+import type { EnablePrivateKeyCommand } from "@/domain/privateKey";
 import { useDependenciesContainerContext } from "@/presentation/providers/DependenciesContainerProvider";
+
+import type { UseMutationOptions, UseMutationResult } from "@tanstack/react-query";
 
 export const useEnablePrivateKey = (
   options?: UseMutationOptions<void, Error, EnablePrivateKeyCommand, unknown>

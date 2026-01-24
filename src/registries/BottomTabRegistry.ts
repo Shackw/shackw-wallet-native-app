@@ -1,4 +1,6 @@
-import { Home, Wallet, UserRoundCog, History, ArrowUpDown, LucideIcon, Send, HandCoins } from "lucide-react-native";
+import { Home, Wallet, UserRoundCog, History, ArrowUpDown, Send, HandCoins } from "lucide-react-native";
+
+import type { LucideIcon } from "lucide-react-native";
 
 type BottomTabItemType = {
   name: string;

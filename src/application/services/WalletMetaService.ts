@@ -1,9 +1,10 @@
-import { Chain } from "@/config/chain";
-import { ShackwApiMetaModel, WalletMetaItem } from "@/domain/shackwApiMeta";
-import { isChain, isToken, Token } from "@/registries/ChainTokenRegistry";
+import type { Chain } from "@/config/chain";
+import type { ShackwApiMetaModel, WalletMetaItem } from "@/domain/shackwApiMeta";
+import type { Token } from "@/registries/ChainTokenRegistry";
+import { isChain, isToken } from "@/registries/ChainTokenRegistry";
 import { CustomError } from "@/shared/exceptions";
 
-import { GetWalletSummaryResult, IWalletMetaGateway } from "../ports/IWalletMetaGateway";
+import type { GetWalletSummaryResult, IWalletMetaGateway } from "../ports/IWalletMetaGateway";
 
 export const WalletMetaService = {
   async getSummary(walletMetaGateway: IWalletMetaGateway): Promise<ShackwApiMetaModel> {

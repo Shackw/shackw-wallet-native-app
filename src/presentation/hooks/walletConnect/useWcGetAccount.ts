@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 
-import { IWalletConnectHandlers } from "@/application/ports/IWalletConnectHandlers";
+import type { IWalletConnectHandlers } from "@/application/ports/IWalletConnectHandlers";
 import { CHAINS } from "@/config/chain";
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";

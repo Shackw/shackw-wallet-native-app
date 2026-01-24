@@ -1,10 +1,12 @@
-import { UseQueryOptions, UseQueryResult, useQuery } from "@tanstack/react-query";
-import { Address } from "viem";
+import { useQuery } from "@tanstack/react-query";
 
 import { TransactionsService } from "@/application/services/TransactionsService";
-import { Chain } from "@/config/chain";
-import { TransactionModel } from "@/domain/transaction";
+import type { Chain } from "@/config/chain";
+import type { TransactionModel } from "@/domain/transaction";
 import { useDependenciesContainerContext } from "@/presentation/providers/DependenciesContainerProvider";
+
+import type { UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
+import type { Address } from "viem";
 
 export const useGetLastTransaction = (
   wallet: Address,

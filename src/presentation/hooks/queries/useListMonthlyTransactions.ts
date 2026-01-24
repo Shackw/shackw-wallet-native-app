@@ -1,9 +1,11 @@
-import { UseQueryOptions, UseQueryResult, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { TransactionsService } from "@/application/services/TransactionsService";
-import { ListMonthlyTransactionsCommand, TransactionModel } from "@/domain/transaction";
+import type { ListMonthlyTransactionsCommand, TransactionModel } from "@/domain/transaction";
 import { useDependenciesContainerContext } from "@/presentation/providers/DependenciesContainerProvider";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
+
+import type { UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
 
 export const useListMonthlyTransactions = (
   command: ListMonthlyTransactionsCommand,

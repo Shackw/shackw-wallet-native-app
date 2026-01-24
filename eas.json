@@ -7,7 +7,7 @@
       "credentialsSource": "remote",
       "android": { "buildType": "apk" },
       "env": {
-        "EXPO_ROUTER_BASE_PATH": "src/app",
+        "EXPO_ROUTER_BASE_PATH": "src/routes",
         "EXPO_PUBLIC_DATABASE_VERSION": "1",
         "EXPO_PUBLIC_SECURESTORE_WALLET_KEY": "shackw.wallet.privateKey.v1",
         "EXPO_PUBLIC_RPC_INFURA_ID": "02834402f4c542519e41a81e2e7bba66",
@@ -22,7 +22,7 @@
       "developmentClient": true,
       "distribution": "internal",
       "env": {
-        "EXPO_ROUTER_BASE_PATH": "src/app",
+        "EXPO_ROUTER_BASE_PATH": "src/routes",
         "EXPO_PUBLIC_DATABASE_VERSION": "1",
         "EXPO_PUBLIC_SECURESTORE_WALLET_KEY": "shackw.wallet.privateKey.v1",
         "EXPO_PUBLIC_RPC_INFURA_ID": "02834402f4c542519e41a81e2e7bba66",
@@ -37,7 +37,7 @@
       "distribution": "store",
       "android": { "buildType": "app-bundle" },
       "env": {
-        "EXPO_ROUTER_BASE_PATH": "src/app",
+        "EXPO_ROUTER_BASE_PATH": "src/routes",
         "EXPO_PUBLIC_DATABASE_VERSION": "1",
         "EXPO_PUBLIC_SECURESTORE_WALLET_KEY": "shackw.wallet.privateKey.v1",
         "EXPO_PUBLIC_RPC_INFURA_ID": "02834402f4c542519e41a81e2e7bba66",

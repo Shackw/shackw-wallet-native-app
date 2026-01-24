@@ -1,6 +1,8 @@
-import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 
 import Loading from "@/presentation/components/Loading";
+
+import type { PropsWithChildren } from "react";
 
 const MIN_MS = 750;
 

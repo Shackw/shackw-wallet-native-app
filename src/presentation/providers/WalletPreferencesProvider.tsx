@@ -1,9 +1,12 @@
-import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from "react";
-import { Address } from "viem";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
-import { Chain } from "@/config/chain";
+import type { Chain } from "@/config/chain";
 import { useGetUserSetting } from "@/presentation/hooks/queries/useGetUserSetting";
-import { SUPPORT_CHAIN_TO_TOKEN, Token } from "@/registries/ChainTokenRegistry";
+import type { Token } from "@/registries/ChainTokenRegistry";
+import { SUPPORT_CHAIN_TO_TOKEN } from "@/registries/ChainTokenRegistry";
+
+import type { PropsWithChildren } from "react";
+import type { Address } from "viem";
 
 type WalletPreferencesContextType = {
   currentChain: Chain;

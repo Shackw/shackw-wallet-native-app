@@ -1,4 +1,4 @@
-import { Address } from "viem";
+import type { Address } from "viem";
 
 export const shortenAddress = (addr: Address, visible = 4): string => {
   const s = String(addr).trim();

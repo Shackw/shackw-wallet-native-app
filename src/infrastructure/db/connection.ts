@@ -1,6 +1,6 @@
 import { type SQLiteDatabase } from "expo-sqlite";
 
-import { UserVersionRow } from "./schema";
+import type { UserVersionRow } from "./schema";
 
 export const applyPragmas = async (db: SQLiteDatabase) => {
   await db.execAsync?.("PRAGMA foreign_keys = ON;");

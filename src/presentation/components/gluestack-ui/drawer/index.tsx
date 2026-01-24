@@ -1,12 +1,14 @@
 "use client";
 import { createModal as createDrawer } from "@gluestack-ui/core/modal/creator";
 import { tva, withStyleContext, useStyleContext } from "@gluestack-ui/utils/nativewind-utils";
-import { Motion, AnimatePresence, createMotionAnimatedComponent, MotionComponentProps } from "@legendapp/motion";
+import { Motion, AnimatePresence, createMotionAnimatedComponent } from "@legendapp/motion";
 import { cssInterop } from "nativewind";
 import React from "react";
-import { Pressable, View, ScrollView, Dimensions, ViewStyle } from "react-native";
+import { Pressable, View, ScrollView, Dimensions } from "react-native";
 
 import type { VariantProps } from "@gluestack-ui/utils/nativewind-utils";
+import type { MotionComponentProps } from "@legendapp/motion";
+import type { ViewStyle } from "react-native";
 
 type IAnimatedPressableProps = React.ComponentProps<typeof Pressable> &
   MotionComponentProps<typeof Pressable, ViewStyle, unknown, unknown, unknown>;

@@ -1,4 +1,3 @@
-// src/presentation/styles/twDensity.ts
 import type { InputToken, InputTokenNoXl, LayoutMode, TextToken, TwSpace } from "@/presentation/styles/density";
 import {
   DENSITY,

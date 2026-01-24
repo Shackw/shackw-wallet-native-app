@@ -2,10 +2,11 @@ import { File, Paths } from "expo-file-system";
 import * as Sharing from "expo-sharing";
 import { forwardRef, useCallback, useImperativeHandle, useMemo, useRef } from "react";
 import RNQRCode from "react-native-qrcode-svg";
-import Svg from "react-native-svg";
 
 import { ENV } from "@/config/env";
 import { useBoolean } from "@/presentation/hooks/useBoolean";
+
+import type Svg from "react-native-svg";
 
 type QRCodeProps = { path: string; query: object; size: number };
 

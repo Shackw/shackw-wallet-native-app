@@ -1,5 +1,5 @@
-import { Chain } from "@/config/chain";
-import { Token } from "@/registries/ChainTokenRegistry";
+import type { Chain } from "@/config/chain";
+import type { Token } from "@/registries/ChainTokenRegistry";
 
 export type TokenAmountMeta = {
   minUnits: bigint;

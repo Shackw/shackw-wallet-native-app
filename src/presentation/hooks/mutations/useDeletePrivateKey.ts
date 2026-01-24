@@ -1,8 +1,10 @@
-import { UseMutationOptions, UseMutationResult, useMutation } from "@tanstack/react-query";
-import { Address } from "viem";
+import { useMutation } from "@tanstack/react-query";
 
 import { PrivateKeysService } from "@/application/services/PrivateKeysService";
 import { useDependenciesContainerContext } from "@/presentation/providers/DependenciesContainerProvider";
+
+import type { UseMutationOptions, UseMutationResult } from "@tanstack/react-query";
+import type { Address } from "viem";
 
 export const useDeletePrivateKey = (
   options?: UseMutationOptions<void, Error, Address, unknown>

@@ -1,6 +1,6 @@
-import { PrivateKeyModel } from "@/domain/privateKey";
+import type { PrivateKeyModel } from "@/domain/privateKey";
 
-import { PrivateKeyResult } from "../ports/IPrivateKeyRepository";
+import type { PrivateKeyResult } from "../ports/IPrivateKeyRepository";
 
 export const privateKeyResultToDomain = (name: string, result: PrivateKeyResult): PrivateKeyModel => {
   return {

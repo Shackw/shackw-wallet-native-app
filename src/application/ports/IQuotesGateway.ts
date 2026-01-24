@@ -1,9 +1,9 @@
-import * as v from "valibot";
-import { Address } from "viem";
+import type { Chain } from "@/config/chain";
+import type { Token } from "@/registries/ChainTokenRegistry";
+import type { CreateQuoteResultSchema } from "@/shared/validations/schemas/HttpQuoteResultSchema";
 
-import { Chain } from "@/config/chain";
-import { Token } from "@/registries/ChainTokenRegistry";
-import { CreateQuoteResultSchema } from "@/shared/validations/schemas/HttpQuoteResultSchema";
+import type * as v from "valibot";
+import type { Address } from "viem";
 
 export interface IQuotesGateway {
   create(query: CreateQuoteQuery): Promise<CreateQuoteResult>;

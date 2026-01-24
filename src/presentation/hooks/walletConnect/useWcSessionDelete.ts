@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 
-import { IWalletConnectHandlers } from "@/application/ports/IWalletConnectHandlers";
-import { WalletConnectClient } from "@/infrastructure/clients/WalletConnectClient";
+import type { IWalletConnectHandlers } from "@/application/ports/IWalletConnectHandlers";
+import type { WalletConnectClient } from "@/infrastructure/clients/WalletConnectClient";
 
 export const useWcSessionDelete = (wcClient: WalletConnectClient | null) => {
   const onSessionDelete = useCallback<IWalletConnectHandlers["onSessionDelete"]>(
