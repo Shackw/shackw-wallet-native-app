@@ -2,7 +2,7 @@ import Svg, { Path } from "react-native-svg";
 
 import { Box } from "@/presentation/components/gluestack-ui/box";
 
-import { ChainlIconProps } from ".";
+import type { ChainlIconProps } from ".";
 
 export const SepoliaIcon = ({ size = 18 }: ChainlIconProps) => (
   <Box className="rounded-md overflow-hidden" style={{ width: size, height: size }}>

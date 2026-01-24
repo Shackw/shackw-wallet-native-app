@@ -1,9 +1,11 @@
-import { UseQueryOptions, UseQueryResult, useQuery } from "@tanstack/react-query";
-import { Address } from "viem";
+import { useQuery } from "@tanstack/react-query";
 
 import { TokensService } from "@/application/services/TokensService";
-import { Chain } from "@/config/chain";
-import { Token } from "@/registries/ChainTokenRegistry";
+import type { Chain } from "@/config/chain";
+import type { Token } from "@/registries/ChainTokenRegistry";
+
+import type { UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
+import type { Address } from "viem";
 
 type UseGetTokenBalanceProps = {
   chain: Chain;

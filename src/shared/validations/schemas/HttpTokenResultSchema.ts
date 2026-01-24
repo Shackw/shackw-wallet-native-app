@@ -1,5 +1,6 @@
 import * as v from "valibot";
-import { Hex } from "viem";
+
+import type { Hex } from "viem";
 
 export const TransferTokenResultSchema = v.object(
   {

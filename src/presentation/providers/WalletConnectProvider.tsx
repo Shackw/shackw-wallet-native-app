@@ -1,6 +1,6 @@
-import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 
-import { IWalletConnectHandlers } from "@/application/ports/IWalletConnectHandlers";
+import type { IWalletConnectHandlers } from "@/application/ports/IWalletConnectHandlers";
 import { WalletConnectClient } from "@/infrastructure/clients/WalletConnectClient";
 
 import { useWcAuthorizeTransfer } from "../hooks/walletConnect/useWcAuthorizeTransfer";
@@ -10,6 +10,8 @@ import { useWcSessionProposal } from "../hooks/walletConnect/useWcSessionProposa
 import { useWcSignIn } from "../hooks/walletConnect/useWcSignIn";
 
 import { useShackwWalletContext } from "./ShackwWalletProvider";
+
+import type { PropsWithChildren } from "react";
 
 type WalletConnectType = {
   wcClient: WalletConnectClient | null;

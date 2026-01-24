@@ -1,7 +1,7 @@
 import { useMutation, type UseMutationOptions, type UseMutationResult } from "@tanstack/react-query";
 
 import { TokensService } from "@/application/services/TokensService";
-import { TransferTokenCommand } from "@/domain/token";
+import type { TransferTokenCommand } from "@/domain/token";
 import { useDependenciesContainerContext } from "@/presentation/providers/DependenciesContainerProvider";
 import { useWalletPreferencesContext } from "@/presentation/providers/WalletPreferencesProvider";
 

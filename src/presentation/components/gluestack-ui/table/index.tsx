@@ -7,7 +7,7 @@ import {
   Caption as ExpoTCaption
 } from "@expo/html-elements";
 import React, { createContext, useMemo, useContext } from "react";
-import { Text, TextProps, View, ViewProps } from "react-native";
+import { Text, View } from "react-native";
 
 import {
   tableStyle,
@@ -19,6 +19,8 @@ import {
   tableDataStyle,
   tableCaptionStyle
 } from "./styles";
+
+import type { TextProps, ViewProps } from "react-native";
 
 const TableHeaderContext = createContext<{
   isHeaderRow: boolean;

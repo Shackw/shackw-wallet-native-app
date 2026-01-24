@@ -1,15 +1,16 @@
-import { ComponentType } from "react";
 import { defineChain, type Chain as ViemChain } from "viem";
 
+import type { ChainlIconProps } from "@/presentation/components/icons/chain";
 import {
   BaseIcon,
   BaseSepoliaIcon,
-  ChainlIconProps,
   EthereumIcon,
   PolygonAmoyIcon,
   PolygonIcon,
   SepoliaIcon
 } from "@/presentation/components/icons/chain";
+
+import type { ComponentType } from "react";
 
 // === Chain Definitions ===
 const mainnet = defineChain({

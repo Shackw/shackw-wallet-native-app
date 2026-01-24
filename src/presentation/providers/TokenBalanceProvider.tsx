@@ -1,11 +1,13 @@
-import { UseQueryResult } from "@tanstack/react-query";
-import { createContext, PropsWithChildren, useContext } from "react";
+import { createContext, useContext } from "react";
 
 import { useGetTokenBalance } from "@/presentation/hooks/queries/useGetTokenBalance";
-import { Token } from "@/registries/ChainTokenRegistry";
+import type { Token } from "@/registries/ChainTokenRegistry";
 
 import { useShackwWalletContext } from "./ShackwWalletProvider";
 import { useWalletPreferencesContext } from "./WalletPreferencesProvider";
+
+import type { UseQueryResult } from "@tanstack/react-query";
+import type { PropsWithChildren } from "react";
 
 type TokenBalanceContextType = Record<Token, Omit<UseQueryResult<string>, "data"> & { balance: string | undefined }>;
 

@@ -3,22 +3,14 @@ import { H4 } from "@expo/html-elements";
 import { createActionsheet } from "@gluestack-ui/core/actionsheet/creator";
 import { PrimitiveIcon, UIIcon } from "@gluestack-ui/core/icon/creator";
 import { tva } from "@gluestack-ui/utils/nativewind-utils";
-import { Motion, AnimatePresence, createMotionAnimatedComponent, MotionComponentProps } from "@legendapp/motion";
+import { Motion, AnimatePresence, createMotionAnimatedComponent } from "@legendapp/motion";
 import { cssInterop } from "nativewind";
 import React from "react";
-import {
-  Pressable,
-  View,
-  Text,
-  ScrollView,
-  VirtualizedList,
-  FlatList,
-  SectionList,
-  PressableProps,
-  ViewStyle
-} from "react-native";
+import { Pressable, View, Text, ScrollView, VirtualizedList, FlatList, SectionList } from "react-native";
 
 import type { VariantProps } from "@gluestack-ui/utils/nativewind-utils";
+import type { MotionComponentProps } from "@legendapp/motion";
+import type { PressableProps, ViewStyle } from "react-native";
 
 const ItemWrapper = React.forwardRef<React.ComponentRef<typeof Pressable>, PressableProps>(function ItemWrapper(
   { ...props },

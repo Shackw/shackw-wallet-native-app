@@ -1,6 +1,6 @@
-import { Address, Hex } from "viem";
+import type { Chain } from "@/config/chain";
 
-import { Chain } from "@/config/chain";
+import type { Address, Hex } from "viem";
 
 export type UserVersionRow = {
   user_version: number;

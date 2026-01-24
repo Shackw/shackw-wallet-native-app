@@ -1,14 +1,15 @@
-import { Hex } from "viem";
-
-import { CreateQuoteQuery, IQuotesGateway } from "@/application/ports/IQuotesGateway";
-import { Chain, CHAINS } from "@/config/chain";
+import type { CreateQuoteQuery, IQuotesGateway } from "@/application/ports/IQuotesGateway";
+import type { Chain } from "@/config/chain";
+import { CHAINS } from "@/config/chain";
 import { VIEM_PUBLIC_CLIENTS } from "@/config/viem";
-import { GetTokenBalanceCommand, TransferTokenCommand } from "@/domain/token";
+import type { GetTokenBalanceCommand, TransferTokenCommand } from "@/domain/token";
 import { TOKEN_REGISTRY } from "@/registries/ChainTokenRegistry";
-import { ApiError, CustomError, ShackwApiErrorBody } from "@/shared/exceptions";
+import type { ShackwApiErrorBody } from "@/shared/exceptions";
+import { ApiError, CustomError } from "@/shared/exceptions";
 import { toDisplyValueStr, toMinUnits } from "@/shared/helpers/tokenUnits";
 
-import { ITokensGateway, TransferTokenQuery } from "../ports/ITokensGateway";
+import type { ITokensGateway, TransferTokenQuery } from "../ports/ITokensGateway";
+import type { Hex } from "viem";
 
 export const TokensService = {
   async getTokenBalance(command: GetTokenBalanceCommand): Promise<string> {

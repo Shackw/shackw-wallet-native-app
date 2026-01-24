@@ -1,13 +1,13 @@
 import * as v from "valibot";
 
-import {
+import type {
   IRemoteTransactionsGateway,
   SearchRemoteTransactionsQuery,
   SearchRemoteTransactionsResult
 } from "@/application/ports/IRemoteTransactionsGateway";
 import { SearchRemoteTransactionsResultSchema } from "@/shared/validations/schemas/HttpRemoteTransactionsResultSchema";
 
-import { HttpClient } from "../clients/HttpClient";
+import type { HttpClient } from "../clients/HttpClient";
 
 export class HttpRemoteTransactionsGateway implements IRemoteTransactionsGateway {
   private path = "/transactions";

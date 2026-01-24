@@ -1,6 +1,4 @@
-import { Address, Hex } from "viem";
-
-import {
+import type {
   EnablePrivateKeyCommand,
   GetPrivateKeyByWalletCommand,
   ListPrivateKeysCommand,
@@ -10,9 +8,11 @@ import {
 import { CustomError } from "@/shared/exceptions";
 
 import { privateKeyResultToDomain } from "../mappers/privateKey";
-import { IAddressesRepository } from "../ports/IAddressesRepository";
-import { IPrivateKeyRepository, PrivateKeyResult } from "../ports/IPrivateKeyRepository";
-import { IUserSettingRepository } from "../ports/IUserSettingRepository";
+
+import type { IAddressesRepository } from "../ports/IAddressesRepository";
+import type { IPrivateKeyRepository, PrivateKeyResult } from "../ports/IPrivateKeyRepository";
+import type { IUserSettingRepository } from "../ports/IUserSettingRepository";
+import type { Address, Hex } from "viem";
 
 export const PrivateKeysService = {
   async listPrivateKeys(

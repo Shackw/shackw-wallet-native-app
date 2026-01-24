@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { useDensity } from "@/presentation/hooks/useDensity";
 import * as D from "@/presentation/styles/twDensity";
 
-import { InputToken, InputTokenNoXl, TextToken } from "./density";
+import type { InputToken, InputTokenNoXl, TextToken } from "./density";
 
 export const useTw = () => {
   const { mode, width, height, ratio, scaleNum } = useDensity();

@@ -1,4 +1,4 @@
-import { Token } from "@/registries/ChainTokenRegistry";
+import type { Token } from "@/registries/ChainTokenRegistry";
 
 export type QuoteModel = {
   quoteToken: string;

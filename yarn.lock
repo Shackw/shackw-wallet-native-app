@@ -51,7 +51,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/compat-data@npm:^7.27.7, @babel/compat-data@npm:^7.28.6":
+"@babel/compat-data@npm:^7.28.6":
   version: 7.28.6
   resolution: "@babel/compat-data@npm:7.28.6"
   checksum: 10c0/2d047431041281eaf33e9943d1a269d3374dbc9b498cafe6a18f5ee9aee7bb96f7f6cac0304eab4d13c41fc4db00fe4ca16c7aa44469ca6a211b8b6343b78fc4
@@ -103,7 +103,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/helper-compilation-targets@npm:^7.27.1, @babel/helper-compilation-targets@npm:^7.27.2, @babel/helper-compilation-targets@npm:^7.28.6":
+"@babel/helper-compilation-targets@npm:^7.27.1, @babel/helper-compilation-targets@npm:^7.28.6":
   version: 7.28.6
   resolution: "@babel/helper-compilation-targets@npm:7.28.6"
   dependencies:
@@ -146,18 +146,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/helper-define-polyfill-provider@npm:^0.6.5":
-  version: 0.6.5
-  resolution: "@babel/helper-define-polyfill-provider@npm:0.6.5"
+"@babel/helper-define-polyfill-provider@npm:^0.6.5, @babel/helper-define-polyfill-provider@npm:^0.6.6":
+  version: 0.6.6
+  resolution: "@babel/helper-define-polyfill-provider@npm:0.6.6"
   dependencies:
-    "@babel/helper-compilation-targets": "npm:^7.27.2"
-    "@babel/helper-plugin-utils": "npm:^7.27.1"
-    debug: "npm:^4.4.1"
+    "@babel/helper-compilation-targets": "npm:^7.28.6"
+    "@babel/helper-plugin-utils": "npm:^7.28.6"
+    debug: "npm:^4.4.3"
     lodash.debounce: "npm:^4.0.8"
-    resolve: "npm:^1.22.10"
+    resolve: "npm:^1.22.11"
   peerDependencies:
     "@babel/core": ^7.4.0 || ^8.0.0-0 <8.0.0
-  checksum: 10c0/4886a068d9ca1e70af395340656a9dda33c50502c67eed39ff6451785f370bdfc6e57095b90cb92678adcd4a111ca60909af53d3a741120719c5604346ae409e
+  checksum: 10c0/1293d6f54d4ebb10c9e947e54de1aaa23b00233e19aca9790072f1893bf143af01442613f7b413300be7016d8e41b550af77acab28e7fa5fb796b2a175c528a1
   languageName: node
   linkType: hard
 
@@ -1261,9 +1261,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@expo/cli@npm:54.0.21":
-  version: 54.0.21
-  resolution: "@expo/cli@npm:54.0.21"
+"@expo/cli@npm:54.0.22":
+  version: 54.0.22
+  resolution: "@expo/cli@npm:54.0.22"
   dependencies:
     "@0no-co/graphql.web": "npm:^1.0.8"
     "@expo/code-signing-certificates": "npm:^0.0.6"
@@ -1274,9 +1274,9 @@ __metadata:
     "@expo/image-utils": "npm:^0.8.8"
     "@expo/json-file": "npm:^10.0.8"
     "@expo/metro": "npm:~54.2.0"
-    "@expo/metro-config": "npm:~54.0.13"
+    "@expo/metro-config": "npm:~54.0.14"
     "@expo/osascript": "npm:^2.3.8"
-    "@expo/package-manager": "npm:^1.9.9"
+    "@expo/package-manager": "npm:^1.9.10"
     "@expo/plist": "npm:^0.4.8"
     "@expo/prebuild-config": "npm:^54.0.8"
     "@expo/schema-utils": "npm:^0.1.8"
@@ -1339,7 +1339,7 @@ __metadata:
       optional: true
   bin:
     expo-internal: build/bin/cli
-  checksum: 10c0/3d4c8b7fa9a8934bf029f8b918b6dd6cd240f0120163b765fc733262caf63981d07e62a967734d793c9511363513005ad6d45d4e03546ba594bbdb6a0a81ce3e
+  checksum: 10c0/ad95665fa6d91fb2cc3dc813c1563bf6cd6b3883e1ab69546e5cac041bcdfb033e90201e394c2b0ce3011e81f82bc3bb4cc9f551029debeaef0a42152b280ca3
   languageName: node
   linkType: hard
 
@@ -1430,15 +1430,15 @@ __metadata:
   linkType: hard
 
 "@expo/env@npm:~2.0.8":
-  version: 2.0.8
-  resolution: "@expo/env@npm:2.0.8"
+  version: 2.0.10
+  resolution: "@expo/env@npm:2.0.10"
   dependencies:
     chalk: "npm:^4.0.0"
     debug: "npm:^4.3.4"
     dotenv: "npm:~16.4.5"
     dotenv-expand: "npm:~11.0.6"
     getenv: "npm:^2.0.0"
-  checksum: 10c0/e6e4cd1be45a6873f5ad4a6a2176957897159b08104f04ea8f28a9d9f38abe0d109ded76ac197c0edba1ac606c14a034be19cfda75b44111be85b78a2d209375
+  checksum: 10c0/7166851b70f1f2c0b407898d725be1d2e5279590b2e11afb5e9def81846ad9496f72d16724dc21665f1563eecc0938a39fd121a354818738a68e183775a9d264
   languageName: node
   linkType: hard
 
@@ -1471,8 +1471,8 @@ __metadata:
   linkType: hard
 
 "@expo/image-utils@npm:^0.8.8":
-  version: 0.8.8
-  resolution: "@expo/image-utils@npm:0.8.8"
+  version: 0.8.10
+  resolution: "@expo/image-utils@npm:0.8.10"
   dependencies:
     "@expo/spawn-async": "npm:^1.7.2"
     chalk: "npm:^4.0.0"
@@ -1484,23 +1484,23 @@ __metadata:
     semver: "npm:^7.6.0"
     temp-dir: "npm:~2.0.0"
     unique-string: "npm:~2.0.0"
-  checksum: 10c0/d08a93036d865b52d1a4848597bd872192c7023d415f62ed744e9ff20fd9e68308ade06b39c25b0eabbc04745ffa68c4b5a8d79883adb0c32738e1a414d7d62e
+  checksum: 10c0/a13c541c5aaded52067900ffa3d6c5cfa6812a365c8c62ed5dee6b583a70b0b1c54686bbc668c2538da90b5c19229158620238af336186f002db8eef156e155f
   languageName: node
   linkType: hard
 
-"@expo/json-file@npm:^10.0.8, @expo/json-file@npm:~10.0.8":
-  version: 10.0.8
-  resolution: "@expo/json-file@npm:10.0.8"
+"@expo/json-file@npm:^10.0.10, @expo/json-file@npm:^10.0.8, @expo/json-file@npm:~10.0.8":
+  version: 10.0.10
+  resolution: "@expo/json-file@npm:10.0.10"
   dependencies:
     "@babel/code-frame": "npm:~7.10.4"
     json5: "npm:^2.2.3"
-  checksum: 10c0/dddd7ef7966fe0d29d1cad5a1d517d01c4e6a7b55cd15e901b947e7832d613aa1b982de5336d1305a3714bb4b5e3d78110c0ff799ca33fd54a8cd887f8ba533d
+  checksum: 10c0/c127e4938eb6884ef79d125426a4a3e0f5ed04f3127142e3623b1d50934515f4708fdc4ea227de918285dfadb8774a86e45025d4b921206751768b8d94a10b74
   languageName: node
   linkType: hard
 
-"@expo/metro-config@npm:54.0.13, @expo/metro-config@npm:~54.0.13":
-  version: 54.0.13
-  resolution: "@expo/metro-config@npm:54.0.13"
+"@expo/metro-config@npm:54.0.14, @expo/metro-config@npm:~54.0.14":
+  version: 54.0.14
+  resolution: "@expo/metro-config@npm:54.0.14"
   dependencies:
     "@babel/code-frame": "npm:^7.20.0"
     "@babel/core": "npm:^7.20.0"
@@ -1528,7 +1528,7 @@ __metadata:
   peerDependenciesMeta:
     expo:
       optional: true
-  checksum: 10c0/9876b9ef40742c879e94e80386d5238e9f4954d752d72251ade4e9bdf944ae5afdcc5ce877bffdf461ebec8775faed7b04d084ac1ac52283e64f86a122780d4e
+  checksum: 10c0/a8213d3167c39ff3fd7973e4de35fc12ee0b56564ff9f8def3b92ec7204a92174f6bbd7036bc87c893d0a82583c92c7f81271c58f366c26e4c11ab2b86642fb7
   languageName: node
   linkType: hard
 
@@ -1575,26 +1575,26 @@ __metadata:
   linkType: hard
 
 "@expo/osascript@npm:^2.3.8":
-  version: 2.3.8
-  resolution: "@expo/osascript@npm:2.3.8"
+  version: 2.4.1
+  resolution: "@expo/osascript@npm:2.4.1"
   dependencies:
     "@expo/spawn-async": "npm:^1.7.2"
     exec-async: "npm:^2.2.0"
-  checksum: 10c0/5991c363fb33fb1f740eb8bfdb7ccafd1944a6d89a644ec20dd76b546ffa995a3963727150155391287536046f5f47c7efae003a27a86299224d55191e2f65cb
+  checksum: 10c0/a9fffd0bdeba15243cf8a0787f929fa7e2f05b98290e2b3823d7e9f049d67c060a7c8099ae13d46b514bcb07c59f5545549342f1996abb37d489f28163cb8601
   languageName: node
   linkType: hard
 
-"@expo/package-manager@npm:^1.9.9":
-  version: 1.9.10
-  resolution: "@expo/package-manager@npm:1.9.10"
+"@expo/package-manager@npm:^1.9.10":
+  version: 1.10.1
+  resolution: "@expo/package-manager@npm:1.10.1"
   dependencies:
-    "@expo/json-file": "npm:^10.0.8"
+    "@expo/json-file": "npm:^10.0.10"
     "@expo/spawn-async": "npm:^1.7.2"
     chalk: "npm:^4.0.0"
     npm-package-arg: "npm:^11.0.0"
     ora: "npm:^3.4.0"
     resolve-workspace-root: "npm:^2.0.0"
-  checksum: 10c0/6095a02b3f8d4b9d152a08202cbf8d647bc2d29a08686332c4d80cd1c579ac8880fa87847d70a938b58a66e334fbc4c0f86a463f0a33bcf3811e77dda2cba1aa
+  checksum: 10c0/6aa945897e2c77d2bd5add386372b0cfba3679c6fe1d5a795056ef6faa18ebd4df3d6a122e682ae68871dc288a137630c406626bf66e5bd7d26f25217c396864
   languageName: node
   linkType: hard
 
@@ -2774,10 +2774,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@msgpack/msgpack@npm:3.1.2":
-  version: 3.1.2
-  resolution: "@msgpack/msgpack@npm:3.1.2"
-  checksum: 10c0/4fee6dbea70a485d3a787ac76dd43687f489d662f22919237db1f2abbc3c88070c1d3ad78417ce6e764bcd041051680284654021f52068e0aff82d570cb942d5
+"@msgpack/msgpack@npm:3.1.3":
+  version: 3.1.3
+  resolution: "@msgpack/msgpack@npm:3.1.3"
+  checksum: 10c0/1fa9a760a58e64e121561d17977b680198ff24d83e951df3896f8639d06824f2cba20af92a19940461e0d5d6dc696bd01222bd901164759432eadd0f482d0816
   languageName: node
   linkType: hard
 
@@ -5253,17 +5253,18 @@ __metadata:
   linkType: hard
 
 "@reown/walletkit@npm:^1.4.1":
-  version: 1.4.1
-  resolution: "@reown/walletkit@npm:1.4.1"
+  version: 1.5.0
+  resolution: "@reown/walletkit@npm:1.5.0"
   dependencies:
-    "@walletconnect/core": "npm:2.23.0"
+    "@walletconnect/core": "npm:2.23.4"
     "@walletconnect/jsonrpc-provider": "npm:1.0.14"
     "@walletconnect/jsonrpc-utils": "npm:1.0.8"
-    "@walletconnect/logger": "npm:3.0.0"
-    "@walletconnect/sign-client": "npm:2.23.0"
-    "@walletconnect/types": "npm:2.23.0"
-    "@walletconnect/utils": "npm:2.23.0"
-  checksum: 10c0/61c2c91c900f88668ad3d458c0c4c952295298233e79b5c4460c932cefdb8abae960713002df97f8e0bc96a499a23385b85219f1febbae80ce989d33fb85dbd9
+    "@walletconnect/logger": "npm:3.0.2"
+    "@walletconnect/pay": "npm:1.0.2"
+    "@walletconnect/sign-client": "npm:2.23.4"
+    "@walletconnect/types": "npm:2.23.4"
+    "@walletconnect/utils": "npm:2.23.4"
+  checksum: 10c0/ac76bdab105df03ac985632544a23f4d2e183ea6be75841f29cd0eac58e71527d5804ee26b9d441f4e7bdef37a2f0a2ade8ec5463d1db967baf21c7ef2212184
   languageName: node
   linkType: hard
 
@@ -5361,10 +5362,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.90.19":
-  version: 5.90.19
-  resolution: "@tanstack/query-core@npm:5.90.19"
-  checksum: 10c0/f6974064238d94025cd1fb8e9ba6a1ffb90d137e0d3fb6949252e81032ae446e948073ea999a4d11e1b6000df7eeec15cda92b76a264249f091f7543a192e958
+"@tanstack/query-core@npm:5.90.20":
+  version: 5.90.20
+  resolution: "@tanstack/query-core@npm:5.90.20"
+  checksum: 10c0/70637dfcecd5ed9d810629aa27f1632af8a4bcd083e75cf29408d058c32f8234704a3231ec280e2c4016ea0485b16124fdf70ab97793b5a7b670f43f7659e9fe
   languageName: node
   linkType: hard
 
@@ -5384,13 +5385,13 @@ __metadata:
   linkType: hard
 
 "@tanstack/react-query@npm:^5.90.12":
-  version: 5.90.19
-  resolution: "@tanstack/react-query@npm:5.90.19"
+  version: 5.90.20
+  resolution: "@tanstack/react-query@npm:5.90.20"
   dependencies:
-    "@tanstack/query-core": "npm:5.90.19"
+    "@tanstack/query-core": "npm:5.90.20"
   peerDependencies:
     react: ^18 || ^19
-  checksum: 10c0/5176a363855c9ce87e6b7fe034ee9538766b209fea561c1f8e9aadbca1891d0d03fe3b28ccf79fc2077ba9d77a89aab59ca8b66b00f12519e207b24f47868554
+  checksum: 10c0/a8da6455d02ec769afc9ad528ec7b576d0becedfb5349e32592b9991a3c71a162f7115c054116d0101b55a473c689c06f8b03a7f56a9904f4329f75370e5a3f4
   languageName: node
   linkType: hard
 
@@ -5569,11 +5570,11 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*, @types/node@npm:>=12.12.47, @types/node@npm:>=13.7.0":
-  version: 25.0.9
-  resolution: "@types/node@npm:25.0.9"
+  version: 25.0.10
+  resolution: "@types/node@npm:25.0.10"
   dependencies:
     undici-types: "npm:~7.16.0"
-  checksum: 10c0/a757efafe303d9c8833eb53c2e9a0981cd5ac725cdc04c5612a71db86468c938778d4fa328be4231b68fffc68258638764df7b9c69e86cf55f0bb67105eb056f
+  checksum: 10c0/9edc3c812b487c32c76eebac7c87acae1f69515a0bc3f6b545806d513eb9e918c3217bf751dc93da39f60e06bf1b0caa92258ef3a6dd6457124b2e761e54f61f
   languageName: node
   linkType: hard
 
@@ -5942,9 +5943,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@walletconnect/core@npm:2.23.0":
-  version: 2.23.0
-  resolution: "@walletconnect/core@npm:2.23.0"
+"@walletconnect/core@npm:2.23.4":
+  version: 2.23.4
+  resolution: "@walletconnect/core@npm:2.23.4"
   dependencies:
     "@walletconnect/heartbeat": "npm:1.2.2"
     "@walletconnect/jsonrpc-provider": "npm:1.0.14"
@@ -5952,18 +5953,18 @@ __metadata:
     "@walletconnect/jsonrpc-utils": "npm:1.0.8"
     "@walletconnect/jsonrpc-ws-connection": "npm:1.0.16"
     "@walletconnect/keyvaluestorage": "npm:1.1.1"
-    "@walletconnect/logger": "npm:3.0.0"
+    "@walletconnect/logger": "npm:3.0.2"
     "@walletconnect/relay-api": "npm:1.0.11"
     "@walletconnect/relay-auth": "npm:1.1.0"
     "@walletconnect/safe-json": "npm:1.0.2"
     "@walletconnect/time": "npm:1.0.2"
-    "@walletconnect/types": "npm:2.23.0"
-    "@walletconnect/utils": "npm:2.23.0"
+    "@walletconnect/types": "npm:2.23.4"
+    "@walletconnect/utils": "npm:2.23.4"
     "@walletconnect/window-getters": "npm:1.0.1"
-    es-toolkit: "npm:1.39.3"
+    es-toolkit: "npm:1.44.0"
     events: "npm:3.3.0"
     uint8arrays: "npm:3.1.1"
-  checksum: 10c0/1e5972be061b933c07e18f73f4e4b996cf3af91f54f626afed92bb38fb5f18de1730e8db767326a6eebd614653ba3e19211322f38d68a526fceb742f5b44762f
+  checksum: 10c0/98a2a40b56c87c81ab5abc23f9b2eedd447d8ffd685eee2e04e6f3ba9130dbe51ad6c117df8f19e0ba26ef1b837170a0edb2550c7fafd4293702f4f0a50d41ba
   languageName: node
   linkType: hard
 
@@ -6057,19 +6058,35 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@walletconnect/logger@npm:3.0.0":
-  version: 3.0.0
-  resolution: "@walletconnect/logger@npm:3.0.0"
+"@walletconnect/logger@npm:3.0.2":
+  version: 3.0.2
+  resolution: "@walletconnect/logger@npm:3.0.2"
   dependencies:
     "@walletconnect/safe-json": "npm:^1.0.2"
     pino: "npm:10.0.0"
-  checksum: 10c0/d8666a3074ed1d2b3afd04b76990e6552ed230381949c19dd19115a5e306314e4aede3492b1f715a3f9e49f45269d2ab58cc6f3de101ad4367ea8b617a23233b
+  checksum: 10c0/9a8dc232a3c9f7a6d35149c910326cfbef220677790e9e1c476c597be84db9ac19cf9df8ca835f04ad6facd0a2c83f056c90530e9b5a7c77d0e91a786027190c
+  languageName: node
+  linkType: hard
+
+"@walletconnect/pay@npm:1.0.2":
+  version: 1.0.2
+  resolution: "@walletconnect/pay@npm:1.0.2"
+  dependencies:
+    "@walletconnect/logger": "npm:3.0.2"
+    "@walletconnect/types": "npm:2.23.4"
+    "@walletconnect/utils": "npm:2.23.4"
+  peerDependencies:
+    react-native: ">=0.64.0"
+  peerDependenciesMeta:
+    react-native:
+      optional: true
+  checksum: 10c0/4eef53c1878afed288c12cb419efed449d813695508e47ea86827e1d7575cd6c64aac69c82e6dc66473ccdc627894bdb265ff352e31de7d8d5cf33b860c996b8
   languageName: node
   linkType: hard
 
 "@walletconnect/react-native-compat@npm:^2.23.0":
-  version: 2.23.3
-  resolution: "@walletconnect/react-native-compat@npm:2.23.3"
+  version: 2.23.4
+  resolution: "@walletconnect/react-native-compat@npm:2.23.4"
   dependencies:
     events: "npm:3.3.0"
     fast-text-encoding: "npm:1.0.6"
@@ -6083,7 +6100,7 @@ __metadata:
   peerDependenciesMeta:
     expo-application:
       optional: true
-  checksum: 10c0/67c2773d5c4933956cbb8ef8f2699cc1a984b5f07d61aa441fcd436d444a5a889a437964f79ac573bffa8db7dd9ec0dc9d5d8ce8434534b781f0312354a31448
+  checksum: 10c0/6e41b418bcccb5d16fe0712ea8127dd62b55e1c527322fbda810cb525e1beaec2a9c69b80b940a1e01dd4558192ad68b5da5ba5a2f3934de0f9c6e1f0a6eebbe
   languageName: node
   linkType: hard
 
@@ -6118,20 +6135,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@walletconnect/sign-client@npm:2.23.0":
-  version: 2.23.0
-  resolution: "@walletconnect/sign-client@npm:2.23.0"
+"@walletconnect/sign-client@npm:2.23.4":
+  version: 2.23.4
+  resolution: "@walletconnect/sign-client@npm:2.23.4"
   dependencies:
-    "@walletconnect/core": "npm:2.23.0"
+    "@walletconnect/core": "npm:2.23.4"
     "@walletconnect/events": "npm:1.0.1"
     "@walletconnect/heartbeat": "npm:1.2.2"
     "@walletconnect/jsonrpc-utils": "npm:1.0.8"
-    "@walletconnect/logger": "npm:3.0.0"
+    "@walletconnect/logger": "npm:3.0.2"
     "@walletconnect/time": "npm:1.0.2"
-    "@walletconnect/types": "npm:2.23.0"
-    "@walletconnect/utils": "npm:2.23.0"
+    "@walletconnect/types": "npm:2.23.4"
+    "@walletconnect/utils": "npm:2.23.4"
     events: "npm:3.3.0"
-  checksum: 10c0/7faca4ac2e626c16c27787a03c4290528acadb8a1070392b831d0dd18db712ffa1771aeadb146f9ac83b4ea4d920e76682422bbbfcd9d57a386b7e588d759334
+  checksum: 10c0/561f707a9bff59b41e0acad0bfabee64d20578edf556ececd4300f560e910cf78af1d861df71fd41227c3ee41680a8c975a6c3a13b092d0dfb9009f214c3f14d
   languageName: node
   linkType: hard
 
@@ -6144,37 +6161,37 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@walletconnect/types@npm:2.23.0":
-  version: 2.23.0
-  resolution: "@walletconnect/types@npm:2.23.0"
+"@walletconnect/types@npm:2.23.4":
+  version: 2.23.4
+  resolution: "@walletconnect/types@npm:2.23.4"
   dependencies:
     "@walletconnect/events": "npm:1.0.1"
     "@walletconnect/heartbeat": "npm:1.2.2"
     "@walletconnect/jsonrpc-types": "npm:1.0.4"
     "@walletconnect/keyvaluestorage": "npm:1.1.1"
-    "@walletconnect/logger": "npm:3.0.0"
+    "@walletconnect/logger": "npm:3.0.2"
     events: "npm:3.3.0"
-  checksum: 10c0/b9b294eb3da47184c4d4fbd9d31a7a06a86b62fc39cd8bba759c08514366f9be53d12d37883fe4b069b68949b54225923469af9e5ca80301a173f8e4e2593df1
+  checksum: 10c0/5e3f4af3244b8633e4e27abbf820a07c877d4db1b86549d7eae1726d2476a3b63d28d5f2c585108a1a4bc1779e206aa01c0245f89ef28e5edeb97bf77d84dab0
   languageName: node
   linkType: hard
 
-"@walletconnect/utils@npm:2.23.0":
-  version: 2.23.0
-  resolution: "@walletconnect/utils@npm:2.23.0"
+"@walletconnect/utils@npm:2.23.4":
+  version: 2.23.4
+  resolution: "@walletconnect/utils@npm:2.23.4"
   dependencies:
-    "@msgpack/msgpack": "npm:3.1.2"
+    "@msgpack/msgpack": "npm:3.1.3"
     "@noble/ciphers": "npm:1.3.0"
     "@noble/curves": "npm:1.9.7"
     "@noble/hashes": "npm:1.8.0"
     "@scure/base": "npm:1.2.6"
     "@walletconnect/jsonrpc-utils": "npm:1.0.8"
     "@walletconnect/keyvaluestorage": "npm:1.1.1"
-    "@walletconnect/logger": "npm:3.0.0"
+    "@walletconnect/logger": "npm:3.0.2"
     "@walletconnect/relay-api": "npm:1.0.11"
     "@walletconnect/relay-auth": "npm:1.1.0"
     "@walletconnect/safe-json": "npm:1.0.2"
     "@walletconnect/time": "npm:1.0.2"
-    "@walletconnect/types": "npm:2.23.0"
+    "@walletconnect/types": "npm:2.23.4"
     "@walletconnect/window-getters": "npm:1.0.1"
     "@walletconnect/window-metadata": "npm:1.0.1"
     blakejs: "npm:1.2.1"
@@ -6182,7 +6199,7 @@ __metadata:
     detect-browser: "npm:5.3.0"
     ox: "npm:0.9.3"
     uint8arrays: "npm:3.1.1"
-  checksum: 10c0/02d4563dcb25456bce8bc92eaf2c6406960e5e8675cfafd10946227c5b3a747bea51531f705453205f63b06e73f7703a21922f27ca41b89639747cf4949efcc1
+  checksum: 10c0/ddc16f916270e1c46e72e167bdcea7d5bd8eacbc0ec9919a97261aec159fb06a4f3edfbf392eef66679244a605a72ea978f0dd73ba3dd7ece4303af566cd01db
   languageName: node
   linkType: hard
 
@@ -6683,15 +6700,15 @@ __metadata:
   linkType: hard
 
 "babel-plugin-polyfill-corejs2@npm:^0.4.14":
-  version: 0.4.14
-  resolution: "babel-plugin-polyfill-corejs2@npm:0.4.14"
+  version: 0.4.15
+  resolution: "babel-plugin-polyfill-corejs2@npm:0.4.15"
   dependencies:
-    "@babel/compat-data": "npm:^7.27.7"
-    "@babel/helper-define-polyfill-provider": "npm:^0.6.5"
+    "@babel/compat-data": "npm:^7.28.6"
+    "@babel/helper-define-polyfill-provider": "npm:^0.6.6"
     semver: "npm:^6.3.1"
   peerDependencies:
     "@babel/core": ^7.4.0 || ^8.0.0-0 <8.0.0
-  checksum: 10c0/d74cba0600a6508e86d220bde7164eb528755d91be58020e5ea92ea7fbb12c9d8d2c29246525485adfe7f68ae02618ec428f9a589cac6cbedf53cc3972ad7fbe
+  checksum: 10c0/5e3ff853a5056bdc0816320523057b45d52c9ea01c847fd07886a4202b0c1324dc97eda4b777c98387927ff02d913fedbe9ba9943c0d4030714048e0b9e61682
   languageName: node
   linkType: hard
 
@@ -6708,13 +6725,13 @@ __metadata:
   linkType: hard
 
 "babel-plugin-polyfill-regenerator@npm:^0.6.5":
-  version: 0.6.5
-  resolution: "babel-plugin-polyfill-regenerator@npm:0.6.5"
+  version: 0.6.6
+  resolution: "babel-plugin-polyfill-regenerator@npm:0.6.6"
   dependencies:
-    "@babel/helper-define-polyfill-provider": "npm:^0.6.5"
+    "@babel/helper-define-polyfill-provider": "npm:^0.6.6"
   peerDependencies:
     "@babel/core": ^7.4.0 || ^8.0.0-0 <8.0.0
-  checksum: 10c0/63aa8ed716df6a9277c6ab42b887858fa9f57a70cc1d0ae2b91bdf081e45d4502848cba306fb60b02f59f99b32fd02ff4753b373cac48ccdac9b7d19dd56f06d
+  checksum: 10c0/0ef91d8361c118e7b16d8592c053707325b8168638ea4636b76530c8bc6a1b5aac5c6ca5140e8f3fcdb634a7a2e636133e6b9ef70a75e6417a258a7fddc04bd7
   languageName: node
   linkType: hard
 
@@ -6777,9 +6794,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-preset-expo@npm:~54.0.9":
-  version: 54.0.9
-  resolution: "babel-preset-expo@npm:54.0.9"
+"babel-preset-expo@npm:~54.0.10":
+  version: 54.0.10
+  resolution: "babel-preset-expo@npm:54.0.10"
   dependencies:
     "@babel/helper-module-imports": "npm:^7.25.9"
     "@babel/plugin-proposal-decorators": "npm:^7.12.9"
@@ -6812,7 +6829,7 @@ __metadata:
       optional: true
     expo:
       optional: true
-  checksum: 10c0/40e3142204d3abcad492021ebac3581ca1b25c27039999f6bd244e1da830f230410930d3d65850b76c85791390f36b269f93585171f84d839eb959d5d5d3cd4f
+  checksum: 10c0/aa3203d30b5c13f79cd4996431e5a1f9a8fd8b225af8ad0f1a5573c72b4fde94bf048d71fa133701b834105900b3870c7d56b5fee91a1c5b7c9c4e9ed5b1e9db
   languageName: node
   linkType: hard
 
@@ -6850,11 +6867,11 @@ __metadata:
   linkType: hard
 
 "baseline-browser-mapping@npm:^2.9.0":
-  version: 2.9.16
-  resolution: "baseline-browser-mapping@npm:2.9.16"
+  version: 2.9.17
+  resolution: "baseline-browser-mapping@npm:2.9.17"
   bin:
     baseline-browser-mapping: dist/cli.js
-  checksum: 10c0/96c05a483de92a240b923a3fa5e115647dcab9b5bb86a80837f1f28bc5f41a7597a8ef356b60e8a4b663146e509552ff5c231d99dde4a11da3b82f53e76b16a9
+  checksum: 10c0/c0d344bc43aabe2d2f26de1b5831423ae7dc5da5ffb0f68404d07847901f1df81f3645a939dd76b1b7328fded13bcd72d86da46913839d10d20e51df162639de
   languageName: node
   linkType: hard
 
@@ -6950,7 +6967,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"browserslist@npm:^4.24.0, browserslist@npm:^4.25.0, browserslist@npm:^4.28.0":
+"browserslist@npm:^4.24.0, browserslist@npm:^4.25.0, browserslist@npm:^4.28.1":
   version: 4.28.1
   resolution: "browserslist@npm:4.28.1"
   dependencies:
@@ -7097,9 +7114,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001759":
-  version: 1.0.30001765
-  resolution: "caniuse-lite@npm:1.0.30001765"
-  checksum: 10c0/2bab28b322ec040dde2b6f56019ffd1e0bbd719111e45f58cb0fb06a783812d8ba8df65755320fd253aa1926dffc7bf0864adc11f6b231ac2b3a5b8221199c29
+  version: 1.0.30001766
+  resolution: "caniuse-lite@npm:1.0.30001766"
+  checksum: 10c0/cecc8f9a3758c486fc68434a3cca5f4ca7077db5ac9cdb1689786abf63c4aa9891bf70f2df2c3e549d5e284e8da36a218d0e131ebb26dd59280bc99db49640f6
   languageName: node
   linkType: hard
 
@@ -7463,11 +7480,11 @@ __metadata:
   linkType: hard
 
 "core-js-compat@npm:^3.43.0":
-  version: 3.47.0
-  resolution: "core-js-compat@npm:3.47.0"
+  version: 3.48.0
+  resolution: "core-js-compat@npm:3.48.0"
   dependencies:
-    browserslist: "npm:^4.28.0"
-  checksum: 10c0/71da415899633120db7638dd7b250eee56031f63c4560dcba8eeeafd1168fae171d59b223e3fd2e0aa543a490d64bac7d946764721e2c05897056fdfb22cce33
+    browserslist: "npm:^4.28.1"
+  checksum: 10c0/7bb6522127928fff5d56c7050f379a034de85fe2d5c6e6925308090d4b51fb0cb88e0db99619c932ee84d8756d531bf851232948fe1ad18598cb1e7278e8db13
   languageName: node
   linkType: hard
 
@@ -8020,9 +8037,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.263":
-  version: 1.5.267
-  resolution: "electron-to-chromium@npm:1.5.267"
-  checksum: 10c0/0732bdb891b657f2e43266a3db8cf86fff6cecdcc8d693a92beff214e136cb5c2ee7dc5945ed75fa1db16e16bad0c38695527a020d15f39e79084e0b2e447621
+  version: 1.5.278
+  resolution: "electron-to-chromium@npm:1.5.278"
+  checksum: 10c0/50ca2da7e509fce7f077d720755e46190cf942451bb229a78353039cf17933ea73e543f598bf61e2899b908750f111b2c24ea61194c1d98c0e1eb6c9b1438161
   languageName: node
   linkType: hard
 
@@ -8257,15 +8274,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"es-toolkit@npm:1.39.3":
-  version: 1.39.3
-  resolution: "es-toolkit@npm:1.39.3"
+"es-toolkit@npm:1.44.0":
+  version: 1.44.0
+  resolution: "es-toolkit@npm:1.44.0"
   dependenciesMeta:
     "@trivago/prettier-plugin-sort-imports@4.3.0":
       unplugged: true
     prettier-plugin-sort-re-exports@0.0.1:
       unplugged: true
-  checksum: 10c0/1c85e518b1d129d38fdc5796af353f45e8dcb8a20968ff25da1ae1749fc4a36f914570fcd992df33b47c7bca9f3866d53e4e6fa6411c21eb424e99a3e479c96e
+  checksum: 10c0/b80ff52ddc85ba26914cda57c9d4e46379ccc38c60dc097ef0d065cc0b20f95a16cf8d537969eea600b51c6687b5900a6cce67489db16d5ccc14d47597a29c34
   languageName: node
   linkType: hard
 
@@ -8868,16 +8885,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-font@npm:~14.0.10":
-  version: 14.0.10
-  resolution: "expo-font@npm:14.0.10"
+"expo-font@npm:~14.0.11":
+  version: 14.0.11
+  resolution: "expo-font@npm:14.0.11"
   dependencies:
     fontfaceobserver: "npm:^2.1.0"
   peerDependencies:
     expo: "*"
     react: "*"
     react-native: "*"
-  checksum: 10c0/67b5ea924319235426c27a4b69a8409438314bed635ad9c57bfbb4b5dcc873a575d2f44129683ec145785d3cdf591349078cc2e96d750ba2dea3aebf89e19e9f
+  checksum: 10c0/ba74ff17b01dedc4a8145170b7098a95e037a7bd8ac0b8d0bf80bf28589383c22ba1a3f8ab68d901eafa75e311eb2fcd9edc414c18957a8827063623e2af9e0f
   languageName: node
   linkType: hard
 
@@ -8981,9 +8998,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-router@npm:~6.0.20":
-  version: 6.0.21
-  resolution: "expo-router@npm:6.0.21"
+"expo-router@npm:~6.0.22":
+  version: 6.0.22
+  resolution: "expo-router@npm:6.0.22"
   dependencies:
     "@expo/metro-runtime": "npm:^6.1.2"
     "@expo/schema-utils": "npm:^0.1.8"
@@ -9013,7 +9030,7 @@ __metadata:
     "@react-navigation/drawer": ^7.5.0
     "@testing-library/react-native": ">= 12.0.0"
     expo: "*"
-    expo-constants: ^18.0.12
+    expo-constants: ^18.0.13
     expo-linking: ^8.0.11
     react: "*"
     react-dom: "*"
@@ -9039,7 +9056,7 @@ __metadata:
       optional: true
     react-server-dom-webpack:
       optional: true
-  checksum: 10c0/ae39edf1d5c841be46d3dcc8598e46773cbdd2f5a0b6a0c0711dbd0ed852121ada010363270b75a664563e7c74e16dbbd650e4ee7faec8e6e229fd189e99e3b0
+  checksum: 10c0/1c53812790a08b4b74a7c586e6b77db62cc53b54724696a1926325c63b49acc078ade0356ae365378178724f3e842d89dfc4a6c154bdcb7dd6fca04b4b8d037d
   languageName: node
   linkType: hard
 
@@ -9130,25 +9147,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo@npm:~54.0.31":
-  version: 54.0.31
-  resolution: "expo@npm:54.0.31"
+"expo@npm:~54.0.32":
+  version: 54.0.32
+  resolution: "expo@npm:54.0.32"
   dependencies:
     "@babel/runtime": "npm:^7.20.0"
-    "@expo/cli": "npm:54.0.21"
+    "@expo/cli": "npm:54.0.22"
     "@expo/config": "npm:~12.0.13"
     "@expo/config-plugins": "npm:~54.0.4"
     "@expo/devtools": "npm:0.1.8"
     "@expo/fingerprint": "npm:0.15.4"
     "@expo/metro": "npm:~54.2.0"
-    "@expo/metro-config": "npm:54.0.13"
+    "@expo/metro-config": "npm:54.0.14"
     "@expo/vector-icons": "npm:^15.0.3"
     "@ungap/structured-clone": "npm:^1.3.0"
-    babel-preset-expo: "npm:~54.0.9"
+    babel-preset-expo: "npm:~54.0.10"
     expo-asset: "npm:~12.0.12"
     expo-constants: "npm:~18.0.13"
     expo-file-system: "npm:~19.0.21"
-    expo-font: "npm:~14.0.10"
+    expo-font: "npm:~14.0.11"
     expo-keep-awake: "npm:~15.0.8"
     expo-modules-autolinking: "npm:3.0.24"
     expo-modules-core: "npm:3.0.29"
@@ -9172,7 +9189,7 @@ __metadata:
     expo: bin/cli
     expo-modules-autolinking: bin/autolinking
     fingerprint: bin/fingerprint
-  checksum: 10c0/57a65b709ac16e44cf235e279c2fb56b130487074971f17b201fa8bb528998e536af764b59c2f7483ff5a4fa5cdb785f3fd031a251fa69c563433128677bf571
+  checksum: 10c0/2f80dba9c945d8be77e4b0a2607825ea4fe96feaacd85b151522ce8b4a451628b4f7616ef0e7b345ec1d06e0467ba97c5fe16a41ab1dcebc0ca1a07e3752a656
   languageName: node
   linkType: hard
 
@@ -11327,9 +11344,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lightningcss-android-arm64@npm:1.31.0":
-  version: 1.31.0
-  resolution: "lightningcss-android-arm64@npm:1.31.0"
+"lightningcss-android-arm64@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-android-arm64@npm:1.31.1"
   conditions: os=android & cpu=arm64
   languageName: node
   linkType: hard
@@ -11341,9 +11358,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lightningcss-darwin-arm64@npm:1.31.0":
-  version: 1.31.0
-  resolution: "lightningcss-darwin-arm64@npm:1.31.0"
+"lightningcss-darwin-arm64@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-darwin-arm64@npm:1.31.1"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
@@ -11355,9 +11372,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lightningcss-darwin-x64@npm:1.31.0":
-  version: 1.31.0
-  resolution: "lightningcss-darwin-x64@npm:1.31.0"
+"lightningcss-darwin-x64@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-darwin-x64@npm:1.31.1"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
@@ -11369,9 +11386,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lightningcss-freebsd-x64@npm:1.31.0":
-  version: 1.31.0
-  resolution: "lightningcss-freebsd-x64@npm:1.31.0"
+"lightningcss-freebsd-x64@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-freebsd-x64@npm:1.31.1"
   conditions: os=freebsd & cpu=x64
   languageName: node
   linkType: hard
@@ -11383,9 +11400,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lightningcss-linux-arm-gnueabihf@npm:1.31.0":
-  version: 1.31.0
-  resolution: "lightningcss-linux-arm-gnueabihf@npm:1.31.0"
+"lightningcss-linux-arm-gnueabihf@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-linux-arm-gnueabihf@npm:1.31.1"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
@@ -11397,9 +11414,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lightningcss-linux-arm64-gnu@npm:1.31.0":
-  version: 1.31.0
-  resolution: "lightningcss-linux-arm64-gnu@npm:1.31.0"
+"lightningcss-linux-arm64-gnu@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-linux-arm64-gnu@npm:1.31.1"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
@@ -11411,9 +11428,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lightningcss-linux-arm64-musl@npm:1.31.0":
-  version: 1.31.0
-  resolution: "lightningcss-linux-arm64-musl@npm:1.31.0"
+"lightningcss-linux-arm64-musl@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-linux-arm64-musl@npm:1.31.1"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
@@ -11425,9 +11442,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lightningcss-linux-x64-gnu@npm:1.31.0":
-  version: 1.31.0
-  resolution: "lightningcss-linux-x64-gnu@npm:1.31.0"
+"lightningcss-linux-x64-gnu@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-linux-x64-gnu@npm:1.31.1"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
@@ -11439,9 +11456,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lightningcss-linux-x64-musl@npm:1.31.0":
-  version: 1.31.0
-  resolution: "lightningcss-linux-x64-musl@npm:1.31.0"
+"lightningcss-linux-x64-musl@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-linux-x64-musl@npm:1.31.1"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
@@ -11453,9 +11470,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lightningcss-win32-arm64-msvc@npm:1.31.0":
-  version: 1.31.0
-  resolution: "lightningcss-win32-arm64-msvc@npm:1.31.0"
+"lightningcss-win32-arm64-msvc@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-win32-arm64-msvc@npm:1.31.1"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
@@ -11467,29 +11484,29 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lightningcss-win32-x64-msvc@npm:1.31.0":
-  version: 1.31.0
-  resolution: "lightningcss-win32-x64-msvc@npm:1.31.0"
+"lightningcss-win32-x64-msvc@npm:1.31.1":
+  version: 1.31.1
+  resolution: "lightningcss-win32-x64-msvc@npm:1.31.1"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
 "lightningcss@npm:^1.30.1":
-  version: 1.31.0
-  resolution: "lightningcss@npm:1.31.0"
+  version: 1.31.1
+  resolution: "lightningcss@npm:1.31.1"
   dependencies:
     detect-libc: "npm:^2.0.3"
-    lightningcss-android-arm64: "npm:1.31.0"
-    lightningcss-darwin-arm64: "npm:1.31.0"
-    lightningcss-darwin-x64: "npm:1.31.0"
-    lightningcss-freebsd-x64: "npm:1.31.0"
-    lightningcss-linux-arm-gnueabihf: "npm:1.31.0"
-    lightningcss-linux-arm64-gnu: "npm:1.31.0"
-    lightningcss-linux-arm64-musl: "npm:1.31.0"
-    lightningcss-linux-x64-gnu: "npm:1.31.0"
-    lightningcss-linux-x64-musl: "npm:1.31.0"
-    lightningcss-win32-arm64-msvc: "npm:1.31.0"
-    lightningcss-win32-x64-msvc: "npm:1.31.0"
+    lightningcss-android-arm64: "npm:1.31.1"
+    lightningcss-darwin-arm64: "npm:1.31.1"
+    lightningcss-darwin-x64: "npm:1.31.1"
+    lightningcss-freebsd-x64: "npm:1.31.1"
+    lightningcss-linux-arm-gnueabihf: "npm:1.31.1"
+    lightningcss-linux-arm64-gnu: "npm:1.31.1"
+    lightningcss-linux-arm64-musl: "npm:1.31.1"
+    lightningcss-linux-x64-gnu: "npm:1.31.1"
+    lightningcss-linux-x64-musl: "npm:1.31.1"
+    lightningcss-win32-arm64-msvc: "npm:1.31.1"
+    lightningcss-win32-x64-msvc: "npm:1.31.1"
   dependenciesMeta:
     lightningcss-android-arm64:
       optional: true
@@ -11513,7 +11530,7 @@ __metadata:
       optional: true
     lightningcss-win32-x64-msvc:
       optional: true
-  checksum: 10c0/f6e12d878c48e21fb227b756247dc5f537bba1eb61ba254cabb404cc3c331024c03550adbaade21fe434431acb86ef1684c3ce340f9942bbcf72cbd8f1f45829
+  checksum: 10c0/c6754b305d4a73652e472fc0d7d65384a6e16c336ea61068eca60de2a45bd5c30abbf012358b82eac56ee98b5d88028932cda5268ff61967cffa400b9e7ee2ba
   languageName: node
   linkType: hard
 
@@ -11628,9 +11645,9 @@ __metadata:
   linkType: hard
 
 "lodash@npm:^4.17.19":
-  version: 4.17.21
-  resolution: "lodash@npm:4.17.21"
-  checksum: 10c0/d8cbea072bb08655bb4c989da418994b073a608dffa608b09ac04b43a791b12aeae7cd7ad919aa4c925f33b48490b5cfe6c1f71d827956071dae2e7bb3a6b74c
+  version: 4.17.23
+  resolution: "lodash@npm:4.17.23"
+  checksum: 10c0/1264a90469f5bb95d4739c43eb6277d15b6d9e186df4ac68c3620443160fc669e2f14c11e7d8b2ccf078b81d06147c01a8ccced9aab9f9f63d50dcf8cace6bf6
   languageName: node
   linkType: hard
 
@@ -13163,11 +13180,11 @@ __metadata:
   linkType: hard
 
 "prettier@npm:^3.7.4":
-  version: 3.8.0
-  resolution: "prettier@npm:3.8.0"
+  version: 3.8.1
+  resolution: "prettier@npm:3.8.1"
   bin:
     prettier: bin/prettier.cjs
-  checksum: 10c0/8926e9c9941a293b76c2d799089d038e9f6d84fb37702fc370bedd03b3c70d7fcf507e2e3c4f151f222d81820a3b74cac5e692c955cfafe34dd0d02616ce8327
+  checksum: 10c0/33169b594009e48f570471271be7eac7cdcf88a209eed39ac3b8d6d78984039bfa9132f82b7e6ba3b06711f3bfe0222a62a1bfb87c43f50c25a83df1b78a2c42
   languageName: node
   linkType: hard
 
@@ -14156,7 +14173,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@npm:^1.1.7, resolve@npm:^1.20.0, resolve@npm:^1.22.10, resolve@npm:^1.22.2, resolve@npm:^1.22.4, resolve@npm:^1.22.8":
+"resolve@npm:^1.1.7, resolve@npm:^1.20.0, resolve@npm:^1.22.11, resolve@npm:^1.22.2, resolve@npm:^1.22.4, resolve@npm:^1.22.8":
   version: 1.22.11
   resolution: "resolve@npm:1.22.11"
   dependencies:
@@ -14191,7 +14208,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@npm%3A^1.1.7#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.20.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.10#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.2#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.4#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.8#optional!builtin<compat/resolve>":
+"resolve@patch:resolve@npm%3A^1.1.7#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.20.0#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.11#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.2#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.4#optional!builtin<compat/resolve>, resolve@patch:resolve@npm%3A^1.22.8#optional!builtin<compat/resolve>":
   version: 1.22.11
   resolution: "resolve@patch:resolve@npm%3A1.22.11#optional!builtin<compat/resolve>::version=1.22.11&hash=c3c19d"
   dependencies:
@@ -14531,7 +14548,7 @@ __metadata:
     eslint-config-prettier: "npm:^10.1.8"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-prettier: "npm:^5.5.4"
-    expo: "npm:~54.0.31"
+    expo: "npm:~54.0.32"
     expo-application: "npm:~7.0.8"
     expo-build-properties: "npm:~1.0.10"
     expo-camera: "npm:~17.0.10"
@@ -14539,11 +14556,11 @@ __metadata:
     expo-constants: "npm:~18.0.13"
     expo-dev-client: "npm:~6.0.20"
     expo-file-system: "npm:~19.0.21"
-    expo-font: "npm:~14.0.10"
+    expo-font: "npm:~14.0.11"
     expo-image-picker: "npm:~17.0.10"
     expo-linear-gradient: "npm:~15.0.8"
     expo-linking: "npm:~8.0.10"
-    expo-router: "npm:~6.0.20"
+    expo-router: "npm:~6.0.22"
     expo-secure-store: "npm:~15.0.8"
     expo-sharing: "npm:~14.0.8"
     expo-splash-screen: "npm:~31.0.12"
@@ -15275,15 +15292,15 @@ __metadata:
   linkType: hard
 
 "tar@npm:^7.5.2":
-  version: 7.5.4
-  resolution: "tar@npm:7.5.4"
+  version: 7.5.6
+  resolution: "tar@npm:7.5.6"
   dependencies:
     "@isaacs/fs-minipass": "npm:^4.0.0"
     chownr: "npm:^3.0.0"
     minipass: "npm:^7.1.2"
     minizlib: "npm:^3.1.0"
     yallist: "npm:^5.0.0"
-  checksum: 10c0/9e744b10a32cea651430ec541ec9326d5d4b09381ab4cecf152f9a35069528510c55517fc70d2996c3d07b16370c66205f1b52dd260b6cd1d1dfbc8940050920
+  checksum: 10c0/08af3807035957650ad5f2a300c49ca4fe0566ac0ea5a23741a5b5103c6da42891a9eeaed39bc1fbcf21c5cac4dc846828a004727fb08b9d946322d3144d1fd2
   languageName: node
   linkType: hard
 

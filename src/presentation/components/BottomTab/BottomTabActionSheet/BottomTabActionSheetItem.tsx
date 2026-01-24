@@ -5,7 +5,7 @@ import {
 } from "@/presentation/components/gluestack-ui/actionsheet";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
 import { useTw } from "@/presentation/styles/tw";
-import { BOTTOM_TAB_ACTION_SHEET_ITEMS } from "@/registries/BottomTabRegistry";
+import type { BOTTOM_TAB_ACTION_SHEET_ITEMS } from "@/registries/BottomTabRegistry";
 import { cn } from "@/shared/helpers/cn";
 
 type BottomTabActionSheetItemType = {

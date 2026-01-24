@@ -1,6 +1,4 @@
-import { SQLiteDatabase } from "expo-sqlite";
-
-import {
+import type {
   IUserSettingRepository,
   UserSettingResult,
   PatchUserSettingQuery
@@ -8,6 +6,8 @@ import {
 import type { UserSettingWithAddressNameRow } from "@/infrastructure/db/schema";
 
 import { userSettingRowToResult } from "../mappers/userSettingRowToResult";
+
+import type { SQLiteDatabase } from "expo-sqlite";
 
 export class SqlUserSettingRepository implements IUserSettingRepository {
   private db: SQLiteDatabase;

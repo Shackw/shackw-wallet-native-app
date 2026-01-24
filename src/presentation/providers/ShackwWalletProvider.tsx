@@ -1,7 +1,7 @@
-import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import * as v from "valibot";
-import { Address, createWalletClient, Hex, http, WalletClient } from "viem";
-import { Account, generatePrivateKey, privateKeyToAccount } from "viem/accounts";
+import { createWalletClient, http } from "viem";
+import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 
 import { CHAINS } from "@/config/chain";
 import { CUSTOM_RPC_URL } from "@/config/rpcUrls";
@@ -15,6 +15,10 @@ import { hex64Validator } from "@/shared/validations/rules/addressValidator";
 import { useExcuteInitializeWallet } from "../hooks/mutations/useExcuteInitializeWallet";
 
 import { useWalletPreferencesContext } from "./WalletPreferencesProvider";
+
+import type { PropsWithChildren } from "react";
+import type { Address, Hex, WalletClient } from "viem";
+import type { Account } from "viem/accounts";
 
 type ShackwWalletContextType = {
   account: Account | undefined;
