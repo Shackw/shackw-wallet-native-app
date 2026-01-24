@@ -1,4 +1,4 @@
-import { LayoutMode } from "./density";
+import type { LayoutMode } from "./density";
 
 export type ButtonSize = "sm" | "md" | "lg";
 

@@ -1,17 +1,18 @@
 import { endOfMonth, getUnixTime, startOfMonth, subMinutes, subYears } from "date-fns";
 
-import { Chain } from "@/config/chain";
-import { GetLastTransactionCommand, ListMonthlyTransactionsCommand, TransactionModel } from "@/domain/transaction";
+import type { Chain } from "@/config/chain";
+import type { GetLastTransactionCommand, ListMonthlyTransactionsCommand, TransactionModel } from "@/domain/transaction";
 import { SUPPORT_CHAIN_TO_TOKEN } from "@/registries/ChainTokenRegistry";
 import { CustomError } from "@/shared/exceptions";
 
 import { localTransactionToDomain, remoteToLocalTransaction } from "../mappers/transaction";
-import {
+
+import type {
   ILocalTransactionsRepository,
   LocalTransactionProgress,
   SearchLocalTransactionQuery
 } from "../ports/ILocalTransactionsRepository";
-import { IRemoteTransactionsGateway, SearchRemoteTransactionsQuery } from "../ports/IRemoteTransactionsGateway";
+import type { IRemoteTransactionsGateway, SearchRemoteTransactionsQuery } from "../ports/IRemoteTransactionsGateway";
 
 export const TransactionsService = {
   // TODO: Moralisに完全移行したらリモートから最新のデータを取得する

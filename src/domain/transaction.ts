@@ -1,4 +1,4 @@
-import { Token } from "@/registries/ChainTokenRegistry";
+import type { Token } from "@/registries/ChainTokenRegistry";
 
 import type { Address, Hex } from "viem";
 

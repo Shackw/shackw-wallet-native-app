@@ -1,17 +1,19 @@
-import { createContext, ReactNode, useContext, useEffect } from "react";
+import { createContext, useContext, useEffect } from "react";
 
-import { IAddressesRepository } from "@/application/ports/IAddressesRepository";
-import { ILocalTransactionsRepository } from "@/application/ports/ILocalTransactionsRepository";
-import { IPrivateKeyRepository } from "@/application/ports/IPrivateKeyRepository";
-import { IQuotesGateway } from "@/application/ports/IQuotesGateway";
-import { IRemoteTransactionsGateway } from "@/application/ports/IRemoteTransactionsGateway";
-import { ITokensGateway } from "@/application/ports/ITokensGateway";
-import { IUserSettingRepository } from "@/application/ports/IUserSettingRepository";
-import { IWalletMetaGateway } from "@/application/ports/IWalletMetaGateway";
+import type { IAddressesRepository } from "@/application/ports/IAddressesRepository";
+import type { ILocalTransactionsRepository } from "@/application/ports/ILocalTransactionsRepository";
+import type { IPrivateKeyRepository } from "@/application/ports/IPrivateKeyRepository";
+import type { IQuotesGateway } from "@/application/ports/IQuotesGateway";
+import type { IRemoteTransactionsGateway } from "@/application/ports/IRemoteTransactionsGateway";
+import type { ITokensGateway } from "@/application/ports/ITokensGateway";
+import type { IUserSettingRepository } from "@/application/ports/IUserSettingRepository";
+import type { IWalletMetaGateway } from "@/application/ports/IWalletMetaGateway";
 
 import { MaintenanceOverlay } from "../components/Maintenance";
 import { useInfrastructureRepositories } from "../hooks/useInfrastructureRepositories";
 import { useLoadingOverlay } from "../providers/LoadingOverlayProvider";
+
+import type { ReactNode } from "react";
 
 export type Dependencies = {
   addressesRepository: IAddressesRepository;

@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-import { IWalletConnectHandlers, SessionProposalDecision } from "@/application/ports/IWalletConnectHandlers";
+import type { IWalletConnectHandlers, SessionProposalDecision } from "@/application/ports/IWalletConnectHandlers";
 
 import type { SignClientTypes } from "@walletconnect/types";
 

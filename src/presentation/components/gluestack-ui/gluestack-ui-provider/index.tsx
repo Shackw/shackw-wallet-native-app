@@ -1,8 +1,10 @@
 import { OverlayProvider } from "@gluestack-ui/core/overlay/creator";
 import { ToastProvider } from "@gluestack-ui/core/toast/creator";
-import { View, ViewProps } from "react-native";
+import { View } from "react-native";
 
 import { config } from "./config";
+
+import type { ViewProps } from "react-native";
 
 export type ModeType = "light" | "dark" | "system";
 

@@ -1,9 +1,10 @@
-import { PrivateKeyModel } from "@/domain/privateKey";
+import type { PrivateKeyModel } from "@/domain/privateKey";
 
 import { privateKeyResultToDomain } from "../mappers/privateKey";
-import { IAddressesRepository } from "../ports/IAddressesRepository";
-import { IPrivateKeyRepository, PrivateKeyResult } from "../ports/IPrivateKeyRepository";
-import { IUserSettingRepository } from "../ports/IUserSettingRepository";
+
+import type { IAddressesRepository } from "../ports/IAddressesRepository";
+import type { IPrivateKeyRepository, PrivateKeyResult } from "../ports/IPrivateKeyRepository";
+import type { IUserSettingRepository } from "../ports/IUserSettingRepository";
 
 export const InitializeWalletUsecase = {
   async execute(

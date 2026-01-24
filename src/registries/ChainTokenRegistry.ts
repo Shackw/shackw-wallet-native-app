@@ -1,17 +1,13 @@
-import { ComponentType } from "react";
-import {
-  Address,
-  erc20Abi,
-  getContract,
-  GetContractReturnType,
-  PublicClient,
-  Transport,
-  Chain as ViemChain
-} from "viem";
+import { erc20Abi, getContract } from "viem";
 
-import { Chain, CHAIN_KEYS, CHAINS } from "@/config/chain";
+import type { Chain } from "@/config/chain";
+import { CHAIN_KEYS, CHAINS } from "@/config/chain";
 import { VIEM_PUBLIC_CLIENTS } from "@/config/viem";
-import { TokenSymbolIconProps, JpycIcon, UsdcIcon, EurcIcon } from "@/presentation/components/icons/token";
+import type { TokenSymbolIconProps } from "@/presentation/components/icons/token";
+import { JpycIcon, UsdcIcon, EurcIcon } from "@/presentation/components/icons/token";
+
+import type { ComponentType } from "react";
+import type { Address, GetContractReturnType, PublicClient, Transport, Chain as ViemChain } from "viem";
 
 /** TYPES */
 type Erc20Instance = GetContractReturnType<typeof erc20Abi, PublicClient<Transport, ViemChain | undefined>>;

@@ -3,10 +3,10 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@appc/*": ["./src/app/_components/*"],
-      "@apph/*": ["./src/app/_hooks/*"],
-      "@mainc/*": ["./src/app/(main)/_components/*"],
-      "@mainh/*": ["./src/app/(main)/_hooks/*"],
+      "@routesc/*": ["./src/routes/_components/*"],
+      "@routesh/*": ["./src/routes/_hooks/*"],
+      "@mainc/*": ["./src/routes/(main)/_components/*"],
+      "@mainh/*": ["./src/routes/(main)/_hooks/*"],
       "@/*": ["./src/*"],
       "tailwind.config": ["./tailwind.config.js"]
     }

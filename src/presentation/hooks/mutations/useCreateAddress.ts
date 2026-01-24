@@ -1,8 +1,10 @@
-import { UseMutationOptions, UseMutationResult, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 import { AddressesService } from "@/application/services/AddressesService";
 import type { MutateAddressCommand } from "@/domain/address";
 import { useDependenciesContainerContext } from "@/presentation/providers/DependenciesContainerProvider";
+
+import type { UseMutationOptions, UseMutationResult } from "@tanstack/react-query";
 
 export const useCreateAddress = (
   options?: UseMutationOptions<void, Error, MutateAddressCommand, unknown>

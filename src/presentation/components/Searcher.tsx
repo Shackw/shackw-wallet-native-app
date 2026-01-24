@@ -1,11 +1,12 @@
 import { SearchIcon } from "lucide-react-native";
-import { RefObject } from "react";
-import { TextInput } from "react-native";
 
 import { Box } from "@/presentation/components/gluestack-ui/box";
 import { Input, InputSlot, InputIcon, InputField } from "@/presentation/components/gluestack-ui/input";
 import { useTw } from "@/presentation/styles/tw";
 import { cn } from "@/shared/helpers/cn";
+
+import type { RefObject } from "react";
+import type { TextInput } from "react-native";
 
 type SearcherProps = {
   defaultValue?: string;

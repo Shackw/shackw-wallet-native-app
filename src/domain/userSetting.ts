@@ -1,6 +1,6 @@
-import { Address } from "viem";
+import type { Chain } from "@/config/chain";
 
-import { Chain } from "@/config/chain";
+import type { Address } from "viem";
 
 export type UserSettingModel = {
   name: string;

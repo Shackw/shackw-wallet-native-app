@@ -1,7 +1,7 @@
-import { Account, WalletClient, Address } from "viem";
+import type { Chain } from "@/config/chain";
+import type { Token } from "@/registries/ChainTokenRegistry";
 
-import { Chain } from "@/config/chain";
-import { Token } from "@/registries/ChainTokenRegistry";
+import type { Account, WalletClient, Address } from "viem";
 
 export type GetTokenBalanceCommand = {
   chain: Chain;

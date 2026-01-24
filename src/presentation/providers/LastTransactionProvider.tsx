@@ -1,9 +1,11 @@
-import { createContext, PropsWithChildren, useContext } from "react";
+import { createContext, useContext } from "react";
 
 import { useGetLastTransaction } from "@/presentation/hooks/queries/useGetLastTransaction";
 
 import { useShackwWalletContext } from "./ShackwWalletProvider";
 import { useWalletPreferencesContext } from "./WalletPreferencesProvider";
+
+import type { PropsWithChildren } from "react";
 
 type LastTransactionContextType = ReturnType<typeof useGetLastTransaction>;
 

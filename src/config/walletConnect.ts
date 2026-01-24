@@ -1,11 +1,13 @@
-import { WalletKitTypes } from "@reown/walletkit";
-import { ProposalTypes, SessionTypes } from "@walletconnect/types";
-import { buildApprovedNamespaces, BuildApprovedNamespacesParams } from "@walletconnect/utils";
-import { Address } from "viem";
+import { buildApprovedNamespaces } from "@walletconnect/utils";
 
 import { CustomError } from "@/shared/exceptions";
 
 import { CHAIN_IDS } from "./chain";
+
+import type { WalletKitTypes } from "@reown/walletkit";
+import type { ProposalTypes, SessionTypes } from "@walletconnect/types";
+import type { BuildApprovedNamespacesParams } from "@walletconnect/utils";
+import type { Address } from "viem";
 
 export const WALLETCONNECT_METADATA: WalletKitTypes.Options["metadata"] = {
   name: "ShackwWallet",

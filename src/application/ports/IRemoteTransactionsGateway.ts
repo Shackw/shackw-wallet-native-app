@@ -1,9 +1,9 @@
-import * as v from "valibot";
-import { Address } from "viem";
+import type { Chain } from "@/config/chain";
+import type { Token } from "@/registries/ChainTokenRegistry";
+import type { SearchRemoteTransactionsResultSchema } from "@/shared/validations/schemas/HttpRemoteTransactionsResultSchema";
 
-import { Chain } from "@/config/chain";
-import { Token } from "@/registries/ChainTokenRegistry";
-import { SearchRemoteTransactionsResultSchema } from "@/shared/validations/schemas/HttpRemoteTransactionsResultSchema";
+import type * as v from "valibot";
+import type { Address } from "viem";
 
 export interface IRemoteTransactionsGateway {
   search(query: SearchRemoteTransactionsQuery): Promise<SearchRemoteTransactionsResult>;

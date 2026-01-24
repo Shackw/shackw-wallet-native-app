@@ -1,8 +1,10 @@
-import { UseMutationOptions, UseMutationResult, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 import { InitializeWalletUsecase } from "@/application/usecases/InitializeWalletUsecase";
-import { PrivateKeyModel } from "@/domain/privateKey";
+import type { PrivateKeyModel } from "@/domain/privateKey";
 import { useDependenciesContainerContext } from "@/presentation/providers/DependenciesContainerProvider";
+
+import type { UseMutationOptions, UseMutationResult } from "@tanstack/react-query";
 
 export const useExcuteInitializeWallet = (
   options?: UseMutationOptions<PrivateKeyModel | null, Error, void>

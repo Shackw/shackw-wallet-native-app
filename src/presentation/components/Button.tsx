@@ -1,8 +1,7 @@
-import { ReactNode, ComponentProps } from "react";
-
 import { Button, ButtonText } from "@/presentation/components/gluestack-ui/button";
 import { Spinner } from "@/presentation/components/gluestack-ui/spinner";
-import { ButtonSize, ButtonStyleConfig, modeToButtonStyles } from "@/presentation/styles/button";
+import type { ButtonSize, ButtonStyleConfig } from "@/presentation/styles/button";
+import { modeToButtonStyles } from "@/presentation/styles/button";
 import { theme } from "@/presentation/styles/theme";
 import { cn } from "@/shared/helpers/cn";
 
@@ -11,6 +10,7 @@ import { useDensity } from "../hooks/useDensity";
 import { AppText } from "./AppText";
 
 import type { LucideIcon } from "lucide-react-native";
+import type { ReactNode, ComponentProps } from "react";
 import type { ViewStyle } from "react-native";
 
 type ButtonProps = ComponentProps<typeof Button>;

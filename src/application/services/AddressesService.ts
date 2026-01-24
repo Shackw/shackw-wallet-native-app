@@ -1,9 +1,8 @@
-import { Address } from "viem";
-
 import type { AddressModel, MutateAddressCommand } from "@/domain/address";
 import { CustomError } from "@/shared/exceptions";
 
-import { IAddressesRepository } from "../ports/IAddressesRepository";
+import type { IAddressesRepository } from "../ports/IAddressesRepository";
+import type { Address } from "viem";
 
 export const AddressesService = {
   async listAddress(addressesRepository: IAddressesRepository): Promise<AddressModel[]> {

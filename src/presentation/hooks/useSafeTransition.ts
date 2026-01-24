@@ -1,8 +1,10 @@
-import { Href, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useCallback } from "react";
 
 import { useLoadingOverlay } from "@/presentation/providers/LoadingOverlayProvider";
 import { sleep } from "@/shared/helpers/sleep";
+
+import type { Href } from "expo-router";
 
 type UseSafeTransitionOptions = {
   delayMs?: number;

@@ -1,10 +1,9 @@
-import * as v from "valibot";
-
-import { Chain } from "@/config/chain";
-import { ShackwAuthorizeTransferParamsSchema } from "@/shared/validations/schemas/ShackwAuthorizeTransferParamsSchema";
-import { ShackwSignInParamsSchema } from "@/shared/validations/schemas/ShackwSignInParamsSchema";
+import type { Chain } from "@/config/chain";
+import type { ShackwAuthorizeTransferParamsSchema } from "@/shared/validations/schemas/ShackwAuthorizeTransferParamsSchema";
+import type { ShackwSignInParamsSchema } from "@/shared/validations/schemas/ShackwSignInParamsSchema";
 
 import type { SignClientTypes } from "@walletconnect/types";
+import type * as v from "valibot";
 import type { Address, Hash, Hex } from "viem";
 
 export type SessionProposalDecision = "approve" | "reject";

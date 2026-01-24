@@ -1,9 +1,10 @@
 import * as SecureStore from "expo-secure-store";
-import { Address, Hex } from "viem";
 
-import { IPrivateKeyRepository, PrivateKeyResult } from "@/application/ports/IPrivateKeyRepository";
+import type { IPrivateKeyRepository, PrivateKeyResult } from "@/application/ports/IPrivateKeyRepository";
 import { ENV } from "@/config/env";
 import { CustomError } from "@/shared/exceptions";
+
+import type { Address, Hex } from "viem";
 
 const STORAGE_KEY = ENV.SECURESTORE_WALLET_KEY;
 

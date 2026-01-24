@@ -1,13 +1,12 @@
-import { Address } from "viem";
-
-import { Chain } from "@/config/chain";
-import { TransactionModel } from "@/domain/transaction";
+import type { Chain } from "@/config/chain";
+import type { TransactionModel } from "@/domain/transaction";
 import { ADDRESS_TO_TOKEN, TOKEN_REGISTRY } from "@/registries/ChainTokenRegistry";
 import { CustomError } from "@/shared/exceptions";
 import { toDisplyValue } from "@/shared/helpers/tokenUnits";
 
-import { SearchLocalTransactionItem, SearchLocalTransactionsResult } from "../ports/ILocalTransactionsRepository";
-import { SearchRemoteTransactionItem } from "../ports/IRemoteTransactionsGateway";
+import type { SearchLocalTransactionItem, SearchLocalTransactionsResult } from "../ports/ILocalTransactionsRepository";
+import type { SearchRemoteTransactionItem } from "../ports/IRemoteTransactionsGateway";
+import type { Address } from "viem";
 
 export const remoteTransactionToDomain = (item: SearchRemoteTransactionItem): TransactionModel => {
   return {

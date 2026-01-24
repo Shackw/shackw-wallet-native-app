@@ -1,7 +1,7 @@
 import React from "react";
 import { Pressable } from "react-native";
 
-import { BOTTOM_TAB_ITEMS } from "@/registries/BottomTabRegistry";
+import type { BOTTOM_TAB_ITEMS } from "@/registries/BottomTabRegistry";
 
 import BottomTabIcon from "./BottomTabBarIcon";
 

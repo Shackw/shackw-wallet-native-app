@@ -3,8 +3,9 @@ import React from "react";
 import { Text } from "@/presentation/components/gluestack-ui/text";
 import { cn } from "@/shared/helpers/cn";
 
-import { TextToken } from "../styles/density";
 import { useTw } from "../styles/tw";
+
+import type { TextToken } from "../styles/density";
 
 type Props = Omit<React.ComponentProps<typeof Text>, "size"> & {
   t?: TextToken;

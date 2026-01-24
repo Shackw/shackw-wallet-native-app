@@ -1,15 +1,17 @@
-import { WalletKit, IWalletKit } from "@reown/walletkit";
+import { WalletKit } from "@reown/walletkit";
 import { Core } from "@walletconnect/core";
 import { getSdkError } from "@walletconnect/utils";
 import * as v from "valibot";
-import { Address } from "viem";
 
-import { IWalletConnectHandlers } from "@/application/ports/IWalletConnectHandlers";
+import type { IWalletConnectHandlers } from "@/application/ports/IWalletConnectHandlers";
 import { ENV } from "@/config/env";
 import { buildApprovedNamespacesForShackw, WALLETCONNECT_METADATA } from "@/config/walletConnect";
 import { CustomError } from "@/shared/exceptions";
 import { ShackwAuthorizeTransferParamsSchema } from "@/shared/validations/schemas/ShackwAuthorizeTransferParamsSchema";
 import { ShackwSignInParamsSchema } from "@/shared/validations/schemas/ShackwSignInParamsSchema";
+
+import type { IWalletKit } from "@reown/walletkit";
+import type { Address } from "viem";
 
 const PROJECT_ID = ENV.WALLETCONNECT_PROJECT_ID;
 

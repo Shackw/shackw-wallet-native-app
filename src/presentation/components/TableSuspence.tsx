@@ -1,5 +1,3 @@
-import { ReactNode } from "react";
-
 import { AppText } from "@/presentation/components/AppText";
 import { Spinner } from "@/presentation/components/gluestack-ui/spinner";
 import { VStack } from "@/presentation/components/gluestack-ui/vstack";
@@ -7,6 +5,8 @@ import { theme } from "@/presentation/styles/theme";
 import { cn } from "@/shared/helpers/cn";
 
 import { useTw } from "../styles/tw";
+
+import type { ReactNode } from "react";
 
 type TableSuspenceProps<T> = {
   title: string;
