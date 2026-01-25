@@ -4,6 +4,7 @@ import { useRef, useEffect } from "react";
 import { useWalletConnectContext } from "@/presentation/providers/WalletConnectProvider";
 
 import WcSessionProposal from "./wc/WcSessionProposal";
+import WcSignIn from "./wc/WcSignIn";
 
 const WalletConnectCoordinator = () => {
   const params = useLocalSearchParams<{ wcUri?: string }>();
@@ -12,9 +13,10 @@ const WalletConnectCoordinator = () => {
   const uri = uriRaw ? decodeURIComponent(uriRaw) : null;
 
   const pairedRef = useRef(false);
-  const { wcClient, sessionProposal } = useWalletConnectContext();
+  const { wcClient, sessionProposal, signIn } = useWalletConnectContext();
 
   const { pendingProposal, onApproveProposal, onRejectProposal } = sessionProposal;
+  const { pendingSignIn, onApproveSignIn, onCancelSignIn } = signIn;
 
   useEffect(() => {
     if (!uri) return;
@@ -37,9 +39,17 @@ const WalletConnectCoordinator = () => {
     <>
       <WcSessionProposal
         proposal={pendingProposal?.proposal}
-        handleApproveProposal={onApproveProposal}
-        handleRejectProposal={onRejectProposal}
+        onApproveProposal={onApproveProposal}
+        onRejectProposal={onRejectProposal}
         componentProps={{ title: "Dapp接続確認", size: "lg", isOpen: !!pendingProposal }}
+      />
+
+      <WcSignIn
+        params={pendingSignIn?.params}
+        peerMeta={pendingSignIn?.peerMeta}
+        onApproveSignIn={onApproveSignIn}
+        onCancelSignIn={onCancelSignIn}
+        componentProps={{ title: "Dappサインイン", size: "lg", isOpen: !!pendingSignIn }}
       />
     </>
   );

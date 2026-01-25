@@ -11,9 +11,12 @@ import { ShackwAuthorizeTransferParamsSchema } from "@/shared/validations/schema
 import { ShackwSignInParamsSchema } from "@/shared/validations/schemas/ShackwSignInParamsSchema";
 
 import type { IWalletKit } from "@reown/walletkit";
+import type { SignClientTypes } from "@walletconnect/types";
 import type { Address } from "viem";
 
 const PROJECT_ID = ENV.WALLETCONNECT_PROJECT_ID;
+
+let singletonPromise: Promise<WalletConnectClient> | null = null;
 
 export class WalletConnectClient {
   private wallet: Address;
@@ -32,20 +35,21 @@ export class WalletConnectClient {
   }
 
   static async create(wallet: Address, handlers: IWalletConnectHandlers): Promise<WalletConnectClient> {
-    try {
-      const core = new Core({ projectId: PROJECT_ID });
-
-      const walletKit = await WalletKit.init({
-        core,
-        metadata: WALLETCONNECT_METADATA
+    if (!singletonPromise) {
+      singletonPromise = (async () => {
+        const core = new Core({ projectId: PROJECT_ID });
+        const walletKit = await WalletKit.init({ core, metadata: WALLETCONNECT_METADATA });
+        const clientId = await walletKit.engine.signClient.core.crypto.getClientId();
+        return new WalletConnectClient(walletKit, clientId, wallet, handlers);
+      })().catch(err => {
+        singletonPromise = null;
+        throw err;
       });
-
-      const clientId = await walletKit.engine.signClient.core.crypto.getClientId();
-
-      return new WalletConnectClient(walletKit, clientId, wallet, handlers);
-    } catch (e) {
-      throw new CustomError("WalletConnect の初期化に失敗しました。", { cause: e });
     }
+
+    const inst = await singletonPromise;
+    inst.updateContext(wallet, handlers);
+    return inst;
   }
 
   updateContext(wallet: Address, handlers: IWalletConnectHandlers) {
@@ -59,6 +63,15 @@ export class WalletConnectClient {
 
   getRawClient(): IWalletKit {
     return this.walletKit;
+  }
+
+  getPeerMetadata(topic: string): SignClientTypes.Metadata | null {
+    try {
+      const session = this.walletKit.engine.signClient.session.get(topic);
+      return session?.peer?.metadata ?? null;
+    } catch {
+      return null;
+    }
   }
 
   async handleWalletConnectUri(uri: string): Promise<void> {

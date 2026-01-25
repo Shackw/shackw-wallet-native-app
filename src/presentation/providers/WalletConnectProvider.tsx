@@ -31,7 +31,7 @@ export const WalletConnectProvider = ({ children }: PropsWithChildren) => {
 
   const sessionProposal = useWcSessionProposal();
   const sessionDelete = useWcSessionDelete(wcClient);
-  const signIn = useWcSignIn();
+  const signIn = useWcSignIn(wcClient);
   const getAccount = useWcGetAccount();
   const authorizeTransfer = useWcAuthorizeTransfer();
 
