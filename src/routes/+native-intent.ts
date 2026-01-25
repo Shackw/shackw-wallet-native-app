@@ -1,5 +1,6 @@
-import { buildRedirectSystemPath } from "@/shared/helpers/redirectSystemPath";
+import { buildRedirectSystemPath } from "@/shared/helpers/path";
 
 export async function redirectSystemPath({ path }: { path: string }) {
-  return buildRedirectSystemPath(path);
+  const href = await buildRedirectSystemPath(path);
+  return href;
 }

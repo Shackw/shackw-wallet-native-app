@@ -1,4 +1,4 @@
-import { useSearchParams } from "expo-router/build/hooks";
+import { useLocalSearchParams } from "expo-router";
 import { useRef, useEffect } from "react";
 
 import { useWalletConnectContext } from "@/presentation/providers/WalletConnectProvider";
@@ -6,8 +6,9 @@ import { useWalletConnectContext } from "@/presentation/providers/WalletConnectP
 import WcSessionProposal from "./wc/WcSessionProposal";
 
 const WalletConnectCoordinator = () => {
-  const searchParams = useSearchParams();
-  const uriRaw = searchParams.get("wcUri");
+  const params = useLocalSearchParams<{ wcUri?: string }>();
+
+  const uriRaw = params.wcUri;
   const uri = uriRaw ? decodeURIComponent(uriRaw) : null;
 
   const pairedRef = useRef(false);
