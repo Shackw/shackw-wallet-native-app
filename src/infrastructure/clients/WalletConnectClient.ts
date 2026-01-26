@@ -142,12 +142,11 @@ export class WalletConnectClient {
               return;
             }
 
-            const { message, nonce } = parsed.output;
+            const { message } = parsed.output;
 
             const result = await this.handlers.onSignIn({
               topic,
-              message,
-              nonce
+              message
             });
 
             await this.walletKit.respondSessionRequest({

@@ -29,8 +29,6 @@ const WcSignIn = (props: WcSignInProps) => {
   const url = peerMeta?.url ?? "";
   const description = peerMeta?.description ?? "";
   const message = params?.message ?? "";
-  const nonce = params?.nonce ?? "";
-  const topic = params?.topic ?? "";
 
   return (
     <BottomActionSheet {...componentProps} onClose={onCancelSignIn}>
@@ -97,41 +95,6 @@ const WcSignIn = (props: WcSignInProps) => {
                     <AppText t="sm" className="text-secondary-800">
                       {message}
                     </AppText>
-                  </VStack>
-                </VStack>
-              ) : null}
-
-              {nonce || topic ? (
-                <VStack className={cn("w-full", tw.gapY(2))}>
-                  <HStack className={cn(tw.gapX(2))}>
-                    <Box className={cn(tw.w(1.5), "bg-primary-500")} />
-                    <AppText t="md" className="font-bold">
-                      追加情報
-                    </AppText>
-                  </HStack>
-
-                  <VStack className={cn("bg-secondary-50 rounded-xl border-secondary-300", tw.p(4), tw.gapY(3))}>
-                    {nonce ? (
-                      <VStack className={cn(tw.gapY(1))}>
-                        <AppText t="sm" className="font-bold text-secondary-600">
-                          Nonce
-                        </AppText>
-                        <AppText t="md" className="font-bold text-secondary-800 text-right" oneLine>
-                          {nonce}
-                        </AppText>
-                      </VStack>
-                    ) : null}
-
-                    {topic ? (
-                      <VStack className={cn(tw.gapY(1))}>
-                        <AppText t="sm" className="font-bold text-secondary-600">
-                          Topic
-                        </AppText>
-                        <AppText t="md" className="font-bold text-secondary-800 text-right" oneLine>
-                          {topic}
-                        </AppText>
-                      </VStack>
-                    ) : null}
                   </VStack>
                 </VStack>
               ) : null}
