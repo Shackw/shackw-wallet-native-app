@@ -14,12 +14,12 @@ import type { SignClientTypes } from "@walletconnect/types";
 type WcSessionProposalProps = {
   proposal?: SignClientTypes.EventArguments["session_proposal"];
   componentProps: Omit<React.ComponentProps<typeof BottomActionSheet>, "children" | "onClose">;
-  handleApproveProposal: () => void;
-  handleRejectProposal: () => void;
+  onApproveProposal: () => void;
+  onRejectProposal: () => void;
 };
 
 const WcSessionProposal = (props: WcSessionProposalProps) => {
-  const { proposal, componentProps, handleApproveProposal, handleRejectProposal } = props;
+  const { proposal, componentProps, onApproveProposal, onRejectProposal } = props;
 
   const tw = useTw();
 
@@ -34,7 +34,7 @@ const WcSessionProposal = (props: WcSessionProposalProps) => {
   const isScam = verified?.isScam;
 
   return (
-    <BottomActionSheet {...componentProps} onClose={handleRejectProposal}>
+    <BottomActionSheet {...componentProps} onClose={onRejectProposal}>
       <VStack className={cn("w-full h-full justify-between", tw.gapY(7))}>
         <VStack className={cn("w-full flex-1", tw.gapY(7))}>
           <AppText t="md" className="text-center font-bold text-secondary-700">
@@ -133,8 +133,8 @@ const WcSessionProposal = (props: WcSessionProposalProps) => {
         </VStack>
 
         <HStack className={cn(tw.gapX(4))}>
-          <SubContainButton text="拒否" size="lg" className="flex-1" onPress={handleRejectProposal} />
-          <ContainButton text="許可" size="lg" className="flex-1" onPress={handleApproveProposal} />
+          <SubContainButton text="拒否" size="lg" className="flex-1" onPress={onRejectProposal} />
+          <ContainButton text="許可" size="lg" className="flex-1" onPress={onApproveProposal} />
         </HStack>
       </VStack>
     </BottomActionSheet>

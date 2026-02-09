@@ -5,23 +5,31 @@ import type {
   ShackwSignInParams,
   ShackwSignInResult
 } from "@/application/ports/IWalletConnectHandlers";
+import type { WalletConnectClient } from "@/infrastructure/clients/WalletConnectClient";
 import { useShackwWalletContext } from "@/presentation/providers/ShackwWalletProvider";
+
+import type { SignClientTypes } from "@walletconnect/types";
 
 type PendingSignIn = {
   params: ShackwSignInParams;
+  peerMeta?: SignClientTypes.Metadata;
   resolve: (res: ShackwSignInResult) => void;
   reject: (err: Error) => void;
 };
 
-export const useWcSignIn = () => {
+export const useWcSignIn = (wcClient: WalletConnectClient | null) => {
   const { account, walletClient } = useShackwWalletContext();
   const [pendingSignIn, setPendingSignIn] = useState<PendingSignIn | null>(null);
 
-  const onSignIn = useCallback<IWalletConnectHandlers["onSignIn"]>(async params => {
-    return await new Promise<ShackwSignInResult>((resolve, reject) => {
-      setPendingSignIn({ params, resolve, reject });
-    });
-  }, []);
+  const onSignIn = useCallback<IWalletConnectHandlers["onSignIn"]>(
+    async params => {
+      const peerMeta = wcClient?.getPeerMetadata?.(params.topic);
+      return await new Promise<ShackwSignInResult>((resolve, reject) => {
+        setPendingSignIn({ params, peerMeta: peerMeta ?? undefined, resolve, reject });
+      });
+    },
+    [wcClient]
+  );
 
   const onApproveSignIn = useCallback(async () => {
     if (!pendingSignIn) return;
