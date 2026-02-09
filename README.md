@@ -1,35 +1,196 @@
-### Commit Message (Conventional Commits) Rules
+# Shackw Wallet (Native App)
+Stablecoin-first mobile wallet using **Account Abstraction (EIP-7702)**
 
-This project follows the [Conventional Commits](https://www.conventionalcommits.org/) specification.
+This repository contains the **Shackw Wallet native application** built with React Native / Expo.
+Shackw Wallet is a **non-custodial**, stablecoin-focused wallet designed for **simple and predictable payments** with a minimal, opinionated UX.
 
-#### Format:
+This document describes the **environment-agnostic application architecture**, supported concepts, core user flows, and development guidelines.
 
+---
+
+# 1. Overview
+
+The **Shackw Wallet Native App** provides:
+
+- Fully non-custodial wallet generation and on-device key management
+- Stablecoin-first UX (JPYC / USDC / EURC only)
+- Account Abstraction–ready flows based on **EIP-7702**
+- Quote-driven transfers via the Shackw Wallet API (relay-based execution)
+- Transaction history and lightweight address book features
+- WalletConnect-based login and session handling (where supported)
+
+The application never uploads user private keys.
+All cryptographic signing is performed locally on-device, and only signed payloads are sent to external services.
+
+---
+
+# 2. Supported Concepts
+
+## 2.1 Supported Tokens
+Shackw Wallet is intentionally **stablecoin-only**.
+
+- JPYC
+- USDC
+- EURC
+
+Token availability may differ by chain and environment.
+All token metadata is retrieved dynamically from the Shackw Wallet API.
+
+---
+
+## 2.2 Supported Chains
+Supported chains vary by environment (Testnet / Mainnet).
+Chain metadata is retrieved dynamically from the Shackw Wallet API.
+
+While multiple chains may be supported, the app remains intentionally minimal and opinionated in its user-facing design.
+
+---
+
+## 2.3 Accounts / Wallets
+The app manages one or more wallets locally.
+
+- Wallets are **generated and stored on-device**
+- Private keys are protected using platform-secure storage
+- Backup and restore flows are supported (implementation-specific)
+
+No wallet data is stored or managed by the backend.
+
+---
+
+# 3. Core Flows
+
+This section outlines the primary user-facing flows.
+
+---
+
+## 3.1 Initialize (First Launch)
+On first launch, the app:
+
+- generates or restores a wallet
+- initializes local persistence
+- fetches chain and token metadata
+- prepares application state for transfers
+
+If wallet backup has not been completed, certain features may be restricted for safety.
+
+---
+
+## 3.2 Receive (Request Payment)
+The app supports receiving payments by generating requests that may include:
+
+- recipient address
+- token and amount
+- optional fee token selection (if applicable)
+- optional webhook URL (for receiver-side notifications)
+
+Requests can be rendered as QR codes or shared as structured payloads.
+
+---
+
+## 3.3 Transfer (Send Payment)
+Transfers follow a **quote → authorization → relay** model.
+
+High-level flow:
+
+1. User selects recipient, token, and amount
+2. App requests a **quote** from the Shackw Wallet API
+3. App signs an authorization locally (**EIP-7702 authorization**)
+4. App submits the signed payload for relay execution
+5. App tracks the transaction status and updates history
+
+The app remains fully non-custodial throughout the entire process.
+
+---
+
+## 3.4 WalletConnect (Login / Session)
+The app includes WalletConnect-based features such as:
+
+- session proposal handling
+- sign-in message support
+- transfer authorization hooks (where applicable)
+
+Exact supported methods depend on the current project milestone.
+
+---
+
+# 4. Local Data & Persistence
+
+The app persists only minimal local data, including:
+
+- non-sensitive wallet metadata
+- user-managed address book entries
+- cached transaction history
+- user preferences (default chain, selected wallet)
+
+Sensitive data such as private keys is stored using **platform-secure storage** and is never committed to this repository.
+
+---
+
+# 5. Security Notes
+
+- Private keys are generated and stored **only on the device**
+- The app never uploads or transmits private keys
+- All signing operations occur locally
+- Chain and token metadata is retrieved dynamically via the Shackw Wallet API
+- Environment- and credential-dependent files are intentionally excluded from version control
+
+This repository does **not** contain:
+- `.env` files
+- Firebase configuration files
+- EAS credentials or signing keys
+- any production secrets
+
+---
+
+# 6. Development Notes
+
+## 6.1 Tooling
+- Expo / React Native
+- TypeScript
+- TanStack Query
+- Valibot
+- NativeWind / Tailwind
+- WalletConnect
+- Firebase (minimal usage, e.g. App Check)
+
+## 6.2 Commands
+
+```bash
+# install dependencies
+yarn install
+
+# start development server
+yarn start
+
+# start with cache cleared
+yarn start:clear
+
+# format, lint, and typecheck
+yarn check
 ```
-type(scope?): subject
+
+---
+
+# 7. Repository Structure
+
+```bash
+src/
+├── domain          # Domain models & value objects
+├── application     # Use cases, services, ports (interfaces)
+├── infrastructure  # HTTP, secure storage, local DB adapters
+├── presentation    # UI, screens, hooks, components
+└── shared          # helpers, validations, utilities
 ```
 
-#### Common `type` values:
+---
 
-* **feat**: A new feature
-* **fix**: A bug fix
-* **docs**: Documentation only changes
-* **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
-* **refactor**: A code change that neither fixes a bug nor adds a feature
-* **perf**: A code change that improves performance
-* **test**: Adding missing tests or correcting existing tests
-* **chore**: Changes to the build process or auxiliary tools and libraries
+# 8. License
 
-#### Examples:
+Internal use only unless otherwise specified.
+License terms will be clarified at a later stage.
 
-* `feat(settings): add dark mode toggle`
-* `fix(wallet): handle gas fee errors correctly`
-* `refactor(tabs): split root layout`
-* `chore: add expo-system-ui dependency`
+---
 
-### English Commit Message Example for Your Changes:
+## Author
 
-```
-chore: add expo-system-ui dependency
-
-refactor(tabs): move screens to index-based folders
-```
+**Shackw**
