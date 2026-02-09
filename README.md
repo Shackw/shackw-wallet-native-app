@@ -21,6 +21,7 @@ The **Shackw Wallet Native App** provides:
 
 The application never uploads user private keys.
 All cryptographic signing is performed locally on-device, and only signed payloads are sent to external services.
+While transaction execution is relay-based and policy-controlled, users retain full control over authorization and signing.
 
 ---
 
@@ -99,6 +100,8 @@ High-level flow:
 5. App tracks the transaction status and updates history
 
 The app remains fully non-custodial throughout the entire process.
+Direct EOA transaction submission is intentionally unsupported; all transfers require EIP-7702 authorization and relay execution.
+
 
 ---
 
@@ -139,6 +142,7 @@ This repository does **not** contain:
 - Firebase configuration files
 - EAS credentials or signing keys
 - any production secrets
+- All quoted execution parameters are locally reconstructed and verified by the wallet before user authorization
 
 ---
 

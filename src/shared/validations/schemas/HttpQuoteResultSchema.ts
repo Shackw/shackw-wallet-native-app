@@ -7,9 +7,11 @@ import { isoDateValidator } from "@/shared/validations/rules/isoDateValidator";
 import { tokenMetaValidator } from "@/shared/validations/rules/tokenMetaValidator";
 
 import { shackwQuoteTokenValidator } from "../rules/shackwQuoteTokenValidator";
+import { stringBigintValidator } from "../rules/stringBigintValidator";
 
 export const CreateQuoteResultSchema = v.object(
   {
+    nonce: stringBigintValidator("nonce"),
     quoteToken: shackwQuoteTokenValidator("quoteToken"),
     expiresAt: isoDateValidator("expiresAt"),
     chainId: v.number("chainId must be a number."),
